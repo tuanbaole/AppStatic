@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="develop.admin.it.formular.ContactAdd">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewSDT"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Số ĐT"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextSDT"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editTextSDT"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:ems="10"
+                android:inputType="phone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editTextTen"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSDT" />
+
+            <TextView
+                android:id="@+id/textViewTen"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:text="Tên"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextTen"
+                app:layout_constraintTop_toBottomOf="@+id/textViewSDT" />
+
+            <EditText
+                android:id="@+id/editTextHSDE"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="0.73"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTen" />
+
+            <TextView
+                android:id="@+id/textViewHSDE"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:text="Hệ số đề"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextHSDE"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTen" />
+
+            <EditText
+                android:id="@+id/editTextHSL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="21.7"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextHSDE" />
+
+            <TextView
+                android:id="@+id/textViewHSL"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:text="Hệ Số Lô"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextHSL"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHSDE" />
+
+            <EditText
+                android:id="@+id/editTextHS3C"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="0.73"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextHSL" />
+
+            <TextView
+                android:id="@+id/textViewHS3C"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:text="Hệ Số 3 Càng"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextHS3C"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHSL" />
+
+            <EditText
+                android:id="@+id/editTextHSX2"
+                android:layout_width="wrap_content"
+                android:layout_height="43dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="0.6"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextHS3C" />
+
+            <TextView
+                android:id="@+id/textViewHSX2"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:text="HS xiên 2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextHSX2"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHS3C" />
+
+            <TextView
+                android:id="@+id/textViewHSX3"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:text="HS xiên 3"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextHSX3"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHSX2" />
+
+            <EditText
+                android:id="@+id/editTextHSX3"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="0.6"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextHSX2" />
+
+            <TextView
+                android:id="@+id/textViewHSX4"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:text="HS xiên 4"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextHSX4"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHSX3" />
+
+            <EditText
+                android:id="@+id/editTextHSX4"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="0.6"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextHSX3" />
+
+            <TextView
+                android:id="@+id/textViewSms"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="26dp"
+                android:text="Kiểu cổ phần"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/spinner"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHSX4" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="220dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextHSX4" />
+
+            <TextView
+                android:id="@+id/textViewCOPHAN"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="24dp"
+                android:text="Cổ Phần"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextCOPHAN"
+                app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+            <EditText
+                android:id="@+id/editTextCOPHAN"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="100"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+            <TextView
+                android:id="@+id/textViewTHDE"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="26dp"
+                android:text="TH Đề"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextTHDE"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCOPHAN" />
+
+            <EditText
+                android:id="@+id/editTextTHDE"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="70"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextCOPHAN" />
+
+            <TextView
+                android:id="@+id/textViewTHLO"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="26dp"
+                android:text="TH Lô"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextTHLO"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTHDE" />
+
+            <EditText
+                android:id="@+id/editTextTHLO"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="80"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTHDE" />
+
+            <TextView
+                android:id="@+id/textViewTH3C"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="26dp"
+                android:text="TH 3 Càng"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextTH3C"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTHLO" />
+
+            <EditText
+                android:id="@+id/editTextTH3C"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="400"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTHLO" />
+
+            <TextView
+                android:id="@+id/textViewTHX2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="24dp"
+                android:text="TH X2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextTHX2"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTH3C" />
+
+            <EditText
+                android:id="@+id/editTextTHX2"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="10"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTH3C" />
+
+            <TextView
+                android:id="@+id/textViewTHX3"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="24dp"
+                android:text="TH X3"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextTHX3"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTHX2" />
+
+            <EditText
+                android:id="@+id/editTextTHX3"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="40"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTHX2" />
+
+            <TextView
+                android:id="@+id/textViewTHX4"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="24dp"
+                android:text="TH X4"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextTHX4"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTHX3" />
+
+            <EditText
+                android:id="@+id/editTextTHX4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="100"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTHX3" />
+
+            <TextView
+                android:id="@+id/textViewTHLT10"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="26dp"
+                android:text="TH trượt10"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextthLT10"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTHX4" />
+
+            <EditText
+                android:id="@+id/editTextthLT10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="0"
+                android:layout_marginTop="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTHX4"
+                android:layout_marginRight="24dp"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewTHLT9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="26dp"
+                android:text="TH Trượt9"
+                app:layout_constraintRight_toLeftOf="@+id/editTextTHLT9"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTHLT10"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintHorizontal_bias="0.0" />
+
+            <EditText
+                android:id="@+id/editTextTHLT9"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="0"
+                android:layout_marginTop="-1dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextthLT10"
+                android:layout_marginRight="24dp"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewTHLT8"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="26dp"
+                android:text="TH Trượt8"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextTHLT8"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTHLT9" />
+
+            <EditText
+                android:id="@+id/editTextTHLT8"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="0"
+                android:layout_marginRight="24dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTHLT9" />
+
+            <TextView
+                android:id="@+id/textViewTHLT7"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="26dp"
+                android:text="TH Trượt7"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextTHLT7"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTHLT8" />
+
+            <EditText
+                android:id="@+id/editTextTHLT7"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:text="0"
+                android:layout_marginTop="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTHLT8"
+                android:layout_marginRight="24dp"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewNgoiMot"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="24dp"
+                android:text="Ngôi I"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextNgoiMot"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTHLT7" />
+
+            <EditText
+                android:id="@+id/editTextNgoiMot"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTHLT7" />
+
+            <TextView
+                android:id="@+id/textViewNgoiHai"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="26dp"
+                android:text="Ngôi II"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/editTextNgoiHai"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNgoiMot" />
+
+            <EditText
+                android:id="@+id/editTextNgoiHai"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNgoiMot" />
+
+            <Button
+                android:id="@+id/buttonSave"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="16dp"
+                android:text="Lưu Thông Tin"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNgoiHai" />
+            <TextView
+                android:id="@+id/idDongia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="0dp" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/navigation" />
+
+</android.support.v4.widget.DrawerLayout>

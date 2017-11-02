@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="develop.admin.it.formular">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/chip"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/chip"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="Prodtool">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".KetQuaSoXo"
+            android:label="Kết Quả Sổ Xố" />
+        <activity
+            android:name=".Contact"
+            android:label="Danh Bạ" />
+        <activity
+            android:name=".ContactAdd"
+            android:label="Đơn Giá" />
+        <activity
+            android:name=".GetListContact"
+            android:label="Danh Bạ" />
+        <activity
+            android:name=".Message"
+            android:label="Xử Lý Tin Nhắn" />
+        <activity
+            android:name=".Format"
+            android:label="Các Bộ Số" />
+        <activity
+            android:name=".EditDonGia"
+            android:label="Đơn Giá" />
+        <activity
+            android:name=".ManagerMoney"
+            android:label="Tổng Hợp" />
+        <activity
+            android:name=".SendSms"
+            android:label="Gửi Tin Nhắn" />
+        <activity
+            android:name=".Customer"
+            android:label="Danh Sách Gửi Tin" />
+        <activity
+            android:name=".Statistic"
+            android:label="Thống Kê" />
+        <activity
+            android:name=".Setting"
+            android:label="Cài Đặt" />
+        <activity
+            android:name=".MainXoaCongNo"
+            android:label="Xóa Công Nợ" />
+        <activity
+            android:name=".viewSmsNotMoney"
+            android:label="Tin Chưa tính tiền" />
+        <activity
+            android:name=".CutSmsAuto"
+            android:label="Cân Bằng Số" />
+        <activity
+            android:name=".CheckNewSms"
+            android:label="Kiểm tra tin" />
+        <activity
+            android:name=".dataSmsShow"
+            android:label="Thống kê lô tô" />
+        <activity
+            android:name=".CaiDatCanBang"
+            android:label="Cài Đặt Giới Hạn Nhận Bảng" />
+        <activity
+            android:name=".GuiTinCanBang"
+            android:label="Gửi Tin Cân Bảng" />
+        <activity
+            android:name=".CanBangSendSms"
+            android:label="Cân Bảng"
+            ></activity>
+    </application>
+
+</manifest>
