@@ -185,8 +185,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        );
 
         db.execSQL(
-        "create table " + TABLE_NAME_9 + " (" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,MAXDE VARCHAR,MAXLO VARCHAR,MAXBACANG VARCHAR) "
+                "create table " + TABLE_NAME_9 + " (" +
+                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,MAXDE VARCHAR,MAXLO VARCHAR,MAXBACANG VARCHAR) "
         );
 
     }
@@ -204,8 +204,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertManagerMoney(String sdt,String ten, double danhinbox, double hesoinbox, double danhsend
-            ,double hesosend,String kieu,int dongiaId,String ngay) {
+    public boolean insertManagerMoney(String sdt, String ten, double danhinbox, double hesoinbox, double danhsend
+            , double hesosend, String kieu, int dongiaId, String ngay) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_72, sdt);
@@ -265,7 +265,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                                     double hsxienbon, double cophan, double thde, double thlo, double thbacang,
                                     double thgiainhat, double thxienhai, double thxienba, double thxienbon,
                                     double thtruot10, double thtruot9, double thtruot8, double thtruot7,
-                                    int kieucophan,String ngoimot,String ngoihai) {
+                                    int kieucophan, String ngoimot, String ngoihai) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_22, sdt);
@@ -302,7 +302,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertDataKq(String loto, int giai, int vitri, String ngay, String value,String valueDau) {
+    public boolean insertDataKq(String loto, int giai, int vitri, String ngay, String value, String valueDau) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_12, loto);
@@ -376,7 +376,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean insertDataSourceSoLieu(int smsId, int dongiaId, String loto, int trung, double tiendanh
             , double tienthuong, double tong, String kieu, String sdt, String kihieu, String ten, String ngay
-            , double heso, double thuong,double tienMoiCon,double tiendanhsms,double trungsms) {
+            , double heso, double thuong, double tienMoiCon, double tiendanhsms, double trungsms) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_52, smsId);
@@ -390,12 +390,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_510, sdt);
         contentValues.put(COL_511, kihieu);
         contentValues.put(COL_512, ten);
-        contentValues.put(COL_513, ngay );
+        contentValues.put(COL_513, ngay);
         contentValues.put(COL_514, heso);
-        contentValues.put(COL_515, thuong );
-        contentValues.put(COL_516, tienMoiCon ); // tien danh 1 con
-        contentValues.put(COL_517, tiendanhsms );
-        contentValues.put(COL_518, trungsms );
+        contentValues.put(COL_515, thuong);
+        contentValues.put(COL_516, tienMoiCon); // tien danh 1 con
+        contentValues.put(COL_517, tiendanhsms);
+        contentValues.put(COL_518, trungsms);
         contentValues.put(COL_NGAYTAO, day);
         contentValues.put(COL_NGAYSUA, day);
         long result = db.insert(TABLE_NAME_5, null, contentValues);
@@ -423,10 +423,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean updateDonGia(String id, String sdt, String ten, double hsde,double hslo,double hsbacang
-            ,double hsxienhai,double hsxienba,double hsxienbon,double cophan,double thde,double thlo,double thbacang
-            ,double thgiainhat,double thxienhai,double thxienba,double thxienbon,double thuongtruotmuoi,double thuongtruotchin
-            ,double thuongtruottam,double thuongtruotbay,int kieucophan,String ngoimot,String ngoihai) {
+    public boolean updateDonGia(String id, String sdt, String ten, double hsde, double hslo, double hsbacang
+            , double hsxienhai, double hsxienba, double hsxienbon, double cophan, double thde, double thlo, double thbacang
+            , double thgiainhat, double thxienhai, double thxienba, double thxienbon, double thuongtruotmuoi, double thuongtruotchin
+            , double thuongtruottam, double thuongtruotbay, int kieucophan, String ngoimot, String ngoihai) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValue = new ContentValues();
         contentValue.put(COL_22, sdt);
@@ -466,9 +466,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.delete(table_name, "SMSID = ? ", new String[]{smsID});
     }
 
-    public Integer deleteSolieuSmsIDToDay(String table_name, String smsID,String getDays,String kihieu) {
+    public Integer deleteSolieuSmsIDToDay(String table_name, String smsID, String getDays, String kihieu) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(table_name, "SMSID = ? AND NGAY = ? AND KIHIEU = ? ", new String[]{smsID,getDays,kihieu});
+        return db.delete(table_name, "SMSID = ? AND NGAY = ? AND KIHIEU = ? ", new String[]{smsID, getDays, kihieu});
     }
 
     public Integer deleteAll(String table_name, String id) {
@@ -478,7 +478,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Integer deleteCongNo(String table_name, String smsidArr) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(table_name, "SMSID IN ("+smsidArr+") ", null);
+        return db.delete(table_name, "SMSID IN (" + smsidArr + ") ", null);
     }
 
     public Integer deleteCongNoReady() {
@@ -529,7 +529,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<String> getNotOkLo() {
         ArrayList<String> animals = new ArrayList<String>();
-        for (int i = 0;i < 27;i++) {
+        for (int i = 0; i < 27; i++) {
             animals.add("100");
         }
         return animals;

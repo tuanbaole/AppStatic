@@ -18,12 +18,13 @@ public class CaiDatCanBang extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     EditText
-            MAXDE,MAXLO,MAXBACANG,
-            TenA,TenB,TenC,TenD,TenE,
-            SDTA,SDTB,SDTC,SDTD,SDTE;
+            MAXDE, MAXLO, MAXBACANG,
+            TenA, TenB, TenC, TenD, TenE,
+            SDTA, SDTB, SDTC, SDTD, SDTE;
     DatabaseHelper sql;
     GlobalClass controller = new GlobalClass();
     Button luuCaiDat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,19 +32,19 @@ public class CaiDatCanBang extends AppCompatActivity {
         sideBarMenu();
         sql = new DatabaseHelper(CaiDatCanBang.this);
 
-        MAXDE = (EditText)findViewById(R.id.editTextGioiHanDe);
-        MAXLO = (EditText)findViewById(R.id.editTextGioiHanLo);
-        MAXBACANG = (EditText)findViewById(R.id.editTextGioiHanBaCang);
-        TenA = (EditText)findViewById(R.id.editTextTenA);
-        TenB = (EditText)findViewById(R.id.editTextTenB);
-        TenC = (EditText)findViewById(R.id.editTextTenC);
-        TenD = (EditText)findViewById(R.id.editTextTenD);
-        TenE = (EditText)findViewById(R.id.editTextTenE);
-        SDTA = (EditText)findViewById(R.id.editTextSDTA);
-        SDTB = (EditText)findViewById(R.id.editTextSDTB);
-        SDTC = (EditText)findViewById(R.id.editTextSDTC);
-        SDTD = (EditText)findViewById(R.id.editTextSDTD);
-        SDTE = (EditText)findViewById(R.id.editTextSDTE);
+        MAXDE = (EditText) findViewById(R.id.editTextGioiHanDe);
+        MAXLO = (EditText) findViewById(R.id.editTextGioiHanLo);
+        MAXBACANG = (EditText) findViewById(R.id.editTextGioiHanBaCang);
+        TenA = (EditText) findViewById(R.id.editTextTenA);
+        TenB = (EditText) findViewById(R.id.editTextTenB);
+        TenC = (EditText) findViewById(R.id.editTextTenC);
+        TenD = (EditText) findViewById(R.id.editTextTenD);
+        TenE = (EditText) findViewById(R.id.editTextTenE);
+        SDTA = (EditText) findViewById(R.id.editTextSDTA);
+        SDTB = (EditText) findViewById(R.id.editTextSDTB);
+        SDTC = (EditText) findViewById(R.id.editTextSDTC);
+        SDTD = (EditText) findViewById(R.id.editTextSDTD);
+        SDTE = (EditText) findViewById(R.id.editTextSDTE);
         String tablename = sql.TABLE_NAME_9;
         Cursor getval = sql.getAllDb("SELECT * FROM " + tablename + " WHERE 1 LIMIT 1");
         if (getval.getCount() > 0) {
@@ -55,9 +56,9 @@ public class CaiDatCanBang extends AppCompatActivity {
             MAXDE.setText(MaxDeDb);
             MAXLO.setText(MaxLoDb);
             MAXBACANG.setText(MaxBaCangDb);
-            String [] sdtArr = SDTDB2.split("JAVA");
+            String[] sdtArr = SDTDB2.split("JAVA");
             for (int i = 0; i < sdtArr.length; i++) {
-                String [] detailSdt = sdtArr[i].split("---");
+                String[] detailSdt = sdtArr[i].split("---");
                 if (detailSdt.length == 2) {
                     switch (i) {
                         case 0:
@@ -93,27 +94,27 @@ public class CaiDatCanBang extends AppCompatActivity {
                 String limitLo = MAXLO.getText().toString();
                 String limitBaCang = MAXBACANG.getText().toString();
                 String SDTAll = "";
-                if(!TenA.getText().toString().equals("") && !SDTA.getText().toString().equals("") ) {
+                if (!TenA.getText().toString().equals("") && !SDTA.getText().toString().equals("")) {
                     SDTAll += TenA.getText().toString() + "---" + SDTA.getText().toString() + "JAVA";
                 }
-                if(!TenB.getText().toString().equals("") && !SDTB.getText().toString().equals("") ) {
+                if (!TenB.getText().toString().equals("") && !SDTB.getText().toString().equals("")) {
                     SDTAll += TenB.getText().toString() + "---" + SDTB.getText().toString() + "JAVA";
                 }
-                if(!TenC.getText().toString().equals("") && !SDTC.getText().toString().equals("") ) {
+                if (!TenC.getText().toString().equals("") && !SDTC.getText().toString().equals("")) {
                     SDTAll += TenC.getText().toString() + "---" + SDTC.getText().toString() + "JAVA";
                 }
-                if(!TenD.getText().toString().equals("") && !SDTD.getText().toString().equals("") ) {
+                if (!TenD.getText().toString().equals("") && !SDTD.getText().toString().equals("")) {
                     SDTAll += TenD.getText().toString() + "---" + SDTD.getText().toString() + "JAVA";
                 }
-                if(!TenE.getText().toString().equals("") && !SDTE.getText().toString().equals("") ) {
+                if (!TenE.getText().toString().equals("") && !SDTE.getText().toString().equals("")) {
                     SDTAll += TenE.getText().toString() + "---" + SDTE.getText().toString() + "JAVA";
                 }
                 String STDDB = SDTAll.replaceAll("(^\\s+|\\s+$)", "").trim();
-                if(!limitDe.equals("") && !limitLo.equals("") && !limitBaCang.equals("") && !STDDB.equals("") ) {
+                if (!limitDe.equals("") && !limitLo.equals("") && !limitBaCang.equals("") && !STDDB.equals("")) {
                     String table9 = sql.TABLE_NAME_9;
                     sql.deleteAll(table9, "0");
-                    boolean insert =  sql.insertCaiDatCanBang(limitDe,limitLo,limitBaCang,STDDB);
-                    if(insert) {
+                    boolean insert = sql.insertCaiDatCanBang(limitDe, limitLo, limitBaCang, STDDB);
+                    if (insert) {
                         controller.showAlertDialog(CaiDatCanBang.this, "Thông báo", "Lưu Thành Công");
                     } else {
                         controller.showAlertDialog(CaiDatCanBang.this, "Thông báo", "Đã Có Sự Cố Xảy");
@@ -145,15 +146,15 @@ public class CaiDatCanBang extends AppCompatActivity {
                         Intent intent = new Intent(CaiDatCanBang.this, MainActivity.class);
                         startActivity(intent);
                         return true;
-                    case R.id.unit_price :
+                    case R.id.unit_price:
                         Intent intent2 = new Intent(CaiDatCanBang.this, Contact.class);
                         startActivity(intent2);
                         return true;
-                    case R.id.send_sms :
+                    case R.id.send_sms:
                         Intent intent3 = new Intent(CaiDatCanBang.this, Customer.class);
                         startActivity(intent3);
                         return true;
-                    case R.id.manage_money :
+                    case R.id.manage_money:
                         Intent intent4 = new Intent(CaiDatCanBang.this, ManagerMoney.class);
                         startActivity(intent4);
                         return true;

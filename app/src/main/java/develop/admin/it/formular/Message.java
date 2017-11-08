@@ -776,22 +776,27 @@ public class Message extends AppCompatActivity {
                                         String borDeCoX = "";
                                         String[] mangDecoX = tachChuoiDe.get(j).replaceAll("(^\\s+|\\s+$)", "").split("x");
                                         if (mangDecoX.length == 2) {
-                                            double getNum = 0;
+                                            double getNum = 0; // so tien danh la getNum
                                             if (mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                if (mangDecoX[1].indexOf("trieu") > -1) {
-                                                    getNum = Double.parseDouble(mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
+                                                int soLanXuatHienInArrDe = controller.soLanXuatHienInArr(mangDecoX[1]);
+                                                if (soLanXuatHienInArrDe < 3) { // co dang gia tri 2.5n hoac 25n hoac 30.5n
+                                                    if (soLanXuatHienInArrDe == 0)  mangDecoX[1] = mangDecoX[1].replace(".", " ");
+                                                    if (mangDecoX[1].indexOf("trieu") > -1) {
+                                                        getNum = Double.parseDouble(mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
+                                                    } else {
+                                                        getNum = Double.parseDouble(mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
+                                                    }
                                                 } else {
-                                                    getNum = Double.parseDouble(mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
+                                                    error += "<font color=\"RED\"></font>";
                                                 }
                                             }
-                                            // so tien danh la getNum
+                                            mangDecoX[0] = mangDecoX[0].replace(".", " ");
                                             if (!mangDecoX[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
                                                 String valueDe = controller.converStringSms(mangDecoX[0]);
                                                 String[] valueDeArr = valueDe.split("JAVASTR");
                                                 String sessionDeCoX = "";
                                                 for (int k = 0; k < valueDeArr.length; k++) {
                                                     String[] valueImprotDb = valueDeArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                                    Log.d("LogFile", valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""));
                                                     if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
                                                         if (valueImprotDb.length > 1) {
                                                             error += valueImprotDb[0] + " ";
@@ -1040,26 +1045,23 @@ public class Message extends AppCompatActivity {
                                                         if (borDeCoX.indexOf(broStt) == -1) {
                                                             xuLyDanhLeDe(compareDe, getNum, hsde, broStt, thuongde, idSmsInt
                                                                     , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
-                                                        } else {
-                                                            // Log.d("LogFile", String.valueOf(stt));
-                                                            Log.d("LogFile", String.valueOf(stt));
                                                         }
                                                     }
                                                 }
                                                 if (mangDecoX[1].indexOf("n") > -1 &&
-                                                        mangDecoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
+                                                        mangDecoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1) {
                                                     error += "x " + mangDecoX[1] + " ";
                                                 } else if (mangDecoX[1].indexOf("k") > -1 &&
-                                                        mangDecoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
+                                                        mangDecoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1) {
                                                     error += "x " + mangDecoX[1] + " ";
                                                 } else if (mangDecoX[1].indexOf("trieu") > -1 &&
-                                                        mangDecoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5) {
+                                                        mangDecoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 5) {
                                                     error += "x " + mangDecoX[1] + " ";
                                                 } else if (mangDecoX[1].indexOf("N1c") > -1 &&
-                                                        mangDecoX[1].replaceAll("[0-9]", "").replaceAll("(^\\s+|\\s+$)", "").length() == 2) {
+                                                        mangDecoX[1].replaceAll("[0-9]", "").replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 2) {
                                                     error += "x " + mangDecoX[1] + " ";
                                                 } else if (mangDecoX[1].replaceAll("(^\\s+|\\s+$)", "").
-                                                        replace(" ", "").replaceAll("[0-9]", "").length() == 0) {
+                                                        replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0) {
                                                     error += "x " + mangDecoX[1] + " ";
                                                 } else {
                                                     error += "x " + "<font color=\"RED\">" + mangDecoX[1] + " </font>";
@@ -1074,15 +1076,21 @@ public class Message extends AppCompatActivity {
                                         String borDeCoDauB = "";
                                         String[] mangDecoDauB = tachChuoiDe.get(j).replaceAll("(^\\s+|\\s+$)", "").split("=");
                                         if (mangDecoDauB.length == 2) {
-                                            double getNum = 0;
+                                            double getNum = 0; // so tien danh la getNum
                                             if (mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                if (mangDecoDauB[1].indexOf("trieu") > -1) {
-                                                    getNum = Double.parseDouble(mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
+                                                int soLanXuatHienInArrDeCoB = controller.soLanXuatHienInArr(mangDecoDauB[1]);
+                                                if (soLanXuatHienInArrDeCoB < 3) { // co dang gia tri 2.5n hoac 25n hoac 30.5n
+                                                    if (soLanXuatHienInArrDeCoB == 0) mangDecoDauB[1] = mangDecoDauB[1].replace(".", " ");
+                                                    if (mangDecoDauB[1].indexOf("trieu") > -1) {
+                                                        getNum = Double.parseDouble(mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
+                                                    } else {
+                                                        getNum = Double.parseDouble(mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
+                                                    }
                                                 } else {
-                                                    getNum = Double.parseDouble(mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
+                                                    error += "<font color=\"RED\"></font>";
                                                 }
                                             }
-                                            // so tien danh la getNum
+                                            mangDecoDauB[0] = mangDecoDauB[0].replace(".", " ");
                                             if (!mangDecoDauB[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
                                                 String valueDeCoDauB = controller.converStringSms(mangDecoDauB[0]);
                                                 String[] valueDeArrCoDauB = valueDeCoDauB.split("JAVASTR");
@@ -1117,8 +1125,6 @@ public class Message extends AppCompatActivity {
                                                                                 }
                                                                             }
                                                                             borDeCoDauB += value + ",";
-                                                                        } else {
-                                                                            Log.d("LogFile", "false");
                                                                         }
                                                                     } else {
                                                                         if (!valueImprotDb[q].equals("bcp")) {
@@ -1336,19 +1342,19 @@ public class Message extends AppCompatActivity {
                                                 }
 
                                                 if (mangDecoDauB[1].indexOf("n") > -1 &&
-                                                        mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
+                                                        mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1) {
                                                     error += "= " + mangDecoDauB[1] + " ";
                                                 } else if (mangDecoDauB[1].indexOf("k") > -1 &&
-                                                        mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
+                                                        mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1) {
                                                     error += "= " + mangDecoDauB[1] + " ";
                                                 } else if (mangDecoDauB[1].indexOf("trieu") > -1 &&
-                                                        mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5) {
+                                                        mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 5) {
                                                     error += "= " + mangDecoDauB[1] + " ";
                                                 } else if (mangDecoDauB[1].indexOf("N1c") > -1 &&
-                                                        mangDecoDauB[1].replaceAll("[0-9]", "").replaceAll("(^\\s+|\\s+$)", "").length() == 2) {
+                                                        mangDecoDauB[1].replaceAll("[0-9]", "").replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 2) {
                                                     error += "= " + mangDecoDauB[1] + " ";
                                                 } else if (mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").
-                                                        replace(" ", "").replaceAll("[0-9]", "").length() == 0) {
+                                                        replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0) {
                                                     error += "= " + mangDecoDauB[1] + " ";
                                                 } else {
                                                     error += "= " + "<font color=\"RED\">" + mangDecoDauB[1] + " </font>";
@@ -1362,30 +1368,18 @@ public class Message extends AppCompatActivity {
                                     } else {
                                         String[] mangDekhongX = tachChuoiDe.get(j).replaceAll("(^\\s+|\\s+$)", "").split(" ");
                                         String valueMangDe = String.valueOf(mangDekhongX[mangDekhongX.length - 1]);
-                                        double getNum = 0;
-                                        if (tachChuoiDe.get(j).indexOf("N1c") > -1) {
-                                            if (valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                if (valueMangDe.indexOf("trieu") > -1) {
-                                                    getNum = Double.parseDouble(valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
-                                                } else {
-                                                    getNum = Double.parseDouble(valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", ""));
-                                                }
-                                            }
-                                        } else {
-                                            if (mangDekhongX.length >= 2) {
-                                                if (valueMangDe.replaceAll("[^\\d.]", "").length() > 0) {
-                                                    if (valueMangDe.indexOf("trieu") > -1) {
-                                                        getNum = Double.parseDouble(valueMangDe.replaceAll("[^\\d.]", "")) * 1000;
-                                                    } else {
-                                                        getNum = Double.parseDouble(valueMangDe.replaceAll("[^\\d.]", ""));
-                                                    }
-                                                }
+                                        double getNum = 0; // gia tri loto
+                                        if (valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                            if (valueMangDe.indexOf("trieu") > -1) {
+                                                getNum = Double.parseDouble(valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
+                                            } else {
+                                                getNum = Double.parseDouble(valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", ""));
                                             }
                                         }
                                         String boDeKX = "";
                                         int endSubString = tachChuoiDe.get(j).length() - valueMangDe.length() - 1;
                                         if (endSubString > 0) {
-                                            String valueDe = controller.converStringSms(tachChuoiDe.get(j).substring(0, endSubString)).replaceAll("(^\\s+|\\s+$)", "");
+                                            String valueDe = controller.converStringSms(tachChuoiDe.get(j).substring(0, endSubString)).replaceAll("(^\\s+|\\s+$)", "").replace(".", " ");
                                             String[] valueDeArr = valueDe.split("JAVASTR");
                                             String SessionDeKX = "";
                                             for (int k = 0; k < valueDeArr.length; k++) {
@@ -1597,24 +1591,24 @@ public class Message extends AppCompatActivity {
                                                 error += "<font color=\"RED\">" + valueMangDe + " </font>";
                                             } else {
                                                 if (valueMangDe.indexOf("n") > -1 &&
-                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        valueMangDe.replaceAll("[^\\d.]", "").length() >= 1
+                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                        valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1
                                                         ) {
                                                     error += valueMangDe + " ";
                                                 } else if (valueMangDe.indexOf("k") > -1 &&
-                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        valueMangDe.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                        valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += valueMangDe + " ";
                                                 } else if (valueMangDe.indexOf("trieu") > -1 &&
-                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
-                                                        valueMangDe.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 5 &&
+                                                        valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += valueMangDe + " ";
                                                 } else if (valueMangDe.indexOf("N1c") > -1 &&
-                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 2 &&
-                                                        valueMangDe.replaceAll("[^\\d.]", "").length() >= 2) {
+                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 2 &&
+                                                        valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 2) {
                                                     error += valueMangDe + " ";
-                                                } else if (valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
-                                                        valueMangDe.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                } else if (valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
+                                                        valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += valueMangDe + " ";
                                                 } else {
                                                     error += "<font color=\"RED\">" + valueMangDe + " </font>";
@@ -1636,7 +1630,6 @@ public class Message extends AppCompatActivity {
                                 error += "lo ";
                                 compareLo = compareLo2;
                             }
-
                             String chuoiLo = message[i].substring(2, message[i].length()).replaceAll("(^\\s+|\\s+$)", "")
                                     .replace(" d", "d").replace("D1c", "D1c JAVASTR").replace("d", "d JAVASTR");
                             String[] mangLo2 = chuoiLo.split("JAVASTR");
@@ -1647,11 +1640,17 @@ public class Message extends AppCompatActivity {
                                         String[] mangLocoX = tachChuoiLo.get(j).replaceAll("(^\\s+|\\s+$)", "").split("x");
                                         if (mangLocoX.length == 2) {
                                             String boLoCoX = "";
-                                            double getNum = 0;
+                                            double getNum = 0; // so tien danh la getNum
                                             if (mangLocoX[1].replace("D1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                getNum = Double.parseDouble(mangLocoX[1].replace("D1c", "").replaceAll("[^\\d.]", ""));
+                                                int soLanLoCoX = controller.soLanXuatHienInArr(mangLocoX[1]);
+                                                if (soLanLoCoX < 3) {
+                                                    if(soLanLoCoX == 0) mangLocoX[1] = mangLocoX[1].replace(".","");
+                                                    getNum = Double.parseDouble(mangLocoX[1].replace("D1c", "").replaceAll("[^\\d.]", ""));
+                                                } else {
+                                                    error += "<font color=\"RED\"></font>";
+                                                }
                                             }
-                                            // so tien danh la getNum
+                                            mangLocoX[0] = mangLocoX[0].replace(".", " ");
                                             if (!mangLocoX[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
                                                 String valueLoCoX = controller.converStringSms(mangLocoX[0]);
                                                 String[] valueLoArrCoX = valueLoCoX.split("JAVASTR");
@@ -1914,8 +1913,6 @@ public class Message extends AppCompatActivity {
                                                         }
                                                     }
                                                 }
-
-
                                                 String[] checkGiatriMangLo = mangLocoX[1].replaceAll("(^\\s+|\\s+$)", "").split(" ");
                                                 if (checkGiatriMangLo.length > 2) {
                                                     error += "x " + "<font color=\"RED\">" + checkGiatriMangLo[0] + " </font>";
@@ -1924,14 +1921,14 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 } else {
                                                     if (mangLocoX[1].indexOf("d") > -1 &&
-                                                            mangLocoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                            mangLocoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                            mangLocoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                            mangLocoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                         error += "x " + mangLocoX[1] + " ";
-                                                    } else if (mangLocoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
-                                                            mangLocoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                    } else if (mangLocoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
+                                                            mangLocoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                         error += "x " + mangLocoX[1] + " ";
-                                                    } else if (mangLocoX[1].indexOf("D1c") > -1 && mangLocoX[1].replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
-                                                            mangLocoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                    } else if (mangLocoX[1].indexOf("D1c") > -1 && mangLocoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
+                                                            mangLocoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                         error += "x " + mangLocoX[1] + " ";
                                                     } else {
                                                         error += "x " + "<font color=\"RED\">" + mangLocoX[1] + " </font>";
@@ -1947,11 +1944,17 @@ public class Message extends AppCompatActivity {
                                         String[] mangLocoDauB = tachChuoiLo.get(j).replaceAll("(^\\s+|\\s+$)", "").split("=");
                                         if (mangLocoDauB.length == 2) {
                                             String boLoCoDauB = "";
-                                            double getNum = 0;
+                                            double getNum = 0; // so tien danh la getNum
                                             if (mangLocoDauB[1].replace("D1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                getNum = Double.parseDouble(mangLocoDauB[1].replace("D1c", "").replaceAll("[^\\d.]", ""));
+                                                int soLanXuatHienInArrLoB = controller.soLanXuatHienInArr(mangLocoDauB[1]);
+                                                if(soLanXuatHienInArrLoB < 3) {
+                                                    if(soLanXuatHienInArrLoB == 0) mangLocoDauB[1] = mangLocoDauB[1].replace("."," ");
+                                                    getNum = Double.parseDouble(mangLocoDauB[1].replace("D1c", "").replaceAll("[^\\d.]", ""));
+                                                } else {
+                                                    error += "<font color=\"RED\"></font>";
+                                                }
                                             }
-                                            // so tien danh la getNum
+                                            mangLocoDauB[0] = mangLocoDauB[0].replace(".", " ");
                                             if (!mangLocoDauB[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
                                                 String valueLoCoDauB = controller.converStringSms(mangLocoDauB[0]);
                                                 String[] valueLoArrCoDauB = valueLoCoDauB.split("JAVASTR");
@@ -2008,7 +2011,7 @@ public class Message extends AppCompatActivity {
                                                         }
                                                     } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
                                                         /* danh dan nhonho -toto ... */
-                                                        if(SessionLoCoDaub.equals("")) {
+                                                        if (SessionLoCoDaub.equals("")) {
                                                             if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
                                                                 error += valueImprotDb[0] + " ";
                                                                 String value = hashmap.get(valueImprotDb[0]).get(0);
@@ -2209,14 +2212,14 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 } else {
                                                     if (mangLocoDauB[1].indexOf("d") > -1 &&
-                                                            mangLocoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                            mangLocoDauB[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                            mangLocoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                            mangLocoDauB[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                         error += "= " + mangLocoDauB[1] + " ";
-                                                    } else if (mangLocoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
-                                                            mangLocoDauB[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                    } else if (mangLocoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
+                                                            mangLocoDauB[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                         error += "= " + mangLocoDauB[1] + " ";
-                                                    } else if (mangLocoDauB[1].indexOf("D1c") > -1 && mangLocoDauB[1].replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
-                                                            mangLocoDauB[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                    } else if (mangLocoDauB[1].indexOf("D1c") > -1 && mangLocoDauB[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
+                                                            mangLocoDauB[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                         error += "= " + mangLocoDauB[1] + " ";
                                                     } else {
                                                         error += "= " + "<font color=\"RED\">" + mangLocoDauB[1] + " </font>";
@@ -2233,20 +2236,15 @@ public class Message extends AppCompatActivity {
                                         String valueMangLo = String.valueOf(mangLokhongX[mangLokhongX.length - 1]);
                                         double getNum = 0;
                                         String loBorKX = "";
-                                        if (tachChuoiLo.get(j).indexOf("D1c") > -1) {
+                                        if (mangLokhongX.length >= 2) {
                                             if (valueMangLo.replace("D1c", "").replaceAll("[^\\d.]", "").length() > 0) {
                                                 getNum = Double.parseDouble(valueMangLo.replace("D1c", "").replaceAll("[^\\d.]", ""));
                                             }
-                                        } else {
-                                            if (mangLokhongX.length >= 2) {
-                                                if (valueMangLo.replaceAll("[^\\d.]", "").length() > 0) {
-                                                    getNum = Double.parseDouble(valueMangLo.replaceAll("[^\\d.]", ""));
-                                                }
-                                            }
                                         }
+
                                         int endSubString = tachChuoiLo.get(j).length() - valueMangLo.length() - 1;
                                         if (endSubString > 0) {
-                                            String valueLo = controller.converStringSms(tachChuoiLo.get(j).substring(0, endSubString)).replaceAll("(^\\s+|\\s+$)", "");
+                                            String valueLo = controller.converStringSms(tachChuoiLo.get(j).substring(0, endSubString)).replace("."," ").replaceAll("(^\\s+|\\s+$)", "");
                                             String[] valueLoArr = valueLo.split("JAVASTR");
                                             String SessionLoKX = "";
                                             for (int k = 0; k < valueLoArr.length; k++) {
@@ -2291,7 +2289,7 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
                                                     /* danh dan nhonho -toto ... */
-                                                    if(SessionLoKX.equals("")) {
+                                                    if (SessionLoKX.equals("")) {
                                                         if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
                                                             error += valueImprotDb[0] + " ";
                                                             String value = hashmap.get(valueImprotDb[0]).get(0);
@@ -2470,16 +2468,16 @@ public class Message extends AppCompatActivity {
                                                 error += "<font color=\"RED\">" + valueMangLo + " </font>";
                                             } else {
                                                 if (valueMangLo.indexOf("d") > -1 &&
-                                                        valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        valueMangLo.replaceAll("[^\\d.]", "").length() >= 1
+                                                        valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                        valueMangLo.replaceAll("[^\\d.]", "").replace(".", "").length() >= 1
                                                         ) {
                                                     error += valueMangLo + " ";
-                                                } else if (valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
-                                                        valueMangLo.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                } else if (valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
+                                                        valueMangLo.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += valueMangLo + " ";
                                                 } else if (valueMangLo.indexOf("D1c") > -1 &&
-                                                        valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 2 &&
-                                                        valueMangLo.replaceAll("[^\\d.]", "").length() >= 2) {
+                                                        valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 2 &&
+                                                        valueMangLo.replaceAll("[^\\d.]", "").replace(".", "").length() >= 2) {
                                                     error += valueMangLo + " ";
                                                 } else {
                                                     error += "<font color=\"RED\">" + valueMangLo + " </font>";
@@ -2504,15 +2502,21 @@ public class Message extends AppCompatActivity {
                                     if (tachChuoiBaCang.get(j).indexOf("x") > -1) { // kiem tra co dau x trong chuoi khong
                                         String[] mangBaCangcoX = tachChuoiBaCang.get(j).replaceAll("(^\\s+|\\s+$)", "").split("x");
                                         if (mangBaCangcoX.length == 2) {
-                                            double getNum = 0;
+                                            double getNum = 0;// so tien danh la getNum
                                             if (mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                if (mangBaCangcoX[1].indexOf("trieu") > -1) {
-                                                    getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
+                                                int soLanXuatHienArr3C = controller.soLanXuatHienInArr(mangBaCangcoX[1]);
+                                                if(soLanXuatHienArr3C < 3 ) {
+                                                    if(soLanXuatHienArr3C == 0 ) mangBaCangcoX[1] = mangBaCangcoX[1].replace("."," ");
+                                                    if (mangBaCangcoX[1].indexOf("trieu") > -1) {
+                                                        getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
+                                                    } else {
+                                                        getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
+                                                    }
                                                 } else {
-                                                    getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
+                                                    error += "<font color=\"RED\"></font>";
                                                 }
                                             }
-                                            // so tien danh la getNum
+                                            mangBaCangcoX[0] = mangBaCangcoX[0].replace("."," ");
                                             if (!mangBaCangcoX[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
                                                 String valueBacang = controller.converStringSms(mangBaCangcoX[0]);
                                                 String[] valueBacangArr = valueBacang.split("JAVASTR");
@@ -2556,22 +2560,22 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 }
                                                 if (mangBaCangcoX[1].indexOf("n") > -1 &&
-                                                        mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        mangBaCangcoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(".", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += "x " + mangBaCangcoX[1] + " ";
                                                 } else if (mangBaCangcoX[1].indexOf("k") > -1 &&
-                                                        mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        mangBaCangcoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(".", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += "x " + mangBaCangcoX[1] + " ";
                                                 } else if (mangBaCangcoX[1].indexOf("trieu") > -1 &&
-                                                        mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        mangBaCangcoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(".", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += "x " + mangBaCangcoX[1] + " ";
-                                                } else if (mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
-                                                        mangBaCangcoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                } else if (mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(".", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += "x " + mangBaCangcoX[1] + " ";
-                                                } else if (mangBaCangcoX[1].indexOf("N1c") > -1 && mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
-                                                        mangBaCangcoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                } else if (mangBaCangcoX[1].indexOf("N1c") > -1 && mangBaCangcoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += "x " + mangBaCangcoX[1] + " ";
                                                 } else {
                                                     error += "x " + "<font color=\"RED\">" + mangBaCangcoX[1] + " </font>";
@@ -2585,15 +2589,21 @@ public class Message extends AppCompatActivity {
                                     } else if (tachChuoiBaCang.get(j).indexOf("=") > -1) { // kiem tra co dau = trong chuoi khong
                                         String[] mangBaCangcoX = tachChuoiBaCang.get(j).replaceAll("(^\\s+|\\s+$)", "").split("=");
                                         if (mangBaCangcoX.length == 2) {
-                                            double getNum = 0;
+                                            double getNum = 0;   // so tien danh la getNum
                                             if (mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                if (mangBaCangcoX[1].indexOf("trieu") > -1) {
-                                                    getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
+                                                int soLanArrBaCangCoDauB = controller.soLanXuatHienInArr(mangBaCangcoX[1]);
+                                                if(soLanArrBaCangCoDauB < 3) {
+                                                    if(soLanArrBaCangCoDauB == 0) mangBaCangcoX[1] = mangBaCangcoX[1].replace("."," ");
+                                                    if (mangBaCangcoX[1].indexOf("trieu") > -1) {
+                                                        getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
+                                                    } else {
+                                                        getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
+                                                    }
                                                 } else {
-                                                    getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
+                                                    error += "<font color=\"RED\"></font>";
                                                 }
                                             }
-                                            // so tien danh la getNum
+                                            mangBaCangcoX[0] = mangBaCangcoX[0].replace("."," ");
                                             if (!mangBaCangcoX[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
                                                 String valueBacang = controller.converStringSms(mangBaCangcoX[0]);
                                                 String[] valueBacangArr = valueBacang.split("JAVASTR");
@@ -2641,22 +2651,22 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 }
                                                 if (mangBaCangcoX[1].indexOf("n") > -1 &&
-                                                        mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        mangBaCangcoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(".", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += "= " + mangBaCangcoX[1] + " ";
                                                 } else if (mangBaCangcoX[1].indexOf("d") > -1 &&
-                                                        mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        mangBaCangcoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += "= " + mangBaCangcoX[1] + " ";
                                                 } else if (mangBaCangcoX[1].indexOf("trieu") > -1 &&
-                                                        mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
-                                                        mangBaCangcoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += "= " + mangBaCangcoX[1] + " ";
-                                                } else if (mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
-                                                        mangBaCangcoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                } else if (mangBaCangcoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += "= " + mangBaCangcoX[1] + " ";
-                                                } else if (mangBaCangcoX[1].indexOf("N1c") > -1 && mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
-                                                        mangBaCangcoX[1].replaceAll("[^\\d.]", "").length() >= 1) {
+                                                } else if (mangBaCangcoX[1].indexOf("N1c") > -1 && mangBaCangcoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
+                                                        mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += "= " + mangBaCangcoX[1] + " ";
                                                 } else {
                                                     error += "= " + "<font color=\"RED\">" + mangBaCangcoX[1] + " </font>";
@@ -2692,7 +2702,7 @@ public class Message extends AppCompatActivity {
                                         }
                                         int endSubString = tachChuoiBaCang.get(j).length() - valueMangBacang.length() - 1;
                                         if (endSubString > 0) {
-                                            String valueBacang = controller.converStringSms(tachChuoiBaCang.get(j).substring(0, endSubString)).replaceAll("(^\\s+|\\s+$)", "");
+                                            String valueBacang = controller.converStringSms(tachChuoiBaCang.get(j).substring(0, endSubString)).replace("",".").replaceAll("(^\\s+|\\s+$)", "");
                                             String[] valueBacangArr = valueBacang.split("JAVASTR");
                                             for (int k = 0; k < valueBacangArr.length; k++) {
                                                 String[] valueImprotDb = valueBacangArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");

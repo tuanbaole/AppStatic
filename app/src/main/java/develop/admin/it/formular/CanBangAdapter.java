@@ -40,7 +40,7 @@ public class CanBangAdapter extends ArrayAdapter<String> {
         TextView dongiaId = (TextView) rowView.findViewById(R.id.textViewIdContact);
         TextView sdtName = (TextView) rowView.findViewById(R.id.textViewInformation);
         dongiaId.setText(id.get(position));
-        sdtName.setText(sdts.get(position) + "-" +names.get(position));
+        sdtName.setText(sdts.get(position) + "-" + names.get(position));
 
         Button sendSms = (Button) rowView.findViewById(R.id.buttonGuiCanBang);
         sendSms.setOnClickListener(new View.OnClickListener() {

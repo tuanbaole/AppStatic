@@ -87,8 +87,7 @@
             android:label="Gửi Tin Cân Bảng" />
         <activity
             android:name=".CanBangSendSms"
-            android:label="Cân Bảng"
-            ></activity>
+            android:label="Cân Bảng"></activity>
     </application>
 
 </manifest>
