@@ -471,6 +471,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.delete(table_name, "SMSID = ? AND NGAY = ? AND KIHIEU = ? ", new String[]{smsID,getDays,kihieu});
     }
 
+    public Integer deleteSolieuIDToDay(String table_name, String ID,String getDays,String kihieu) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(table_name, "ID > ? AND NGAY = ? AND KIHIEU = ? ", new String[]{ID,getDays,kihieu});
+    }
+
     public Integer deleteAll(String table_name, String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(table_name, "ID >= ? ", new String[]{id});

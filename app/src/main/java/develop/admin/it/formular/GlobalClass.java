@@ -163,7 +163,6 @@ public class GlobalClass extends AppCompatActivity {
         aMap.put("o", "ó,ò,ỏ,õ,ọ,ô,ố,ồ,ổ,ỗ,ộ,ơ,ớ,ờ,ở,ỡ,ợ");
         aMap.put("u", "ú,ù,ủ,ũ,ụ,ư,ứ,ừ,ử,ữ,ự");
         aMap.put("y", "ý,ỳ,ỷ,ỹ,ỵ");
-
         for (Map.Entry<String, String> entry : aMap.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -237,6 +236,7 @@ public class GlobalClass extends AppCompatActivity {
     }
 
     public static String removeAccent(String s) {
+        s = s.replace("bỏ","bor");
         String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(temp).replaceAll("");
