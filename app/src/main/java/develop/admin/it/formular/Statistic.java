@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -269,6 +270,7 @@ public class Statistic extends AppCompatActivity {
         int z = 0;
         int k = 0;
         for (int q = 0; q < deArr.length; q++) {
+            Log.d("LogFile",String.valueOf(q));
             if (deArr[q] != null) {
                 String showDe = "";
                 if (q < 10) {
@@ -277,6 +279,15 @@ public class Statistic extends AppCompatActivity {
                     showDe = String.valueOf(q);
                 }
                 sortDe[z] = String.valueOf(showDe) + "-" + String.valueOf(deArr[q]) + "-" + String.valueOf(deTrung[q]);
+                z++;
+            } else {
+                String showDe = "";
+                if (q < 10) {
+                    showDe = "0" + String.valueOf(q);
+                } else {
+                    showDe = String.valueOf(q);
+                }
+                sortDe[z] = String.valueOf(showDe) + "-0-0";
                 z++;
             }
 
@@ -289,42 +300,51 @@ public class Statistic extends AppCompatActivity {
                 }
                 sortLo[k] = String.valueOf(showLo) + "-" + String.valueOf(loArr[q]) + "-" + String.valueOf(loTrung[q]);
                 k++;
-            }
-        }
-        String tempDe;
-        for (int x = 0; x < sortDe.length; x++) {
-            if (sortDe[x] != null) {
-                String[] arrSortDe1 = sortDe[x].split("-");
-                for (int t = x + 1; t < sortDe.length; t++) {
-                    if (sortDe[t] != null) {
-                        String[] arrSortDe2 = sortDe[t].split("-");
-                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
-                            tempDe = sortDe[t];
-                            sortDe[t] = sortDe[x];
-                            sortDe[x] = tempDe;
-                            arrSortDe1[1] = arrSortDe2[1];
-                        }
-                    }
+            } else {
+                String showLo = "";
+                if (q < 10) {
+                    showLo = "0" + String.valueOf(q);
+                } else {
+                    showLo = String.valueOf(q);
                 }
+                sortLo[k] = String.valueOf(showLo) + "-0-0";
+                k++;
             }
         }
-        String tempLo;
-        for (int c = 0; c < sortLo.length; c++) {
-            if (sortLo[c] != null) {
-                String[] arrSortLo1 = sortLo[c].split("-");
-                for (int r = c + 1; r < sortLo.length; r++) {
-                    if (sortLo[r] != null) {
-                        String[] arrSortLo2 = sortLo[r].split("-");
-                        if (Integer.parseInt(arrSortLo1[1]) < Integer.parseInt(arrSortLo2[1])) {
-                            tempLo = sortLo[r];
-                            sortLo[r] = sortLo[c];
-                            sortLo[c] = tempLo;
-                            arrSortLo1[1] = arrSortLo2[1];
-                        }
-                    }
-                }
-            }
-        }
+//        String tempDe;
+//        for (int x = 0; x < sortDe.length; x++) {
+//            if (sortDe[x] != null) {
+//                String[] arrSortDe1 = sortDe[x].split("-");
+//                for (int t = x + 1; t < sortDe.length; t++) {
+//                    if (sortDe[t] != null) {
+//                        String[] arrSortDe2 = sortDe[t].split("-");
+//                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
+//                            tempDe = sortDe[t];
+//                            sortDe[t] = sortDe[x];
+//                            sortDe[x] = tempDe;
+//                            arrSortDe1[1] = arrSortDe2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        String tempLo;
+//        for (int c = 0; c < sortLo.length; c++) {
+//            if (sortLo[c] != null) {
+//                String[] arrSortLo1 = sortLo[c].split("-");
+//                for (int r = c + 1; r < sortLo.length; r++) {
+//                    if (sortLo[r] != null) {
+//                        String[] arrSortLo2 = sortLo[r].split("-");
+//                        if (Integer.parseInt(arrSortLo1[1]) < Integer.parseInt(arrSortLo2[1])) {
+//                            tempLo = sortLo[r];
+//                            sortLo[r] = sortLo[c];
+//                            sortLo[c] = tempLo;
+//                            arrSortLo1[1] = arrSortLo2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         for (int a = 0; a < sortDe.length; a++) {
             if (sortDe[a] != null) {

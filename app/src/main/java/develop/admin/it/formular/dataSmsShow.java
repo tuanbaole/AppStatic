@@ -206,6 +206,15 @@ public class dataSmsShow extends AppCompatActivity {
                 }
                 sortDe[z] = String.valueOf(showDe) + "_" + String.valueOf(deArr[q]) + "_" + String.valueOf(deTrung[q]);
                 z++;
+            } else {
+                String showDe = "";
+                if (q < 10) {
+                    showDe = "0" + String.valueOf(q);
+                } else {
+                    showDe = String.valueOf(q);
+                }
+                sortDe[z] = String.valueOf(showDe) + "_0_0";
+                z++;
             }
 
             if (loArr[q] != null) {
@@ -216,6 +225,15 @@ public class dataSmsShow extends AppCompatActivity {
                     showLo = String.valueOf(q);
                 }
                 sortLo[k] = String.valueOf(showLo) + "_" + String.valueOf(loArr[q]) + "_" + String.valueOf(loTrung[q]);
+                k++;
+            } else {
+                String showLo = "";
+                if (q < 10) {
+                    showLo = "0" + String.valueOf(q);
+                } else {
+                    showLo = String.valueOf(q);
+                }
+                sortLo[k] = String.valueOf(showLo) + "_0_0";
                 k++;
             }
         }
@@ -235,59 +253,59 @@ public class dataSmsShow extends AppCompatActivity {
             }
         }
 
-        String tempBaCang;
-        for (int c = 0; c < sortBacang.length; c++) {
-            if (sortBacang[c] != null) {
-                String[] arrSortBacang1 = sortBacang[c].split("_");
-                for (int a = c + 1; a < sortBacang.length; a++) {
-                    if (sortBacang[a] != null) {
-                        String[] arrSortBacang2 = sortBacang[a].split("_");
-                        if (Integer.parseInt(arrSortBacang1[1]) < Integer.parseInt(arrSortBacang2[1])) {
-                            tempBaCang = sortBacang[a];
-                            sortBacang[a] = sortBacang[c];
-                            sortBacang[c] = tempBaCang;
-                            arrSortBacang1[1] = arrSortBacang2[1];
-                        }
-                    }
-                }
-            }
-        }
-
-        String tempDe;
-        for (int x = 0; x < sortDe.length; x++) {
-            if (sortDe[x] != null) {
-                String[] arrSortDe1 = sortDe[x].split("_");
-                for (int t = x + 1; t < sortDe.length; t++) {
-                    if (sortDe[t] != null) {
-                        String[] arrSortDe2 = sortDe[t].split("_");
-                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
-                            tempDe = sortDe[t];
-                            sortDe[t] = sortDe[x];
-                            sortDe[x] = tempDe;
-                            arrSortDe1[1] = arrSortDe2[1];
-                        }
-                    }
-                }
-            }
-        }
-
-        String tempLo;
-        for (int c = 0; c < sortLo.length; c++) {
-            if (sortLo[c] != null) {
-                String[] arrSortLo1 = sortLo[c].split("_");
-                for (int r = c + 1; r < sortLo.length; r++) {
-                    if (sortLo[r] != null) {
-                        String[] arrSortLo2 = sortLo[r].split("_");
-                        if (Integer.parseInt(arrSortLo1[1]) < Integer.parseInt(arrSortLo2[1])) {
-                            tempLo = sortLo[r];
-                            sortLo[r] = sortLo[c];
-                            sortLo[c] = tempLo;
-                            arrSortLo1[1] = arrSortLo2[1];
-                        }
-                    }
-                }
-            }
-        }
+//        String tempBaCang;
+//        for (int c = 0; c < sortBacang.length; c++) {
+//            if (sortBacang[c] != null) {
+//                String[] arrSortBacang1 = sortBacang[c].split("_");
+//                for (int a = c + 1; a < sortBacang.length; a++) {
+//                    if (sortBacang[a] != null) {
+//                        String[] arrSortBacang2 = sortBacang[a].split("_");
+//                        if (Integer.parseInt(arrSortBacang1[1]) < Integer.parseInt(arrSortBacang2[1])) {
+//                            tempBaCang = sortBacang[a];
+//                            sortBacang[a] = sortBacang[c];
+//                            sortBacang[c] = tempBaCang;
+//                            arrSortBacang1[1] = arrSortBacang2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        String tempDe;
+//        for (int x = 0; x < sortDe.length; x++) {
+//            if (sortDe[x] != null) {
+//                String[] arrSortDe1 = sortDe[x].split("_");
+//                for (int t = x + 1; t < sortDe.length; t++) {
+//                    if (sortDe[t] != null) {
+//                        String[] arrSortDe2 = sortDe[t].split("_");
+//                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
+//                            tempDe = sortDe[t];
+//                            sortDe[t] = sortDe[x];
+//                            sortDe[x] = tempDe;
+//                            arrSortDe1[1] = arrSortDe2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        String tempLo;
+//        for (int c = 0; c < sortLo.length; c++) {
+//            if (sortLo[c] != null) {
+//                String[] arrSortLo1 = sortLo[c].split("_");
+//                for (int r = c + 1; r < sortLo.length; r++) {
+//                    if (sortLo[r] != null) {
+//                        String[] arrSortLo2 = sortLo[r].split("_");
+//                        if (Integer.parseInt(arrSortLo1[1]) < Integer.parseInt(arrSortLo2[1])) {
+//                            tempLo = sortLo[r];
+//                            sortLo[r] = sortLo[c];
+//                            sortLo[c] = tempLo;
+//                            arrSortLo1[1] = arrSortLo2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         for (int a = 0; a < sortDe.length; a++) {
             if (sortDe[a] != null) {

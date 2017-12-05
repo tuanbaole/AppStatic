@@ -24,7 +24,6 @@
             android:label="Prodtool">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -87,7 +86,10 @@
             android:label="Gửi Tin Cân Bảng" />
         <activity
             android:name=".CanBangSendSms"
-            android:label="Cân Bảng"></activity>
+            android:label="Cân Bảng" />
+        <activity android:name=".DetailSms">
+
+        </activity>
     </application>
 
 </manifest>

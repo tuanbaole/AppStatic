@@ -295,16 +295,11 @@ public class GlobalClass extends AppCompatActivity {
                 replace("_", " ").
                 replace("+", " ").
                 replace("*", "x").
-                replace(",", ".").
+                replace(",", " ").
+                replace(".", " ").
                 replace("da", "DA").replace("di", "DI").replace("du", "DU").
                 replace("n/1c", "N1c").replace("n\\1c", "N1c").replace("n1c", "N1c").
-                replace("d/1c", "D1c").replace("d\\1c", "D1c").replace("d1c", "D1c").
-                replace("n.","n ").
-                replace("k.","k ").
-                replace("d.","d ").
-                replace("trieu.","trieu ").
-                replace("si.","si ").
-                replace("xq.","xq ");
+                replace("d/1c", "D1c").replace("d\\1c", "D1c").replace("d1c", "D1c");
         return converKitu;
     }
 
@@ -363,16 +358,11 @@ public class GlobalClass extends AppCompatActivity {
                 replace("_", " ").
                 replace("+", " ").
                 replace("*", "x").
-                replace(",", ".").
+                replace(",", " ").
+                replace(".", " ").
                 replace("da", "DA").replace("di", "DI").replace("du", "DU").
                 replace("n/1c", "N1c").replace("n\\1c", "N1c").replace("n1c", "N1c").
-                replace("d/1c", "D1c").replace("d\\1c", "D1c").replace("d1c", "D1c").
-                replace("n.","n ").
-                replace("k.","k ").
-                replace("d.","d ").
-                replace("trieu.","trieu ").
-                replace("si.","si ").
-                replace("xq.","xq ");
+                replace("d/1c", "D1c").replace("d\\1c", "D1c").replace("d1c", "D1c");
         return converKitu;
     }
 

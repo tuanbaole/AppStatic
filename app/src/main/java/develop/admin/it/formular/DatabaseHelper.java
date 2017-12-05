@@ -132,7 +132,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
 //        super(context,DATABASE_NAME,factory,version);
-        super(context, DATABASE_NAME, null, 7);
+        super(context, DATABASE_NAME, null, 8);
         SQLiteDatabase db = this.getWritableDatabase(); // su dung khi tao bang
     }
 
@@ -183,11 +183,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //                        "HESOINBOX VARCHAR,DANHSEND VARCHAR,HESOSEND VARCHAR,KIEU VARCHAR,DONGIAID INTEGER,NGAY DATETIME" +
 //                        ",NGAYTAO DATETIME,NGAYSUA DATETIME) "
 //        );
-
-        db.execSQL(
-                "create table " + TABLE_NAME_9 + " (" +
-                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,MAXDE VARCHAR,MAXLO VARCHAR,MAXBACANG VARCHAR) "
-        );
+//
+//        db.execSQL(
+//                "create table " + TABLE_NAME_9 + " (" +
+//                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,MAXDE VARCHAR,MAXLO VARCHAR,MAXBACANG VARCHAR) "
+//        );
 
     }
 
@@ -200,8 +200,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_5);
 //        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_6);
 //        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_7);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_9);
-        onCreate(db);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_9);
+//        onCreate(db);
     }
 
     public boolean insertManagerMoney(String sdt, String ten, double danhinbox, double hesoinbox, double danhsend

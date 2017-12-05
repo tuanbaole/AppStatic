@@ -48,8 +48,8 @@ public class Format extends AppCompatActivity {
             runOnUiThread( new Runnable() {
                 @Override
                 public void run() {
-//                    new ReadXml().execute( "http://hostingkqxs.esy.es/boso.php" );
-                    new ReadXml().execute( "https://hostingkqsx.000webhostapp.com/" );
+                    new ReadXml().execute( "http://hostingkqxs.esy.es/boso.php" );
+//                    new ReadXml().execute( "https://hostingkqsx.000webhostapp.com/" );
                 }
             } );
         } else {
