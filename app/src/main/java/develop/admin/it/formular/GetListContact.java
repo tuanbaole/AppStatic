@@ -39,7 +39,7 @@ public class GetListContact extends AppCompatActivity {
         mylistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView name = (TextView) view.findViewById(R.id.textViewName);
+                TextView name = (TextView) view.findViewById(R.id.textViewContent);
                 TextView sdt = (TextView) view.findViewById(R.id.textViewSDT);
                 String nameStr = name.getText().toString();
                 String sdtStr = sdt.getText().toString();

@@ -21,7 +21,7 @@ public class ContactAdapter extends ArrayAdapter<String> {
     private final Context context;
 
     public ContactAdapter(Context context, ArrayList<String> names, ArrayList<String> sdts, ArrayList<String> id) {
-        super(context, R.layout.contactdapter, R.id.textViewName, names);
+        super(context, R.layout.contactdapter, R.id.textViewContent, names);
         this.context = context;
         this.names = names;
         this.sdts = sdts;
@@ -34,7 +34,7 @@ public class ContactAdapter extends ArrayAdapter<String> {
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View rowView = layoutInflater.inflate(R.layout.contactdapter, null, true);
-        TextView textViewnames = (TextView) rowView.findViewById(R.id.textViewName);
+        TextView textViewnames = (TextView) rowView.findViewById(R.id.textViewContent);
         TextView textViewsdt = (TextView) rowView.findViewById(R.id.textViewSDT);
         final TextView textViewDongiaId = (TextView) rowView.findViewById(R.id.textViewDongiaId);
         CheckBox checkBoxContact = (CheckBox) rowView.findViewById(R.id.checkBoxContact);

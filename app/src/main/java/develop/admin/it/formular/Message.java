@@ -40,7 +40,7 @@ public class Message extends AppCompatActivity {
     GlobalClass controller = new GlobalClass();
     EditText textV;
     TextView textContact, smsId, textViewSmsType, textViewDate,
-            textViewHSD, textViewKhoaLo, textViewKhoaDe, timeSmsVn;
+            textViewHSD, textViewKhoaLo, textViewKhoaDe, timeSmsVn,textViewTypeCheckSms;
     DatabaseHelper sql;
 
     private int year_x, month_x, day_x;
@@ -57,6 +57,15 @@ public class Message extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         sideBarMenu();
+        Bundle bd = getIntent().getExtras();
+        if (bd != null) {
+            String typeCheckSms = bd.getString("checksms");
+            if (typeCheckSms.equals("1")){
+                textViewTypeCheckSms = (TextView) findViewById(R.id.textViewTypeCheckSms);
+                textViewTypeCheckSms.setText(typeCheckSms);
+            }
+        }
+
         final String getDays = controller.dateDay("yyyy-MM-dd");
         buttonDate = (Button) findViewById(R.id.buttonDate);
         textV = (EditText) findViewById(R.id.editTextMessage);
@@ -507,12 +516,17 @@ public class Message extends AppCompatActivity {
                 long miliGetDay = controller.converDayToMill("yyyy-MM-dd", getDays);
                 long miligetHsd = controller.converDayToMill("yyyy-MM-dd", getHsd);
                 if (miligetHsd >= miliGetDay) {
+                    textViewTypeCheckSms = (TextView) findViewById(R.id.textViewTypeCheckSms);
                     String newGetDays = controller.convertFormatDate(getDays);
-                    sql = new DatabaseHelper(this);
-                    Cursor kqsx = sql.getAllDb("SELECT * FROM kq_table WHERE NGAY=\"" + newGetDays + "\"");
-                    if (kqsx.getCount() != 27) {
-                        String dateDayLink = controller.dateDay("dd-MM-yyyy");
-                        getKqsxmb(dateDayLink, newGetDays);
+                    if(textViewTypeCheckSms.getText().toString().equals("0") ) {
+                        sql = new DatabaseHelper(this);
+                        Cursor kqsx = sql.getAllDb("SELECT * FROM kq_table WHERE NGAY=\"" + newGetDays + "\"");
+                        if (kqsx.getCount() != 27) {
+                            String dateDayLink = controller.dateDay("dd-MM-yyyy");
+                            getKqsxmb(dateDayLink, newGetDays);
+                        } else {
+                            clickShowEditText(newGetDays);
+                        }
                     } else {
                         clickShowEditText(newGetDays);
                     }
@@ -544,6 +558,18 @@ public class Message extends AppCompatActivity {
                 } else {
                     controller.showAlertDialog(Message.this, "Thông báo", "Chưa có tin nào để lưu");
                 }
+                return true;
+            case R.id.guitincanbang:
+                Intent intent = new Intent(Message.this, GuiTinCanBang.class);
+                startActivity(intent);
+                return true;
+            case R.id.caidaicanbang:
+                Intent intent2 = new Intent(Message.this, CaiDatCanBang.class);
+                startActivity(intent2);
+                return true;
+            case R.id.chitiettinnhan:
+                Intent intent3 = new Intent(Message.this, ChiTietTinNhan.class);
+                startActivity(intent3);
                 return true;
         }
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -1717,7 +1743,7 @@ public class Message extends AppCompatActivity {
                                                                                 }
                                                                                 boLoCoX += valueSessinoLoCoX + ",";
                                                                                 xulydanhboLoTo(valueSessinoLoCoX, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
-                                                                                        valueSessinoLoCoX + valueImprotDb[q],
+                                                                                        SessionLoCoX + valueImprotDb[q],
                                                                                         listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
                                                                             }
                                                                             boLoCoX += value + ",";
@@ -1794,7 +1820,7 @@ public class Message extends AppCompatActivity {
                                                                             }
                                                                             boLoCoX += valueSessinoLoCoX1 + ",";
                                                                             xulydanhboLoTo(valueSessinoLoCoX1, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
-                                                                                    valueSessinoLoCoX1 + arrNewValLoCoX[1],
+                                                                                    SessionLoCoX + arrNewValLoCoX[1],
                                                                                     listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
                                                                         }
                                                                         boLoCoX += value + ",";
@@ -1836,7 +1862,7 @@ public class Message extends AppCompatActivity {
                                                                                 }
                                                                                 boLoCoX += valueSessinoLoCoX2 + ",";
                                                                                 xulydanhboLoTo(valueSessinoLoCoX2, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
-                                                                                        valueSessinoLoCoX2 + valueImprotDb[q],
+                                                                                        SessionLoCoX + valueImprotDb[q],
                                                                                         listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
                                                                             }
                                                                             boLoCoX += value + ",";
@@ -4754,7 +4780,7 @@ public class Message extends AppCompatActivity {
         double tienDanh = hsx * getNum;
         double tienThuong = thuongxien * getNum * trung;
         double tong = tienDanh - tienThuong;
-        double trungSms = Math.round(tienThuong * 100.00) / 100.0;
+        double trungSms = Math.round(getNum * trung * 100.00) / 100.0;
         tongTienDanh = Math.round(tienDanh * 100.00) / 100.0;
         tongTienThuong = Math.round(tienThuong * 100.00) / 100.0;
         tongTien = Math.round(tong * 100.00) / 100.0;

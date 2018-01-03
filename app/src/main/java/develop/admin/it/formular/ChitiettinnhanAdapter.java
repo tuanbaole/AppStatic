@@ -13,11 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by IT on 5/28/2017.
- */
-
-public class CustomerAdapter extends ArrayAdapter<String> {
+public class ChitiettinnhanAdapter extends ArrayAdapter<String> {
     private final ArrayList<String> names;
     private final ArrayList<String> sdts;
     private final ArrayList<String> id;
@@ -25,7 +21,7 @@ public class CustomerAdapter extends ArrayAdapter<String> {
     private final String date;
     private final Context context;
 
-    public CustomerAdapter(Context context, ArrayList<String> names, ArrayList<String> sdts, ArrayList<String> id,
+    public ChitiettinnhanAdapter(Context context, ArrayList<String> names, ArrayList<String> sdts, ArrayList<String> id,
                            String kieu,String date) {
         super(context, R.layout.contactdapter, R.id.textViewContent, names);
         this.context = context;
@@ -41,7 +37,7 @@ public class CustomerAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        View rowView = layoutInflater.inflate(R.layout.customeradapter, null, true);
+        View rowView = layoutInflater.inflate(R.layout.chitiettinnhanadapter, null, true);
         TextView dongiaId = (TextView) rowView.findViewById(R.id.textViewIdContact);
         TextView sdtName = (TextView) rowView.findViewById(R.id.textViewInformation);
         dongiaId.setText(id.get(position));
@@ -51,7 +47,7 @@ public class CustomerAdapter extends ArrayAdapter<String> {
         sendSms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, SendSms.class);
+                Intent intent = new Intent(context, Xemtungtinnhan.class);
                 intent.putExtra("sdt", sdts.get(position));
                 intent.putExtra("kieu", kieu);
                 intent.putExtra("date", date);
@@ -62,4 +58,6 @@ public class CustomerAdapter extends ArrayAdapter<String> {
     }
 
 }
+
+
 

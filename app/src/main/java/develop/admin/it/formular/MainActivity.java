@@ -1,7 +1,9 @@
 package develop.admin.it.formular;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,12 +11,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper sql;
     GlobalClass controller;
     ImageButton ketquasoxo, contact, sms, boso, managerMoney,
-            statistic, setting, viewSms,checkNewSms,dataSms;
+            statistic, setting, viewSms, checkNewSms, dataSms;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Message.class);
+                intent.putExtra("checksms", "0");
                 startActivity(intent);
             }
         });
@@ -104,19 +107,20 @@ public class MainActivity extends AppCompatActivity {
         checkNewSms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CheckNewSms.class);
+                Intent intent = new Intent(MainActivity.this, Message.class);
+                intent.putExtra("checksms", "1");
                 startActivity(intent);
             }
         });
 
-        dataSms = (ImageButton) findViewById(R.id.imageButtonDataSms);
-        dataSms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, dataSmsShow.class);
-                startActivity(intent);
-            }
-        });
+//        dataSms = (ImageButton) findViewById(R.id.imageButtonDataSms);
+//        dataSms.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, dataSmsShow.class);
+//                startActivity(intent);
+//            }
+//        });
 
         sideBarMenu();
         deleteData();
@@ -150,6 +154,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         TelephonyManager telemamanger = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
                         String getSimSerialNumber = telemamanger.getSimSerialNumber();
                         String link = "http://hostingkqxs.esy.es/lockApp.php?iccid=" + getSimSerialNumber;
                         new ReadXml().execute(link);

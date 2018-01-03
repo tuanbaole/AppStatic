@@ -11,4 +11,13 @@
     <item
         android:id="@+id/luutinkho"
         android:title="Lưu tin chưa tính tiền" />
+    <item
+        android:id="@+id/guitincanbang"
+        android:title="Gửi Tin Cân Bảng" />
+    <item
+        android:id="@+id/caidaicanbang"
+        android:title="Cài Đặt Cân Bảng" />
+    <item
+        android:id="@+id/chitiettinnhan"
+        android:title="Chi Tiết Tin Nhắn" />
 </menu>

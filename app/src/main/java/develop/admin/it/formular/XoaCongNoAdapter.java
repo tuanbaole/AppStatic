@@ -26,7 +26,7 @@ public class XoaCongNoAdapter extends ArrayAdapter<String> {
 
     public XoaCongNoAdapter(Context context, ArrayList<String> names, ArrayList<String> sdts, ArrayList<String> id,
                             String kieu, String date) {
-        super(context, R.layout.xoacongnoadapter, R.id.textViewName, names);
+        super(context, R.layout.xoacongnoadapter, R.id.textViewContent, names);
         this.context = context;
         this.names = names;
         this.sdts = sdts;

@@ -187,7 +187,7 @@ public class dataSmsShow extends AppCompatActivity {
         }
 
         String textDe = "<font color =\"blue\"><big>Đề</big></font><br/>";
-        String textLo = "<font color =\"blue\"><big>Lô</big></font><br/>";
+        String textLo = "<font color =\"blue\"> </font><br/>";
         String textBaCang = "<font color =\"blue\"><big>Ba Càng</big></font><br/>";
 
         String[] sortDe = new String[100];
@@ -308,27 +308,36 @@ public class dataSmsShow extends AppCompatActivity {
 //        }
 
         for (int a = 0; a < sortDe.length; a++) {
-            if (sortDe[a] != null) {
-                String[] showResDe = sortDe[a].split("_");
-                textDe += "<font color=\"red\"><big>" + showResDe[0] + "</big>   </font>" +
-                        "<big>" + showResDe[1] + "n</big><br/>";
+            if (a < 50) {
+                if (sortDe[a] != null) {
+                    String[] showResDe = sortDe[a].split("_");
+                    textDe += "<big><big><b><font color=\"red\">" + showResDe[0] + "  </font>" +
+                            showResDe[1] + "n</b></big></big><br/>";
 
+                }
+            } else {
+                if (sortDe[a] != null) {
+                    String[] showResDe = sortDe[a].split("_");
+                    textLo += "<big><big><b><font color=\"red\">&nbsp; &nbsp; &nbsp;" + showResDe[0] + "   </font>"
+                            + showResDe[1] + "n</b></big></big><br/>";
+
+                }
             }
         }
 
-        for (int b = 0; b < sortLo.length; b++) {
-            if (sortLo[b] != null) {
-                String[] showResLo = sortLo[b].split("_");
-                textLo += "<font color=\"red\"><big>" + showResLo[0] + "</big>   </font>" +
-                        "<big>" + showResLo[1] + "d</big><br/>";
-            }
-        }
+//        for (int b = 0; b < sortLo.length; b++) {
+//            if (sortLo[b] != null) {
+//                String[] showResLo = sortLo[b].split("_");
+//                textLo += "<font color=\"red\"><big>" + showResLo[0] + "</big>   </font>" +
+//                        "<big>" + showResLo[1] + "d</big><br/>";
+//            }
+//        }
 
         for (int n = 0; n < sortBacang.length; n++) {
             if (sortBacang[n] != null) {
                 String[] showResBaCang = sortBacang[n].split("_");
-                textBaCang += "<font color=\"red\"><big>" + showResBaCang[0] + "</big>   </font>" +
-                        "<big>" + showResBaCang[1] + "d</big><br/>";
+                textBaCang += "<big><big><b><font color=\"red\">&nbsp; &nbsp; &nbsp;" + showResBaCang[0] + " </font>"
+                        + showResBaCang[1] + "n</b></big></big><br/>";
             }
         }
 

@@ -188,26 +188,6 @@
             android:layout_alignLeft="@+id/textView6"
             android:layout_alignStart="@+id/textView6" />
 
-        <ImageButton
-            android:id="@+id/imageButtonDataSms"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignLeft="@+id/imageButtonBoSo"
-            android:layout_alignStart="@+id/imageButtonBoSo"
-            android:layout_below="@+id/textView4"
-            android:background="@android:color/background_light"
-            app:srcCompat="@drawable/datanumber" />
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textView7"
-            android:layout_alignLeft="@+id/textView4"
-            android:layout_alignStart="@+id/textView4"
-            android:textStyle="bold"
-            android:text="số liệu" />
-
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

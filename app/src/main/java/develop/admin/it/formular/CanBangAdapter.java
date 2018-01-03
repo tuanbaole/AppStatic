@@ -24,7 +24,7 @@ public class CanBangAdapter extends ArrayAdapter<String> {
     private final Context context;
 
     public CanBangAdapter(Context context, ArrayList<String> names, ArrayList<String> sdts, ArrayList<String> id) {
-        super(context, R.layout.contactdapter, R.id.textViewName, names);
+        super(context, R.layout.contactdapter, R.id.textViewContent, names);
         this.context = context;
         this.names = names;
         this.sdts = sdts;
