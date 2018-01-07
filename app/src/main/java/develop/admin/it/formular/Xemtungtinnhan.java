@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,37 +22,51 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class Xemtungtinnhan extends AppCompatActivity {
-    String kieu,sdt,date;
+    String kieu, sdt, date;
     DatabaseHelper sql;
     GlobalClass controller = new GlobalClass();
-    public ArrayList<String> content;
+    public ArrayList<String> content, smsId, kieuTin;
     ListView mylistView;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     private int year_x, month_x, day_x;
-    TextView textViewDate;
+    TextView textViewDate, textViewSDT, textViewTen,textViewSmsIdAll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sql = new DatabaseHelper(this);
         setContentView(R.layout.activity_xemtungtinnhan);
         kieu = sdt = date = "";
-
+        String getDays = controller.dateDay("yyyy-MM-dd");
         Bundle bd = getIntent().getExtras();
         if (bd != null) {
             kieu = bd.getString("kieu");
             sdt = bd.getString("sdt");
             date = bd.getString("date");
+            getDays = bd.getString("date");
+            textViewSDT = (TextView) findViewById(R.id.textViewSDT);
+            textViewSDT.setText(sdt);
+            String getNameQuery = "SELECT * FROM \"dongia_table\" WHERE SDT  =" + sdt + " LIMIT 1;";
+            Cursor dongia_table = sql.getAllDb(getNameQuery);
+            textViewTen = (TextView) findViewById(R.id.textViewTen);
+            if (dongia_table.getCount() > 0) {
+                dongia_table.moveToFirst();
+                String ten = dongia_table.getString(dongia_table.getColumnIndex("TEN"));
+                textViewTen.setText(ten);
+            } else {
+                textViewTen.setText(sdt);
+            }
         }
-        String getDays = controller.dateDay("yyyy-MM-dd");
-        textViewDate = (TextView)findViewById(R.id.textViewDate);
+        textViewDate = (TextView) findViewById(R.id.textViewDate);
         textViewDate.setText(getDays);
-        showListSms(sdt,date);
+        showListSms(sdt, date);
         sideBarMenu();
     }
 
-    private void showListSms(String sdt,String date) {
-        sql = new DatabaseHelper(this);
+    private void showListSms(String sdt, String date) {
+//        sql = new DatabaseHelper(this);
         String getIdQuery = "SELECT SMSID FROM solieu_table WHERE SDT=\"" + sdt + "\" AND NGAY=\"" + date + "\";";
         Cursor solieu_table = sql.getAllDb(getIdQuery);
         String GETSMSID = "";
@@ -75,9 +91,10 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         "tiendanh_xien.TIENDANHXIEN AS TIENDANHXIEN," +
                         "tiendanh_xien.TIENTHUONGXIEN AS TIENTHUONGXIEN," +
                         "tiendanh_bacang.TIENDANHBC AS TIENDANHBACANG," +
-                        "tiendanh_bacang.TIENTHUONGBC AS TIENTHUONGBACANG " +
-                "FROM sms_ready_table " +
-                "LEFT JOIN (" +
+                        "tiendanh_bacang.TIENTHUONGBC AS TIENTHUONGBACANG," +
+                        "kieu_choi.KIEU AS KIEU " +
+                        "FROM sms_ready_table " +
+                        "LEFT JOIN (" +
                         "SELECT SMSID,NGAY,KIHIEU," +
                         "sum(solieu_table.TIENDANHSMS) AS TIENDANHDE," +
                         "sum(solieu_table.TRUNGSMS) AS TIENTHUONGDE " +
@@ -85,7 +102,7 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU = 'de' " +
                         "GROUP BY solieu_table.SMSID" +
                         ") tiendanh_de ON (tiendanh_de.SMSID = sms_ready_table.SMSID) " +
-                "LEFT JOIN (" +
+                        "LEFT JOIN (" +
                         "SELECT SMSID,NGAY,KIHIEU," +
                         "sum(solieu_table.TIENDANHSMS) AS TIENDANHLO," +
                         "sum(solieu_table.TRUNGSMS) AS TIENTHUONGLO " +
@@ -93,7 +110,7 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU = 'lo' " +
                         "GROUP BY solieu_table.SMSID" +
                         ") tiendanh_lo ON (tiendanh_lo.SMSID = sms_ready_table.SMSID)" +
-                "LEFT JOIN (" +
+                        "LEFT JOIN (" +
                         "SELECT SMSID,NGAY,KIHIEU," +
                         "sum(solieu_table.TIENDANHSMS) AS TIENDANHXIEN," +
                         "sum(solieu_table.TRUNGSMS) AS TIENTHUONGXIEN " +
@@ -101,7 +118,7 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU IN ('xien','xien2','xien3','xien4') " +
                         "GROUP BY solieu_table.SMSID" +
                         ") tiendanh_xien ON (tiendanh_xien.SMSID = sms_ready_table.SMSID)" +
-                "LEFT JOIN (" +
+                        "LEFT JOIN (" +
                         "SELECT SMSID,NGAY,KIHIEU," +
                         "sum(solieu_table.TIENDANHSMS) AS TIENDANHBC," +
                         "sum(solieu_table.TRUNGSMS) AS TIENTHUONGBC " +
@@ -109,11 +126,21 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU = 'bacang' " +
                         "GROUP BY solieu_table.SMSID" +
                         ") tiendanh_bacang ON (tiendanh_bacang.SMSID = sms_ready_table.SMSID)" +
-                "WHERE sms_ready_table.CONTENT != '' AND sms_ready_table.NGAY = '" + date + "' AND sms_ready_table.SMSID IN (" + GETSMSID + ") " +
-                "GROUP BY sms_ready_table.ID ";
+                        "LEFT JOIN (" +
+                        "SELECT SMSID,NGAY,KIEU," +
+                        "sum(solieu_table.TIENDANHSMS) AS TIENDANHBC," +
+                        "sum(solieu_table.TRUNGSMS) AS TIENTHUONGBC " +
+                        "FROM solieu_table " +
+                        "WHERE solieu_table.NGAY = '" + date + "' " +
+                        "GROUP BY solieu_table.SMSID" +
+                        ") kieu_choi ON (kieu_choi.SMSID = sms_ready_table.SMSID) " +
+                        "WHERE sms_ready_table.CONTENT != '' AND sms_ready_table.NGAY = '" + date + "' AND sms_ready_table.SMSID IN (" + GETSMSID + ") " +
+                        "GROUP BY sms_ready_table.ID ";
         Cursor smsReady = sql.getAllDb(importQuery);
-        Log.d("LogFile",importQuery);
         content = new ArrayList<>();
+        smsId = new ArrayList<>();
+        kieuTin = new ArrayList<>();
+        String smsIdAll = "";
         if (smsReady.getCount() > 0) {
             int i = 0;
             while (smsReady.moveToNext()) {
@@ -177,10 +204,20 @@ public class Xemtungtinnhan extends AppCompatActivity {
                 }
                 viewContent += "<font color=\"RED\">" + ketqua + "</font>";
                 content.add(viewContent);
+                String smsIdGet = smsReady.getString(smsReady.getColumnIndex("READY_SMSID"));
+                smsId.add(smsIdGet);
+                kieuTin.add(smsReady.getString(smsReady.getColumnIndex("KIEU")));
+                if (!smsIdAll.equals("")) {
+                    smsIdAll += "," + smsIdGet;
+                } else {
+                    smsIdAll += smsIdGet;
+                }
             }
         }
+        textViewSmsIdAll = (TextView) findViewById(R.id.textViewSmsIdAll);
+        textViewSmsIdAll.setText(smsIdAll);
         mylistView = (ListView) findViewById(R.id.mylistView);
-        tungtinAdapter viewSmsadapter = new tungtinAdapter(this, content, content);
+        tungtinAdapter viewSmsadapter = new tungtinAdapter(this, content, smsId, kieuTin);
         mylistView.setAdapter(viewSmsadapter);
     }
 
@@ -203,15 +240,15 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         Intent intent = new Intent(Xemtungtinnhan.this, MainActivity.class);
                         startActivity(intent);
                         return true;
-                    case R.id.unit_price :
+                    case R.id.unit_price:
                         Intent intent2 = new Intent(Xemtungtinnhan.this, Contact.class);
                         startActivity(intent2);
                         return true;
-                    case R.id.send_sms :
+                    case R.id.send_sms:
                         Intent intent3 = new Intent(Xemtungtinnhan.this, Customer.class);
                         startActivity(intent3);
                         return true;
-                    case R.id.manage_money :
+                    case R.id.manage_money:
                         Intent intent4 = new Intent(Xemtungtinnhan.this, ManagerMoney.class);
                         startActivity(intent4);
                         return true;
@@ -262,15 +299,23 @@ public class Xemtungtinnhan extends AppCompatActivity {
                             }
                             final String getDays = String.valueOf(year) + "-" + month_s + "-"
                                     + dayOfMonth_s;//"yyyy-MM-dd"
-                            textViewDate = (TextView)findViewById(R.id.textViewDate);
+                            textViewDate = (TextView) findViewById(R.id.textViewDate);
                             textViewDate.setText(getDays);
-                            showListSms(sdt,getDays);
+                            showListSms(sdt, getDays);
                         }
                     }
                 }, year_x, month_x, day_x);
-
                 datePickerDialog.show();
-
+                return true;
+            case R.id.deleteAll:
+                DialogHandler appdialog = new DialogHandler();
+                appdialog.Confirm(this, "Thông Báo", "Bạn có chắc xóa tất cả kết quả không?",
+                        "Cancel", "OK", aproc(), bproc());
+                return true;
+            case R.id.deleteSelect:
+                DialogHandler appdialog2 = new DialogHandler();
+                appdialog2.Confirm(this, "Thông Báo", "Bạn có chắc xóa các danh mục kết quả đã chọn không?",
+                        "Cancel", "OK", aprocCheckBoxDelete(), bproc());
                 return true;
         }
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -282,8 +327,54 @@ public class Xemtungtinnhan extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.show_dialog, menu);
+        inflater.inflate(R.menu.detail_sms, menu);
         return true;
+    }
+
+    public Runnable aproc() {
+        return new Runnable() {
+            public void run() {
+                sql = new DatabaseHelper(Xemtungtinnhan.this);
+                Log.d("LogFile", "ban da nhan nut yes xoa all tin nhan");
+                textViewSmsIdAll = (TextView) findViewById(R.id.textViewSmsIdAll);
+                String allSmsID = textViewSmsIdAll.getText().toString();
+                String table5 = sql.TABLE_NAME_5;
+                String table6 = sql.TABLE_NAME_6;
+                sql.deleteCongNo(table5, allSmsID);
+                sql.deleteCongNo(table6, allSmsID);
+                showListSms(sdt, date);
+            }
+        };
+    }
+
+    public Runnable aprocCheckBoxDelete() {
+        return new Runnable() {
+            public void run() {
+                Log.d("LogFile", "Ban da nhan nut Yes Select");
+                mylistView = (ListView) findViewById(R.id.mylistView);
+                sql = new DatabaseHelper(Xemtungtinnhan.this);
+                String table5 = sql.TABLE_NAME_5;
+                String table6 = sql.TABLE_NAME_6;
+                for (int i = 0; i < mylistView.getChildCount(); i++) {
+                    View v = mylistView.getChildAt(i);
+                    CheckBox ch = (CheckBox) v.findViewById(R.id.checkBoxSms);
+                    if (ch.isChecked()) {
+                        sql.deleteCongNo(table5, ch.getText().toString());
+                        sql.deleteCongNo(table6, ch.getText().toString());
+                    }
+                }
+                showListSms(sdt, date);
+            }
+        };
+    }
+
+
+    public Runnable bproc() {
+        return new Runnable() {
+            public void run() {
+                Log.d("LogFile", "Ban da nhan nut No");
+            }
+        };
     }
 
 }

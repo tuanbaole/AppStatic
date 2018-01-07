@@ -57,8 +57,8 @@ public class ChiTietTinNhan extends AppCompatActivity {
             while (solieu_table.moveToNext()) {
                 String sdtName = solieu_table.getString(solieu_table.getColumnIndex("TEN"));
                 names.add(sdtName);
-                String viewInfo = solieu_table.getString(solieu_table.getColumnIndex("SDT"));
-                sdts.add(viewInfo);
+                String sdt = solieu_table.getString(solieu_table.getColumnIndex("SDT"));
+                sdts.add(sdt);
                 idContact.add(solieu_table.getString(solieu_table.getColumnIndex("DONGIAID")));
             }
         }
