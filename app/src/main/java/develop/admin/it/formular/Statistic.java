@@ -226,7 +226,11 @@ public class Statistic extends AppCompatActivity {
                                     deArr[solo] = 0 - moicon;
                                 }
                             }
-                            if (compareDe.equals(arrVal[i])) {
+                            String compreIntDe = String.valueOf(arrVal[i]);
+                            if (solo < 10 ) {
+                                compreIntDe = "0" + String.valueOf(arrVal[i]);
+                            }
+                            if (compareDe.equals(compreIntDe)) {
                                 deTrung[solo] = 1;
                             } else {
                                 deTrung[solo] = 0;
@@ -248,7 +252,11 @@ public class Statistic extends AppCompatActivity {
                                     loArr[solo] = 0 - moicon;
                                 }
                             }
-                            loTrung[solo] = Collections.frequency(compareLo, String.valueOf(solo));
+                            String compreIntLo = String.valueOf(solo);
+                            if (solo < 10 ) {
+                                compreIntLo = "0" + String.valueOf(solo);
+                            }
+                            loTrung[solo] = Collections.frequency(compareLo, String.valueOf(compreIntLo));
                         }
                     }
                 } else {
@@ -268,8 +276,11 @@ public class Statistic extends AppCompatActivity {
                                     deArr[intLoTo] = 0 - moicon;
                                 }
                             }
-
-                            if (compareDe.equals(loto)) {
+                            String compreIntDe = String.valueOf(intLoTo);
+                            if (intLoTo < 10 ) {
+                                compreIntDe = "0" + String.valueOf(intLoTo);
+                            }
+                            if (compareDe.equals(compreIntDe)) {
                                 deTrung[intLoTo] = 1;
                             } else {
                                 deTrung[intLoTo] = 0;
@@ -289,7 +300,11 @@ public class Statistic extends AppCompatActivity {
                                     loArr[intLoTo] = 0 - moicon;
                                 }
                             }
-                            loTrung[intLoTo] = Collections.frequency(compareLo, String.valueOf(intLoTo));
+                            String compreIntLoTo = String.valueOf(intLoTo);
+                            if (intLoTo < 10 ) {
+                                compreIntLoTo = "0" + String.valueOf(intLoTo);
+                            }
+                            loTrung[intLoTo] = Collections.frequency(compareLo, compreIntLoTo);
                         }
                     } else if(limitNumberBaCang.contains(loto.replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "")) && kieuChoi.equals("bacang")) {
                         int intBaCang = Integer.parseInt(String.valueOf(loto.replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")));
@@ -326,45 +341,28 @@ public class Statistic extends AppCompatActivity {
         int s = 0;
 
         for (int q = 0; q < deArr.length; q++) {
+            String showDe = "";
+            if (q < 10) {
+                showDe = "0" + String.valueOf(q);
+            } else {
+                showDe = String.valueOf(q);
+            }
+            // sortDe[z] = String.valueOf(showDe) + "java0java0";
             if (deArr[q] != null) {
-                String showDe = "";
-                if (q < 10) {
-                    showDe = "0" + String.valueOf(q);
-                } else {
-                    showDe = String.valueOf(q);
-                }
-                sortDe[z] = String.valueOf(showDe) + "-" + String.valueOf(deArr[q]) + "-" + String.valueOf(deTrung[q]);
-                z++;
-            } else {
-                String showDe = "";
-                if (q < 10) {
-                    showDe = "0" + String.valueOf(q);
-                } else {
-                    showDe = String.valueOf(q);
-                }
-                sortDe[z] = String.valueOf(showDe) + "-0-0";
-                z++;
+                sortDe[z] = String.valueOf(showDe) + "java" + String.valueOf(deArr[q]) + "java" + String.valueOf(deTrung[q]);
             }
-
+            z++;
+            String showLo = "";
+            if (q < 10) {
+                showLo = "0" + String.valueOf(q);
+            } else {
+                showLo = String.valueOf(q);
+            }
+            // sortLo[k] = String.valueOf(showLo) + "java0java0";
             if (loArr[q] != null) {
-                String showLo = "";
-                if (q < 10) {
-                    showLo = "0" + String.valueOf(q);
-                } else {
-                    showLo = String.valueOf(q);
-                }
-                sortLo[k] = String.valueOf(showLo) + "-" + String.valueOf(loArr[q]) + "-" + String.valueOf(loTrung[q]);
-                k++;
-            } else {
-                String showLo = "";
-                if (q < 10) {
-                    showLo = "0" + String.valueOf(q);
-                } else {
-                    showLo = String.valueOf(q);
-                }
-                sortLo[k] = String.valueOf(showLo) + "-0-0";
-                k++;
+                sortLo[k] = String.valueOf(showLo) + "java" + String.valueOf(loArr[q]) + "java" + String.valueOf(loTrung[q]);
             }
+            k++;
         }
 
         for (int f = 0; f < bacangArr.length; f++) {
@@ -377,17 +375,17 @@ public class Statistic extends AppCompatActivity {
                 } else {
                     showBaCang = String.valueOf(f);
                 }
-                sortBacang[s] = String.valueOf(showBaCang) + "_" + String.valueOf(bacangArr[f]);
+                sortBacang[s] = String.valueOf(showBaCang) + "java" + String.valueOf(bacangArr[f]);
                 s++;
             }
         }
         String tempDe;
         for (int x = 0; x < sortDe.length; x++) {
             if (sortDe[x] != null) {
-                String[] arrSortDe1 = sortDe[x].split("-");
+                String[] arrSortDe1 = sortDe[x].split("java");
                 for (int t = x + 1; t < sortDe.length; t++) {
                     if (sortDe[t] != null) {
-                        String[] arrSortDe2 = sortDe[t].split("-");
+                        String[] arrSortDe2 = sortDe[t].split("java");
                         if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
                             tempDe = sortDe[t];
                             sortDe[t] = sortDe[x];
@@ -401,10 +399,10 @@ public class Statistic extends AppCompatActivity {
         String tempLo;
         for (int c = 0; c < sortLo.length; c++) {
             if (sortLo[c] != null) {
-                String[] arrSortLo1 = sortLo[c].split("-");
+                String[] arrSortLo1 = sortLo[c].split("java");
                 for (int r = c + 1; r < sortLo.length; r++) {
                     if (sortLo[r] != null) {
-                        String[] arrSortLo2 = sortLo[r].split("-");
+                        String[] arrSortLo2 = sortLo[r].split("java");
                         if (Integer.parseInt(arrSortLo1[1]) < Integer.parseInt(arrSortLo2[1])) {
                             tempLo = sortLo[r];
                             sortLo[r] = sortLo[c];
@@ -417,69 +415,38 @@ public class Statistic extends AppCompatActivity {
         }
 
         for (int a = 0; a < sortDe.length; a++) {
-            // if (a < 50) {
-                if (sortDe[a] != null) {
-                    String[] showResDe = sortDe[a].split("-");
-                    if (Integer.parseInt(showResDe[2]) == 0) {
-                        textDeLeft += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + " </font>" +
-                                showResDe[1] + "n</b></big></big><br />";
-                    } else {
-                        textDeLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
-                                "<font color=\"blue\"> " + showResDe[2] + "</font> " +
-                                 showResDe[1] + "n</b></big></big><br />";
-                    }
+            if (sortDe[a] != null) {
+                String[] showResDe = sortDe[a].split("java");
+                if (Integer.parseInt(showResDe[2]) == 0) {
+                    textDeLeft += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + " </font>" +
+                            showResDe[1] + "n</b></big></big><br />";
+                } else {
+                    textDeLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
+                            "<font color=\"blue\"> " + showResDe[2] + "</font> " +
+                             showResDe[1] + "n</b></big></big><br />";
                 }
-//            } else {
-//                if (sortDe[a] != null) {
-//                    String[] showResDe = sortDe[a].split("-");
-//                    if (Integer.parseInt(showResDe[2]) == 0) {
-//                        textDeRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
-//                                showResDe[0] + " </font>" +
-//                                showResDe[1] + "n </b></big></big><br />";
-//                    } else {
-//                        textDeRight += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
-//                                "<font color=\"blue\"> " + showResDe[2] + "</font> " +
-//                                 showResDe[1] + "n</b></big></big><br />";
-//                    }
-//                }
-//            }
+            }
         }
 
         for (int b = 0; b < sortLo.length; b++) {
-           // if (b < 50) {
-                if (sortLo[b] != null) {
-                    String[] showResLo = sortLo[b].split("-");
-                    if (Integer.parseInt(showResLo[2]) == 0) {
-                        textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
-                                showResLo[0] + "  </font>"
-                                + showResLo[1] + "d</b></big></big><br />";
-                    } else {
-                        textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
-                                + showResLo[0] + "</font>" +
-                                "<font color=\"blue\">" + showResLo[2] + "</font> "
-                                + showResLo[1] + "d</b></big></big><br />";
-                    }
+            if (sortLo[b] != null) {
+                String[] showResLo = sortLo[b].split("java");
+                if (Integer.parseInt(showResLo[2]) == 0) {
+                    textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
+                            showResLo[0] + "  </font>"
+                            + showResLo[1] + "d</b></big></big><br />";
+                } else {
+                    textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
+                            + showResLo[0] + "</font>" +
+                            "<font color=\"blue\">" + showResLo[2] + "</font> "
+                            + showResLo[1] + "d</b></big></big><br />";
                 }
-//            } else {
-//                if (sortLo[b] != null) {
-//                    String[] showResLo = sortLo[b].split("-");
-//                    if (Integer.parseInt(showResLo[2]) == 0) {
-//                        textLoRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
-//                                showResLo[0] + "  </font>"
-//                                + showResLo[1] + "d</b></big></big><br />";
-//                    } else {
-//                        textLoRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
-//                                + showResLo[0] + "</font>" +
-//                                "<font color=\"blue\">" + showResLo[2] + "</font> "
-//                                + showResLo[1] + "d</b></big></big><br />";
-//                    }
-//                }
-//            }
+            }
         }
 
         for (int n = 0; n < sortBacang.length; n++) {
             if (sortBacang[n] != null) {
-                String[] showResBaCang = sortBacang[n].split("_");
+                String[] showResBaCang = sortBacang[n].split("java");
                 textBaCang += "<big><big><b><font color=\"red\">&nbsp; &nbsp; &nbsp;" + showResBaCang[0] + " </font>"
                         + showResBaCang[1] + "n</b></big></big><br/>";
             }

@@ -251,17 +251,24 @@ public class GlobalClass extends AppCompatActivity {
                 replace("3so", "3c").replace("3 so", "3c").replace("bs", "3c").
                 replace("baso", "3c").replace("ba so", "3c").replace("3s", "3c").
                 replace("3cang", "3c").replace("3 cang", "3c").
-                replace("3c", "JAVASTR 3c").replace("xi ", "JAVASTR si ").
+                replace("db", "JAVASTR db").
+                replace("3c", "JAVASTR 3c")
+                .replace("lx ", "JAVASTR si ").
+                replace("lx2", "JAVASTR si2").replace("lx3", "JAVASTR si3").
+                replace("lx4", "JAVASTR si4").replace("xi ", "JAVASTR si ").
                 replace("xi2", "JAVASTR si2").replace("xi3", "JAVASTR si3").
                 replace("xi4", "JAVASTR si4").replace("x4 ", "JAVASTR si4 ").
-                replace("x3 ", "JAVASTR si3 ").replace("x2 ", "JAVASTR si2 ").
+                replace("x3 ", "JAVASTR si3 ").replace("x2 ", "JAVASTR si2 ").replace("xi ", "JAVASTR si ").
                 replace("xien quay", "JAVASTR sq").replace("xienquay", "JAVASTR sq").
                 replace("xq", "JAVASTR sq").
                 replace("mc", "x").
                 replace("ms", "x").
                 replace("moi con", "x").
                 replace("moicon", "x").
+                replace("moi cap", "x").
+                replace("moicap", "x").
                 replace("×", "x").
+                replace("ba cang", "3c").
                 replace("bacang", "3c").
                 replace("to to", "toto").replace("to nho", "tolho").
                 replace("nho to", "lhoto").replace("nho nho", "lholho").
@@ -294,7 +301,6 @@ public class GlobalClass extends AppCompatActivity {
                 replace("-", " ").
                 replace("_", " ").
                 replace("+", " ").
-                replace("*", "x").
                 replace(",", " ").
                 replace(".", " ").
                 replace("da", "DA").replace("di", "DI").replace("du", "DU").
@@ -312,7 +318,9 @@ public class GlobalClass extends AppCompatActivity {
                 replace("3so", "3c").replace("3 so", "3c").replace("bs", "3c").
                 replace("baso", "3c").replace("ba so", "3c").replace("3s", "3c").
                 replace("3cang", "3c").replace("3 cang", "3c").
-                replace("3c", "JAVASTR 3c").replace("xi ", "JAVASTR si ").
+                replace("3c", "JAVASTR 3c").replace("lx", "JAVASTR si").
+                replace("lx2", "JAVASTR si2").replace("lx3", "JAVASTR si3").
+                replace("lx4", "JAVASTR si4").replace("xi ", "JAVASTR si ").
                 replace("xi2", "JAVASTR si2").replace("xi3", "JAVASTR si3").
                 replace("xi4", "JAVASTR si4").replace("x4 ", "JAVASTR si4 ").
                 replace("x3 ", "JAVASTR si3 ").replace("x2 ", "JAVASTR si2 ").
@@ -324,6 +332,9 @@ public class GlobalClass extends AppCompatActivity {
                 replace("×", "x").
                 replace("moi con", "x").
                 replace("moicon", "x").
+                replace("moi cap", "x").
+                replace("moicap", "x").
+                replace("ba cang", "3c").
                 replace("bacang", "3c").
                 replace("to to", "toto").replace("to nho", "tolho").
                 replace("nho to", "lhoto").replace("nho nho", "lholho").
@@ -357,7 +368,6 @@ public class GlobalClass extends AppCompatActivity {
                 replace("-", " ").
                 replace("_", " ").
                 replace("+", " ").
-                replace("*", "x").
                 replace(",", " ").
                 replace(".", " ").
                 replace("da", "DA").replace("di", "DI").replace("du", "DU").

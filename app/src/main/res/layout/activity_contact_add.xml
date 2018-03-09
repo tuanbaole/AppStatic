@@ -77,11 +77,10 @@
                 android:id="@+id/editTextHSDE"
                 android:layout_width="0dp"
                 android:layout_height="43dp"
-                android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 android:ems="10"
                 android:inputType="numberDecimal"
-                android:text="0.73"
+                android:text="0.8"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextTen" />
 
@@ -104,11 +103,10 @@
                 android:id="@+id/editTextHSL"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 android:ems="10"
                 android:inputType="numberDecimal"
-                android:text="21.7"
+                android:text="22"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextHSDE" />
 
@@ -131,11 +129,10 @@
                 android:id="@+id/editTextHS3C"
                 android:layout_width="0dp"
                 android:layout_height="43dp"
-                android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 android:ems="10"
                 android:inputType="numberDecimal"
-                android:text="0.73"
+                android:text="0.8"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextHSL" />
 
@@ -158,11 +155,10 @@
                 android:id="@+id/editTextHSX2"
                 android:layout_width="wrap_content"
                 android:layout_height="43dp"
-                android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 android:ems="10"
                 android:inputType="numberDecimal"
-                android:text="0.6"
+                android:text="0.8"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextHS3C" />
 
@@ -200,11 +196,10 @@
                 android:id="@+id/editTextHSX3"
                 android:layout_width="0dp"
                 android:layout_height="43dp"
-                android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 android:ems="10"
                 android:inputType="numberDecimal"
-                android:text="0.6"
+                android:text="0.8"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextHSX2" />
 
@@ -228,10 +223,9 @@
                 android:layout_width="0dp"
                 android:layout_height="43dp"
                 android:layout_marginRight="24dp"
-                android:layout_marginTop="0dp"
                 android:ems="10"
                 android:inputType="numberDecimal"
-                android:text="0.6"
+                android:text="0.8"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextHSX3" />
 

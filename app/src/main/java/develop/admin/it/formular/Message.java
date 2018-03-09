@@ -40,7 +40,7 @@ public class Message extends AppCompatActivity {
     GlobalClass controller = new GlobalClass();
     EditText textV;
     TextView textContact, smsId, textViewSmsType, textViewDate,
-            textViewHSD, textViewKhoaLo, textViewKhoaDe, timeSmsVn,textViewTypeCheckSms;
+            textViewHSD, textViewKhoaLo, textViewKhoaDe, timeSmsVn, textViewTypeCheckSms;
     DatabaseHelper sql;
 
     private int year_x, month_x, day_x;
@@ -60,7 +60,7 @@ public class Message extends AppCompatActivity {
         Bundle bd = getIntent().getExtras();
         if (bd != null) {
             String typeCheckSms = bd.getString("checksms");
-            if (typeCheckSms.equals("1")){
+            if (typeCheckSms.equals("1")) {
                 textViewTypeCheckSms = (TextView) findViewById(R.id.textViewTypeCheckSms);
                 textViewTypeCheckSms.setText(typeCheckSms);
             }
@@ -518,7 +518,7 @@ public class Message extends AppCompatActivity {
                 if (miligetHsd >= miliGetDay) {
                     textViewTypeCheckSms = (TextView) findViewById(R.id.textViewTypeCheckSms);
                     String newGetDays = controller.convertFormatDate(getDays);
-                    if(textViewTypeCheckSms.getText().toString().equals("0") ) {
+                    if (textViewTypeCheckSms.getText().toString().equals("0")) {
                         sql = new DatabaseHelper(this);
                         Cursor kqsx = sql.getAllDb("SELECT * FROM kq_table WHERE NGAY=\"" + newGetDays + "\"");
                         if (kqsx.getCount() != 27) {
@@ -677,8 +677,6 @@ public class Message extends AppCompatActivity {
                         String idSms = smsId.getText().toString();
                         int idSmsInt = Integer.parseInt(idSms);
                         String table5 = sql.TABLE_NAME_5;
-//                        TextView vtritin = (TextView) findViewById(R.id.textViewTin);
-//                        vtritin.setText(idSms);
                         sql.deleteSolieuSmsID(table5, String.valueOf(idSmsInt)); /* khong luu du luu khi van chua dung dinh dang */
                         textV.setText(Html.fromHtml(errFix));
                     }
@@ -732,17 +730,17 @@ public class Message extends AppCompatActivity {
         String[] timeArrSms = timeSms.split(":");
         int miliGettimeSms = 0;
         int dongiaId = 0;
-        double hsde = 0.72;
+        double hsde = 0.8;
         double thuongde = 70;
-        double hslo = 21.8;
+        double hslo = 22;
         double thuonglo = 80;
-        double hsx2 = 0.6;
+        double hsx2 = 0.8;
         double thuongxien2 = 10;
-        double hsx3 = 0.6;
+        double hsx3 = 0.8;
         double thuongxien3 = 40;
-        double hsx4 = 0.6;
+        double hsx4 = 0.8;
         double thuongxien4 = 100;
-        double hsbacang = 0.73;
+        double hsbacang = 0.8;
         double thuongbacang = 400;
         if (listDonGia.length == 2) {
             sql = new DatabaseHelper(this);
@@ -765,15 +763,10 @@ public class Message extends AppCompatActivity {
             }
         }
         String getKiTu = kitu;
-        kitu = kitu.toLowerCase();
+        kitu = kitu.toLowerCase();// loai bo dau ,viet hoa thanh viet thuong
         String converKitu = controller.uniStrip(controller.removeAccent(kitu.replaceAll("₫", "d")));
-        // loai bo dau ,viet hoa thanh viet thuong
         String addkitu = "";
-        // if  (listDonGia[1].equals("01663093439") || listDonGia[1].equals("+841663093439")) {
         addkitu = controller.repkDau(converKitu);
-//        } else {
-//           // addkitu = controller.repDauBang(converKitu);
-//        }
         String[] message = addkitu.replaceAll("(^\\s+|\\s+$)", "").split("JAVASTR ");
         for (int i = 0; i < message.length; i++) {
             if (!message[i].equals("")) {
@@ -783,10 +776,14 @@ public class Message extends AppCompatActivity {
                     kieuchoi = message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 2);
                     switch (kieuchoi.replaceAll("(^\\s+|\\s+$)", "")) { // kiem cha duoc kieu choi de hay lo
                         case "DD":
+                        case "db":
                         case "de":
                             if (kieuchoi.equals("DD")) {
                                 error += "dd ";
                                 compareDe = compareDeDau;
+                            } else if (kieuchoi.equals("db")) {
+                                error += "db ";
+                                compareDe = compareDe2;
                             } else {
                                 error += "de ";
                                 compareDe = compareDe2;
@@ -796,7 +793,7 @@ public class Message extends AppCompatActivity {
                                     .replace("trieu", "trieu JAVASTR");
                             String[] mangDe2 = chuoiDe.split("JAVASTR");
                             String idfinal = "";
-                            if(message[i].length() > 5) {
+                            if (message[i].length() > 5) {
                                 if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                     Cursor solieufinal = sql.getAllDb("SELECT ID FROM solieu_table WHERE 1 ORDER BY ID DESC LIMIT 0,1 ");
                                     if (solieufinal.getCount() != 0) {
@@ -814,16 +811,10 @@ public class Message extends AppCompatActivity {
                                         if (mangDecoX.length == 2) {
                                             double getNum = 0; // so tien danh la getNum
                                             if (mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                int soLanXuatHienInArrDe = controller.soLanXuatHienInArr(mangDecoX[1]);
-                                                if (soLanXuatHienInArrDe < 3) { // co dang gia tri 2.5n hoac 25n hoac 30.5n
-                                                    if (soLanXuatHienInArrDe == 0)  mangDecoX[1] = mangDecoX[1].replace(".", " ");
-                                                    if (mangDecoX[1].indexOf("trieu") > -1) {
-                                                        getNum = Double.parseDouble(mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
-                                                    } else {
-                                                        getNum = Double.parseDouble(mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
-                                                    }
+                                                if (mangDecoX[1].indexOf("trieu") > -1) {
+                                                    getNum = Double.parseDouble(mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                 } else {
-                                                    error += "<font color=\"RED\"></font>";
+                                                    getNum = Double.parseDouble(mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
                                                 }
                                             }
                                             mangDecoX[0] = mangDecoX[0].replace(".", " ");
@@ -1068,7 +1059,7 @@ public class Message extends AppCompatActivity {
                                                         } // end if
                                                     }
                                                 }
-                                                if(message[i].length() > 5) {
+                                                if (message[i].length() > 5) {
                                                     if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                                         String table5Bor = sql.TABLE_NAME_5;
                                                         sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinal), getDays, "de");
@@ -1084,7 +1075,6 @@ public class Message extends AppCompatActivity {
                                                                 xuLyDanhLeDe(compareDe, getNum, hsde, broStt, thuongde, idSmsInt
                                                                         , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
                                                             } else {
-                                                                // Log.d("LogFile", String.valueOf(stt));
                                                                 Log.d("LogFile", String.valueOf(stt));
                                                             }
                                                         }
@@ -1121,19 +1111,12 @@ public class Message extends AppCompatActivity {
                                         if (mangDecoDauB.length == 2) {
                                             double getNum = 0; // so tien danh la getNum
                                             if (mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                int soLanXuatHienInArrDeCoB = controller.soLanXuatHienInArr(mangDecoDauB[1]);
-                                                if (soLanXuatHienInArrDeCoB < 3) { // co dang gia tri 2.5n hoac 25n hoac 30.5n
-                                                    if (soLanXuatHienInArrDeCoB == 0) mangDecoDauB[1] = mangDecoDauB[1].replace(".", " ");
-                                                    if (mangDecoDauB[1].indexOf("trieu") > -1) {
-                                                        getNum = Double.parseDouble(mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
-                                                    } else {
-                                                        getNum = Double.parseDouble(mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
-                                                    }
+                                                if (mangDecoDauB[1].indexOf("trieu") > -1) {
+                                                    getNum = Double.parseDouble(mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                 } else {
-                                                    error += "<font color=\"RED\"></font>";
+                                                    getNum = Double.parseDouble(mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
                                                 }
                                             }
-                                            mangDecoDauB[0] = mangDecoDauB[0].replace(".", " ");
                                             if (!mangDecoDauB[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
                                                 String valueDeCoDauB = controller.converStringSms(mangDecoDauB[0]);
                                                 String[] valueDeArrCoDauB = valueDeCoDauB.split("JAVASTR");
@@ -1307,40 +1290,47 @@ public class Message extends AppCompatActivity {
                                                                 }
                                                             }
                                                         } else {
-                                                            for (int q = 0; q < valueImprotDb.length; q++) {
-                                                                if (limitNumber.contains(valueImprotDb[q])) {
-                                                                    error += valueImprotDb[q] + " ";
-                                                                    if (miliGetTimeDe > miliGettimeSms) {
-                                                                        borDeCoDauB += valueImprotDb[q] + ",";
-                                                                    }
-                                                                } else {
-                                                                    if (limitNumberBaCang.contains(valueImprotDb[q])) {
-                                                                        // doan nay xu ly cac so kieu de 565 656
-                                                                        if (valueImprotDb[q].substring(0, 1).equals(valueImprotDb[q].substring(2, 3))) {
-                                                                            error += " " + valueImprotDb[q] + " ";
-                                                                            String vtSo1 = valueImprotDb[q].substring(0, 2);
-                                                                            String vtSo2 = valueImprotDb[q].substring(1, 3);
-                                                                            // mang co x thi khong phai chia cho 2
-                                                                            borDeCoDauB += vtSo1 + ",";
-                                                                            borDeCoDauB += vtSo2 + ",";
-                                                                        } else {
-                                                                            error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                            if(valueImprotDb.length > 1) {
+                                                                for (int q = 0; q < valueImprotDb.length; q++) {
+                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                }
+                                                            } else {
+                                                                for (int q = 0; q < valueImprotDb.length; q++) {
+                                                                    if (limitNumber.contains(valueImprotDb[q])) {
+                                                                        error += valueImprotDb[q] + " ";
+                                                                        if (miliGetTimeDe > miliGettimeSms) {
+                                                                            borDeCoDauB += valueImprotDb[q] + ",";
                                                                         }
                                                                     } else {
-                                                                        if (!valueImprotDb[q].equals("")) {
-                                                                            if (valueImprotDb[q].replace(" ", "").equals("bro")) {
-                                                                                error += valueImprotDb[q] + " ";
+                                                                        if (limitNumberBaCang.contains(valueImprotDb[q])) {
+                                                                            // doan nay xu ly cac so kieu de 565 656
+                                                                            if (valueImprotDb[q].substring(0, 1).equals(valueImprotDb[q].substring(2, 3))) {
+                                                                                error += " " + valueImprotDb[q] + " ";
+                                                                                String vtSo1 = valueImprotDb[q].substring(0, 2);
+                                                                                String vtSo2 = valueImprotDb[q].substring(1, 3);
+                                                                                // mang co x thi khong phai chia cho 2
+                                                                                borDeCoDauB += vtSo1 + ",";
+                                                                                borDeCoDauB += vtSo2 + ",";
                                                                             } else {
                                                                                 error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                            }
+                                                                        } else {
+                                                                            if (!valueImprotDb[q].equals("")) {
+                                                                                if (valueImprotDb[q].replace(" ", "").equals("bro")) {
+                                                                                    error += valueImprotDb[q] + " ";
+                                                                                } else {
+                                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
                                                                 }
                                                             }
+
                                                         }
                                                     }
                                                 }
-                                                if(message[i].length() > 5){
+                                                if (message[i].length() > 5) {
                                                     if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                                         String table5Bor = sql.TABLE_NAME_5;
                                                         sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinal), getDays, "de");
@@ -1385,8 +1375,9 @@ public class Message extends AppCompatActivity {
                                                         }
                                                     }
                                                 }
-
-                                                if (mangDecoDauB[1].indexOf("n") > -1 &&
+                                                if (valueDeArrCoDauB.length > 1) {
+                                                    error += "= " + "<font color=\"RED\">" + mangDecoDauB[1] + " </font>";
+                                                } else if (mangDecoDauB[1].indexOf("n") > -1 &&
                                                         mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1) {
                                                     error += "= " + mangDecoDauB[1] + " ";
                                                 } else if (mangDecoDauB[1].indexOf("k") > -1 &&
@@ -1410,6 +1401,7 @@ public class Message extends AppCompatActivity {
                                         } else {
                                             error += "<font color=\"RED\">" + tachChuoiDe.get(j) + " </font>";
                                         }
+
                                     } else {
                                         String[] mangDekhongX = tachChuoiDe.get(j).replaceAll("(^\\s+|\\s+$)", "").split(" ");
                                         String valueMangDe = String.valueOf(mangDekhongX[mangDekhongX.length - 1]);
@@ -1609,7 +1601,7 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 }
                                             } // endfor
-                                            if(message[i].length() > 5) {
+                                            if (message[i].length() > 5) {
                                                 if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                                     String table5Bor = sql.TABLE_NAME_5;
                                                     sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinal), getDays, "de");
@@ -1682,7 +1674,7 @@ public class Message extends AppCompatActivity {
                             String[] mangLo2 = chuoiLo.split("JAVASTR");
                             ArrayList<String> tachChuoiLo = controller.tachchuoi(mangLo2);
                             String idfinalLo = "";
-                            if(message[i].replaceAll("(^\\s+|\\s+$)", "").length() > 5 ) {
+                            if (message[i].replaceAll("(^\\s+|\\s+$)", "").length() > 5) {
                                 if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                     Cursor solieufinal = sql.getAllDb("SELECT ID FROM solieu_table WHERE 1 ORDER BY ID DESC LIMIT 0,1 ");
                                     if (solieufinal.getCount() != 0) {
@@ -1700,13 +1692,7 @@ public class Message extends AppCompatActivity {
                                             String boLoCoX = "";
                                             double getNum = 0; // so tien danh la getNum
                                             if (mangLocoX[1].replace("D1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                int soLanLoCoX = controller.soLanXuatHienInArr(mangLocoX[1]);
-                                                if (soLanLoCoX < 3) {
-                                                    if(soLanLoCoX == 0) mangLocoX[1] = mangLocoX[1].replace(".","");
-                                                    getNum = Double.parseDouble(mangLocoX[1].replace("D1c", "").replaceAll("[^\\d.]", ""));
-                                                } else {
-                                                    error += "<font color=\"RED\"></font>";
-                                                }
+                                                getNum = Double.parseDouble(mangLocoX[1].replace("D1c", "").replaceAll("[^\\d.]", ""));
                                             }
                                             mangLocoX[0] = mangLocoX[0].replace(".", " ");
                                             if (!mangLocoX[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
@@ -1954,7 +1940,7 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 }
 
-                                                if(message[i].length() > 5) {
+                                                if (message[i].length() > 5) {
                                                     if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                                         String table5Bor = sql.TABLE_NAME_5;
                                                         sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinalLo), getDays, "lo");
@@ -2007,15 +1993,8 @@ public class Message extends AppCompatActivity {
                                             String boLoCoDauB = "";
                                             double getNum = 0; // so tien danh la getNum
                                             if (mangLocoDauB[1].replace("D1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                int soLanXuatHienInArrLoB = controller.soLanXuatHienInArr(mangLocoDauB[1]);
-                                                if(soLanXuatHienInArrLoB < 3) {
-                                                    if(soLanXuatHienInArrLoB == 0) mangLocoDauB[1] = mangLocoDauB[1].replace("."," ");
-                                                    getNum = Double.parseDouble(mangLocoDauB[1].replace("D1c", "").replaceAll("[^\\d.]", ""));
-                                                } else {
-                                                    error += "<font color=\"RED\"></font>";
-                                                }
+                                                getNum = Double.parseDouble(mangLocoDauB[1].replace("D1c", "").replaceAll("[^\\d.]", ""));
                                             }
-                                            mangLocoDauB[0] = mangLocoDauB[0].replace(".", " ");
                                             if (!mangLocoDauB[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
                                                 String valueLoCoDauB = controller.converStringSms(mangLocoDauB[0]);
                                                 String[] valueLoArrCoDauB = valueLoCoDauB.split("JAVASTR");
@@ -2191,31 +2170,37 @@ public class Message extends AppCompatActivity {
                                                                 }
                                                             }
                                                         } else {
-                                                            for (int q = 0; q < valueImprotDb.length; q++) {
-                                                                if (limitNumber.contains(valueImprotDb[q])) {
-                                                                    error += valueImprotDb[q] + " ";
-                                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                                        boLoCoDauB += valueImprotDb[q] + ",";
-                                                                    }
-                                                                } else {
-                                                                    if (limitNumberBaCang.contains(valueImprotDb[q])) {
-                                                                        // doan nay xu ly cac so kieu de 565 656
-                                                                        if (valueImprotDb[q].substring(0, 1).equals(valueImprotDb[q].substring(2, 3))) {
-                                                                            error += " " + valueImprotDb[q] + " ";
-                                                                            String vtSo1 = valueImprotDb[q].substring(0, 2);
-                                                                            String vtSo2 = valueImprotDb[q].substring(1, 3);
-                                                                            // lo co x thi khong phai chia cho 2
-                                                                            boLoCoDauB += vtSo1 + ",";
-                                                                            boLoCoDauB += vtSo2 + ",";
-                                                                        } else {
-                                                                            error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                            if (valueImprotDb.length > 1) {
+                                                                for (int q = 0; q < valueImprotDb.length; q++) {
+                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                }
+                                                            } else {
+                                                                for (int q = 0; q < valueImprotDb.length; q++) {
+                                                                    if (limitNumber.contains(valueImprotDb[q])) {
+                                                                        error += valueImprotDb[q] + " ";
+                                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                                            boLoCoDauB += valueImprotDb[q] + ",";
                                                                         }
                                                                     } else {
-                                                                        if (!valueImprotDb[q].equals("")) {
-                                                                            if (valueImprotDb[q].replace(" ", "").equals("bro")) {
-                                                                                error += valueImprotDb[q];
+                                                                        if (limitNumberBaCang.contains(valueImprotDb[q])) {
+                                                                            // doan nay xu ly cac so kieu de 565 656
+                                                                            if (valueImprotDb[q].substring(0, 1).equals(valueImprotDb[q].substring(2, 3))) {
+                                                                                error += " " + valueImprotDb[q] + " ";
+                                                                                String vtSo1 = valueImprotDb[q].substring(0, 2);
+                                                                                String vtSo2 = valueImprotDb[q].substring(1, 3);
+                                                                                // lo co x thi khong phai chia cho 2
+                                                                                boLoCoDauB += vtSo1 + ",";
+                                                                                boLoCoDauB += vtSo2 + ",";
                                                                             } else {
                                                                                 error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                            }
+                                                                        } else {
+                                                                            if (!valueImprotDb[q].equals("")) {
+                                                                                if (valueImprotDb[q].replace(" ", "").equals("bro")) {
+                                                                                    error += valueImprotDb[q];
+                                                                                } else {
+                                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
@@ -2224,7 +2209,7 @@ public class Message extends AppCompatActivity {
                                                         }
                                                     }
                                                 }
-                                                if(message[i].length() > 5 ) {
+                                                if (message[i].length() > 5) {
                                                     if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                                         String table5Bor = sql.TABLE_NAME_5;
                                                         sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinalLo), getDays, "lo");
@@ -2271,6 +2256,8 @@ public class Message extends AppCompatActivity {
                                                     for (int val = 1; val < checkGiatriMangLo.length; val++) {
                                                         error += checkGiatriMangLo[val] + " ";
                                                     }
+                                                } else if(valueLoArrCoDauB.length > 1) {
+                                                    error += "= " + "<font color=\"RED\">" + mangLocoDauB[1] + " </font>";
                                                 } else {
                                                     if (mangLocoDauB[1].indexOf("d") > -1 &&
                                                             mangLocoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
@@ -2305,7 +2292,7 @@ public class Message extends AppCompatActivity {
 
                                         int endSubString = tachChuoiLo.get(j).length() - valueMangLo.length() - 1;
                                         if (endSubString > 0) {
-                                            String valueLo = controller.converStringSms(tachChuoiLo.get(j).substring(0, endSubString)).replace("."," ").replaceAll("(^\\s+|\\s+$)", "");
+                                            String valueLo = controller.converStringSms(tachChuoiLo.get(j).substring(0, endSubString)).replace(".", " ").replaceAll("(^\\s+|\\s+$)", "");
                                             String[] valueLoArr = valueLo.split("JAVASTR");
                                             String SessionLoKX = "";
                                             for (int k = 0; k < valueLoArr.length; k++) {
@@ -2500,7 +2487,7 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 }
                                             } // endfor
-                                            if(message[i].length() > 5) {
+                                            if (message[i].length() > 5) {
                                                 if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                                     String table5Bor = sql.TABLE_NAME_5;
                                                     sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinalLo), getDays, "lo");
@@ -2566,19 +2553,12 @@ public class Message extends AppCompatActivity {
                                         if (mangBaCangcoX.length == 2) {
                                             double getNum = 0;// so tien danh la getNum
                                             if (mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                int soLanXuatHienArr3C = controller.soLanXuatHienInArr(mangBaCangcoX[1]);
-                                                if(soLanXuatHienArr3C < 3 ) {
-                                                    if(soLanXuatHienArr3C == 0 ) mangBaCangcoX[1] = mangBaCangcoX[1].replace("."," ");
-                                                    if (mangBaCangcoX[1].indexOf("trieu") > -1) {
-                                                        getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
-                                                    } else {
-                                                        getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
-                                                    }
+                                                if (mangBaCangcoX[1].indexOf("trieu") > -1) {
+                                                    getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                 } else {
-                                                    error += "<font color=\"RED\"></font>";
+                                                    getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
                                                 }
                                             }
-                                            mangBaCangcoX[0] = mangBaCangcoX[0].replace("."," ");
                                             if (!mangBaCangcoX[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
                                                 String valueBacang = controller.converStringSms(mangBaCangcoX[0]);
                                                 String[] valueBacangArr = valueBacang.split("JAVASTR");
@@ -2612,7 +2592,7 @@ public class Message extends AppCompatActivity {
                                                                             , hsbacang, thuongbacang, getNum, getNum, trungSms);
                                                                 }
                                                             } catch (NumberFormatException e) {
-                                                                error += ".<font color=\"RED\">" + valueImprotDb[q] + "</font>";
+                                                                error += "<font color=\"RED\"> " + valueImprotDb[q] + "</font>";
                                                             }
                                                         } else {
                                                             if (!valueImprotDb[q].equals("")) {
@@ -2653,19 +2633,13 @@ public class Message extends AppCompatActivity {
                                         if (mangBaCangcoX.length == 2) {
                                             double getNum = 0;   // so tien danh la getNum
                                             if (mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                int soLanArrBaCangCoDauB = controller.soLanXuatHienInArr(mangBaCangcoX[1]);
-                                                if(soLanArrBaCangCoDauB < 3) {
-                                                    if(soLanArrBaCangCoDauB == 0) mangBaCangcoX[1] = mangBaCangcoX[1].replace("."," ");
-                                                    if (mangBaCangcoX[1].indexOf("trieu") > -1) {
-                                                        getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
-                                                    } else {
-                                                        getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
-                                                    }
+                                                if (mangBaCangcoX[1].indexOf("trieu") > -1) {
+                                                    getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                 } else {
-                                                    error += "<font color=\"RED\"></font>";
+                                                    getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", ""));
                                                 }
                                             }
-                                            mangBaCangcoX[0] = mangBaCangcoX[0].replace("."," ");
+
                                             if (!mangBaCangcoX[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
                                                 String valueBacang = controller.converStringSms(mangBaCangcoX[0]);
                                                 String[] valueBacangArr = valueBacang.split("JAVASTR");
@@ -2675,44 +2649,52 @@ public class Message extends AppCompatActivity {
                                                 }
                                                 for (int k = 0; k < valueBacangArr.length; k++) {
                                                     String[] valueImprotDb = valueBacangArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                                    for (int q = 0; q < valueImprotDb.length; q++) {
-                                                        if (limitNumberBaCang.contains(valueImprotDb[q])) {
-                                                            try {
-                                                                error += valueImprotDb[q] + " ";
-                                                                double trungSms = 0;
-                                                                double tongTienDanh = 0;
-                                                                double tongTienThuong = 0;
-                                                                double tongTien = 0;
-                                                                int trung = 0;
-                                                                tongTienDanh = Math.round(newGetNum * hsbacang * 100.0) / 100.0;
-                                                                if (valueImprotDb[q].equals(compareBaCang)) {
-                                                                    trung = 1;
-                                                                    trungSms += newGetNum;
-                                                                    tongTienThuong = Math.round(newGetNum * thuongbacang * 100.0) / 100.0;
-                                                                } else {
-                                                                    trung = 0;
-                                                                    tongTienThuong = 0;
+                                                    if(valueImprotDb.length > 1) {
+                                                        for (int q = 0; q < valueImprotDb.length; q++) {
+                                                            error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                        }
+                                                    } else {
+                                                        for (int q = 0; q < valueImprotDb.length; q++) {
+                                                            if (limitNumberBaCang.contains(valueImprotDb[q])) {
+                                                                try {
+                                                                    error += valueImprotDb[q] + " ";
+                                                                    double trungSms = 0;
+                                                                    double tongTienDanh = 0;
+                                                                    double tongTienThuong = 0;
+                                                                    double tongTien = 0;
+                                                                    int trung = 0;
+                                                                    tongTienDanh = Math.round(newGetNum * hsbacang * 100.0) / 100.0;
+                                                                    if (valueImprotDb[q].equals(compareBaCang)) {
+                                                                        trung = 1;
+                                                                        trungSms += newGetNum;
+                                                                        tongTienThuong = Math.round(newGetNum * thuongbacang * 100.0) / 100.0;
+                                                                    } else {
+                                                                        trung = 0;
+                                                                        tongTienThuong = 0;
+                                                                    }
+                                                                    double tong = tongTienDanh - tongTienThuong;
+                                                                    tongTien = Math.round((tongTienDanh - tongTienThuong) * 100.0) / 100.0;
+                                                                    trungSms = Math.round(trungSms * 100.0) / 100.0;
+                                                                    if (miliGetTimeDe > miliGettimeSms) {
+                                                                        boolean soLieu = sql.insertDataSourceSoLieu(idSmsInt, dongiaId, valueImprotDb[q]
+                                                                                , trung, tongTienDanh, tongTienThuong, tongTien, smsType
+                                                                                , listDonGia[1], "bacang", listDonGia[0], dataSoLieuDate
+                                                                                , hsbacang, thuongbacang, newGetNum, newGetNum, trungSms);
+                                                                    }
+                                                                } catch (NumberFormatException e) {
+                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                 }
-                                                                double tong = tongTienDanh - tongTienThuong;
-                                                                tongTien = Math.round((tongTienDanh - tongTienThuong) * 100.0) / 100.0;
-                                                                trungSms = Math.round(trungSms * 100.0) / 100.0;
-                                                                if (miliGetTimeDe > miliGettimeSms) {
-                                                                    boolean soLieu = sql.insertDataSourceSoLieu(idSmsInt, dongiaId, valueImprotDb[q]
-                                                                            , trung, tongTienDanh, tongTienThuong, tongTien, smsType
-                                                                            , listDonGia[1], "bacang", listDonGia[0], dataSoLieuDate
-                                                                            , hsbacang, thuongbacang, newGetNum, newGetNum, trungSms);
+                                                            } else {
+                                                                if (!valueImprotDb[q].equals("")) {
+                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                 }
-                                                            } catch (NumberFormatException e) {
-                                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
-                                                            }
-                                                        } else {
-                                                            if (!valueImprotDb[q].equals("")) {
-                                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                             }
                                                         }
                                                     }
                                                 }
-                                                if (mangBaCangcoX[1].indexOf("n") > -1 &&
+                                                if (valueBacangArr.length > 1) {
+                                                    error += "= " + "<font color=\"RED\">" + mangBaCangcoX[1] + " </font>";
+                                                } else if (mangBaCangcoX[1].indexOf("n") > -1 &&
                                                         mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(".", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
                                                     error += "= " + mangBaCangcoX[1] + " ";
@@ -2764,7 +2746,7 @@ public class Message extends AppCompatActivity {
                                         }
                                         int endSubString = tachChuoiBaCang.get(j).length() - valueMangBacang.length() - 1;
                                         if (endSubString > 0) {
-                                            String valueBacang = controller.converStringSms(tachChuoiBaCang.get(j).substring(0, endSubString)).replace("",".").replaceAll("(^\\s+|\\s+$)", "");
+                                            String valueBacang = controller.converStringSms(tachChuoiBaCang.get(j).substring(0, endSubString)).replaceAll("(^\\s+|\\s+$)", "");
                                             String[] valueBacangArr = valueBacang.split("JAVASTR");
                                             for (int k = 0; k < valueBacangArr.length; k++) {
                                                 String[] valueImprotDb = valueBacangArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
@@ -2796,7 +2778,7 @@ public class Message extends AppCompatActivity {
                                                                         , hsbacang, thuongbacang, getNum, getNum, trungSms);
                                                             }
                                                         } catch (NumberFormatException e) {
-                                                            error += ".<font color=\"RED\">" + valueImprotDb[q] + "</font>";
+                                                            error += "<font color=\"RED\">" + valueImprotDb[q] + "</font>";
                                                         }
                                                     } else {
                                                         if (!valueImprotDb[q].equals("")) {
@@ -2847,6 +2829,7 @@ public class Message extends AppCompatActivity {
                             if (message[i].length() > 3) {
                                 String chuoiXien = message[i].replaceAll("(^\\s+|\\s+$)", "");
                                 String kieuXien = chuoiXien.substring(0, 3);
+                                Log.d("LogFile",kieuXien);
                                 if (kieuXien.equals("si2") || kieuXien.equals("si3")
                                         || kieuXien.equals("si4") || kieuXien.equals("si ")) {
                                     error += kieuXien;
@@ -4565,6 +4548,11 @@ public class Message extends AppCompatActivity {
                                             case 2:
                                                 error += "<font color=\"RED\">" + mangXienQuayKX[0] + " </font>";
                                                 break;
+                                            default:
+                                                for (int q=0;q<mangXienQuayKX.length -1;q++) {
+                                                    error += "<font color=\"RED\">" + mangXienQuayKX[q] + " </font>";
+                                                }
+                                                break;
                                         } //ket thuc swith
                                         String valueXienQuayKX = mangXienQuayKX[mangXienQuayKX.length - 1];
                                         if (mangXienQuayKX.length < 3) {
@@ -4778,10 +4766,13 @@ public class Message extends AppCompatActivity {
         double tongTienDanh, tongTienThuong, tongTien;
         double hsxien = hsx;
         double tienDanh = hsx * getNum;
+        Log.d("LogFile",String.valueOf(tienDanh));
         double tienThuong = thuongxien * getNum * trung;
         double tong = tienDanh - tienThuong;
         double trungSms = Math.round(getNum * trung * 100.00) / 100.0;
         tongTienDanh = Math.round(tienDanh * 100.00) / 100.0;
+        Log.d("LogFile",String.valueOf(boSoLoTo));
+        Log.d("LogFile",String.valueOf(tongTienDanh));
         tongTienThuong = Math.round(tienThuong * 100.00) / 100.0;
         tongTien = Math.round(tong * 100.00) / 100.0;
         boolean soLieu = sql.insertDataSourceSoLieu(idSmsInt, dongiaId, boSoLoTo
