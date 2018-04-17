@@ -93,8 +93,145 @@ public class SendSms extends AppCompatActivity {
 
     }
 
+    private String chitiettungtin(String sdt, String date) {
+        String getIdQuery = "SELECT SMSID FROM solieu_table WHERE SDT=\"" + sdt + "\" AND NGAY=\"" + date + "\";";
+        Cursor solieu_table = sql.getAllDb(getIdQuery);
+        String GETSMSID = "";
+        if (solieu_table.getCount() > 0) {
+            while (solieu_table.moveToNext()) {
+                if (!GETSMSID.equals("")) {
+                    GETSMSID += ',' + solieu_table.getString(solieu_table.getColumnIndex("SMSID"));
+                } else {
+                    GETSMSID += solieu_table.getString(solieu_table.getColumnIndex("SMSID"));
+                }
+            }
+        }
+        String importQuery =
+                "SELECT " +
+                        "sms_ready_table.ID AS READY_ID," +
+                        "sms_ready_table.SMSID AS READY_SMSID," +
+                        "sms_ready_table.CONTENT AS READY_CONTENT," +
+                        "tiendanh_de.TIENDANHDE AS TIENDANHDE," +
+                        "tiendanh_de.TIENTHUONGDE AS TIENTHUONGDE," +
+                        "tiendanh_lo.TIENDANHLO AS TIENDANHLO," +
+                        "tiendanh_lo.TIENTHUONGLO AS TIENTHUONGLO," +
+                        "tiendanh_xien.TIENDANHXIEN AS TIENDANHXIEN," +
+                        "tiendanh_xien.TIENTHUONGXIEN AS TIENTHUONGXIEN," +
+                        "tiendanh_bacang.TIENDANHBC AS TIENDANHBACANG," +
+                        "tiendanh_bacang.TIENTHUONGBC AS TIENTHUONGBACANG," +
+                        "kieu_choi.KIEU AS KIEU " +
+                        "FROM sms_ready_table " +
+                        "LEFT JOIN (" +
+                        "SELECT SMSID,NGAY,KIHIEU," +
+                        "sum(solieu_table.TIENDANHSMS) AS TIENDANHDE," +
+                        "sum(solieu_table.TRUNGSMS) AS TIENTHUONGDE " +
+                        "FROM solieu_table " +
+                        "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU = 'de' " +
+                        "GROUP BY solieu_table.SMSID" +
+                        ") tiendanh_de ON (tiendanh_de.SMSID = sms_ready_table.SMSID) " +
+                        "LEFT JOIN (" +
+                        "SELECT SMSID,NGAY,KIHIEU," +
+                        "sum(solieu_table.TIENDANHSMS) AS TIENDANHLO," +
+                        "sum(solieu_table.TRUNGSMS) AS TIENTHUONGLO " +
+                        "FROM solieu_table " +
+                        "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU = 'lo' " +
+                        "GROUP BY solieu_table.SMSID" +
+                        ") tiendanh_lo ON (tiendanh_lo.SMSID = sms_ready_table.SMSID)" +
+                        "LEFT JOIN (" +
+                        "SELECT SMSID,NGAY,KIHIEU," +
+                        "sum(solieu_table.TIENDANHSMS) AS TIENDANHXIEN," +
+                        "sum(solieu_table.TRUNGSMS) AS TIENTHUONGXIEN " +
+                        "FROM solieu_table " +
+                        "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU IN ('xien','xien2','xien3','xien4') " +
+                        "GROUP BY solieu_table.SMSID" +
+                        ") tiendanh_xien ON (tiendanh_xien.SMSID = sms_ready_table.SMSID)" +
+                        "LEFT JOIN (" +
+                        "SELECT SMSID,NGAY,KIHIEU," +
+                        "sum(solieu_table.TIENDANHSMS) AS TIENDANHBC," +
+                        "sum(solieu_table.TRUNGSMS) AS TIENTHUONGBC " +
+                        "FROM solieu_table " +
+                        "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU = 'bacang' " +
+                        "GROUP BY solieu_table.SMSID" +
+                        ") tiendanh_bacang ON (tiendanh_bacang.SMSID = sms_ready_table.SMSID)" +
+                        "LEFT JOIN (" +
+                        "SELECT SMSID,NGAY,KIEU," +
+                        "sum(solieu_table.TIENDANHSMS) AS TIENDANHBC," +
+                        "sum(solieu_table.TRUNGSMS) AS TIENTHUONGBC " +
+                        "FROM solieu_table " +
+                        "WHERE solieu_table.NGAY = '" + date + "' " +
+                        "GROUP BY solieu_table.SMSID" +
+                        ") kieu_choi ON (kieu_choi.SMSID = sms_ready_table.SMSID) " +
+                        "WHERE sms_ready_table.CONTENT != '' AND sms_ready_table.NGAY = '" + date + "' AND sms_ready_table.SMSID IN (" + GETSMSID + ") " +
+                        "GROUP BY sms_ready_table.ID ";
+        Cursor smsReady = sql.getAllDb(importQuery);
+        String smsIdAll = "";
+        String ketqua = "";
+        if (smsReady.getCount() > 0) {
+            int i = 0;
+            while (smsReady.moveToNext()) {
+                i++;
+                ketqua += "tin"+i+" : ";
+                String tiende = "0";
+                String thuongde = "0";
+                String tienlo = "0";
+                String thuonglo = "0";
+                String tienxien = "0";
+                String thuongxien = "0";
+                String tienbacang = "0";
+                String thuongbacang = "0";
+                if (smsReady.getString(smsReady.getColumnIndex("TIENDANHDE")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENDANHDE")).isEmpty()) {
+                    tiende = smsReady.getString(smsReady.getColumnIndex("TIENDANHDE"));
+                }
+                if (smsReady.getString(smsReady.getColumnIndex("TIENTHUONGDE")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENTHUONGDE")).isEmpty()) {
+                    thuongde = smsReady.getString(smsReady.getColumnIndex("TIENTHUONGDE"));
+                }
+                if (!tiende.equals("0") || !thuongde.equals("0")) {
+                    ketqua += "Đề : " + tiende + "/" + thuongde + "<br />";
+                }
+                if (smsReady.getString(smsReady.getColumnIndex("TIENDANHLO")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENDANHLO")).isEmpty()) {
+                    tienlo = smsReady.getString(smsReady.getColumnIndex("TIENDANHLO"));
+                }
+                if (smsReady.getString(smsReady.getColumnIndex("TIENTHUONGLO")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENTHUONGLO")).isEmpty()) {
+                    thuonglo = smsReady.getString(smsReady.getColumnIndex("TIENTHUONGLO"));
+                }
+                if (!tienlo.equals("0") || !thuonglo.equals("0")) {
+                    ketqua += "Lô : " + tienlo + "/" + thuonglo + "<br />";
+                }
+                if (smsReady.getString(smsReady.getColumnIndex("TIENDANHXIEN")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENDANHXIEN")).isEmpty()) {
+                    tienxien = smsReady.getString(smsReady.getColumnIndex("TIENDANHXIEN"));
+                }
+                if (smsReady.getString(smsReady.getColumnIndex("TIENTHUONGXIEN")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENTHUONGXIEN")).isEmpty()) {
+                    thuongxien = smsReady.getString(smsReady.getColumnIndex("TIENTHUONGXIEN"));
+                }
+                if (!tienxien.equals("0") || !thuongxien.equals("0")) {
+                    ketqua += "Xiên : " + tienxien + "/" + thuongxien + "<br />";
+                }
+                if (smsReady.getString(smsReady.getColumnIndex("TIENDANHBACANG")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENDANHBACANG")).isEmpty()) {
+                    tienbacang = smsReady.getString(smsReady.getColumnIndex("TIENDANHBACANG"));
+                }
+                if (smsReady.getString(smsReady.getColumnIndex("TIENTHUONGBACANG")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENTHUONGBACANG")).isEmpty()) {
+                    thuongbacang = smsReady.getString(smsReady.getColumnIndex("TIENTHUONGBACANG"));
+                }
+                if (!tienbacang.equals("0") || !thuongbacang.equals("0")) {
+                    ketqua += "Ba Càng : " + tienbacang + "/" + thuongbacang + "<br />";
+                }
+            }
+        }
+        return ketqua;
+
+    }
+
     private void importSms(final String getDays, String sdt, String formatSms,
                            String ten, int cophan, String ngoiMot, String ngoiHai) {
+        String chitiettungtin = chitiettungtin(sdt,getDays);
         String queryKieu = "";
         if (formatSms.equals("inbox")) {
             queryKieu = " AND KIEU=\"inbox\"";
@@ -235,7 +372,7 @@ public class SendSms extends AppCompatActivity {
                 tongDanhXienInbox != 0 || tongDanhBaCangInbox != 0 ||
                 tongDanhDeSend != 0 || tongDanhLoSend != 0 ||
                 tongDanhBaCangSend != 0 || tongDanhBaCangSend != 0) {
-            tongText += getDays + "<br/>";
+            tongText += getDays + "<br/>" + chitiettungtin;
         }
         /***************** thong tin phan inbox sms **************************/
         /***************** chu y cac dong thuong tien inbox thi dau bao do bị nguoc lại **************/

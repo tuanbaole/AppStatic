@@ -297,7 +297,7 @@ public class CanBangSendSms extends AppCompatActivity {
                         content += "de ";
                     }
                     int valDe = Integer.parseInt(showResDe[1]) - Integer.parseInt(maxde);
-                    content += showResDe[0] + " x " + String.valueOf(valDe) + "n.";
+                    content += showResDe[0] + " x " + String.valueOf(valDe) + "n ";
                 }
             }
         }
@@ -315,7 +315,7 @@ public class CanBangSendSms extends AppCompatActivity {
                         content += "lo ";
                     }
                     int valLo = Integer.parseInt(showResLo[1]) - Integer.parseInt(maxlo);
-                    content += showResLo[0] + " x " + String.valueOf(valLo) + "d.";
+                    content += showResLo[0] + " x " + String.valueOf(valLo) + "d ";
                 }
             }
         }

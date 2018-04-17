@@ -209,7 +209,7 @@ public class Message extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DialogHandler appdialog = new DialogHandler();
-                appdialog.Confirm(Message.this, "Thông Báo", "Bạn có chắc xóa tất cả danh bạ đơn giá không?",
+                appdialog.Confirm(Message.this, "Thông Báo", "Bạn có chắc xóa tất cả công nợ ngày hôm nay?",
                         "Cancel", "OK", aproc(), bproc());
 
             }
@@ -1290,7 +1290,7 @@ public class Message extends AppCompatActivity {
                                                                 }
                                                             }
                                                         } else {
-                                                            if(valueImprotDb.length > 1) {
+                                                            if (valueImprotDb.length > 1) {
                                                                 for (int q = 0; q < valueImprotDb.length; q++) {
                                                                     error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                 }
@@ -1404,254 +1404,258 @@ public class Message extends AppCompatActivity {
 
                                     } else {
                                         String[] mangDekhongX = tachChuoiDe.get(j).replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                        String valueMangDe = String.valueOf(mangDekhongX[mangDekhongX.length - 1]);
-                                        double getNum = 0; // gia tri loto
-                                        if (valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                            if (valueMangDe.indexOf("trieu") > -1) {
-                                                getNum = Double.parseDouble(valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
-                                            } else {
-                                                getNum = Double.parseDouble(valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", ""));
+                                        if (mangDekhongX.length == 2) {
+                                            String valueMangDe = String.valueOf(mangDekhongX[mangDekhongX.length - 1]);
+                                            double getNum = 0; // gia tri loto
+                                            if (valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                if (valueMangDe.indexOf("trieu") > -1) {
+                                                    getNum = Double.parseDouble(valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
+                                                } else {
+                                                    getNum = Double.parseDouble(valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", ""));
+                                                }
                                             }
-                                        }
-                                        String boDeKX = "";
-                                        int endSubString = tachChuoiDe.get(j).length() - valueMangDe.length() - 1;
-                                        if (endSubString > 0) {
-                                            String valueDe = controller.converStringSms(tachChuoiDe.get(j).substring(0, endSubString)).replaceAll("(^\\s+|\\s+$)", "").replace(".", " ");
-                                            String[] valueDeArr = valueDe.split("JAVASTR");
-                                            String SessionDeKX = "";
-                                            for (int k = 0; k < valueDeArr.length; k++) {
-                                                String[] valueImprotDb = valueDeArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                                if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
-                                                    if (valueImprotDb.length > 1) {
-                                                        error += valueImprotDb[0] + " ";
-                                                        for (int q = 1; q < valueImprotDb.length; q++) {
-                                                            if (!valueImprotDb[q].equals("")) {
-                                                                if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
-                                                                        valueImprotDb[q]) != null) {
+                                            String boDeKX = "";
+                                            int endSubString = tachChuoiDe.get(j).length() - valueMangDe.length() - 1;
+                                            if (endSubString > 0) {
+                                                String valueDe = controller.converStringSms(tachChuoiDe.get(j).substring(0, endSubString)).replaceAll("(^\\s+|\\s+$)", "").replace(".", " ");
+                                                String[] valueDeArr = valueDe.split("JAVASTR");
+                                                String SessionDeKX = "";
+                                                for (int k = 0; k < valueDeArr.length; k++) {
+                                                    String[] valueImprotDb = valueDeArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
+                                                    if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                        if (valueImprotDb.length > 1) {
+                                                            error += valueImprotDb[0] + " ";
+                                                            for (int q = 1; q < valueImprotDb.length; q++) {
+                                                                if (!valueImprotDb[q].equals("")) {
+                                                                    if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                                            valueImprotDb[q]) != null) {
                                                                     /* danh dan bo - he -tong...*/
-                                                                    error += valueImprotDb[q] + " ";
-                                                                    String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")
-                                                                            + valueImprotDb[q]).get(0);
-                                                                    if (miliGetTimeDe > miliGettimeSms) {
-                                                                        if (SessionDeKX != "") {
-                                                                            if (hashmap.get(SessionDeKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
-                                                                                    valueImprotDb[q]) != null) {
-                                                                                String valueSessionDeKX = hashmap.get(SessionDeKX + valueImprotDb[q]).get(0);
-                                                                                boDeKX += valueSessionDeKX + ",";
-                                                                                xulydanhboDe(valueSessionDeKX, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-                                                                                        , "de", listDonGia[0], dataSoLieuDate, SessionDeKX + valueImprotDb[q], smsType);
+                                                                        error += valueImprotDb[q] + " ";
+                                                                        String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")
+                                                                                + valueImprotDb[q]).get(0);
+                                                                        if (miliGetTimeDe > miliGettimeSms) {
+                                                                            if (SessionDeKX != "") {
+                                                                                if (hashmap.get(SessionDeKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                                                        valueImprotDb[q]) != null) {
+                                                                                    String valueSessionDeKX = hashmap.get(SessionDeKX + valueImprotDb[q]).get(0);
+                                                                                    boDeKX += valueSessionDeKX + ",";
+                                                                                    xulydanhboDe(valueSessionDeKX, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
+                                                                                            , "de", listDonGia[0], dataSoLieuDate, SessionDeKX + valueImprotDb[q], smsType);
+                                                                                }
                                                                             }
+                                                                            boDeKX += value + ",";
+                                                                            xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
+                                                                                    , "de", listDonGia[0], dataSoLieuDate, valueImprotDb[0] + valueImprotDb[q], smsType);
                                                                         }
-                                                                        boDeKX += value + ",";
-                                                                        xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-                                                                                , "de", listDonGia[0], dataSoLieuDate, valueImprotDb[0] + valueImprotDb[q], smsType);
+                                                                    } else {
+                                                                        error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                     }
-                                                                } else {
-                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                 }
                                                             }
-                                                        }
-                                                    } else {
-                                                        if (SessionDeKX != "") {
-                                                            error += "<font color=\"RED\">" + valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " </font>";
                                                         } else {
-                                                            error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
+                                                            if (SessionDeKX != "") {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " </font>";
+                                                            } else {
+                                                                error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
+                                                            }
+                                                            SessionDeKX = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
                                                         }
-                                                        SessionDeKX = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                    }
-                                                } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                    } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
                                                         /* danh dan nhonho -toto ... */
-                                                    if (SessionDeKX.equals("")) { // de dau chan chan x 100n
-                                                        if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
-                                                            error += valueImprotDb[0] + " ";
-                                                            String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")).get(0);
-                                                            if (miliGetTimeDe > miliGettimeSms) {
-                                                                boDeKX += value + ",";
-                                                                xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-                                                                        , "de", listDonGia[0], dataSoLieuDate, valueImprotDb[0], smsType);
+                                                        if (SessionDeKX.equals("")) { // de dau chan chan x 100n
+                                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
+                                                                error += valueImprotDb[0] + " ";
+                                                                String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")).get(0);
+                                                                if (miliGetTimeDe > miliGettimeSms) {
+                                                                    boDeKX += value + ",";
+                                                                    xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
+                                                                            , "de", listDonGia[0], dataSoLieuDate, valueImprotDb[0], smsType);
+                                                                }
+                                                            } else {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                             }
                                                         } else {
                                                             error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                         }
                                                     } else {
-                                                        error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
-                                                    }
-                                                } else {
-                                                    String newVal2 = valueImprotDb[0].replaceAll("\\d", "");
-                                                    // xu ly cac ki tu dau9 viet lien
-                                                    if (kieuboso.contains(newVal2)) {
-                                                        String[] arrNewVal2 = valueImprotDb[0].replace(newVal2, newVal2 + "JAVASTR").
-                                                                split("JAVASTR");
-                                                        error += arrNewVal2[0];
-                                                        if (!arrNewVal2[1].equals("")) {
-                                                            if (hashmap.get(arrNewVal2[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
-                                                                    arrNewVal2[1]) != null) {
-                                                                error += arrNewVal2[1] + " ";
-                                                                        /* danh dan bo - he -tong...*/
-                                                                String value = hashmap.get(arrNewVal2[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + arrNewVal2[1]).get(0);
-                                                                if (miliGetTimeDe > miliGettimeSms) {
-                                                                    if (SessionDeKX != "") {
-                                                                        if (hashmap.get(SessionDeKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
-                                                                                arrNewVal2[1]) != null) {
-                                                                            String valueSessionDeKX = hashmap.get(SessionDeKX + arrNewVal2[1]).get(0);
-                                                                            boDeKX += valueSessionDeKX + ",";
-                                                                            xulydanhboDe(valueSessionDeKX, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-                                                                                    , "de", listDonGia[0], dataSoLieuDate, SessionDeKX + arrNewVal2[1], smsType);
-                                                                        }
-                                                                    }
-                                                                    boDeKX += value + ",";
-                                                                    xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-                                                                            , "de", listDonGia[0], dataSoLieuDate, arrNewVal2[0] + arrNewVal2[1], smsType);
-                                                                }
-                                                            } else {
-                                                                error += "<font color=\"RED\">" + arrNewVal2[1] + " </font>";
-                                                            }
-                                                        }
-                                                        for (int q = 1; q < valueImprotDb.length; q++) {
-                                                            if (!valueImprotDb[q].equals("")) {
+                                                        String newVal2 = valueImprotDb[0].replaceAll("\\d", "");
+                                                        // xu ly cac ki tu dau9 viet lien
+                                                        if (kieuboso.contains(newVal2)) {
+                                                            String[] arrNewVal2 = valueImprotDb[0].replace(newVal2, newVal2 + "JAVASTR").
+                                                                    split("JAVASTR");
+                                                            error += arrNewVal2[0];
+                                                            if (!arrNewVal2[1].equals("")) {
                                                                 if (hashmap.get(arrNewVal2[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
-                                                                        valueImprotDb[q]) != null) {
-                                                                    /* danh dan bo - he -tong...*/
-                                                                    error += valueImprotDb[q] + " ";
-                                                                    String value = hashmap.get(arrNewVal2[0] + valueImprotDb[q]).get(0);
+                                                                        arrNewVal2[1]) != null) {
+                                                                    error += arrNewVal2[1] + " ";
+                                                                        /* danh dan bo - he -tong...*/
+                                                                    String value = hashmap.get(arrNewVal2[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + arrNewVal2[1]).get(0);
                                                                     if (miliGetTimeDe > miliGettimeSms) {
                                                                         if (SessionDeKX != "") {
                                                                             if (hashmap.get(SessionDeKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
-                                                                                    valueImprotDb[q]) != null) {
-                                                                                String valueSessionDeKX = hashmap.get(SessionDeKX + valueImprotDb[q]).get(0);
+                                                                                    arrNewVal2[1]) != null) {
+                                                                                String valueSessionDeKX = hashmap.get(SessionDeKX + arrNewVal2[1]).get(0);
                                                                                 boDeKX += valueSessionDeKX + ",";
                                                                                 xulydanhboDe(valueSessionDeKX, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-                                                                                        , "de", listDonGia[0], dataSoLieuDate, SessionDeKX + valueImprotDb[q], smsType);
+                                                                                        , "de", listDonGia[0], dataSoLieuDate, SessionDeKX + arrNewVal2[1], smsType);
                                                                             }
                                                                         }
                                                                         boDeKX += value + ",";
                                                                         xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-                                                                                , "de", listDonGia[0], dataSoLieuDate, arrNewVal2[0] + valueImprotDb[q], smsType);
+                                                                                , "de", listDonGia[0], dataSoLieuDate, arrNewVal2[0] + arrNewVal2[1], smsType);
                                                                     }
                                                                 } else {
-                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                    error += "<font color=\"RED\">" + arrNewVal2[1] + " </font>";
                                                                 }
                                                             }
-                                                        }
-                                                        SessionDeKX = "";
-                                                    } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
-                                                        // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
-                                                        error += valueImprotDb[0];
-                                                        String gepDeKX = "";
-                                                        for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
-                                                            if (valueImprotDb[q1].replaceAll("[0-9]", "").length() > 0) {
-                                                                error += "<font color=\"RED\">" + valueImprotDb[q1] + " </font>";
-                                                            } else {
-                                                                error += valueImprotDb[q1] + " ";
-                                                            }
-                                                            gepDeKX += valueImprotDb[q1];
-                                                        }
-                                                        String newGepDeKX = gepDeKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                        String ghepVal1 = "";
-                                                        String ghepVal2 = "";
-                                                        for (int ge = 0; ge < newGepDeKX.length(); ge++) {
-                                                            for (int ge1 = ge + 1; ge1 < newGepDeKX.length(); ge1++) {
-                                                                ghepVal1 = newGepDeKX.substring(ge, ge + 1) + newGepDeKX.substring(ge1, ge1 + 1);
-                                                                ghepVal1 = ghepVal1.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                                ghepVal2 = newGepDeKX.substring(ge1, ge1 + 1) + newGepDeKX.substring(ge, ge + 1);
-                                                                ghepVal2 = ghepVal2.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                                boDeKX += ghepVal1 + "," + ghepVal2 + ",";
-                                                                xuLyDanhLeDe(compareDe, getNum, hsde, ghepVal1, thuongde, idSmsInt
-                                                                        , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
-                                                                xuLyDanhLeDe(compareDe, getNum, hsde, ghepVal2, thuongde, idSmsInt
-                                                                        , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
-                                                            }
-                                                        }
-                                                    } else {
-                                                        for (int q = 0; q < valueImprotDb.length; q++) {
-                                                            if (limitNumber.contains(valueImprotDb[q])) {
-                                                                error += valueImprotDb[q] + " ";
-                                                                if (miliGetTimeDe > miliGettimeSms) {
-                                                                    boDeKX += valueImprotDb[q] + ",";
-                                                                    xuLyDanhLeDe(compareDe, getNum, hsde, valueImprotDb[q], thuongde, idSmsInt
-                                                                            , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
-                                                                }
-                                                            } else {
-                                                                if (limitNumberBaCang.contains(valueImprotDb[q])) {
-                                                                    // doan nay xu ly cac so kieu de 565 656
-                                                                    if (valueImprotDb[q].substring(0, 1).equals(valueImprotDb[q].substring(2, 3))) {
-                                                                        error += " " + valueImprotDb[q] + " ";
-                                                                        String vtSo1 = valueImprotDb[q].substring(0, 2);
-                                                                        String vtSo2 = valueImprotDb[q].substring(1, 3);
-                                                                        boDeKX += vtSo1 + ",";
-                                                                        xuLyDanhLeDe(compareDe, getNum, hsde, vtSo1, thuongde, idSmsInt
-                                                                                , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
-                                                                        boDeKX += vtSo2 + ",";
-                                                                        xuLyDanhLeDe(compareDe, getNum, hsde, vtSo2, thuongde, idSmsInt
-                                                                                , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
+                                                            for (int q = 1; q < valueImprotDb.length; q++) {
+                                                                if (!valueImprotDb[q].equals("")) {
+                                                                    if (hashmap.get(arrNewVal2[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                                            valueImprotDb[q]) != null) {
+                                                                    /* danh dan bo - he -tong...*/
+                                                                        error += valueImprotDb[q] + " ";
+                                                                        String value = hashmap.get(arrNewVal2[0] + valueImprotDb[q]).get(0);
+                                                                        if (miliGetTimeDe > miliGettimeSms) {
+                                                                            if (SessionDeKX != "") {
+                                                                                if (hashmap.get(SessionDeKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                                                        valueImprotDb[q]) != null) {
+                                                                                    String valueSessionDeKX = hashmap.get(SessionDeKX + valueImprotDb[q]).get(0);
+                                                                                    boDeKX += valueSessionDeKX + ",";
+                                                                                    xulydanhboDe(valueSessionDeKX, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
+                                                                                            , "de", listDonGia[0], dataSoLieuDate, SessionDeKX + valueImprotDb[q], smsType);
+                                                                                }
+                                                                            }
+                                                                            boDeKX += value + ",";
+                                                                            xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
+                                                                                    , "de", listDonGia[0], dataSoLieuDate, arrNewVal2[0] + valueImprotDb[q], smsType);
+                                                                        }
                                                                     } else {
                                                                         error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                     }
+                                                                }
+                                                            }
+                                                            SessionDeKX = "";
+                                                        } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
+                                                            // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
+                                                            error += valueImprotDb[0];
+                                                            String gepDeKX = "";
+                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
+                                                                if (valueImprotDb[q1].replaceAll("[0-9]", "").length() > 0) {
+                                                                    error += "<font color=\"RED\">" + valueImprotDb[q1] + " </font>";
                                                                 } else {
-                                                                    if (!valueImprotDb[q].equals("")) {
-                                                                        if (valueImprotDb[q].replace(" ", "").equals("bro")) {
-                                                                            error += valueImprotDb[q] + " ";
+                                                                    error += valueImprotDb[q1] + " ";
+                                                                }
+                                                                gepDeKX += valueImprotDb[q1];
+                                                            }
+                                                            String newGepDeKX = gepDeKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                                                            String ghepVal1 = "";
+                                                            String ghepVal2 = "";
+                                                            for (int ge = 0; ge < newGepDeKX.length(); ge++) {
+                                                                for (int ge1 = ge + 1; ge1 < newGepDeKX.length(); ge1++) {
+                                                                    ghepVal1 = newGepDeKX.substring(ge, ge + 1) + newGepDeKX.substring(ge1, ge1 + 1);
+                                                                    ghepVal1 = ghepVal1.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                                                                    ghepVal2 = newGepDeKX.substring(ge1, ge1 + 1) + newGepDeKX.substring(ge, ge + 1);
+                                                                    ghepVal2 = ghepVal2.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                                                                    boDeKX += ghepVal1 + "," + ghepVal2 + ",";
+                                                                    xuLyDanhLeDe(compareDe, getNum, hsde, ghepVal1, thuongde, idSmsInt
+                                                                            , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
+                                                                    xuLyDanhLeDe(compareDe, getNum, hsde, ghepVal2, thuongde, idSmsInt
+                                                                            , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
+                                                                }
+                                                            }
+                                                        } else {
+                                                            for (int q = 0; q < valueImprotDb.length; q++) {
+                                                                if (limitNumber.contains(valueImprotDb[q])) {
+                                                                    error += valueImprotDb[q] + " ";
+                                                                    if (miliGetTimeDe > miliGettimeSms) {
+                                                                        boDeKX += valueImprotDb[q] + ",";
+                                                                        xuLyDanhLeDe(compareDe, getNum, hsde, valueImprotDb[q], thuongde, idSmsInt
+                                                                                , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
+                                                                    }
+                                                                } else {
+                                                                    if (limitNumberBaCang.contains(valueImprotDb[q])) {
+                                                                        // doan nay xu ly cac so kieu de 565 656
+                                                                        if (valueImprotDb[q].substring(0, 1).equals(valueImprotDb[q].substring(2, 3))) {
+                                                                            error += " " + valueImprotDb[q] + " ";
+                                                                            String vtSo1 = valueImprotDb[q].substring(0, 2);
+                                                                            String vtSo2 = valueImprotDb[q].substring(1, 3);
+                                                                            boDeKX += vtSo1 + ",";
+                                                                            xuLyDanhLeDe(compareDe, getNum, hsde, vtSo1, thuongde, idSmsInt
+                                                                                    , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
+                                                                            boDeKX += vtSo2 + ",";
+                                                                            xuLyDanhLeDe(compareDe, getNum, hsde, vtSo2, thuongde, idSmsInt
+                                                                                    , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
                                                                         } else {
                                                                             error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                        }
+                                                                    } else {
+                                                                        if (!valueImprotDb[q].equals("")) {
+                                                                            if (valueImprotDb[q].replace(" ", "").equals("bro")) {
+                                                                                error += valueImprotDb[q] + " ";
+                                                                            } else {
+                                                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
                                                             }
                                                         }
                                                     }
-                                                }
-                                            } // endfor
-                                            if (message[i].length() > 5) {
-                                                if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
-                                                    String table5Bor = sql.TABLE_NAME_5;
-                                                    sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinal), getDays, "de");
-                                                    for (int stt = 0; stt < 100; stt++) {
-                                                        String broStt = "";
-                                                        if (stt < 10) {
-                                                            broStt = "0" + String.valueOf(stt);
-                                                        } else {
-                                                            broStt = String.valueOf(stt);
-                                                        }
-                                                        if (boDeKX.indexOf(broStt) == -1) {
-                                                            xuLyDanhLeDe(compareDe, getNum, hsde, broStt, thuongde, idSmsInt
-                                                                    , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
+                                                } // endfor
+                                                if (message[i].length() > 5) {
+                                                    if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
+                                                        String table5Bor = sql.TABLE_NAME_5;
+                                                        sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinal), getDays, "de");
+                                                        for (int stt = 0; stt < 100; stt++) {
+                                                            String broStt = "";
+                                                            if (stt < 10) {
+                                                                broStt = "0" + String.valueOf(stt);
+                                                            } else {
+                                                                broStt = String.valueOf(stt);
+                                                            }
+                                                            if (boDeKX.indexOf(broStt) == -1) {
+                                                                xuLyDanhLeDe(compareDe, getNum, hsde, broStt, thuongde, idSmsInt
+                                                                        , dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
+                                                            }
                                                         }
                                                     }
                                                 }
-                                            }
 
-                                            String[] checkGiatriMangDeCoX = valueMangDe.replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                            if (checkGiatriMangDeCoX.length > 1) {
-                                                error += "<font color=\"RED\">" + valueMangDe + " </font>";
-                                                for (int val = 1; val < checkGiatriMangDeCoX.length; val++) {
-                                                    error += checkGiatriMangDeCoX[val] + " ";
-                                                }
-                                            } else if (valueDe.length() == 0) {
-                                                error += "<font color=\"RED\">" + valueMangDe + " </font>";
-                                            } else {
-                                                if (valueMangDe.indexOf("n") > -1 &&
-                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1
-                                                        ) {
-                                                    error += valueMangDe + " ";
-                                                } else if (valueMangDe.indexOf("k") > -1 &&
-                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += valueMangDe + " ";
-                                                } else if (valueMangDe.indexOf("trieu") > -1 &&
-                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 5 &&
-                                                        valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += valueMangDe + " ";
-                                                } else if (valueMangDe.indexOf("N1c") > -1 &&
-                                                        valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 2 &&
-                                                        valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 2) {
-                                                    error += valueMangDe + " ";
-                                                } else if (valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
-                                                        valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += valueMangDe + " ";
-                                                } else {
+                                                String[] checkGiatriMangDeCoX = valueMangDe.replaceAll("(^\\s+|\\s+$)", "").split(" ");
+                                                if (checkGiatriMangDeCoX.length > 1) {
                                                     error += "<font color=\"RED\">" + valueMangDe + " </font>";
+                                                    for (int val = 1; val < checkGiatriMangDeCoX.length; val++) {
+                                                        error += checkGiatriMangDeCoX[val] + " ";
+                                                    }
+                                                } else if (valueDe.length() == 0) {
+                                                    error += "<font color=\"RED\">" + valueMangDe + " </font>";
+                                                } else {
+                                                    if (valueMangDe.indexOf("n") > -1 &&
+                                                            valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                            valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1
+                                                            ) {
+                                                        error += valueMangDe + " ";
+                                                    } else if (valueMangDe.indexOf("k") > -1 &&
+                                                            valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                            valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        error += valueMangDe + " ";
+                                                    } else if (valueMangDe.indexOf("trieu") > -1 &&
+                                                            valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 5 &&
+                                                            valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        error += valueMangDe + " ";
+                                                    } else if (valueMangDe.indexOf("N1c") > -1 &&
+                                                            valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 2 &&
+                                                            valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 2) {
+                                                        error += valueMangDe + " ";
+                                                    } else if (valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
+                                                            valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        error += valueMangDe + " ";
+                                                    } else {
+                                                        error += "<font color=\"RED\">" + valueMangDe + " </font>";
+                                                    }
                                                 }
+                                            } else {
+                                                error += "<font color=\"RED\">" + tachChuoiDe.get(j) + " </font>";
                                             }
                                         } else {
                                             error += "<font color=\"RED\">" + tachChuoiDe.get(j) + " </font>";
@@ -2256,7 +2260,7 @@ public class Message extends AppCompatActivity {
                                                     for (int val = 1; val < checkGiatriMangLo.length; val++) {
                                                         error += checkGiatriMangLo[val] + " ";
                                                     }
-                                                } else if(valueLoArrCoDauB.length > 1) {
+                                                } else if (valueLoArrCoDauB.length > 1) {
                                                     error += "= " + "<font color=\"RED\">" + mangLocoDauB[1] + " </font>";
                                                 } else {
                                                     if (mangLocoDauB[1].indexOf("d") > -1 &&
@@ -2281,256 +2285,260 @@ public class Message extends AppCompatActivity {
                                         }
                                     } else {
                                         String[] mangLokhongX = tachChuoiLo.get(j).replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                        String valueMangLo = String.valueOf(mangLokhongX[mangLokhongX.length - 1]);
-                                        double getNum = 0;
-                                        String loBorKX = "";
-                                        if (mangLokhongX.length >= 2) {
-                                            if (valueMangLo.replace("D1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                getNum = Double.parseDouble(valueMangLo.replace("D1c", "").replaceAll("[^\\d.]", ""));
+                                        if (mangLokhongX.length == 2) {
+                                            String valueMangLo = String.valueOf(mangLokhongX[mangLokhongX.length - 1]);
+                                            double getNum = 0;
+                                            String loBorKX = "";
+                                            if (mangLokhongX.length >= 2) {
+                                                if (valueMangLo.replace("D1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                    getNum = Double.parseDouble(valueMangLo.replace("D1c", "").replaceAll("[^\\d.]", ""));
+                                                }
                                             }
-                                        }
 
-                                        int endSubString = tachChuoiLo.get(j).length() - valueMangLo.length() - 1;
-                                        if (endSubString > 0) {
-                                            String valueLo = controller.converStringSms(tachChuoiLo.get(j).substring(0, endSubString)).replace(".", " ").replaceAll("(^\\s+|\\s+$)", "");
-                                            String[] valueLoArr = valueLo.split("JAVASTR");
-                                            String SessionLoKX = "";
-                                            for (int k = 0; k < valueLoArr.length; k++) {
-                                                String[] valueImprotDb = valueLoArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                                if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
-                                                    if (valueImprotDb.length > 1) {
-                                                        error += valueImprotDb[0] + " ";
-                                                        for (int q = 1; q < valueImprotDb.length; q++) {
-                                                            if (!valueImprotDb[q].equals("")) {
-                                                                if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
-                                                                        valueImprotDb[q]) != null) {
+                                            int endSubString = tachChuoiLo.get(j).length() - valueMangLo.length() - 1;
+                                            if (endSubString > 0) {
+                                                String valueLo = controller.converStringSms(tachChuoiLo.get(j).substring(0, endSubString)).replace(".", " ").replaceAll("(^\\s+|\\s+$)", "");
+                                                String[] valueLoArr = valueLo.split("JAVASTR");
+                                                String SessionLoKX = "";
+                                                for (int k = 0; k < valueLoArr.length; k++) {
+                                                    String[] valueImprotDb = valueLoArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
+                                                    if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                        if (valueImprotDb.length > 1) {
+                                                            error += valueImprotDb[0] + " ";
+                                                            for (int q = 1; q < valueImprotDb.length; q++) {
+                                                                if (!valueImprotDb[q].equals("")) {
+                                                                    if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                                            valueImprotDb[q]) != null) {
                                                                     /* danh dan bo - he -tong...*/
-                                                                    error += valueImprotDb[q] + " ";
-                                                                    String value = hashmap.get(valueImprotDb[0] + valueImprotDb[q]).get(0);
-                                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                                        if (SessionLoKX != "") {
-                                                                            if (hashmap.get(SessionLoKX + valueImprotDb[q]) != null) {
-                                                                                String valueSessionLoKX = hashmap.get(SessionLoKX + valueImprotDb[q]).get(0);
-                                                                                xulydanhboLoTo(valueSessionLoKX, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
-                                                                                        SessionLoKX + valueImprotDb[q],
-                                                                                        listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
-                                                                            } else {
-                                                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                        error += valueImprotDb[q] + " ";
+                                                                        String value = hashmap.get(valueImprotDb[0] + valueImprotDb[q]).get(0);
+                                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                                            if (SessionLoKX != "") {
+                                                                                if (hashmap.get(SessionLoKX + valueImprotDb[q]) != null) {
+                                                                                    String valueSessionLoKX = hashmap.get(SessionLoKX + valueImprotDb[q]).get(0);
+                                                                                    xulydanhboLoTo(valueSessionLoKX, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
+                                                                                            SessionLoKX + valueImprotDb[q],
+                                                                                            listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                } else {
+                                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                }
                                                                             }
+                                                                            loBorKX += value + ",";
+                                                                            xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0] + valueImprotDb[q],
+                                                                                    listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
                                                                         }
-                                                                        loBorKX += value + ",";
-                                                                        xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0] + valueImprotDb[q],
-                                                                                listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                    } else {
+                                                                        error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                     }
-                                                                } else {
-                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                 }
                                                             }
-                                                        }
-                                                    } else {
-                                                        if (SessionLoKX != "") {
-                                                            error += "<font color=\"RED\">" + valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " </font>";
                                                         } else {
-                                                            error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
+                                                            if (SessionLoKX != "") {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " </font>";
+                                                            } else {
+                                                                error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
+                                                            }
+                                                            SessionLoKX = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
                                                         }
-                                                        SessionLoKX = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                    }
-                                                } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                    } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
                                                     /* danh dan nhonho -toto ... */
-                                                    if (SessionLoKX.equals("")) {
-                                                        if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
-                                                            error += valueImprotDb[0] + " ";
-                                                            String value = hashmap.get(valueImprotDb[0]).get(0);
-                                                            if (miliGetTimeLo > miliGettimeSms) {
-                                                                loBorKX += value + ",";
-                                                                xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0],
-                                                                        listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                        if (SessionLoKX.equals("")) {
+                                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
+                                                                error += valueImprotDb[0] + " ";
+                                                                String value = hashmap.get(valueImprotDb[0]).get(0);
+                                                                if (miliGetTimeLo > miliGettimeSms) {
+                                                                    loBorKX += value + ",";
+                                                                    xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0],
+                                                                            listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                }
+                                                            } else {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                             }
                                                         } else {
                                                             error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                         }
                                                     } else {
-                                                        error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
-                                                    }
-                                                } else {
-                                                    String newValLoCoX2 = valueImprotDb[0].replaceAll("\\d", "");
-                                                    // xu ly cac ki tu dau9 viet lien
-                                                    if (kieuboso.contains(newValLoCoX2)) {
-                                                        String[] arrNewValLoCoX = valueImprotDb[0].replace(newValLoCoX2, newValLoCoX2 + "JAVASTR").
-                                                                split("JAVASTR");
-                                                        error += arrNewValLoCoX[0];
-                                                        if (!arrNewValLoCoX[1].equals("")) {
-                                                            if (hashmap.get(arrNewValLoCoX[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
-                                                                    arrNewValLoCoX[1]) != null) {
-                                                                /* danh dan bo - he -tong...*/
-                                                                error += arrNewValLoCoX[1] + " ";
-                                                                String value = hashmap.get(arrNewValLoCoX[0] + arrNewValLoCoX[1]).get(0);
-                                                                if (miliGetTimeLo > miliGettimeSms) {
-                                                                    if (SessionLoKX != "") {
-                                                                        String valueSessionLoKX = "";
-                                                                        if (hashmap.get(SessionLoKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
-                                                                                arrNewValLoCoX[1]) != null) {
-                                                                            valueSessionLoKX = hashmap.get(SessionLoKX + arrNewValLoCoX[1]).get(0);
-                                                                        }
-                                                                        loBorKX += valueSessionLoKX + ",";
-                                                                        xulydanhboLoTo(valueSessionLoKX, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
-                                                                                SessionLoKX + arrNewValLoCoX[1],
-                                                                                listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
-                                                                    }
-                                                                    loBorKX += value + ",";
-                                                                    xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, arrNewValLoCoX[0] + arrNewValLoCoX[1],
-                                                                            listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
-                                                                }
-                                                            } else {
-                                                                error += "<font color=\"RED\">" + arrNewValLoCoX[1] + " </font>";
-                                                            }
-                                                        }
-                                                        for (int q = 1; q < valueImprotDb.length; q++) {
-                                                            if (!valueImprotDb[q].equals("")) {
+                                                        String newValLoCoX2 = valueImprotDb[0].replaceAll("\\d", "");
+                                                        // xu ly cac ki tu dau9 viet lien
+                                                        if (kieuboso.contains(newValLoCoX2)) {
+                                                            String[] arrNewValLoCoX = valueImprotDb[0].replace(newValLoCoX2, newValLoCoX2 + "JAVASTR").
+                                                                    split("JAVASTR");
+                                                            error += arrNewValLoCoX[0];
+                                                            if (!arrNewValLoCoX[1].equals("")) {
                                                                 if (hashmap.get(arrNewValLoCoX[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
-                                                                        valueImprotDb[q]) != null) {
+                                                                        arrNewValLoCoX[1]) != null) {
                                                                 /* danh dan bo - he -tong...*/
-                                                                    error += valueImprotDb[q] + " ";
-                                                                    String value = hashmap.get(arrNewValLoCoX[0] + valueImprotDb[q]).get(0);
+                                                                    error += arrNewValLoCoX[1] + " ";
+                                                                    String value = hashmap.get(arrNewValLoCoX[0] + arrNewValLoCoX[1]).get(0);
                                                                     if (miliGetTimeLo > miliGettimeSms) {
                                                                         if (SessionLoKX != "") {
                                                                             String valueSessionLoKX = "";
                                                                             if (hashmap.get(SessionLoKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
-                                                                                    valueImprotDb[q]) != null) {
-                                                                                valueSessionLoKX = hashmap.get(SessionLoKX + valueImprotDb[q]).get(0);
+                                                                                    arrNewValLoCoX[1]) != null) {
+                                                                                valueSessionLoKX = hashmap.get(SessionLoKX + arrNewValLoCoX[1]).get(0);
                                                                             }
                                                                             loBorKX += valueSessionLoKX + ",";
                                                                             xulydanhboLoTo(valueSessionLoKX, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
-                                                                                    SessionLoKX + valueImprotDb[q],
+                                                                                    SessionLoKX + arrNewValLoCoX[1],
                                                                                     listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
                                                                         }
                                                                         loBorKX += value + ",";
-                                                                        xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, arrNewValLoCoX[0] + valueImprotDb[q],
+                                                                        xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, arrNewValLoCoX[0] + arrNewValLoCoX[1],
                                                                                 listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
                                                                     }
                                                                 } else {
-                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                    error += "<font color=\"RED\">" + arrNewValLoCoX[1] + " </font>";
                                                                 }
                                                             }
-                                                        }
-                                                        SessionLoKX = "";
-                                                    } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
-                                                        // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
-                                                        error += valueImprotDb[0];
-                                                        String gepLoKX = "";
-                                                        for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
-                                                            if (valueImprotDb[q1].replaceAll("[0-9]", "").length() > 0) {
-                                                                error += "<font color=\"RED\">" + valueImprotDb[q1] + " </font>";
-                                                            } else {
-                                                                error += valueImprotDb[q1] + " ";
-                                                            }
-                                                            gepLoKX += valueImprotDb[q1];
-                                                        }
-                                                        String newGepLoKX = gepLoKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                        String ghepVal1 = "";
-                                                        String ghepVal2 = "";
-                                                        for (int ge = 0; ge < newGepLoKX.length(); ge++) {
-                                                            for (int ge1 = ge + 1; ge1 < newGepLoKX.length(); ge1++) {
-                                                                ghepVal1 = newGepLoKX.substring(ge, ge + 1) + newGepLoKX.substring(ge1, ge1 + 1);
-                                                                ghepVal1 = ghepVal1.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                                ghepVal2 = newGepLoKX.substring(ge1, ge1 + 1) + newGepLoKX.substring(ge, ge + 1);
-                                                                ghepVal2 = ghepVal2.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                                loBorKX += ghepVal1 + "," + ghepVal2 + ",";
-                                                                xulydanhleLoTo(getNum, hslo, compareLo, ghepVal1
-                                                                        , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                        "lo", listDonGia[0], dataSoLieuDate, smsType);
-                                                                xulydanhleLoTo(getNum, hslo, compareLo, ghepVal2
-                                                                        , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                        "lo", listDonGia[0], dataSoLieuDate, smsType);
-                                                            }
-                                                        }
-                                                    } else {
-                                                        for (int q = 0; q < valueImprotDb.length; q++) {
-                                                            if (limitNumber.contains(valueImprotDb[q])) {
-                                                                error += valueImprotDb[q] + " ";
-                                                                if (miliGetTimeLo > miliGettimeSms) {
-                                                                    loBorKX += valueImprotDb[q] + ",";
-                                                                    xulydanhleLoTo(getNum, hslo, compareLo, valueImprotDb[q]
-                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                            "lo", listDonGia[0], dataSoLieuDate, smsType);
-                                                                }
-                                                            } else {
-                                                                if (limitNumberBaCang.contains(valueImprotDb[q])) {
-                                                                    // doan nay xu ly cac so kieu de 565 656
-                                                                    if (valueImprotDb[q].substring(0, 1).equals(valueImprotDb[q].substring(2, 3))) {
-                                                                        error += " " + valueImprotDb[q] + " ";
-                                                                        String vtSo1 = valueImprotDb[q].substring(0, 2);
-                                                                        String vtSo2 = valueImprotDb[q].substring(1, 3);
-                                                                        loBorKX += vtSo1 + ",";
-                                                                        loBorKX += vtSo2 + ",";
-                                                                        xulydanhleLoTo(getNum, hslo, compareLo, vtSo1
-                                                                                , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                "lo", listDonGia[0], dataSoLieuDate, smsType);
-                                                                        xulydanhleLoTo(getNum, hslo, compareLo, vtSo2
-                                                                                , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                            for (int q = 1; q < valueImprotDb.length; q++) {
+                                                                if (!valueImprotDb[q].equals("")) {
+                                                                    if (hashmap.get(arrNewValLoCoX[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                                            valueImprotDb[q]) != null) {
+                                                                /* danh dan bo - he -tong...*/
+                                                                        error += valueImprotDb[q] + " ";
+                                                                        String value = hashmap.get(arrNewValLoCoX[0] + valueImprotDb[q]).get(0);
+                                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                                            if (SessionLoKX != "") {
+                                                                                String valueSessionLoKX = "";
+                                                                                if (hashmap.get(SessionLoKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                                                        valueImprotDb[q]) != null) {
+                                                                                    valueSessionLoKX = hashmap.get(SessionLoKX + valueImprotDb[q]).get(0);
+                                                                                }
+                                                                                loBorKX += valueSessionLoKX + ",";
+                                                                                xulydanhboLoTo(valueSessionLoKX, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
+                                                                                        SessionLoKX + valueImprotDb[q],
+                                                                                        listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                            }
+                                                                            loBorKX += value + ",";
+                                                                            xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, arrNewValLoCoX[0] + valueImprotDb[q],
+                                                                                    listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                        }
                                                                     } else {
                                                                         error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                     }
+                                                                }
+                                                            }
+                                                            SessionLoKX = "";
+                                                        } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
+                                                            // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
+                                                            error += valueImprotDb[0];
+                                                            String gepLoKX = "";
+                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
+                                                                if (valueImprotDb[q1].replaceAll("[0-9]", "").length() > 0) {
+                                                                    error += "<font color=\"RED\">" + valueImprotDb[q1] + " </font>";
                                                                 } else {
-                                                                    if (!valueImprotDb[q].equals("")) {
-                                                                        if (valueImprotDb[q].replace(" ", "").equals("bro")) {
-                                                                            error += valueImprotDb[q] + " ";
+                                                                    error += valueImprotDb[q1] + " ";
+                                                                }
+                                                                gepLoKX += valueImprotDb[q1];
+                                                            }
+                                                            String newGepLoKX = gepLoKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                                                            String ghepVal1 = "";
+                                                            String ghepVal2 = "";
+                                                            for (int ge = 0; ge < newGepLoKX.length(); ge++) {
+                                                                for (int ge1 = ge + 1; ge1 < newGepLoKX.length(); ge1++) {
+                                                                    ghepVal1 = newGepLoKX.substring(ge, ge + 1) + newGepLoKX.substring(ge1, ge1 + 1);
+                                                                    ghepVal1 = ghepVal1.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                                                                    ghepVal2 = newGepLoKX.substring(ge1, ge1 + 1) + newGepLoKX.substring(ge, ge + 1);
+                                                                    ghepVal2 = ghepVal2.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                                                                    loBorKX += ghepVal1 + "," + ghepVal2 + ",";
+                                                                    xulydanhleLoTo(getNum, hslo, compareLo, ghepVal1
+                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                            "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                    xulydanhleLoTo(getNum, hslo, compareLo, ghepVal2
+                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                            "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                }
+                                                            }
+                                                        } else {
+                                                            for (int q = 0; q < valueImprotDb.length; q++) {
+                                                                if (limitNumber.contains(valueImprotDb[q])) {
+                                                                    error += valueImprotDb[q] + " ";
+                                                                    if (miliGetTimeLo > miliGettimeSms) {
+                                                                        loBorKX += valueImprotDb[q] + ",";
+                                                                        xulydanhleLoTo(getNum, hslo, compareLo, valueImprotDb[q]
+                                                                                , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                                "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                    }
+                                                                } else {
+                                                                    if (limitNumberBaCang.contains(valueImprotDb[q])) {
+                                                                        // doan nay xu ly cac so kieu de 565 656
+                                                                        if (valueImprotDb[q].substring(0, 1).equals(valueImprotDb[q].substring(2, 3))) {
+                                                                            error += " " + valueImprotDb[q] + " ";
+                                                                            String vtSo1 = valueImprotDb[q].substring(0, 2);
+                                                                            String vtSo2 = valueImprotDb[q].substring(1, 3);
+                                                                            loBorKX += vtSo1 + ",";
+                                                                            loBorKX += vtSo2 + ",";
+                                                                            xulydanhleLoTo(getNum, hslo, compareLo, vtSo1
+                                                                                    , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                                    "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                            xulydanhleLoTo(getNum, hslo, compareLo, vtSo2
+                                                                                    , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                                    "lo", listDonGia[0], dataSoLieuDate, smsType);
                                                                         } else {
                                                                             error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                         }
+                                                                    } else {
+                                                                        if (!valueImprotDb[q].equals("")) {
+                                                                            if (valueImprotDb[q].replace(" ", "").equals("bro")) {
+                                                                                error += valueImprotDb[q] + " ";
+                                                                            } else {
+                                                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                            }
 
+                                                                        }
                                                                     }
                                                                 }
                                                             }
                                                         }
                                                     }
-                                                }
-                                            } // endfor
-                                            if (message[i].length() > 5) {
-                                                if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
-                                                    String table5Bor = sql.TABLE_NAME_5;
-                                                    sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinalLo), getDays, "lo");
-                                                    for (int stt = 0; stt < 100; stt++) {
-                                                        String broStt = "";
-                                                        if (stt < 10) {
-                                                            broStt = "0" + String.valueOf(stt);
-                                                        } else {
-                                                            broStt = String.valueOf(stt);
-                                                        }
-                                                        if (loBorKX.indexOf(broStt) == -1) {
-                                                            xulydanhleLoTo(getNum, hslo, compareLo, broStt
-                                                                    , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                    "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                } // endfor
+                                                if (message[i].length() > 5) {
+                                                    if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
+                                                        String table5Bor = sql.TABLE_NAME_5;
+                                                        sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinalLo), getDays, "lo");
+                                                        for (int stt = 0; stt < 100; stt++) {
+                                                            String broStt = "";
+                                                            if (stt < 10) {
+                                                                broStt = "0" + String.valueOf(stt);
+                                                            } else {
+                                                                broStt = String.valueOf(stt);
+                                                            }
+                                                            if (loBorKX.indexOf(broStt) == -1) {
+                                                                xulydanhleLoTo(getNum, hslo, compareLo, broStt
+                                                                        , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                        "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                            }
                                                         }
                                                     }
                                                 }
-                                            }
 
-                                            String[] checkGiatriMangLo = valueMangLo.replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                            if (checkGiatriMangLo.length > 1) {
-                                                error += "<font color=\"RED\">" + valueMangLo + " </font>";
-                                                for (int val = 1; val < checkGiatriMangLo.length; val++) {
-                                                    error += checkGiatriMangLo[val] + " ";
-                                                }
-                                            } else if (valueLo.length() == 0) {
-                                                error += "<font color=\"RED\">" + valueMangLo + " </font>";
-                                            } else {
-                                                if (valueMangLo.indexOf("d") > -1 &&
-                                                        valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        valueMangLo.replaceAll("[^\\d.]", "").replace(".", "").length() >= 1
-                                                        ) {
-                                                    error += valueMangLo + " ";
-                                                } else if (valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
-                                                        valueMangLo.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += valueMangLo + " ";
-                                                } else if (valueMangLo.indexOf("D1c") > -1 &&
-                                                        valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 2 &&
-                                                        valueMangLo.replaceAll("[^\\d.]", "").replace(".", "").length() >= 2) {
-                                                    error += valueMangLo + " ";
-                                                } else {
+                                                String[] checkGiatriMangLo = valueMangLo.replaceAll("(^\\s+|\\s+$)", "").split(" ");
+                                                if (checkGiatriMangLo.length > 1) {
                                                     error += "<font color=\"RED\">" + valueMangLo + " </font>";
+                                                    for (int val = 1; val < checkGiatriMangLo.length; val++) {
+                                                        error += checkGiatriMangLo[val] + " ";
+                                                    }
+                                                } else if (valueLo.length() == 0) {
+                                                    error += "<font color=\"RED\">" + valueMangLo + " </font>";
+                                                } else {
+                                                    if (valueMangLo.indexOf("d") > -1 &&
+                                                            valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                            valueMangLo.replaceAll("[^\\d.]", "").replace(".", "").length() >= 1
+                                                            ) {
+                                                        error += valueMangLo + " ";
+                                                    } else if (valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
+                                                            valueMangLo.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        error += valueMangLo + " ";
+                                                    } else if (valueMangLo.indexOf("D1c") > -1 &&
+                                                            valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 2 &&
+                                                            valueMangLo.replaceAll("[^\\d.]", "").replace(".", "").length() >= 2) {
+                                                        error += valueMangLo + " ";
+                                                    } else {
+                                                        error += "<font color=\"RED\">" + valueMangLo + " </font>";
+                                                    }
                                                 }
+                                            } else {
+                                                error += "<font color=\"RED\">" + tachChuoiLo.get(j) + " </font>";
                                             }
                                         } else {
                                             error += "<font color=\"RED\">" + tachChuoiLo.get(j) + " </font>";
@@ -2649,7 +2657,7 @@ public class Message extends AppCompatActivity {
                                                 }
                                                 for (int k = 0; k < valueBacangArr.length; k++) {
                                                     String[] valueImprotDb = valueBacangArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                                    if(valueImprotDb.length > 1) {
+                                                    if (valueImprotDb.length > 1) {
                                                         for (int q = 0; q < valueImprotDb.length; q++) {
                                                             error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                         }
@@ -2723,100 +2731,104 @@ public class Message extends AppCompatActivity {
                                         }
                                     } else {
                                         String[] mangBacangkhongX = tachChuoiBaCang.get(j).replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                        String valueMangBacang = String.valueOf(mangBacangkhongX[mangBacangkhongX.length - 1]);
-                                        double getNum = 0;
-                                        if (tachChuoiBaCang.get(j).indexOf("N1c") > -1) {
-                                            if (valueMangBacang.replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                if (valueMangBacang.indexOf("trieu") > -1) {
-                                                    getNum = Double.parseDouble(valueMangBacang.replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
-                                                } else {
-                                                    getNum = Double.parseDouble(valueMangBacang.replace("N1c", "").replaceAll("[^\\d.]", ""));
-                                                }
-                                            }
-                                        } else {
-                                            if (mangBacangkhongX.length >= 2) {
-                                                if (valueMangBacang.replaceAll("[^\\d.]", "").length() > 0) {
+                                        if (mangBacangkhongX.length == 2) {
+                                            String valueMangBacang = String.valueOf(mangBacangkhongX[mangBacangkhongX.length - 1]);
+                                            double getNum = 0;
+                                            if (tachChuoiBaCang.get(j).indexOf("N1c") > -1) {
+                                                if (valueMangBacang.replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
                                                     if (valueMangBacang.indexOf("trieu") > -1) {
-                                                        getNum = Double.parseDouble(valueMangBacang.replaceAll("[^\\d.]", "")) * 1000;
+                                                        getNum = Double.parseDouble(valueMangBacang.replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                     } else {
-                                                        getNum = Double.parseDouble(valueMangBacang.replaceAll("[^\\d.]", ""));
+                                                        getNum = Double.parseDouble(valueMangBacang.replace("N1c", "").replaceAll("[^\\d.]", ""));
                                                     }
-                                                }
-                                            }
-                                        }
-                                        int endSubString = tachChuoiBaCang.get(j).length() - valueMangBacang.length() - 1;
-                                        if (endSubString > 0) {
-                                            String valueBacang = controller.converStringSms(tachChuoiBaCang.get(j).substring(0, endSubString)).replaceAll("(^\\s+|\\s+$)", "");
-                                            String[] valueBacangArr = valueBacang.split("JAVASTR");
-                                            for (int k = 0; k < valueBacangArr.length; k++) {
-                                                String[] valueImprotDb = valueBacangArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                                for (int q = 0; q < valueImprotDb.length; q++) {
-                                                    if (limitNumberBaCang.contains(valueImprotDb[q])) {
-                                                        try {
-                                                            error += valueImprotDb[q] + " ";
-                                                            double trungSms = 0;
-                                                            double tongTienDanh = 0;
-                                                            double tongTienThuong = 0;
-                                                            double tongTien = 0;
-                                                            int trung = 0;
-                                                            tongTienDanh = Math.round(getNum * hsbacang * 100.0) / 100.0;
-                                                            if (valueImprotDb[q].equals(compareBaCang)) {
-                                                                trung = 1;
-                                                                trungSms += getNum;
-                                                                tongTienThuong = Math.round(getNum * thuongbacang * 100.0) / 100.0;
-                                                            } else {
-                                                                trung = 0;
-                                                                tongTienThuong = 0;
-                                                            }
-                                                            double tong = tongTienDanh - tongTienThuong;
-                                                            tongTien = Math.round((tongTienDanh - tongTienThuong) * 100.0) / 100.0;
-                                                            trungSms = Math.round(trungSms * 100.0) / 100.0;
-                                                            if (miliGetTimeDe > miliGettimeSms) {
-                                                                boolean soLieu = sql.insertDataSourceSoLieu(idSmsInt, dongiaId, valueImprotDb[q]
-                                                                        , trung, tongTienDanh, tongTienThuong, tongTien, smsType
-                                                                        , listDonGia[1], "bacang", listDonGia[0], dataSoLieuDate
-                                                                        , hsbacang, thuongbacang, getNum, getNum, trungSms);
-                                                            }
-                                                        } catch (NumberFormatException e) {
-                                                            error += "<font color=\"RED\">" + valueImprotDb[q] + "</font>";
-                                                        }
-                                                    } else {
-                                                        if (!valueImprotDb[q].equals("")) {
-                                                            error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
-                                                        }
-                                                    }
-                                                }
-                                            } // endfor
-                                            String[] checkGiatriBacangLo = valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                            if (checkGiatriBacangLo.length > 1) {
-                                                error += "<font color=\"RED\">" + valueMangBacang + " </font>";
-                                                for (int val = 1; val < checkGiatriBacangLo.length; val++) {
-                                                    error += checkGiatriBacangLo[val] + " ";
                                                 }
                                             } else {
-                                                if (valueMangBacang.indexOf("n") > -1 &&
-                                                        valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1
-                                                        ) {
-                                                    error += valueMangBacang + " ";
-                                                } else if (valueMangBacang.indexOf("k") > -1 &&
-                                                        valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                        valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += valueMangBacang + " ";
-                                                } else if (valueMangBacang.indexOf("trieu") > -1 &&
-                                                        valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
-                                                        valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += valueMangBacang + " ";
-                                                } else if (valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
-                                                        valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += valueMangBacang + " ";
-                                                } else if (valueMangBacang.indexOf("N1c") > -1 &&
-                                                        valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 2 &&
-                                                        valueMangBacang.replaceAll("[^\\d.]", "").length() >= 2) {
-                                                    error += valueMangBacang + " ";
-                                                } else {
-                                                    error += "<font color=\"RED\">" + valueMangBacang + " </font>";
+                                                if (mangBacangkhongX.length >= 2) {
+                                                    if (valueMangBacang.replaceAll("[^\\d.]", "").length() > 0) {
+                                                        if (valueMangBacang.indexOf("trieu") > -1) {
+                                                            getNum = Double.parseDouble(valueMangBacang.replaceAll("[^\\d.]", "")) * 1000;
+                                                        } else {
+                                                            getNum = Double.parseDouble(valueMangBacang.replaceAll("[^\\d.]", ""));
+                                                        }
+                                                    }
                                                 }
+                                            }
+                                            int endSubString = tachChuoiBaCang.get(j).length() - valueMangBacang.length() - 1;
+                                            if (endSubString > 0) {
+                                                String valueBacang = controller.converStringSms(tachChuoiBaCang.get(j).substring(0, endSubString)).replaceAll("(^\\s+|\\s+$)", "");
+                                                String[] valueBacangArr = valueBacang.split("JAVASTR");
+                                                for (int k = 0; k < valueBacangArr.length; k++) {
+                                                    String[] valueImprotDb = valueBacangArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
+                                                    for (int q = 0; q < valueImprotDb.length; q++) {
+                                                        if (limitNumberBaCang.contains(valueImprotDb[q])) {
+                                                            try {
+                                                                error += valueImprotDb[q] + " ";
+                                                                double trungSms = 0;
+                                                                double tongTienDanh = 0;
+                                                                double tongTienThuong = 0;
+                                                                double tongTien = 0;
+                                                                int trung = 0;
+                                                                tongTienDanh = Math.round(getNum * hsbacang * 100.0) / 100.0;
+                                                                if (valueImprotDb[q].equals(compareBaCang)) {
+                                                                    trung = 1;
+                                                                    trungSms += getNum;
+                                                                    tongTienThuong = Math.round(getNum * thuongbacang * 100.0) / 100.0;
+                                                                } else {
+                                                                    trung = 0;
+                                                                    tongTienThuong = 0;
+                                                                }
+                                                                double tong = tongTienDanh - tongTienThuong;
+                                                                tongTien = Math.round((tongTienDanh - tongTienThuong) * 100.0) / 100.0;
+                                                                trungSms = Math.round(trungSms * 100.0) / 100.0;
+                                                                if (miliGetTimeDe > miliGettimeSms) {
+                                                                    boolean soLieu = sql.insertDataSourceSoLieu(idSmsInt, dongiaId, valueImprotDb[q]
+                                                                            , trung, tongTienDanh, tongTienThuong, tongTien, smsType
+                                                                            , listDonGia[1], "bacang", listDonGia[0], dataSoLieuDate
+                                                                            , hsbacang, thuongbacang, getNum, getNum, trungSms);
+                                                                }
+                                                            } catch (NumberFormatException e) {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[q] + "</font>";
+                                                            }
+                                                        } else {
+                                                            if (!valueImprotDb[q].equals("")) {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                            }
+                                                        }
+                                                    }
+                                                } // endfor
+                                                String[] checkGiatriBacangLo = valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").split(" ");
+                                                if (checkGiatriBacangLo.length > 1) {
+                                                    error += "<font color=\"RED\">" + valueMangBacang + " </font>";
+                                                    for (int val = 1; val < checkGiatriBacangLo.length; val++) {
+                                                        error += checkGiatriBacangLo[val] + " ";
+                                                    }
+                                                } else {
+                                                    if (valueMangBacang.indexOf("n") > -1 &&
+                                                            valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                            valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1
+                                                            ) {
+                                                        error += valueMangBacang + " ";
+                                                    } else if (valueMangBacang.indexOf("k") > -1 &&
+                                                            valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                            valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        error += valueMangBacang + " ";
+                                                    } else if (valueMangBacang.indexOf("trieu") > -1 &&
+                                                            valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
+                                                            valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        error += valueMangBacang + " ";
+                                                    } else if (valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
+                                                            valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                        error += valueMangBacang + " ";
+                                                    } else if (valueMangBacang.indexOf("N1c") > -1 &&
+                                                            valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 2 &&
+                                                            valueMangBacang.replaceAll("[^\\d.]", "").length() >= 2) {
+                                                        error += valueMangBacang + " ";
+                                                    } else {
+                                                        error += "<font color=\"RED\">" + valueMangBacang + " </font>";
+                                                    }
+                                                }
+                                            } else {
+                                                error += "<font color=\"RED\">" + tachChuoiBaCang.get(j) + " </font>";
                                             }
                                         } else {
                                             error += "<font color=\"RED\">" + tachChuoiBaCang.get(j) + " </font>";
@@ -2829,7 +2841,6 @@ public class Message extends AppCompatActivity {
                             if (message[i].length() > 3) {
                                 String chuoiXien = message[i].replaceAll("(^\\s+|\\s+$)", "");
                                 String kieuXien = chuoiXien.substring(0, 3);
-                                Log.d("LogFile",kieuXien);
                                 if (kieuXien.equals("si2") || kieuXien.equals("si3")
                                         || kieuXien.equals("si4") || kieuXien.equals("si ")) {
                                     error += kieuXien;
@@ -3117,7 +3128,7 @@ public class Message extends AppCompatActivity {
                                             }
                                         } else if (tachChuoiXien.get(tc).replaceAll("(^\\s+|\\s+$)", "").indexOf("=") > -1) {
                                             String[] mangXienCoDauB = tachChuoiXien.get(tc).replaceAll("(^\\s+|\\s+$)", "").split("=");
-                                            if (mangXienCoDauB.length == 2) {
+                                            if (mangXienCoDauB.length == 1) {
                                                 double getNum = 0;
                                                 if (mangXienCoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
                                                     if (mangXienCoDauB[1].indexOf("trieu") > -1) {
@@ -3388,302 +3399,306 @@ public class Message extends AppCompatActivity {
                                                     error += "<font color=\"RED\">= " + mangXienCoDauB[si] + " </font>";
                                                 }
                                             } else {
-                                                error += "<font color=\"RED\"> " + tachChuoiXien.get(tc).replaceAll("(^\\s+|\\s+$)", "") + " </font>";
+                                                error += "<font color=\"RED\"> " + tachChuoiXien.get(tc) + " </font>";
                                             }
                                         } else {
                                             // xu ly xien khong co x
                                             String[] mangXienKhongX = tachChuoiXien.get(tc).replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                            int endArr = mangXienKhongX.length - 1;
-                                            double getNum = 0;
-                                            boolean checkGetNum = false;
-                                            if (tachChuoiXien.get(tc).replaceAll("(^\\s+|\\s+$)", "").indexOf("N1c") > -1) {
-                                                if (mangXienKhongX[endArr].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                    if (mangXienKhongX[endArr].indexOf("trieu") > -1) {
-                                                        getNum = Double.parseDouble(mangXienKhongX[endArr].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
-                                                    } else if (mangXienKhongX[endArr].indexOf("d") > -1) {
-                                                        getNum = Double.parseDouble(mangXienKhongX[endArr].replace("N1c", "").replaceAll("[^\\d.]", "")) * 10;
-                                                    } else {
-                                                        getNum = Double.parseDouble(mangXienKhongX[endArr].replace("N1c", "").replaceAll("[^\\d.]", ""));
-                                                    }
-                                                }
-                                            } else {
-                                                if (mangXienKhongX.length >= 2) {
-                                                    if (mangXienKhongX[endArr].replaceAll("[^\\d.]", "").length() > 0) {
+                                            if (mangXienKhongX.length == 1) {
+                                                int endArr = mangXienKhongX.length - 1;
+                                                double getNum = 0;
+                                                boolean checkGetNum = false;
+                                                if (tachChuoiXien.get(tc).replaceAll("(^\\s+|\\s+$)", "").indexOf("N1c") > -1) {
+                                                    if (mangXienKhongX[endArr].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
                                                         if (mangXienKhongX[endArr].indexOf("trieu") > -1) {
-                                                            getNum = Double.parseDouble(mangXienKhongX[endArr].replaceAll("[^\\d.]", "")) * 1000;
+                                                            getNum = Double.parseDouble(mangXienKhongX[endArr].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                         } else if (mangXienKhongX[endArr].indexOf("d") > -1) {
-                                                            getNum = Double.parseDouble(mangXienKhongX[endArr].replaceAll("[^\\d.]", "")) * 10;
+                                                            getNum = Double.parseDouble(mangXienKhongX[endArr].replace("N1c", "").replaceAll("[^\\d.]", "")) * 10;
                                                         } else {
-                                                            getNum = Double.parseDouble(mangXienKhongX[endArr].replaceAll("[^\\d.]", ""));
+                                                            getNum = Double.parseDouble(mangXienKhongX[endArr].replace("N1c", "").replaceAll("[^\\d.]", ""));
                                                         }
-                                                        checkGetNum = true;
+                                                    }
+                                                } else {
+                                                    if (mangXienKhongX.length >= 2) {
+                                                        if (mangXienKhongX[endArr].replaceAll("[^\\d.]", "").length() > 0) {
+                                                            if (mangXienKhongX[endArr].indexOf("trieu") > -1) {
+                                                                getNum = Double.parseDouble(mangXienKhongX[endArr].replaceAll("[^\\d.]", "")) * 1000;
+                                                            } else if (mangXienKhongX[endArr].indexOf("d") > -1) {
+                                                                getNum = Double.parseDouble(mangXienKhongX[endArr].replaceAll("[^\\d.]", "")) * 10;
+                                                            } else {
+                                                                getNum = Double.parseDouble(mangXienKhongX[endArr].replaceAll("[^\\d.]", ""));
+                                                            }
+                                                            checkGetNum = true;
+                                                        }
                                                     }
                                                 }
-                                            }
-                                            switch (kieuXien) {
-                                                case "si2":
-                                                    if ((mangXienKhongX.length - 1) % 2 == 0) {
-                                                        // -1 bo gia tri cuoi cung don vi diem danh
-                                                        for (int valx = 0; valx < mangXienKhongX.length - 1; valx = valx + 2) {
-                                                            int valx1 = valx;
-                                                            int valx2 = valx + 1;
-                                                            int trung1 = Collections.frequency(compareLo, mangXienKhongX[valx1].replaceAll("(^\\s+|\\s+$)", ""));
-                                                            int trung2 = Collections.frequency(compareLo, mangXienKhongX[valx2].replaceAll("(^\\s+|\\s+$)", ""));
-                                                            if (trung1 > 0 && trung2 > 0) {
-                                                                if (miliGetTimeLo > miliGettimeSms) {
-                                                                    xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienKhongX[valx1] + " " + mangXienKhongX[valx2],
-                                                                            1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
-                                                                }
-                                                            } else {
-                                                                if (miliGetTimeLo > miliGettimeSms) {
-                                                                    xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienKhongX[valx1] + " " + mangXienKhongX[valx2],
-                                                                            0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
-                                                                }
-                                                            }
-                                                            if (limitNumber.contains(mangXienKhongX[valx1])) {
-                                                                error += " " + mangXienKhongX[valx1];
-                                                            } else {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx1] + " </font>";
-                                                            }
-                                                            if (limitNumber.contains(mangXienKhongX[valx2])) {
-                                                                error += " " + mangXienKhongX[valx2];
-                                                            } else {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx2] + " </font>";
-                                                            }
-                                                        }
-                                                    } else {
-                                                        if (mangXienKhongX.length > 2) {
-                                                            for (int valx = 0; valx < mangXienKhongX.length - 2; valx++) {
-                                                                error += " " + mangXienKhongX[valx];
-                                                            }
-                                                            int endArr1 = mangXienKhongX.length - 2;
-                                                            // lay vi tri gan cuoi vi chuoi bat dau la so 0 va k co so x
-                                                            // chuoi bat dau tu 0 nen - 2 la vi tri sau cuoi cung
-                                                            error += "<font color=\"RED\"> " + mangXienKhongX[endArr1] + " </font>"; // bao do vi thua gia tri
-                                                        } else {
-                                                            for (int valx = 0; valx < mangXienKhongX.length - 2; valx++) {
-                                                                error += " " + mangXienKhongX[valx];
-                                                            }
-                                                        }
-
-                                                    }
-                                                    break;
-                                                case "si3":
-                                                    if ((mangXienKhongX.length - 1) % 3 == 0) {
-                                                        ArrayList<String> checkXien = new ArrayList<>();
-                                                        for (int valx = 0; valx < mangXienKhongX.length - 1; valx = valx + 3) {
-                                                            int valx1 = valx;
-                                                            int valx2 = valx + 1;
-                                                            int valx3 = valx + 2;
-                                                            int trung1 = Collections.frequency(compareLo, mangXienKhongX[valx1].replaceAll("(^\\s+|\\s+$)", ""));
-                                                            int trung2 = Collections.frequency(compareLo, mangXienKhongX[valx2].replaceAll("(^\\s+|\\s+$)", ""));
-                                                            int trung3 = Collections.frequency(compareLo, mangXienKhongX[valx3].replaceAll("(^\\s+|\\s+$)", ""));
-                                                            if (checkGetNum) {
-                                                                getNum = getNum / ((mangXienKhongX.length - 1) / 3);
-                                                            }
-                                                            if (trung1 > 0 && trung2 > 0 && trung3 > 0) {
-                                                                if (miliGetTimeLo > miliGettimeSms) {
-                                                                    xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                            mangXienKhongX[valx1] + " " + mangXienKhongX[valx2] + " " + mangXienKhongX[valx3],
-                                                                            1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
-                                                                }
-                                                            } else {
-                                                                if (miliGetTimeLo > miliGettimeSms) {
-                                                                    xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                            mangXienKhongX[valx1] + " " + mangXienKhongX[valx2] + " " + mangXienKhongX[valx3],
-                                                                            0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
-                                                                }
-                                                            }
-                                                            if (limitNumber.contains(mangXienKhongX[valx1])) {
-                                                                error += " " + mangXienKhongX[valx1];
-                                                            } else {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx1] + " </font>";
-                                                            }
-                                                            if (limitNumber.contains(mangXienKhongX[valx2])) {
-                                                                error += " " + mangXienKhongX[valx2];
-                                                            } else {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx2] + " </font>";
-                                                            }
-                                                            if (limitNumber.contains(mangXienKhongX[valx3])) {
-                                                                error += " " + mangXienKhongX[valx3];
-                                                            } else {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx3] + " </font>";
-                                                            }
-                                                        }
-                                                    } else {
-                                                        int sodux3 = (mangXienKhongX.length - 1) % 3;
-                                                        if (mangXienKhongX.length > 3) {
-                                                            for (int valx = 0; valx < (mangXienKhongX.length - 1) - sodux3; valx++) {
-                                                                error += " " + mangXienKhongX[valx];
-                                                            }
-                                                            if (sodux3 == 1) {
-                                                                int endArr1 = mangXienKhongX.length - 2;
-                                                                // lay vi tri gan cuoi vi chuoi bang dau bang 0
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[endArr1] + " </font>"; // bao do vi thua gia tri
-                                                            } else {
-                                                                int endArr1 = mangXienKhongX.length - 2; //nhu tren
-                                                                int endArr2 = mangXienKhongX.length - 3; // nhu tren
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[endArr1] + " " + mangXienKhongX[endArr2] + " </font>"; // bao do vi thua gia tri
-                                                            }
-                                                        } else {
-                                                            for (int valx = 0; valx < mangXienKhongX.length - 1; valx++) {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx] + "</font>";
-                                                            }
-                                                        }
-                                                    }
-                                                    break;
-                                                case "si4":
-                                                    if ((mangXienKhongX.length - 1) % 4 == 0) {
-                                                        for (int valx = 0; valx < mangXienKhongX.length - 1; valx = valx + 4) {
-                                                            int valx1 = valx;
-                                                            int valx2 = valx + 1;
-                                                            int valx3 = valx + 2;
-                                                            int valx4 = valx + 3;
-                                                            int trung1 = Collections.frequency(compareLo, mangXienKhongX[valx1].replaceAll("(^\\s+|\\s+$)", ""));
-                                                            int trung2 = Collections.frequency(compareLo, mangXienKhongX[valx2].replaceAll("(^\\s+|\\s+$)", ""));
-                                                            int trung3 = Collections.frequency(compareLo, mangXienKhongX[valx3].replaceAll("(^\\s+|\\s+$)", ""));
-                                                            int trung4 = Collections.frequency(compareLo, mangXienKhongX[valx4].replaceAll("(^\\s+|\\s+$)", ""));
-                                                            if (checkGetNum) {
-                                                                getNum = getNum / ((mangXienKhongX.length - 1) / 4);
-                                                            }
-                                                            if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0) {
-                                                                if (miliGetTimeLo > miliGettimeSms) {
-                                                                    xulydanhXienKieu(getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
-                                                                            mangXienKhongX[valx1] + " " + mangXienKhongX[valx2] + " " + mangXienKhongX[valx3] + " " + mangXienKhongX[valx4],
-                                                                            1, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate);
-                                                                }
-                                                            } else {
-                                                                if (miliGetTimeLo > miliGettimeSms) {
-                                                                    xulydanhXienKieu(getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
-                                                                            mangXienKhongX[valx1] + " " + mangXienKhongX[valx2] + " " + mangXienKhongX[valx3] + " " + mangXienKhongX[valx4],
-                                                                            0, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate);
-                                                                }
-                                                            }
-                                                            if (limitNumber.contains(mangXienKhongX[valx1])) {
-                                                                error += " " + mangXienKhongX[valx1];
-                                                            } else {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx1] + " </font>";
-                                                            }
-                                                            if (limitNumber.contains(mangXienKhongX[valx2])) {
-                                                                error += " " + mangXienKhongX[valx2];
-                                                            } else {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx2] + " </font>";
-                                                            }
-                                                            if (limitNumber.contains(mangXienKhongX[valx3])) {
-                                                                error += " " + mangXienKhongX[valx3];
-                                                            } else {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx3] + " </font>";
-                                                            }
-                                                            if (limitNumber.contains(mangXienKhongX[valx4])) {
-                                                                error += " " + mangXienKhongX[valx4];
-                                                            } else {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx4] + " </font>";
-                                                            }
-                                                        }
-                                                    } else {
-                                                        int sodux4 = mangXienKhongX.length % 4;
-                                                        if (mangXienKhongX.length > 4) {
-                                                            for (int valx = 0; valx < (mangXienKhongX.length - 1) - sodux4; valx++) {
-                                                                error += " " + mangXienKhongX[valx];
-                                                            }
-                                                            if (sodux4 == 1) {
-                                                                int endArr1 = mangXienKhongX.length - 2; // lay tu vi tri gan cuoi vi chuoi bang dau tu 0
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[endArr1] + " </font>"; // bao do vi thua gia tri
-                                                            } else if (sodux4 == 2) {
-                                                                int endArr1 = mangXienKhongX.length - 2; // lay tu vi tri gan cuoi vi chuoi bang dau tu 0
-                                                                int endArr2 = mangXienKhongX.length - 3; //nt
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[endArr2] + " " + mangXienKhongX[endArr1] + " </font>"; // bao do vi thua gia tri
-                                                            } else {
-                                                                int endArr1 = mangXienKhongX.length - 2; // nhu tren
-                                                                int endArr2 = mangXienKhongX.length - 3; // nhu tren
-                                                                int endArr3 = mangXienKhongX.length - 4; // nhu tren
-                                                                error += "<font color=\"RED\">" + mangXienKhongX[endArr3] + " " + mangXienKhongX[endArr2] + " " + mangXienKhongX[endArr1] + " </font>"; // bao do vi thua gia tri
-                                                            }
-                                                        } else {
-                                                            for (int valx = 0; valx < mangXienKhongX.length - 1; valx++) {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx] + "</font>";
-                                                            }
-                                                        }
-                                                    }
-                                                    break;
-                                                case "si ":
-                                                    if (mangXienKhongX.length <= 5 && mangXienKhongX.length >= 3) {
-                                                        String boSoXien = "";
-                                                        ArrayList<String> checkXien = new ArrayList<>();
-                                                        for (int allX = 0; allX < mangXienKhongX.length - 1; allX++) {
-                                                            if (limitNumber.contains(mangXienKhongX[allX])) {
-                                                                try {
-                                                            /* danh le*/
-                                                                    error += " " + mangXienKhongX[allX];
-                                                                    boSoXien += " " + mangXienKhongX[allX];
-                                                                    int trung = Collections.frequency(compareLo, mangXienKhongX[allX]);
-                                                                    if (trung > 0) {
-                                                                        checkXien.add("true");
-                                                                    } else {
-                                                                        checkXien.add("false");
+                                                switch (kieuXien) {
+                                                    case "si2":
+                                                        if ((mangXienKhongX.length - 1) % 2 == 0) {
+                                                            // -1 bo gia tri cuoi cung don vi diem danh
+                                                            for (int valx = 0; valx < mangXienKhongX.length - 1; valx = valx + 2) {
+                                                                int valx1 = valx;
+                                                                int valx2 = valx + 1;
+                                                                int trung1 = Collections.frequency(compareLo, mangXienKhongX[valx1].replaceAll("(^\\s+|\\s+$)", ""));
+                                                                int trung2 = Collections.frequency(compareLo, mangXienKhongX[valx2].replaceAll("(^\\s+|\\s+$)", ""));
+                                                                if (trung1 > 0 && trung2 > 0) {
+                                                                    if (miliGetTimeLo > miliGettimeSms) {
+                                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienKhongX[valx1] + " " + mangXienKhongX[valx2],
+                                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
                                                                     }
-                                                                } catch (NumberFormatException e) {
+                                                                } else {
+                                                                    if (miliGetTimeLo > miliGettimeSms) {
+                                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienKhongX[valx1] + " " + mangXienKhongX[valx2],
+                                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                                    }
+                                                                }
+                                                                if (limitNumber.contains(mangXienKhongX[valx1])) {
+                                                                    error += " " + mangXienKhongX[valx1];
+                                                                } else {
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[valx1] + " </font>";
+                                                                }
+                                                                if (limitNumber.contains(mangXienKhongX[valx2])) {
+                                                                    error += " " + mangXienKhongX[valx2];
+                                                                } else {
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[valx2] + " </font>";
+                                                                }
+                                                            }
+                                                        } else {
+                                                            if (mangXienKhongX.length > 2) {
+                                                                for (int valx = 0; valx < mangXienKhongX.length - 2; valx++) {
+                                                                    error += " " + mangXienKhongX[valx];
+                                                                }
+                                                                int endArr1 = mangXienKhongX.length - 2;
+                                                                // lay vi tri gan cuoi vi chuoi bat dau la so 0 va k co so x
+                                                                // chuoi bat dau tu 0 nen - 2 la vi tri sau cuoi cung
+                                                                error += "<font color=\"RED\"> " + mangXienKhongX[endArr1] + " </font>"; // bao do vi thua gia tri
+                                                            } else {
+                                                                for (int valx = 0; valx < mangXienKhongX.length - 2; valx++) {
+                                                                    error += " " + mangXienKhongX[valx];
+                                                                }
+                                                            }
+
+                                                        }
+                                                        break;
+                                                    case "si3":
+                                                        if ((mangXienKhongX.length - 1) % 3 == 0) {
+                                                            ArrayList<String> checkXien = new ArrayList<>();
+                                                            for (int valx = 0; valx < mangXienKhongX.length - 1; valx = valx + 3) {
+                                                                int valx1 = valx;
+                                                                int valx2 = valx + 1;
+                                                                int valx3 = valx + 2;
+                                                                int trung1 = Collections.frequency(compareLo, mangXienKhongX[valx1].replaceAll("(^\\s+|\\s+$)", ""));
+                                                                int trung2 = Collections.frequency(compareLo, mangXienKhongX[valx2].replaceAll("(^\\s+|\\s+$)", ""));
+                                                                int trung3 = Collections.frequency(compareLo, mangXienKhongX[valx3].replaceAll("(^\\s+|\\s+$)", ""));
+                                                                if (checkGetNum) {
+                                                                    getNum = getNum / ((mangXienKhongX.length - 1) / 3);
+                                                                }
+                                                                if (trung1 > 0 && trung2 > 0 && trung3 > 0) {
+                                                                    if (miliGetTimeLo > miliGettimeSms) {
+                                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                                mangXienKhongX[valx1] + " " + mangXienKhongX[valx2] + " " + mangXienKhongX[valx3],
+                                                                                1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                                    }
+                                                                } else {
+                                                                    if (miliGetTimeLo > miliGettimeSms) {
+                                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                                mangXienKhongX[valx1] + " " + mangXienKhongX[valx2] + " " + mangXienKhongX[valx3],
+                                                                                0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                                    }
+                                                                }
+                                                                if (limitNumber.contains(mangXienKhongX[valx1])) {
+                                                                    error += " " + mangXienKhongX[valx1];
+                                                                } else {
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[valx1] + " </font>";
+                                                                }
+                                                                if (limitNumber.contains(mangXienKhongX[valx2])) {
+                                                                    error += " " + mangXienKhongX[valx2];
+                                                                } else {
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[valx2] + " </font>";
+                                                                }
+                                                                if (limitNumber.contains(mangXienKhongX[valx3])) {
+                                                                    error += " " + mangXienKhongX[valx3];
+                                                                } else {
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[valx3] + " </font>";
+                                                                }
+                                                            }
+                                                        } else {
+                                                            int sodux3 = (mangXienKhongX.length - 1) % 3;
+                                                            if (mangXienKhongX.length > 3) {
+                                                                for (int valx = 0; valx < (mangXienKhongX.length - 1) - sodux3; valx++) {
+                                                                    error += " " + mangXienKhongX[valx];
+                                                                }
+                                                                if (sodux3 == 1) {
+                                                                    int endArr1 = mangXienKhongX.length - 2;
+                                                                    // lay vi tri gan cuoi vi chuoi bang dau bang 0
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[endArr1] + " </font>"; // bao do vi thua gia tri
+                                                                } else {
+                                                                    int endArr1 = mangXienKhongX.length - 2; //nhu tren
+                                                                    int endArr2 = mangXienKhongX.length - 3; // nhu tren
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[endArr1] + " " + mangXienKhongX[endArr2] + " </font>"; // bao do vi thua gia tri
+                                                                }
+                                                            } else {
+                                                                for (int valx = 0; valx < mangXienKhongX.length - 1; valx++) {
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[valx] + "</font>";
+                                                                }
+                                                            }
+                                                        }
+                                                        break;
+                                                    case "si4":
+                                                        if ((mangXienKhongX.length - 1) % 4 == 0) {
+                                                            for (int valx = 0; valx < mangXienKhongX.length - 1; valx = valx + 4) {
+                                                                int valx1 = valx;
+                                                                int valx2 = valx + 1;
+                                                                int valx3 = valx + 2;
+                                                                int valx4 = valx + 3;
+                                                                int trung1 = Collections.frequency(compareLo, mangXienKhongX[valx1].replaceAll("(^\\s+|\\s+$)", ""));
+                                                                int trung2 = Collections.frequency(compareLo, mangXienKhongX[valx2].replaceAll("(^\\s+|\\s+$)", ""));
+                                                                int trung3 = Collections.frequency(compareLo, mangXienKhongX[valx3].replaceAll("(^\\s+|\\s+$)", ""));
+                                                                int trung4 = Collections.frequency(compareLo, mangXienKhongX[valx4].replaceAll("(^\\s+|\\s+$)", ""));
+                                                                if (checkGetNum) {
+                                                                    getNum = getNum / ((mangXienKhongX.length - 1) / 4);
+                                                                }
+                                                                if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0) {
+                                                                    if (miliGetTimeLo > miliGettimeSms) {
+                                                                        xulydanhXienKieu(getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
+                                                                                mangXienKhongX[valx1] + " " + mangXienKhongX[valx2] + " " + mangXienKhongX[valx3] + " " + mangXienKhongX[valx4],
+                                                                                1, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate);
+                                                                    }
+                                                                } else {
+                                                                    if (miliGetTimeLo > miliGettimeSms) {
+                                                                        xulydanhXienKieu(getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
+                                                                                mangXienKhongX[valx1] + " " + mangXienKhongX[valx2] + " " + mangXienKhongX[valx3] + " " + mangXienKhongX[valx4],
+                                                                                0, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate);
+                                                                    }
+                                                                }
+                                                                if (limitNumber.contains(mangXienKhongX[valx1])) {
+                                                                    error += " " + mangXienKhongX[valx1];
+                                                                } else {
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[valx1] + " </font>";
+                                                                }
+                                                                if (limitNumber.contains(mangXienKhongX[valx2])) {
+                                                                    error += " " + mangXienKhongX[valx2];
+                                                                } else {
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[valx2] + " </font>";
+                                                                }
+                                                                if (limitNumber.contains(mangXienKhongX[valx3])) {
+                                                                    error += " " + mangXienKhongX[valx3];
+                                                                } else {
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[valx3] + " </font>";
+                                                                }
+                                                                if (limitNumber.contains(mangXienKhongX[valx4])) {
+                                                                    error += " " + mangXienKhongX[valx4];
+                                                                } else {
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[valx4] + " </font>";
+                                                                }
+                                                            }
+                                                        } else {
+                                                            int sodux4 = mangXienKhongX.length % 4;
+                                                            if (mangXienKhongX.length > 4) {
+                                                                for (int valx = 0; valx < (mangXienKhongX.length - 1) - sodux4; valx++) {
+                                                                    error += " " + mangXienKhongX[valx];
+                                                                }
+                                                                if (sodux4 == 1) {
+                                                                    int endArr1 = mangXienKhongX.length - 2; // lay tu vi tri gan cuoi vi chuoi bang dau tu 0
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[endArr1] + " </font>"; // bao do vi thua gia tri
+                                                                } else if (sodux4 == 2) {
+                                                                    int endArr1 = mangXienKhongX.length - 2; // lay tu vi tri gan cuoi vi chuoi bang dau tu 0
+                                                                    int endArr2 = mangXienKhongX.length - 3; //nt
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[endArr2] + " " + mangXienKhongX[endArr1] + " </font>"; // bao do vi thua gia tri
+                                                                } else {
+                                                                    int endArr1 = mangXienKhongX.length - 2; // nhu tren
+                                                                    int endArr2 = mangXienKhongX.length - 3; // nhu tren
+                                                                    int endArr3 = mangXienKhongX.length - 4; // nhu tren
+                                                                    error += "<font color=\"RED\">" + mangXienKhongX[endArr3] + " " + mangXienKhongX[endArr2] + " " + mangXienKhongX[endArr1] + " </font>"; // bao do vi thua gia tri
+                                                                }
+                                                            } else {
+                                                                for (int valx = 0; valx < mangXienKhongX.length - 1; valx++) {
+                                                                    error += "<font color=\"RED\"> " + mangXienKhongX[valx] + "</font>";
+                                                                }
+                                                            }
+                                                        }
+                                                        break;
+                                                    case "si ":
+                                                        if (mangXienKhongX.length <= 5 && mangXienKhongX.length >= 3) {
+                                                            String boSoXien = "";
+                                                            ArrayList<String> checkXien = new ArrayList<>();
+                                                            for (int allX = 0; allX < mangXienKhongX.length - 1; allX++) {
+                                                                if (limitNumber.contains(mangXienKhongX[allX])) {
+                                                                    try {
+                                                            /* danh le*/
+                                                                        error += " " + mangXienKhongX[allX];
+                                                                        boSoXien += " " + mangXienKhongX[allX];
+                                                                        int trung = Collections.frequency(compareLo, mangXienKhongX[allX]);
+                                                                        if (trung > 0) {
+                                                                            checkXien.add("true");
+                                                                        } else {
+                                                                            checkXien.add("false");
+                                                                        }
+                                                                    } catch (NumberFormatException e) {
+                                                                        error += "<font color=\"RED\"> " + mangXienKhongX[allX] + "</font>";
+                                                                    }
+                                                                } else {
                                                                     error += "<font color=\"RED\"> " + mangXienKhongX[allX] + "</font>";
                                                                 }
-                                                            } else {
-                                                                error += "<font color=\"RED\"> " + mangXienKhongX[allX] + "</font>";
+                                                            }
+                                                            if (miliGetTimeLo > miliGettimeSms) {
+                                                                xulydanhXien(checkXien, getNum, hsx2, thuongxien2, hsx3
+                                                                        , thuongxien3, hsx4, thuongxien4, idSmsInt, dongiaId, boSoXien, smsType
+                                                                        , listDonGia[1], "xien", listDonGia[0], dataSoLieuDate);
+                                                            }
+                                                        } else if (mangXienKhongX.length > 5) {
+                                                            error += mangXienKhongX[0] + " " + mangXienKhongX[1] + " " + mangXienKhongX[2] + " " +
+                                                                    mangXienKhongX[3] + " ";
+                                                            for (int allX = 4; allX < mangXienKhongX.length - 1; allX++) {
+                                                                error += "<font color=\"RED\"> " + mangXienKhongX[allX] + " </font>";
+                                                            }
+                                                        } else {
+                                                            for (int allX = 0; allX < mangXienKhongX.length - 1; allX++) {
+                                                                error += "<font color=\"RED\"> " + mangXienKhongX[allX] + " </font>";
                                                             }
                                                         }
-                                                        if (miliGetTimeLo > miliGettimeSms) {
-                                                            xulydanhXien(checkXien, getNum, hsx2, thuongxien2, hsx3
-                                                                    , thuongxien3, hsx4, thuongxien4, idSmsInt, dongiaId, boSoXien, smsType
-                                                                    , listDonGia[1], "xien", listDonGia[0], dataSoLieuDate);
-                                                        }
-                                                    } else if (mangXienKhongX.length > 5) {
-                                                        error += mangXienKhongX[0] + " " + mangXienKhongX[1] + " " + mangXienKhongX[2] + " " +
-                                                                mangXienKhongX[3] + " ";
-                                                        for (int allX = 4; allX < mangXienKhongX.length - 1; allX++) {
-                                                            error += "<font color=\"RED\"> " + mangXienKhongX[allX] + " </font>";
-                                                        }
-                                                    } else {
-                                                        for (int allX = 0; allX < mangXienKhongX.length - 1; allX++) {
-                                                            error += "<font color=\"RED\"> " + mangXienKhongX[allX] + " </font>";
-                                                        }
-                                                    }
 
-                                                    break;
-                                                default:
-                                                    String valDefault = "";
-                                                    for (int allX = 1; allX < mangXienKhongX.length - 1; allX++) {
-                                                        valDefault += mangXienKhongX[allX];
-                                                    }
-                                                    error += "<font color=\"red\" > " + valDefault + "</font>";
-                                                    break;
-                                            }
-                                            String valXienEnd = mangXienKhongX[mangXienKhongX.length - 1];
-                                            if (mangXienKhongX.length == 1) {
-                                                error += "<font color=\"RED\"> " + valXienEnd + " </font>";
-                                            } else if (valXienEnd.indexOf("n") > -1 &&
-                                                    valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                    valXienEnd.replaceAll("[^\\d.]", "").length() >= 1
-                                                    ) {
-                                                error += " " + valXienEnd + " ";
-                                            } else if (valXienEnd.indexOf("k") > -1 &&
-                                                    valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                    valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += " " + valXienEnd + " ";
-                                            } else if (valXienEnd.indexOf("d") > -1 &&
-                                                    valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                    valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += " " + valXienEnd + " ";
-                                            } else if (valXienEnd.indexOf("trieu") > -1 &&
-                                                    valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
-                                                    valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += " " + valXienEnd + " ";
-                                            } else if (valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
-                                                    valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += " " + valXienEnd + " ";
-                                            } else if (valXienEnd.indexOf("N1c") > -1 &&
-                                                    valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 2 &&
-                                                    valXienEnd.replaceAll("[^\\d.]", "").length() >= 2) {
-                                                error += " " + valXienEnd + " ";
+                                                        break;
+                                                    default:
+                                                        String valDefault = "";
+                                                        for (int allX = 1; allX < mangXienKhongX.length - 1; allX++) {
+                                                            valDefault += mangXienKhongX[allX];
+                                                        }
+                                                        error += "<font color=\"red\" > " + valDefault + "</font>";
+                                                        break;
+                                                }
+                                                String valXienEnd = mangXienKhongX[mangXienKhongX.length - 1];
+                                                if (mangXienKhongX.length == 1) {
+                                                    error += "<font color=\"RED\"> " + valXienEnd + " </font>";
+                                                } else if (valXienEnd.indexOf("n") > -1 &&
+                                                        valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                        valXienEnd.replaceAll("[^\\d.]", "").length() >= 1
+                                                        ) {
+                                                    error += " " + valXienEnd + " ";
+                                                } else if (valXienEnd.indexOf("k") > -1 &&
+                                                        valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                        valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                    error += " " + valXienEnd + " ";
+                                                } else if (valXienEnd.indexOf("d") > -1 &&
+                                                        valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                        valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                    error += " " + valXienEnd + " ";
+                                                } else if (valXienEnd.indexOf("trieu") > -1 &&
+                                                        valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
+                                                        valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                    error += " " + valXienEnd + " ";
+                                                } else if (valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
+                                                        valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                    error += " " + valXienEnd + " ";
+                                                } else if (valXienEnd.indexOf("N1c") > -1 &&
+                                                        valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 2 &&
+                                                        valXienEnd.replaceAll("[^\\d.]", "").length() >= 2) {
+                                                    error += " " + valXienEnd + " ";
+                                                } else {
+                                                    error += "<font color=\"RED\"> " + valXienEnd + " </font>";
+                                                }
                                             } else {
-                                                error += "<font color=\"RED\"> " + valXienEnd + " </font>";
+                                                error += "<font color=\"RED\"> " + tachChuoiXien.get(tc) + " </font>";
                                             }
                                         }
                                     }
@@ -3990,7 +4005,7 @@ public class Message extends AppCompatActivity {
                                         }
                                     } else if (tachChuoiXq.get(xqu).indexOf("=") > -1) { // kiem tra co dau x trong chuoi khong
                                         String[] mangXienQuayCoX = tachChuoiXq.get(xqu).replaceAll("(^\\s+|\\s+$)", "").split("=");
-                                        if (mangXienQuayCoX.length == 2) {
+                                        if (mangXienQuayCoX.length == 1) {
                                             double getNum = 0;
                                             if (mangXienQuayCoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
                                                 if (mangXienQuayCoX[1].indexOf("trieu") > -1) {
@@ -4276,313 +4291,317 @@ public class Message extends AppCompatActivity {
                                         }
                                     } else {
                                         String[] mangXienQuayKX = tachChuoiXq.get(xqu).replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                        String valueMangXienQuayKX = String.valueOf(mangXienQuayKX[mangXienQuayKX.length - 1]);
-                                        double getNum = 0;
-                                        if (tachChuoiXq.get(xqu).indexOf("N1c") > -1) {
-                                            if (valueMangXienQuayKX.replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
-                                                if (valueMangXienQuayKX.indexOf("trieu") > -1) {
-                                                    getNum = Double.parseDouble(valueMangXienQuayKX.replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
-                                                } else if (valueMangXienQuayKX.indexOf("d") > -1) {
-                                                    getNum = Double.parseDouble(valueMangXienQuayKX.replace("N1c", "").replaceAll("[^\\d.]", "")) * 10;
-                                                } else {
-                                                    getNum = Double.parseDouble(valueMangXienQuayKX.replace("N1c", "").replaceAll("[^\\d.]", ""));
-                                                }
-                                            }
-                                        } else {
-                                            if (mangXienQuayKX.length >= 2) {
-                                                if (valueMangXienQuayKX.replaceAll("[^\\d.]", "").length() > 0) {
+                                        if(mangXienQuayKX.length == 1) {
+                                            String valueMangXienQuayKX = String.valueOf(mangXienQuayKX[mangXienQuayKX.length - 1]);
+                                            double getNum = 0;
+                                            if (tachChuoiXq.get(xqu).indexOf("N1c") > -1) {
+                                                if (valueMangXienQuayKX.replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
                                                     if (valueMangXienQuayKX.indexOf("trieu") > -1) {
-                                                        getNum = Double.parseDouble(valueMangXienQuayKX.replaceAll("[^\\d.]", "")) * 1000;
+                                                        getNum = Double.parseDouble(valueMangXienQuayKX.replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                     } else if (valueMangXienQuayKX.indexOf("d") > -1) {
-                                                        getNum = Double.parseDouble(valueMangXienQuayKX.replaceAll("[^\\d.]", "")) * 10;
+                                                        getNum = Double.parseDouble(valueMangXienQuayKX.replace("N1c", "").replaceAll("[^\\d.]", "")) * 10;
                                                     } else {
-                                                        getNum = Double.parseDouble(valueMangXienQuayKX.replaceAll("[^\\d.]", ""));
+                                                        getNum = Double.parseDouble(valueMangXienQuayKX.replace("N1c", "").replaceAll("[^\\d.]", ""));
+                                                    }
+                                                }
+                                            } else {
+                                                if (mangXienQuayKX.length >= 2) {
+                                                    if (valueMangXienQuayKX.replaceAll("[^\\d.]", "").length() > 0) {
+                                                        if (valueMangXienQuayKX.indexOf("trieu") > -1) {
+                                                            getNum = Double.parseDouble(valueMangXienQuayKX.replaceAll("[^\\d.]", "")) * 1000;
+                                                        } else if (valueMangXienQuayKX.indexOf("d") > -1) {
+                                                            getNum = Double.parseDouble(valueMangXienQuayKX.replaceAll("[^\\d.]", "")) * 10;
+                                                        } else {
+                                                            getNum = Double.parseDouble(valueMangXienQuayKX.replaceAll("[^\\d.]", ""));
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
-                                        switch (mangXienQuayKX.length) {
-                                            case 5:
-                                                int trung1 = Collections.frequency(compareLo, mangXienQuayKX[0]);
-                                                int trung2 = Collections.frequency(compareLo, mangXienQuayKX[1]);
-                                                int trung3 = Collections.frequency(compareLo, mangXienQuayKX[2]);
-                                                int trung4 = Collections.frequency(compareLo, mangXienQuayKX[3]);
-                                                // 1-2-3-4
-                                                if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
-                                                                1, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate);
+                                            switch (mangXienQuayKX.length) {
+                                                case 5:
+                                                    int trung1 = Collections.frequency(compareLo, mangXienQuayKX[0]);
+                                                    int trung2 = Collections.frequency(compareLo, mangXienQuayKX[1]);
+                                                    int trung3 = Collections.frequency(compareLo, mangXienQuayKX[2]);
+                                                    int trung4 = Collections.frequency(compareLo, mangXienQuayKX[3]);
+                                                    // 1-2-3-4
+                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
+                                                                    1, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
+                                                                    0, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
-                                                                0, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate);
+                                                    // 1-2-3
+                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2],
+                                                                    1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2],
+                                                                    0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                }
-                                                // 1-2-3
-                                                if (trung1 > 0 && trung2 > 0 && trung3 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2],
-                                                                1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                    //1-2-4
+                                                    if (trung1 > 0 && trung2 > 0 && trung4 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[3],
+                                                                    1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[3],
+                                                                    0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2],
-                                                                0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                    //1-3-4
+                                                    if (trung1 > 0 && trung3 > 0 && trung4 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[0] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
+                                                                    1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[0] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
+                                                                    0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                }
-                                                //1-2-4
-                                                if (trung1 > 0 && trung2 > 0 && trung4 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[3],
-                                                                1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                    //2-3-4
+                                                    if (trung2 > 0 && trung3 > 0 && trung4 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[1] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
+                                                                    1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[1] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
+                                                                    0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[3],
-                                                                0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                    // 1-2
+                                                    if (trung1 > 0 && trung2 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[1],
+                                                                    1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[1],
+                                                                    0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                }
-                                                //1-3-4
-                                                if (trung1 > 0 && trung3 > 0 && trung4 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[0] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
-                                                                1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                    // 1-3
+                                                    if (trung1 > 0 && trung3 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
+                                                                    1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
+                                                                    0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[0] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
-                                                                0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                    // 1-4
+                                                    if (trung1 > 0 && trung4 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[3],
+                                                                    1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[3],
+                                                                    0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                }
-                                                //2-3-4
-                                                if (trung2 > 0 && trung3 > 0 && trung4 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[1] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
-                                                                1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                    // 2-3
+                                                    if (trung2 > 0 && trung3 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[1] + " " + mangXienQuayKX[2],
+                                                                    1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[1] + " " + mangXienQuayKX[2],
+                                                                    0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[1] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
-                                                                0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                    // 2-4
+                                                    if (trung2 > 0 && trung4 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[1] + " " + mangXienQuayKX[3],
+                                                                    1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[1] + " " + mangXienQuayKX[3],
+                                                                    0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                }
-                                                // 1-2
-                                                if (trung1 > 0 && trung2 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[1],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                    // 3-4
+                                                    if (trung3 > 0 && trung4 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[2] + " " + mangXienQuayKX[3],
+                                                                    1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[2] + " " + mangXienQuayKX[3],
+                                                                    0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[1],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                    if (limitNumber.contains(mangXienQuayKX[0])) {
+                                                        error += mangXienQuayKX[0] + " ";
+                                                    } else {
+                                                        error += "<font color=\"RED\">" + mangXienQuayKX[0] + " </font>";
                                                     }
-                                                }
-                                                // 1-3
-                                                if (trung1 > 0 && trung3 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                    if (limitNumber.contains(mangXienQuayKX[1])) {
+                                                        error += mangXienQuayKX[1] + " ";
+                                                    } else {
+                                                        error += "<font color=\"RED\">" + mangXienQuayKX[1] + " </font>";
                                                     }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
-                                                    }
-                                                }
-                                                // 1-4
-                                                if (trung1 > 0 && trung4 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[3],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
-                                                    }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[3],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
-                                                    }
-                                                }
-                                                // 2-3
-                                                if (trung2 > 0 && trung3 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[1] + " " + mangXienQuayKX[2],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
-                                                    }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[1] + " " + mangXienQuayKX[2],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
-                                                    }
-                                                }
-                                                // 2-4
-                                                if (trung2 > 0 && trung4 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[1] + " " + mangXienQuayKX[3],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
-                                                    }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[1] + " " + mangXienQuayKX[3],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
-                                                    }
-                                                }
-                                                // 3-4
-                                                if (trung3 > 0 && trung4 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[2] + " " + mangXienQuayKX[3],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
-                                                    }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[2] + " " + mangXienQuayKX[3],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
-                                                    }
-                                                }
-                                                if (limitNumber.contains(mangXienQuayKX[0])) {
-                                                    error += mangXienQuayKX[0] + " ";
-                                                } else {
-                                                    error += "<font color=\"RED\">" + mangXienQuayKX[0] + " </font>";
-                                                }
-                                                if (limitNumber.contains(mangXienQuayKX[1])) {
-                                                    error += mangXienQuayKX[1] + " ";
-                                                } else {
-                                                    error += "<font color=\"RED\">" + mangXienQuayKX[1] + " </font>";
-                                                }
 
-                                                if (limitNumber.contains(mangXienQuayKX[2])) {
-                                                    error += mangXienQuayKX[2] + " ";
-                                                } else {
-                                                    error += "<font color=\"RED\">" + mangXienQuayKX[2] + " </font>";
-                                                }
-                                                if (limitNumber.contains(mangXienQuayKX[3])) {
-                                                    error += mangXienQuayKX[3] + " ";
-                                                } else {
-                                                    error += "<font color=\"RED\">" + mangXienQuayKX[3] + " </font>";
-                                                }
-                                                break;
-                                            case 4:
-                                                int trungQ1 = Collections.frequency(compareLo, mangXienQuayKX[0]);
-                                                int trungQ2 = Collections.frequency(compareLo, mangXienQuayKX[1]);
-                                                int trungQ3 = Collections.frequency(compareLo, mangXienQuayKX[2]);
-                                                // 1-2-3
-                                                if (trungQ1 > 0 && trungQ2 > 0 && trungQ3 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2],
-                                                                1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                    if (limitNumber.contains(mangXienQuayKX[2])) {
+                                                        error += mangXienQuayKX[2] + " ";
+                                                    } else {
+                                                        error += "<font color=\"RED\">" + mangXienQuayKX[2] + " </font>";
                                                     }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2],
-                                                                0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                    if (limitNumber.contains(mangXienQuayKX[3])) {
+                                                        error += mangXienQuayKX[3] + " ";
+                                                    } else {
+                                                        error += "<font color=\"RED\">" + mangXienQuayKX[3] + " </font>";
                                                     }
-                                                }
-                                                // 1-2
-                                                if (trungQ1 > 0 && trungQ2 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[1],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                    break;
+                                                case 4:
+                                                    int trungQ1 = Collections.frequency(compareLo, mangXienQuayKX[0]);
+                                                    int trungQ2 = Collections.frequency(compareLo, mangXienQuayKX[1]);
+                                                    int trungQ3 = Collections.frequency(compareLo, mangXienQuayKX[2]);
+                                                    // 1-2-3
+                                                    if (trungQ1 > 0 && trungQ2 > 0 && trungQ3 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2],
+                                                                    1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
+                                                                    mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2],
+                                                                    0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[1],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                    // 1-2
+                                                    if (trungQ1 > 0 && trungQ2 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[1],
+                                                                    1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[1],
+                                                                    0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                }
-                                                // 1-3
-                                                if (trungQ1 > 0 && trungQ3 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                    // 1-3
+                                                    if (trungQ1 > 0 && trungQ3 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
+                                                                    1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
+                                                                    0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                    // 2-3
+                                                    if (trungQ2 > 0 && trungQ3 > 0) {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
+                                                                    1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
+                                                    } else {
+                                                        if (miliGetTimeLo > miliGettimeSms) {
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
+                                                                    0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                        }
                                                     }
-                                                }
-                                                // 2-3
-                                                if (trungQ2 > 0 && trungQ3 > 0) {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                    if (limitNumber.contains(mangXienQuayKX[0])) {
+                                                        error += mangXienQuayKX[0] + " ";
+                                                    } else {
+                                                        error += "<font color=\"RED\">" + mangXienQuayKX[0] + " </font>";
                                                     }
-                                                } else {
-                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                        xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
+                                                    if (limitNumber.contains(mangXienQuayKX[1])) {
+                                                        error += mangXienQuayKX[1] + " ";
+                                                    } else {
+                                                        error += "<font color=\"RED\">" + mangXienQuayKX[1] + " </font>";
                                                     }
-                                                }
-                                                if (limitNumber.contains(mangXienQuayKX[0])) {
-                                                    error += mangXienQuayKX[0] + " ";
-                                                } else {
-                                                    error += "<font color=\"RED\">" + mangXienQuayKX[0] + " </font>";
-                                                }
-                                                if (limitNumber.contains(mangXienQuayKX[1])) {
-                                                    error += mangXienQuayKX[1] + " ";
-                                                } else {
-                                                    error += "<font color=\"RED\">" + mangXienQuayKX[1] + " </font>";
-                                                }
 
-                                                if (limitNumber.contains(mangXienQuayKX[2])) {
-                                                    error += mangXienQuayKX[2] + " ";
-                                                } else {
-                                                    error += "<font color=\"RED\">" + mangXienQuayKX[2] + " </font>";
-                                                }
-                                                break;
-                                            case 3:
-                                                error += "<font color=\"RED\">" + mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " </font>";
-                                                break;
-                                            case 2:
-                                                error += "<font color=\"RED\">" + mangXienQuayKX[0] + " </font>";
-                                                break;
-                                            default:
-                                                for (int q=0;q<mangXienQuayKX.length -1;q++) {
-                                                    error += "<font color=\"RED\">" + mangXienQuayKX[q] + " </font>";
-                                                }
-                                                break;
-                                        } //ket thuc swith
-                                        String valueXienQuayKX = mangXienQuayKX[mangXienQuayKX.length - 1];
-                                        if (mangXienQuayKX.length < 3) {
-                                            error += "<font color=\"RED\">" + valueXienQuayKX + " </font>";
-                                        } else if (valueXienQuayKX.indexOf("n") > -1 &&
-                                                valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1
-                                                ) {
-                                            error += valueXienQuayKX + " ";
-                                        } else if (valueXienQuayKX.indexOf("k") > -1 &&
-                                                valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
-                                            error += valueXienQuayKX + " ";
-                                        } else if (valueXienQuayKX.indexOf("d") > -1 &&
-                                                valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
-                                                valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
-                                            error += valueXienQuayKX + " ";
-                                        } else if (valueXienQuayKX.indexOf("trieu") > -1 &&
-                                                valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
-                                                valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
-                                            error += valueXienQuayKX + " ";
-                                        } else if (valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
-                                                valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
-                                            error += valueXienQuayKX + " ";
-                                        } else if (valueXienQuayKX.indexOf("N1c") > -1 &&
-                                                valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 2 &&
-                                                valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 2) {
-                                            error += valueXienQuayKX + " ";
+                                                    if (limitNumber.contains(mangXienQuayKX[2])) {
+                                                        error += mangXienQuayKX[2] + " ";
+                                                    } else {
+                                                        error += "<font color=\"RED\">" + mangXienQuayKX[2] + " </font>";
+                                                    }
+                                                    break;
+                                                case 3:
+                                                    error += "<font color=\"RED\">" + mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " </font>";
+                                                    break;
+                                                case 2:
+                                                    error += "<font color=\"RED\">" + mangXienQuayKX[0] + " </font>";
+                                                    break;
+                                                default:
+                                                    for (int q = 0; q < mangXienQuayKX.length - 1; q++) {
+                                                        error += "<font color=\"RED\">" + mangXienQuayKX[q] + " </font>";
+                                                    }
+                                                    break;
+                                            } //ket thuc swith
+                                            String valueXienQuayKX = mangXienQuayKX[mangXienQuayKX.length - 1];
+                                            if (mangXienQuayKX.length < 3) {
+                                                error += "<font color=\"RED\">" + valueXienQuayKX + " </font>";
+                                            } else if (valueXienQuayKX.indexOf("n") > -1 &&
+                                                    valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                    valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1
+                                                    ) {
+                                                error += valueXienQuayKX + " ";
+                                            } else if (valueXienQuayKX.indexOf("k") > -1 &&
+                                                    valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                    valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                error += valueXienQuayKX + " ";
+                                            } else if (valueXienQuayKX.indexOf("d") > -1 &&
+                                                    valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
+                                                    valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                error += valueXienQuayKX + " ";
+                                            } else if (valueXienQuayKX.indexOf("trieu") > -1 &&
+                                                    valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
+                                                    valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                error += valueXienQuayKX + " ";
+                                            } else if (valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
+                                                    valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
+                                                error += valueXienQuayKX + " ";
+                                            } else if (valueXienQuayKX.indexOf("N1c") > -1 &&
+                                                    valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 2 &&
+                                                    valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 2) {
+                                                error += valueXienQuayKX + " ";
+                                            } else {
+                                                error += "<font color=\"RED\">" + valueXienQuayKX + " </font>";
+                                            }
                                         } else {
-                                            error += "<font color=\"RED\">" + valueXienQuayKX + " </font>";
+                                            error += "<font color=\"RED\">" + tachChuoiXq.get(xqu) + " </font>";
                                         }
                                     } // ket thuc if else mang de khong x va co x
                                 }
@@ -4766,13 +4785,13 @@ public class Message extends AppCompatActivity {
         double tongTienDanh, tongTienThuong, tongTien;
         double hsxien = hsx;
         double tienDanh = hsx * getNum;
-        Log.d("LogFile",String.valueOf(tienDanh));
+        Log.d("LogFile", String.valueOf(tienDanh));
         double tienThuong = thuongxien * getNum * trung;
         double tong = tienDanh - tienThuong;
         double trungSms = Math.round(getNum * trung * 100.00) / 100.0;
         tongTienDanh = Math.round(tienDanh * 100.00) / 100.0;
-        Log.d("LogFile",String.valueOf(boSoLoTo));
-        Log.d("LogFile",String.valueOf(tongTienDanh));
+        Log.d("LogFile", String.valueOf(boSoLoTo));
+        Log.d("LogFile", String.valueOf(tongTienDanh));
         tongTienThuong = Math.round(tienThuong * 100.00) / 100.0;
         tongTien = Math.round(tong * 100.00) / 100.0;
         boolean soLieu = sql.insertDataSourceSoLieu(idSmsInt, dongiaId, boSoLoTo
