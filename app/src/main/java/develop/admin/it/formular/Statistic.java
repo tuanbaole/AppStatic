@@ -350,8 +350,6 @@ public class Statistic extends AppCompatActivity {
             // sortDe[z] = String.valueOf(showDe) + "java0java0";
             if (deArr[q] != null) {
                 sortDe[z] = String.valueOf(showDe) + "java" + String.valueOf(deArr[q]) + "java" + String.valueOf(deTrung[q]);
-            } else {
-                sortDe[z] = String.valueOf(showDe) + "java0java0"; // xoa di neu k phai a vuong
             }
             z++;
             String showLo = "";
@@ -364,7 +362,7 @@ public class Statistic extends AppCompatActivity {
             if (loArr[q] != null) {
                 sortLo[k] = String.valueOf(showLo) + "java" + String.valueOf(loArr[q]) + "java" + String.valueOf(loTrung[q]);
             } else {
-                sortLo[k] = String.valueOf(showLo) + "java0java0"; // xoa di neu k phai a vuong
+//                sortLo[k] = String.valueOf(showLo) + "java0java0"; // xoa di neu k phai a vuong
             }
             k++;
         }
@@ -374,7 +372,7 @@ public class Statistic extends AppCompatActivity {
                 String showBaCang = "";
                 if (f < 10) {
                     showBaCang = "00" + String.valueOf(f);
-                } else if (f < 10) {
+                } else if (f < 100) {
                     showBaCang = "0" + String.valueOf(f);
                 } else {
                     showBaCang = String.valueOf(f);
@@ -383,40 +381,40 @@ public class Statistic extends AppCompatActivity {
                 s++;
             }
         }
-//        String tempDe;
-//        for (int x = 0; x < sortDe.length; x++) {
-//            if (sortDe[x] != null) {
-//                String[] arrSortDe1 = sortDe[x].split("java");
-//                for (int t = x + 1; t < sortDe.length; t++) {
-//                    if (sortDe[t] != null) {
-//                        String[] arrSortDe2 = sortDe[t].split("java");
-//                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
-//                            tempDe = sortDe[t];
-//                            sortDe[t] = sortDe[x];
-//                            sortDe[x] = tempDe;
-//                            arrSortDe1[1] = arrSortDe2[1];
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        String tempLo;
-//        for (int c = 0; c < sortLo.length; c++) {
-//            if (sortLo[c] != null) {
-//                String[] arrSortLo1 = sortLo[c].split("java");
-//                for (int r = c + 1; r < sortLo.length; r++) {
-//                    if (sortLo[r] != null) {
-//                        String[] arrSortLo2 = sortLo[r].split("java");
-//                        if (Integer.parseInt(arrSortLo1[1]) < Integer.parseInt(arrSortLo2[1])) {
-//                            tempLo = sortLo[r];
-//                            sortLo[r] = sortLo[c];
-//                            sortLo[c] = tempLo;
-//                            arrSortLo1[1] = arrSortLo2[1];
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        String tempDe;
+        for (int x = 0; x < sortDe.length; x++) {
+            if (sortDe[x] != null) {
+                String[] arrSortDe1 = sortDe[x].split("java");
+                for (int t = x + 1; t < sortDe.length; t++) {
+                    if (sortDe[t] != null) {
+                        String[] arrSortDe2 = sortDe[t].split("java");
+                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
+                            tempDe = sortDe[t];
+                            sortDe[t] = sortDe[x];
+                            sortDe[x] = tempDe;
+                            arrSortDe1[1] = arrSortDe2[1];
+                        }
+                    }
+                }
+            }
+        }
+        String tempLo;
+        for (int c = 0; c < sortLo.length; c++) {
+            if (sortLo[c] != null) {
+                String[] arrSortLo1 = sortLo[c].split("java");
+                for (int r = c + 1; r < sortLo.length; r++) {
+                    if (sortLo[r] != null) {
+                        String[] arrSortLo2 = sortLo[r].split("java");
+                        if (Integer.parseInt(arrSortLo1[1]) < Integer.parseInt(arrSortLo2[1])) {
+                            tempLo = sortLo[r];
+                            sortLo[r] = sortLo[c];
+                            sortLo[c] = tempLo;
+                            arrSortLo1[1] = arrSortLo2[1];
+                        }
+                    }
+                }
+            }
+        }
 
         for (int a = 0; a < sortDe.length; a++) {
             if (sortDe[a] != null) {
@@ -440,7 +438,7 @@ public class Statistic extends AppCompatActivity {
                             showResLo[0] + "  </font>"
                             + showResLo[1] + "d</b></big></big><br />";
                 } else {
-                    textLoRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
+                    textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
                             + showResLo[0] + "</font>" +
                             "<font color=\"blue\">" + showResLo[2] + "</font> "
                             + showResLo[1] + "d</b></big></big><br />";
@@ -691,22 +689,22 @@ public class Statistic extends AppCompatActivity {
         TableRow tr1 = new TableRow(Statistic.this);
         tr1.addView(tong, rowSpanLayout2);
 
-        TableRow tr4 = new TableRow(Statistic.this);//1
+//        TableRow tr4 = new TableRow(Statistic.this);//1
 
         de.setText(Html.fromHtml(textDeLeft));
-        lo.setText(Html.fromHtml(textDeRight));
+        lo.setText(Html.fromHtml(textLoLeft));
         tr2.addView(de);
         tr2.addView(lo);
         tableLayout.addView(tr2);
 
         TextView de1 = new TextView(Statistic.this); //1
         TextView lo1 = new TextView(Statistic.this); //1
-        de1.setText(Html.fromHtml(textLoLeft)); // 1
-        lo1.setText(Html.fromHtml(textLoRight));//1
+        de1.setText(Html.fromHtml(textDeLeft)); // 1
+        lo1.setText(Html.fromHtml(textLoLeft));//1
 
-        tr4.addView(de1);//1
-        tr4.addView(lo1);//1
-        tableLayout.addView(tr4);//1
+//        tr4.addView(de1);//1
+//        tr4.addView(lo1);//1
+//        tableLayout.addView(tr4);//1
         tableLayout.addView(tr1);
     }
 

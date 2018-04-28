@@ -231,8 +231,9 @@ public class SendSms extends AppCompatActivity {
 
     private void importSms(final String getDays, String sdt, String formatSms,
                            String ten, int cophan, String ngoiMot, String ngoiHai) {
-        String chitiettungtin = chitiettungtin(sdt,getDays);
-        String queryKieu = "";
+//        String chitiettungtin = chitiettungtin(sdt,getDays);
+        String chitiettungtin = "";
+                String queryKieu = "";
         if (formatSms.equals("inbox")) {
             queryKieu = " AND KIEU=\"inbox\"";
         } else if (formatSms.equals("send")) {

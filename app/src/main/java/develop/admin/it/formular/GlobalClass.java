@@ -236,7 +236,7 @@ public class GlobalClass extends AppCompatActivity {
     }
 
     public static String removeAccent(String s) {
-        s = s.replace("bỏ","bor");
+        s = s.replace("bỏ", "bor");
         String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(temp).replaceAll("");
@@ -254,58 +254,58 @@ public class GlobalClass extends AppCompatActivity {
                 replace("db", "JAVASTR db").
                 replace("3c", "JAVASTR 3c")
                 .replace("lx ", "JAVASTR si ").
-                replace("lx2", "JAVASTR si2").replace("lx3", "JAVASTR si3").
-                replace("lx4", "JAVASTR si4").replace("xi ", "JAVASTR si ").
-                replace("xi2", "JAVASTR si2").replace("xi3", "JAVASTR si3").
-                replace("xi4", "JAVASTR si4").replace("x4 ", "JAVASTR si4 ").
-                replace("x3 ", "JAVASTR si3 ").replace("x2 ", "JAVASTR si2 ").replace("xi ", "JAVASTR si ").
-                replace("xien quay", "JAVASTR sq").replace("xienquay", "JAVASTR sq").
-                replace("xq", "JAVASTR sq").
-                replace("mc", "x").
-                replace("ms", "x").
-                replace("moi con", "x").
-                replace("moicon", "x").
-                replace("moi cap", "x").
-                replace("moicap", "x").
-                replace("×", "x").
-                replace("ba cang", "3c").
-                replace("bacang", "3c").
-                replace("to to", "toto").replace("to nho", "tolho").
-                replace("nho to", "lhoto").replace("nho nho", "lholho").
-                replace("le chan", "lechal").replace("le le", "lele").
-                replace("chan le", "challe").replace("chan chan", "chalchal").
-                replace("tonho", "tolho").replace("nhoto", "lhoto").
-                replace("nhonho", "lholho").replace("lechan", "lechal").
-                replace("chanle", "challe").replace("chanchan", "chalchal").
-                replace("tong tren muoi", "tongtrelmuoi").replace("tong tren 10", "tongtrel10").
-                replace("tong trel10", "tongtrel10").replace("tong duoi10", "tongduoi10").
-                replace("tong duoi muoi", "tongduoimuoi").replace("tong duoi 10", "tongduoi10").
-                replace("chia 3 du 0", "chia3du0").
-                replace("chia 3 du 1", "chia3du1").
-                replace("chia 3 du 2", "chia3du2").
-                replace("on", "ON").replace("t0n", "TON").
-                replace("kepbang", "cepbalg").replace("kep bang", "cepbalg").replace("kep lech", "ceplech").
-                replace("dan", "dal").
-                replace("an", "al").
-                replace("nghin", "n").
-                replace("ngin", "n").
-                replace("ng", "n").
-                replace(" n", "n").
-                replace("diem", "d").
-                replace("/", " ").
-                replace("\\", " ").
-                replace(":", " ").
-                replace(";", " ").
-                replace("'", " ").
-                replace("\"", " ").
-                replace("-", " ").
-                replace("_", " ").
-                replace("+", " ").
-                replace(",", " ").
-                replace(".", " ").
-                replace("da", "DA").replace("di", "DI").replace("du", "DU").
-                replace("n/1c", "N1c").replace("n\\1c", "N1c").replace("n1c", "N1c").
-                replace("d/1c", "D1c").replace("d\\1c", "D1c").replace("d1c", "D1c");
+                        replace("lx2", "JAVASTR si2").replace("lx3", "JAVASTR si3").
+                        replace("lx4", "JAVASTR si4").replace("xi ", "JAVASTR si ").
+                        replace("xi2", "JAVASTR si2").replace("xi3", "JAVASTR si3").
+                        replace("xi4", "JAVASTR si4").replace("xi ", "JAVASTR si ").
+                        replace("xien quay", "JAVASTR sq").replace("xienquay", "JAVASTR sq").
+                        replace("xq", "JAVASTR sq").
+                        replace("mc", "x").
+                        replace("ms", "x").
+                        replace("moi con", "x").
+                        replace("moicon", "x").
+                        replace("moi cap", "x").
+                        replace("moicap", "x").
+                        replace("×", "x").
+                        replace("ba cang", "3c").
+                        replace("bacang", "3c").
+                        replace("to to", "toto").replace("to nho", "tolho").
+                        replace("nho to", "lhoto").replace("nho nho", "lholho").
+                        replace("le chan", "lechal").replace("le le", "lele").
+                        replace("chan le", "challe").replace("chan chan", "chalchal").
+                        replace("tonho", "tolho").replace("nhoto", "lhoto").
+                        replace("nhonho", "lholho").replace("lechan", "lechal").
+                        replace("chanle", "challe").replace("chanchan", "chalchal").
+                        replace("tong tren muoi", "tongtrelmuoi").replace("tong tren 10", "tongtrel10").
+                        replace("tong trel10", "tongtrel10").replace("tong duoi10", "tongduoi10").
+                        replace("tong duoi muoi", "tongduoimuoi").replace("tong duoi 10", "tongduoi10").
+                        replace("chia 3 du 0", "chia3du0").
+                        replace("chia 3 du 1", "chia3du1").
+                        replace("chia 3 du 2", "chia3du2").
+                        replace("on", "ON").replace("t0n", "TON").
+                        replace("sat kep","satcep").replace("satkep","satcep").
+                        replace("kepbang", "cepbalg").replace("kep bang", "cepbalg").replace("kep lech", "ceplech").
+                        replace("dan", "dal").
+                        replace("an", "al").
+                        replace("nghin", "n").
+                        replace("ngin", "n").
+                        replace("ng", "n").
+                        replace(" n", "n").
+                        replace("diem", "d").
+                        replace("/", " ").
+                        replace("\\", " ").
+                        replace(":", " ").
+                        replace(";", " ").
+                        replace("'", " ").
+                        replace("\"", " ").
+                        replace("-", " ").
+                        replace("_", " ").
+                        replace("+", " ").
+                        replace(",", " ").
+                        replace(".", " ").
+                        replace("da", "DA").replace("di", "DI").replace("du", "DU").
+                        replace("n/1c", "N1c").replace("n\\1c", "N1c").replace("n1c", "N1c").
+                        replace("d/1c", "D1c").replace("d\\1c", "D1c").replace("d1c", "D1c");
         return converKitu;
     }
 
@@ -322,8 +322,7 @@ public class GlobalClass extends AppCompatActivity {
                 replace("lx2", "JAVASTR si2").replace("lx3", "JAVASTR si3").
                 replace("lx4", "JAVASTR si4").replace("xi ", "JAVASTR si ").
                 replace("xi2", "JAVASTR si2").replace("xi3", "JAVASTR si3").
-                replace("xi4", "JAVASTR si4").replace("x4 ", "JAVASTR si4 ").
-                replace("x3 ", "JAVASTR si3 ").replace("x2 ", "JAVASTR si2 ").
+                replace("xi4", "JAVASTR si4").
                 replace("xien quay", "JAVASTR sq").replace("xienquay", "JAVASTR sq").
                 replace("xq", "JAVASTR sq").
                 replace("mc", "x").
@@ -379,7 +378,7 @@ public class GlobalClass extends AppCompatActivity {
     public String converStringSms(String messageSms) {
         String message = messageSms.replace("DA", "da").replace("DI", "di").
                 replace("DU", "du").
-                replace("gep","JAVASTR gep").
+                replace("gep", "JAVASTR gep").
                 replace("dau", "JAVASTR dau ").replace("dit", "JAVASTR dit ")
                 .replace("toto", "JAVASTR toto").replace("tolho", "JAVASTR tolho")
                 .replace("lhoto", "JAVASTR lhoto").replace("lholho", "JAVASTR lholho")
@@ -392,9 +391,9 @@ public class GlobalClass extends AppCompatActivity {
                 .replace("he", "JAVASTR he ").replace("bo", "JAVASTR bo ")
                 .replace("dal", "JAVASTR dal ").replace("keplech", "JAVASTR keplech").replace("kepbalg", "JAVASTR kepbalg")
                 .replace("ceplech", "JAVASTR ceplech").replace("cepbalg", "JAVASTR cepbalg")
-                .replace("chia 3 du 0","JAVASTR chia3du0")
-                .replace("chia 3 du 1","JAVASTR chia3du1")
-                .replace("chia 3 du 2","JAVASTR chia3du2");
+                .replace("chia 3 du 0", "JAVASTR chia3du0")
+                .replace("chia 3 du 1", "JAVASTR chia3du1")
+                .replace("chia 3 du 2", "JAVASTR chia3du2");
         return message;
     }
 
@@ -406,6 +405,7 @@ public class GlobalClass extends AppCompatActivity {
         kieubobso.add("bo");
         kieubobso.add("he");
         kieubobso.add("dal");
+        kieubobso.add("cham");
         kieubobso.add("day");
         return kieubobso;
     }
@@ -422,8 +422,10 @@ public class GlobalClass extends AppCompatActivity {
         kieubobso.add("chalchal");
         kieubobso.add("kepbalg");
         kieubobso.add("keplech");
+        kieubobso.add("satkep");
         kieubobso.add("cepbalg");
         kieubobso.add("ceplech");
+        kieubobso.add("satcep");
         kieubobso.add("tongtrel10");
         kieubobso.add("tongduoi10");
         kieubobso.add("chia3du0");
@@ -432,7 +434,7 @@ public class GlobalClass extends AppCompatActivity {
         return kieubobso;
     }
 
-    public ArrayList<String> tachchuoi(String [] mangTach) {
+    public ArrayList<String> tachchuoi(String[] mangTach) {
         ArrayList<String> tachChuoi = new ArrayList<>();
         for (int jDe = 0; jDe < mangTach.length; jDe++) {
             if (!mangTach[jDe].equals("")) {
@@ -520,10 +522,10 @@ public class GlobalClass extends AppCompatActivity {
         String chuoiTachSoXien = "";
         for (int valx = 0; valx < mangValXien2.length; valx++) {
             if (limitNumberBaCang.contains(mangValXien2[valx])) {
-                String valx1 = mangValXien2[valx].substring(0,1);
-                String valx2 = mangValXien2[valx].substring(2,3);
+                String valx1 = mangValXien2[valx].substring(0, 1);
+                String valx2 = mangValXien2[valx].substring(2, 3);
                 if (valx1.equals(valx2)) {
-                    chuoiTachSoXien += mangValXien2[valx].substring(0,2) + " " + mangValXien2[valx].substring(1,3) + " ";
+                    chuoiTachSoXien += mangValXien2[valx].substring(0, 2) + " " + mangValXien2[valx].substring(1, 3) + " ";
                 } else {
                     chuoiTachSoXien += mangValXien2[valx] + " ";
                 }
@@ -535,9 +537,185 @@ public class GlobalClass extends AppCompatActivity {
     }
 
     public Integer soLanXuatHienInArr(String chuoi) {
-        String [] chuoiArr = chuoi.replace(".",",").split(",");
+        String[] chuoiArr = chuoi.replace(".", ",").split(",");
         Integer result = chuoiArr.length;
         return result;
+    }
+
+    public ArrayList<String> ghepab(String chuoighep) {
+        ArrayList<String> ghepab = new ArrayList<>();
+        String danhsachSo = "";
+        if (chuoighep.indexOf("voi") > -1) {
+            String[] mangchuoighep = chuoighep.split("voi");
+            if (mangchuoighep.length == 2) {
+                mangchuoighep[0] = mangchuoighep[0].trim().replace("gepab", "");
+                mangchuoighep[1] = mangchuoighep[1].trim();
+                String fitterString = mangchuoighep[0].replaceAll("[0-9]", "").replace(" ", "");
+                String fitterNumber = mangchuoighep[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                String[] checkmangchuoighep = mangchuoighep[0].trim().split(" ");
+                chuoighep = "";
+                if (fitterString.length() > 0 || checkmangchuoighep.length > 1 || fitterNumber.length() == 0) {
+                    chuoighep += " <font color=\"RED\">gepab" + mangchuoighep[0] + "</font>";
+                } else {
+                    chuoighep += "gepab" + mangchuoighep[0];
+                }
+                String fitterString2 = mangchuoighep[1].replaceAll("[0-9]", "").replace(" ", "");
+                String fitterNumber2 = mangchuoighep[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                String[] checkmangchuoighep2 = mangchuoighep[1].trim().split(" ");
+                if (fitterString2.length() > 0 || checkmangchuoighep2.length > 1 || fitterNumber2.length() == 0) {
+                    chuoighep += " <font color=\"RED\">voi " + mangchuoighep[1] + "</font>";
+                } else {
+                    chuoighep += " voi " + mangchuoighep[1];
+                }
+                if (fitterString.length() > 0 || checkmangchuoighep.length > 1
+                        || fitterString2.length() > 0 || checkmangchuoighep2.length > 1) {
+                    ghepab.add(chuoighep);
+                    ghepab.add(danhsachSo);
+                    return ghepab;
+                } else {
+                    String mangchuoighepRep1 = mangchuoighep[0].replace(" ", "");
+                    String mangchuoighepRep2 = mangchuoighep[1].replace(" ", "");
+                    for (int a = 0; a < mangchuoighepRep1.trim().length(); a++) {
+                        String ghepa = mangchuoighepRep1.substring(a, a + 1);
+                        for (int b = 0; b < mangchuoighepRep2.trim().length(); b++) {
+                            String ghepb = mangchuoighepRep2.substring(b, b + 1);
+                            String ghepAllAB = ghepa + ghepb;
+                            String ghepAllBA = ghepb + ghepa;
+                            if (ghepAllAB.length() != 2 || ghepAllBA.length() != 2) {
+                                chuoighep = "<font color=\"RED\">" + chuoighep + "</font>";
+                                ghepab.add(chuoighep);
+                                ghepab.add(danhsachSo);
+                                return ghepab;
+                            } else {
+                                if (danhsachSo.indexOf(ghepAllAB) == -1) {
+                                    danhsachSo += ghepAllAB + ",";
+                                }
+                                if (danhsachSo.indexOf(ghepAllBA) == -1) {
+                                    danhsachSo += ghepAllBA + ",";
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                chuoighep = "<font color=\"RED\">" + chuoighep + " </font>";
+            }
+        } else {
+            chuoighep = "<font color=\"RED\">" + chuoighep + " </font>";
+        }
+        ghepab.add(chuoighep);
+        ghepab.add(danhsachSo);
+        return ghepab;
+    }
+
+    public ArrayList<String> ghepxien(String xienChuoi) {
+        ArrayList<String> ghepxien = new ArrayList<>();
+        String res = "";
+        String resXien2 = "";
+        String resXien3 = "";
+        String resXien4 = "";
+        String[] chuoiXienMang = xienChuoi.split(" ");
+        if (chuoiXienMang[0].indexOf("gep") > -1 || chuoiXienMang[0].indexOf("ghep") > -1) {
+            String getTypeXien = chuoiXienMang[0].replace("gep", "").replace("ghep", "");
+            String checkXienStr = getTypeXien.replaceAll("[0-9]", "").replace(" ", "");
+            String checkXienNum = getTypeXien.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+            if (checkXienNum.indexOf("0") == -1 && checkXienNum.indexOf("1") == -1 && checkXienNum.indexOf("5") == -1 &&
+                    checkXienNum.indexOf("6") == -1 && checkXienNum.indexOf("7") == -1 && checkXienNum.indexOf("8") == -1 &&
+                    checkXienNum.indexOf("9") == -1) {
+                if (checkXienStr.length() == 0 && checkXienNum.length() >= 1 && checkXienNum.length() <= 3) {
+                    if (chuoiXienMang.length >  2) {
+                        if (checkXienNum.indexOf("4") > -1 && chuoiXienMang.length < 6) {
+                            res += "<font color=\"RED\">" + xienChuoi + "</font>";
+                        } else if(checkXienNum.indexOf("3") > -1 && chuoiXienMang.length < 5) {
+                            res += "<font color=\"RED\">" + xienChuoi + "</font>";
+                        } else if(checkXienNum.indexOf("2") > -1 && chuoiXienMang.length < 4) {
+                            res += "<font color=\"RED\">" + xienChuoi + "</font>";
+                        } else {
+                            res += "ghep" + checkXienNum + " ";
+                            for (int cx = 1; cx < chuoiXienMang.length; cx++) {
+                                if (chuoiXienMang[cx].length() == 2 &&
+                                        chuoiXienMang[cx].replaceAll("[0-9]", "").replace(" ", "").length() == 0) {
+                                    if (res.indexOf(chuoiXienMang[cx]) > -1) {
+                                        res += "<font color=\"RED\">" + chuoiXienMang[cx] + "</font> ";
+                                    } else {
+                                        res += chuoiXienMang[cx] + " ";
+                                    }
+                                } else {
+                                    res += "<font color=\"RED\">" + chuoiXienMang[cx] + "</font> ";
+                                }
+                            }
+                            if (res.indexOf("</font>") == -1) {
+                                if (checkXienNum.indexOf("2") > -1) {
+                                    resXien2 = resXien2(chuoiXienMang);
+                                }
+                                if (checkXienNum.indexOf("3") > -1) {
+                                    resXien3 = resXien3(chuoiXienMang);
+                                }
+                                if (checkXienNum.indexOf("4") > -1) {
+                                    resXien4 = resXien4(chuoiXienMang);
+                                }
+                            }
+                        }
+
+                    } else {
+                        res += "<font color=\"RED\">" + xienChuoi + "</font>";
+                    }
+                } else {
+                    res += "<font color=\"RED\">" + xienChuoi + "</font>";
+                }
+            } else {
+                res += "<font color=\"RED\">" + xienChuoi + "</font>";
+            }
+        } else {
+            res += "<font color=\"RED\">" + xienChuoi + "</font>";
+        }
+        ghepxien.add(res);
+        ghepxien.add(resXien2);
+        ghepxien.add(resXien3);
+        ghepxien.add(resXien4);
+        return ghepxien;
+    }
+
+    private String resXien2(String[] chuoiXienMang) {
+        String resChuoiXien2 = "";
+        int stt = 0;
+        for (int xa = 1; xa < chuoiXienMang.length; xa++) {
+            for (int xb = xa + 1; xb < chuoiXienMang.length; xb++) {
+                stt++;
+                resChuoiXien2 += chuoiXienMang[xa] + " " + chuoiXienMang[xb] + ",";
+            }
+        }
+        return resChuoiXien2;
+    }
+
+    private String resXien3(String[] chuoiXienMang) {
+        String resChuoiXien3 = "";
+        int stt = 0;
+        for (int xa = 1; xa < chuoiXienMang.length; xa++) {
+            for (int xb = xa + 1; xb < chuoiXienMang.length; xb++) {
+                for (int xc = xb + 1; xc < chuoiXienMang.length; xc++) {
+                    stt++;
+                    resChuoiXien3 += chuoiXienMang[xa] + " " + chuoiXienMang[xb] + " " + chuoiXienMang[xc] + ",";
+                }
+            }
+        }
+        return resChuoiXien3;
+    }
+
+    private String resXien4(String[] chuoiXienMang) {
+        String resChuoiXien4 = "";
+        int stt = 0;
+        for (int xa = 1; xa < chuoiXienMang.length; xa++) {
+            for (int xb = xa + 1; xb < chuoiXienMang.length; xb++) {
+                for (int xc = xb + 1; xc < chuoiXienMang.length; xc++) {
+                    for (int xd = xc + 1; xd < chuoiXienMang.length; xd++) {
+                        stt++;
+                        resChuoiXien4 += chuoiXienMang[xa] + " " + chuoiXienMang[xb] + " " + chuoiXienMang[xc] + " " + chuoiXienMang[xd] + ",";
+                    }
+                }
+            }
+        }
+        return resChuoiXien4;
     }
 
 }
