@@ -128,8 +128,12 @@ public class Statistic extends AppCompatActivity {
 
         double tongBangInbox = 0;
         double tongBangSend = 0;
+        String stringResXien = "<font color =\"blue\"><big>Xiên</big></font><br/>";
 
         if (table_solieu.getCount() > 0) {
+            ArrayList <String> allXienRes = new ArrayList<String>();
+            ArrayList <String> allXienVal = new ArrayList<String>();
+            ArrayList <String> allXienTh = new ArrayList<String>();
             while (table_solieu.moveToNext()) {
                 String loto = table_solieu.getString(table_solieu.getColumnIndex("LOTO"));
                 String kieuChoi = table_solieu.getString(table_solieu.getColumnIndex("KIHIEU"));
@@ -321,7 +325,37 @@ public class Statistic extends AppCompatActivity {
                                 bacangArr[intBaCang] = 0 - moicon;
                             }
                         }
+                    } else if(kieuChoi.equals("xien") || kieuChoi.equals("xien2") || kieuChoi.equals("xien3") || kieuChoi.equals("xien4") ){
+                        int position = -1;
+                        position = allXienRes.indexOf(loto);
+                        if (position == -1) {
+                            if (kieuguitin.equals("send")) {
+                                moicon = 0 - moicon;
+                            }
+                            allXienRes.add(loto);
+                            allXienVal.add(String.valueOf(moicon));
+                            if (tienThuong.equals("0")) {
+                                allXienTh.add("0");
+                            } else {
+                                allXienTh.add("1");
+                            }
+                        } else {
+                            Integer newValue = 0;
+                            if (kieuguitin.equals("inbox")) {
+                                newValue = moicon + Integer.valueOf(allXienVal.get(position));
+                            } else {
+                                newValue = moicon - Integer.valueOf(allXienVal.get(position));
+                            }
+                            allXienVal.add(Integer.parseInt(String.valueOf(position)), String.valueOf(newValue));
+                        }
                     }
+                }
+            }
+            for (int xs = 0; xs < allXienRes.size();xs++) {
+                if (allXienVal.get(xs) != null && allXienTh.get(xs) != null ) {
+                    stringResXien += "<big><big><b><font color=\"red\">&nbsp; &nbsp; &nbsp;" +
+                            allXienRes.get(xs) + " </font>" + "=" + allXienVal.get(xs) + "n</b></big>" +
+                    "<font color=\"blue\">" +  allXienTh.get(xs) + "</font></big><br/>";
                 }
             }
         }
@@ -347,9 +381,11 @@ public class Statistic extends AppCompatActivity {
             } else {
                 showDe = String.valueOf(q);
             }
-            // sortDe[z] = String.valueOf(showDe) + "java0java0";
+
             if (deArr[q] != null) {
                 sortDe[z] = String.valueOf(showDe) + "java" + String.valueOf(deArr[q]) + "java" + String.valueOf(deTrung[q]);
+            } else {
+                sortDe[z] = String.valueOf(showDe) + "java0java0"; // xoa di neu k phai a vuong
             }
             z++;
             String showLo = "";
@@ -358,11 +394,11 @@ public class Statistic extends AppCompatActivity {
             } else {
                 showLo = String.valueOf(q);
             }
-            // sortLo[k] = String.valueOf(showLo) + "java0java0";
+
             if (loArr[q] != null) {
                 sortLo[k] = String.valueOf(showLo) + "java" + String.valueOf(loArr[q]) + "java" + String.valueOf(loTrung[q]);
             } else {
-//                sortLo[k] = String.valueOf(showLo) + "java0java0"; // xoa di neu k phai a vuong
+                sortLo[k] = String.valueOf(showLo) + "java0java0"; // xoa di neu k phai a vuong
             }
             k++;
         }
@@ -381,51 +417,62 @@ public class Statistic extends AppCompatActivity {
                 s++;
             }
         }
-        String tempDe;
-        for (int x = 0; x < sortDe.length; x++) {
-            if (sortDe[x] != null) {
-                String[] arrSortDe1 = sortDe[x].split("java");
-                for (int t = x + 1; t < sortDe.length; t++) {
-                    if (sortDe[t] != null) {
-                        String[] arrSortDe2 = sortDe[t].split("java");
-                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
-                            tempDe = sortDe[t];
-                            sortDe[t] = sortDe[x];
-                            sortDe[x] = tempDe;
-                            arrSortDe1[1] = arrSortDe2[1];
-                        }
-                    }
-                }
-            }
-        }
-        String tempLo;
-        for (int c = 0; c < sortLo.length; c++) {
-            if (sortLo[c] != null) {
-                String[] arrSortLo1 = sortLo[c].split("java");
-                for (int r = c + 1; r < sortLo.length; r++) {
-                    if (sortLo[r] != null) {
-                        String[] arrSortLo2 = sortLo[r].split("java");
-                        if (Integer.parseInt(arrSortLo1[1]) < Integer.parseInt(arrSortLo2[1])) {
-                            tempLo = sortLo[r];
-                            sortLo[r] = sortLo[c];
-                            sortLo[c] = tempLo;
-                            arrSortLo1[1] = arrSortLo2[1];
-                        }
-                    }
-                }
-            }
-        }
+//        String tempDe;
+//        for (int x = 0; x < sortDe.length; x++) {
+//            if (sortDe[x] != null) {
+//                String[] arrSortDe1 = sortDe[x].split("java");
+//                for (int t = x + 1; t < sortDe.length; t++) {
+//                    if (sortDe[t] != null) {
+//                        String[] arrSortDe2 = sortDe[t].split("java");
+//                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
+//                            tempDe = sortDe[t];
+//                            sortDe[t] = sortDe[x];
+//                            sortDe[x] = tempDe;
+//                            arrSortDe1[1] = arrSortDe2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        String tempLo;
+//        for (int c = 0; c < sortLo.length; c++) {
+//            if (sortLo[c] != null) {
+//                String[] arrSortLo1 = sortLo[c].split("java");
+//                for (int r = c + 1; r < sortLo.length; r++) {
+//                    if (sortLo[r] != null) {
+//                        String[] arrSortLo2 = sortLo[r].split("java");
+//                        if (Integer.parseInt(arrSortLo1[1]) < Integer.parseInt(arrSortLo2[1])) {
+//                            tempLo = sortLo[r];
+//                            sortLo[r] = sortLo[c];
+//                            sortLo[c] = tempLo;
+//                            arrSortLo1[1] = arrSortLo2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         for (int a = 0; a < sortDe.length; a++) {
             if (sortDe[a] != null) {
                 String[] showResDe = sortDe[a].split("java");
                 if (Integer.parseInt(showResDe[2]) == 0) {
-                    textDeLeft += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + " </font>" +
-                            showResDe[1] + "n</b></big></big><br />";
+                    if (a < 50) {
+                        textDeLeft += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + " </font>" +
+                                showResDe[1] + "n</b></big></big><br />";
+                    } else {
+                        textDeRight += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + " </font>" +
+                                showResDe[1] + "n</b></big></big><br />";
+                    }
                 } else {
-                    textDeLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
-                            "<font color=\"blue\"> " + showResDe[2] + "</font> " +
-                             showResDe[1] + "n</b></big></big><br />";
+                    if (a < 50) {
+                        textDeLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
+                                "<font color=\"blue\"> " + showResDe[2] + "</font> " +
+                                showResDe[1] + "n</b></big></big><br />";
+                    } else {
+                        textDeRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
+                                "<font color=\"blue\"> " + showResDe[2] + "</font> " +
+                                showResDe[1] + "n</b></big></big><br />";
+                    }
                 }
             }
         }
@@ -434,14 +481,27 @@ public class Statistic extends AppCompatActivity {
             if (sortLo[b] != null) {
                 String[] showResLo = sortLo[b].split("java");
                 if (Integer.parseInt(showResLo[2]) == 0) {
-                    textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
-                            showResLo[0] + "  </font>"
-                            + showResLo[1] + "d</b></big></big><br />";
+                    if (b < 50) {
+                        textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
+                                showResLo[0] + "  </font>"
+                                + showResLo[1] + "d</b></big></big><br />";
+                    } else {
+                        textLoRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
+                                showResLo[0] + "  </font>"
+                                + showResLo[1] + "d</b></big></big><br />";
+                    }
                 } else {
-                    textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
-                            + showResLo[0] + "</font>" +
-                            "<font color=\"blue\">" + showResLo[2] + "</font> "
-                            + showResLo[1] + "d</b></big></big><br />";
+                    if (b < 50) {
+                        textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
+                                + showResLo[0] + "</font>" +
+                                "<font color=\"blue\">" + showResLo[2] + "</font> "
+                                + showResLo[1] + "d</b></big></big><br />";
+                    } else {
+                        textLoRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
+                                + showResLo[0] + "</font>" +
+                                "<font color=\"blue\">" + showResLo[2] + "</font> "
+                                + showResLo[1] + "d</b></big></big><br />";
+                    }
                 }
             }
         }
@@ -684,27 +744,27 @@ public class Statistic extends AppCompatActivity {
         /***************** thong tin phan end send sms **************************/
         TableRow.LayoutParams rowSpanLayout2 = new TableRow.LayoutParams();
         rowSpanLayout2.span = 2;
-        String tongBaCangAndText = textBaCang + tongText;
+        String tongBaCangAndText = textBaCang + stringResXien + tongText;
         tong.setText(Html.fromHtml(tongBaCangAndText));
         TableRow tr1 = new TableRow(Statistic.this);
         tr1.addView(tong, rowSpanLayout2);
 
-//        TableRow tr4 = new TableRow(Statistic.this);//1
+        TableRow tr4 = new TableRow(Statistic.this);//1
 
         de.setText(Html.fromHtml(textDeLeft));
-        lo.setText(Html.fromHtml(textLoLeft));
+        lo.setText(Html.fromHtml(textDeRight));
         tr2.addView(de);
         tr2.addView(lo);
         tableLayout.addView(tr2);
 
         TextView de1 = new TextView(Statistic.this); //1
         TextView lo1 = new TextView(Statistic.this); //1
-        de1.setText(Html.fromHtml(textDeLeft)); // 1
-        lo1.setText(Html.fromHtml(textLoLeft));//1
+        de1.setText(Html.fromHtml(textLoLeft)); // 1
+        lo1.setText(Html.fromHtml(textLoRight));//1
 
-//        tr4.addView(de1);//1
-//        tr4.addView(lo1);//1
-//        tableLayout.addView(tr4);//1
+        tr4.addView(de1);//1
+        tr4.addView(lo1);//1
+        tableLayout.addView(tr4);//1
         tableLayout.addView(tr1);
     }
 
