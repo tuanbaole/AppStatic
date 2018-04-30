@@ -334,6 +334,7 @@ public class Statistic extends AppCompatActivity {
                             }
                             allXienRes.add(loto);
                             allXienVal.add(String.valueOf(moicon));
+                            int position2 = allXienRes.indexOf(loto);
                             if (tienThuong.equals("0")) {
                                 allXienTh.add("0");
                             } else {
@@ -342,11 +343,11 @@ public class Statistic extends AppCompatActivity {
                         } else {
                             Integer newValue = 0;
                             if (kieuguitin.equals("inbox")) {
-                                newValue = moicon + Integer.valueOf(allXienVal.get(position));
+                                newValue = Integer.valueOf(allXienVal.get(position)) + moicon;
                             } else {
-                                newValue = moicon - Integer.valueOf(allXienVal.get(position));
+                                newValue = Integer.valueOf(allXienVal.get(position)) - moicon;
                             }
-                            allXienVal.add(Integer.parseInt(String.valueOf(position)), String.valueOf(newValue));
+                            allXienVal.set(Integer.parseInt(String.valueOf(position)), String.valueOf(newValue));
                         }
                     }
                 }

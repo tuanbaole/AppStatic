@@ -3154,7 +3154,7 @@ public class Message extends AppCompatActivity {
                                             }
                                         } else if (tachChuoiXien.get(tc).replaceAll("(^\\s+|\\s+$)", "").indexOf("=") > -1) {
                                             String[] mangXienCoDauB = tachChuoiXien.get(tc).replaceAll("(^\\s+|\\s+$)", "").split("=");
-                                            if (mangXienCoDauB.length == 1) {
+                                            if (mangXienCoDauB.length == 2) {
                                                 double getNum = 0;
                                                 if (mangXienCoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
                                                     if (mangXienCoDauB[1].indexOf("trieu") > -1) {
