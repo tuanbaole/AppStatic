@@ -3169,7 +3169,7 @@ public class Message extends AppCompatActivity {
                                                 String[] mangValXien = chuoiTachSoXienCoDauB.replaceAll("(^\\s+|\\s+$)", "").split(" ");
                                                 switch (kieuXien) {
                                                     case "si2":
-                                                        if (mangValXien.length % 2 == 0) {
+                                                        if (mangValXien.length == 2) {
                                                             Double newGetNumSi2 = Math.round(getNum * 2 / mangValXien.length * 100.0) / 100.0;
                                                             for (int valx = 0; valx < mangValXien.length; valx = valx + 2) {
                                                                 int valx1 = valx;
@@ -3214,7 +3214,7 @@ public class Message extends AppCompatActivity {
                                                         }
                                                         break;
                                                     case "si3":
-                                                        if (mangValXien.length % 3 == 0) {
+                                                        if (mangValXien.length == 3) {
                                                             ArrayList<String> checkXien = new ArrayList<>();
                                                             Double newGetNumSi3 = Math.round(getNum * 3 / mangValXien.length * 100.0) / 100.0;
                                                             for (int valx = 0; valx < mangValXien.length; valx = valx + 3) {
@@ -3275,7 +3275,7 @@ public class Message extends AppCompatActivity {
                                                         }
                                                         break;
                                                     case "si4":
-                                                        if (mangValXien.length % 4 == 0) {
+                                                        if (mangValXien.length == 4) {
                                                             ArrayList<String> checkXien = new ArrayList<>();
                                                             Double newGetNumSi4 = Math.round(getNum * 4 / mangValXien.length * 100.0) / 100.0;
                                                             for (int valx = 0; valx < mangValXien.length; valx = valx + 4) {
