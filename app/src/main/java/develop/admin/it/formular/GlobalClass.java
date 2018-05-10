@@ -99,6 +99,20 @@ public class GlobalClass extends AppCompatActivity {
         return milliseconds;
     }
 
+    public long converMilliseconds(String type,String date) {
+        SimpleDateFormat formatter = new SimpleDateFormat(type); // "dd.MM.yyyy, HH:mm"
+        formatter.setLenient(false);
+        Date oldDate = null;
+        long oldMillis = 0;
+        try {
+            oldDate = formatter.parse(date);
+            oldMillis = oldDate.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return oldMillis;
+    }
+
     public void showAlertDialog(Context context, String title, String message) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setCancelable(true);
