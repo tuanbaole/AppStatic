@@ -18,7 +18,7 @@ public class CaiDatCanBang extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     EditText
-            MAXDE, MAXLO, MAXBACANG,
+            MAXDE, MAXLO, MAXBACANG,MAXXIEN,
             TenA, TenB, TenC, TenD, TenE,
             SDTA, SDTB, SDTC, SDTD, SDTE;
     DatabaseHelper sql;
@@ -35,6 +35,7 @@ public class CaiDatCanBang extends AppCompatActivity {
         MAXDE = (EditText) findViewById(R.id.editTextGioiHanDe);
         MAXLO = (EditText) findViewById(R.id.editTextGioiHanLo);
         MAXBACANG = (EditText) findViewById(R.id.editTextGioiHanBaCang);
+        MAXXIEN = (EditText) findViewById(R.id.editTextGioihanxien);
         TenA = (EditText) findViewById(R.id.editTextTenA);
         TenB = (EditText) findViewById(R.id.editTextTenB);
         TenC = (EditText) findViewById(R.id.editTextTenC);
@@ -52,10 +53,12 @@ public class CaiDatCanBang extends AppCompatActivity {
             String MaxDeDb = getval.getString(getval.getColumnIndex("MAXDE"));
             String MaxLoDb = getval.getString(getval.getColumnIndex("MAXLO"));
             String MaxBaCangDb = getval.getString(getval.getColumnIndex("MAXBACANG"));
+            String MaxXienDb = getval.getString(getval.getColumnIndex("MAXXIEN"));
             String SDTDB2 = getval.getString(getval.getColumnIndex("SDT"));
             MAXDE.setText(MaxDeDb);
             MAXLO.setText(MaxLoDb);
             MAXBACANG.setText(MaxBaCangDb);
+            MAXXIEN.setText(MaxXienDb);
             String[] sdtArr = SDTDB2.split("JAVA");
             for (int i = 0; i < sdtArr.length; i++) {
                 String[] detailSdt = sdtArr[i].split("---");
@@ -93,6 +96,7 @@ public class CaiDatCanBang extends AppCompatActivity {
                 String limitDe = MAXDE.getText().toString();
                 String limitLo = MAXLO.getText().toString();
                 String limitBaCang = MAXBACANG.getText().toString();
+                String limitXien = MAXXIEN.getText().toString();
                 String SDTAll = "";
                 if (!TenA.getText().toString().equals("") && !SDTA.getText().toString().equals("")) {
                     SDTAll += TenA.getText().toString() + "---" + SDTA.getText().toString() + "JAVA";
@@ -110,21 +114,52 @@ public class CaiDatCanBang extends AppCompatActivity {
                     SDTAll += TenE.getText().toString() + "---" + SDTE.getText().toString() + "JAVA";
                 }
                 String STDDB = SDTAll.replaceAll("(^\\s+|\\s+$)", "").trim();
-                if (!limitDe.equals("") && !limitLo.equals("") && !limitBaCang.equals("") && !STDDB.equals("")) {
+                if (!limitDe.equals("") && !limitLo.equals("") && !limitBaCang.equals("") && !STDDB.equals("") && !limitXien.equals("")) {
                     String table9 = sql.TABLE_NAME_9;
                     sql.deleteAll(table9, "0");
-                    boolean insert = sql.insertCaiDatCanBang(limitDe, limitLo, limitBaCang, STDDB);
+                    if (limitDe.equals("")) {
+                        limitDe = "0";
+                    }
+                    if (limitLo.equals("")) {
+                        limitLo = "0";
+                    }
+                    if (limitBaCang.equals("")) {
+                        limitBaCang = "0";
+                    }
+                    if (limitXien.equals("")) {
+                        limitXien = "0";
+                    }
+                    boolean insert = sql.insertCaiDatCanBang(limitDe, limitLo, limitBaCang, STDDB,limitXien);
                     if (insert) {
                         controller.showAlertDialog(CaiDatCanBang.this, "Thông báo", "Lưu Thành Công");
+                        DialogHandler appdialog = new DialogHandler();
+                        appdialog.Confirm(CaiDatCanBang.this, "Thông Báo", "Lưu Thành Công\nChọn OK để quay lại gửi tin ?",
+                                "Cancel", "OK", aproc(), bproc());
                     } else {
                         controller.showAlertDialog(CaiDatCanBang.this, "Thông báo", "Đã Có Sự Cố Xảy");
                     }
                 } else {
-                    controller.showAlertDialog(CaiDatCanBang.this, "Thông báo", "Hãy Điền 3 giá trị đầu và ít nhất 1 SDT");
+                    controller.showAlertDialog(CaiDatCanBang.this, "Thông báo", "Hãy Điền 4 giá trị đầu và ít nhất 1 SDT");
                 }
             }
         });
 
+    }
+
+    public Runnable aproc() {
+        return new Runnable() {
+            public void run() {
+                Intent intent = new Intent(CaiDatCanBang.this, CanBangSendSms.class);
+                startActivity(intent);
+            }
+        };
+    }
+
+    public Runnable bproc() {
+        return new Runnable() {
+            public void run() {
+            }
+        };
     }
 
     public void sideBarMenu() {

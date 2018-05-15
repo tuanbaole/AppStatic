@@ -2231,46 +2231,46 @@ public class Message extends AppCompatActivity {
                                                         }
                                                     }
                                                 }
-//                                                if (message[i].length() > 5) {
-//                                                    if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
-//                                                        String table5Bor = sql.TABLE_NAME_5;
-//                                                        sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinalLo), getDays, "lo");
-//                                                        String[] arrBoLoCoDauB = boLoCoDauB.split(",");
-//                                                        if (arrBoLoCoDauB.length < 100) {
-//                                                            int a = 1;
-//                                                            for (int stt = 0; stt < 100; stt++) {
-//                                                                if (boLoCoDauB.indexOf(String.valueOf(stt)) == -1) {
-//                                                                    a++;
-//                                                                }
-//                                                            }
-//                                                            Double newGetNum = Math.round(getNum / (100 - a) * 100.0) / 100.0;
-//                                                            for (int stt = 0; stt < 100; stt++) {
-//                                                                String broStt = "";
-//                                                                if (stt < 10) {
-//                                                                    broStt = "0" + String.valueOf(stt);
-//                                                                } else {
-//                                                                    broStt = String.valueOf(stt);
-//                                                                }
-//                                                                if (boLoCoDauB.indexOf(broStt) == -1) {
-//                                                                    a++;
-//                                                                    xulydanhleLoTo(newGetNum, hslo, compareLo, broStt
-//                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                            "lo", listDonGia[0], dataSoLieuDate, smsType);
-//                                                                }
-//                                                            }
-//                                                        }
-//                                                    } else {
-//                                                        String[] arrBoLoCoDauB = boLoCoDauB.split(",");
-//                                                        if (arrBoLoCoDauB.length > 0) {
-//                                                            Double newGetNum = Math.round(getNum / arrBoLoCoDauB.length * 100.0) / 100.0;
-//                                                            for (int stt = 0; stt < arrBoLoCoDauB.length; stt++) {
-//                                                                xulydanhleLoTo(newGetNum, hslo, compareLo, arrBoLoCoDauB[stt]
-//                                                                        , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                        "lo", listDonGia[0], dataSoLieuDate, smsType);
-//                                                            }
-//                                                        }
-//                                                    }
-//                                                }
+                                                if (message[i].length() > 5) {
+                                                    if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
+                                                        String table5Bor = sql.TABLE_NAME_5;
+                                                        sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinalLo), getDays, "lo");
+                                                        String[] arrBoLoCoDauB = boLoCoDauB.split(",");
+                                                        if (arrBoLoCoDauB.length < 100) {
+                                                            int a = 1;
+                                                            for (int stt = 0; stt < 100; stt++) {
+                                                                if (boLoCoDauB.indexOf(String.valueOf(stt)) == -1) {
+                                                                    a++;
+                                                                }
+                                                            }
+                                                            Double newGetNum = Math.round(getNum / (100 - a) * 100.0) / 100.0;
+                                                            for (int stt = 0; stt < 100; stt++) {
+                                                                String broStt = "";
+                                                                if (stt < 10) {
+                                                                    broStt = "0" + String.valueOf(stt);
+                                                                } else {
+                                                                    broStt = String.valueOf(stt);
+                                                                }
+                                                                if (boLoCoDauB.indexOf(broStt) == -1) {
+                                                                    a++;
+                                                                    xulydanhleLoTo(newGetNum, hslo, compareLo, broStt
+                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                            "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                }
+                                                            }
+                                                        }
+                                                    } else {
+                                                        String[] arrBoLoCoDauB = boLoCoDauB.split(",");
+                                                        if (arrBoLoCoDauB.length > 0) {
+                                                            Double newGetNum = Math.round(getNum / arrBoLoCoDauB.length * 100.0) / 100.0;
+                                                            for (int stt = 0; stt < arrBoLoCoDauB.length; stt++) {
+                                                                xulydanhleLoTo(newGetNum, hslo, compareLo, arrBoLoCoDauB[stt]
+                                                                        , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                        "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                            }
+                                                        }
+                                                    }
+                                                }
 
                                                 String[] checkGiatriMangLo = mangLocoDauB[1].replaceAll("(^\\s+|\\s+$)", "").split(" ");
                                                 if (checkGiatriMangLo.length > 2) {

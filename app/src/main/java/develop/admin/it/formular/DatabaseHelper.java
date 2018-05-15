@@ -125,6 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_93 = "MAXLO";
     public static final String COL_94 = "MAXBACANG";
     public static final String COL_95 = "SDT";
+    public static final String COL_96 = "MAXXIEN";
 
     public static final String TABLE_NAME_10 = "user_table";
     public static final String COL_101 = "ID";
@@ -136,7 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
 //        super(context,DATABASE_NAME,factory,version);
-        super(context, DATABASE_NAME, null, 10);
+        super(context, DATABASE_NAME, null, 12);
         SQLiteDatabase db = this.getWritableDatabase(); // su dung khi tao bang
     }
 
@@ -190,7 +191,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(
                 "create table " + TABLE_NAME_9 + " (" +
-                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,MAXDE VARCHAR,MAXLO VARCHAR,MAXBACANG VARCHAR) "
+                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,MAXDE VARCHAR,MAXLO VARCHAR,MAXBACANG VARCHAR,MAXXIEN VARCHAR) "
         );
 
         db.execSQL(
@@ -237,13 +238,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertCaiDatCanBang(String maxDe, String maxLo, String maxBaCang, String Sdt) {
+    public boolean insertCaiDatCanBang(String maxDe, String maxLo, String maxBaCang, String Sdt,String maxXien) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_92, maxDe);
         contentValues.put(COL_93, maxLo);
         contentValues.put(COL_94, maxBaCang);
         contentValues.put(COL_95, Sdt);
+        contentValues.put(COL_96, maxXien);
         long result = db.insert(TABLE_NAME_9, null, contentValues);
         if (result == -1) {
             return false;
