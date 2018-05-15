@@ -69,11 +69,13 @@ public class CanBangSendSms extends AppCompatActivity {
         String maxde = "5000";
         String maxlo = "5000";
         String maxbacang = "5000";
+        String maxXien = "5000";
         if (setingsend_table.getCount() > 0) {
             setingsend_table.moveToFirst();
             maxde = setingsend_table.getString(setingsend_table.getColumnIndex("MAXDE"));
             maxlo = setingsend_table.getString(setingsend_table.getColumnIndex("MAXLO"));
             maxbacang = setingsend_table.getString(setingsend_table.getColumnIndex("MAXBACANG"));
+            maxXien = setingsend_table.getString(setingsend_table.getColumnIndex("MAXXIEN"));
         }
 
         Integer[] deArr = new Integer[100];
@@ -84,8 +86,11 @@ public class CanBangSendSms extends AppCompatActivity {
         HashMap<String, ArrayList<String>> hashmap = sql.readkitu();
         String compareDe = sql.compareDe(getDays);
         ArrayList<String> compareLo = sql.getArrayKeyRes(getDays);
-
+        String stringResXien = "";
         if (table_solieu.getCount() > 0) {
+            ArrayList <String> allXienRes = new ArrayList<String>();
+            ArrayList <String> allXienVal = new ArrayList<String>();
+            ArrayList <String> allXienTh = new ArrayList<String>();
             while (table_solieu.moveToNext()) {
                 String loto = table_solieu.getString(table_solieu.getColumnIndex("LOTO"));
                 String kieuChoi = table_solieu.getString(table_solieu.getColumnIndex("KIHIEU"));
@@ -183,8 +188,37 @@ public class CanBangSendSms extends AppCompatActivity {
                                 bacangArr[intBaCang] = 0 - moicon;
                             }
                         }
+                    }  else if(kieuChoi.equals("xien") || kieuChoi.equals("xien2") || kieuChoi.equals("xien3") || kieuChoi.equals("xien4") ){
+                        int position = -1;
+                        position = allXienRes.indexOf(loto);
+                        if (position == -1) {
+                            if (kieuguitin.equals("send")) {
+                                moicon = 0 - moicon;
+                            }
+                            allXienRes.add(loto);
+                            allXienVal.add(String.valueOf(moicon));
+                            int position2 = allXienRes.indexOf(loto);
+                            if (tienThuong.equals("0")) {
+                                allXienTh.add("0");
+                            } else {
+                                allXienTh.add("1");
+                            }
+                        } else {
+                            Integer newValue = 0;
+                            if (kieuguitin.equals("inbox")) {
+                                newValue = Integer.valueOf(allXienVal.get(position)) + moicon;
+                            } else {
+                                newValue = Integer.valueOf(allXienVal.get(position)) - moicon;
+                            }
+                            allXienVal.set(Integer.parseInt(String.valueOf(position)), String.valueOf(newValue));
+                        }
                     }
-
+                }
+            }
+            for (int xs = 0; xs < allXienRes.size();xs++) {
+                if (allXienVal.get(xs) != null && allXienTh.get(xs) != null ) {
+                    int valXien = Integer.parseInt(allXienVal.get(xs)) - Integer.parseInt(maxXien);
+                    stringResXien += allXienRes.get(xs) + " x " + String.valueOf(valXien) + "n<br/>";
                 }
             }
         }
@@ -224,7 +258,7 @@ public class CanBangSendSms extends AppCompatActivity {
                 String showBaCang = "";
                 if (f < 10) {
                     showBaCang = "00" + String.valueOf(f);
-                } else if (f < 10) {
+                } else if (f < 100) {
                     showBaCang = "0" + String.valueOf(f);
                 } else {
                     showBaCang = String.valueOf(f);
@@ -333,9 +367,12 @@ public class CanBangSendSms extends AppCompatActivity {
                         content += "3c ";
                     }
                     int valBaCang = Integer.parseInt(showResBaCang[1]) - Integer.parseInt(maxbacang);
-                    content += showResBaCang[0] + " x " + String.valueOf(valBaCang) + "n.";
+                    content += showResBaCang[0] + " x " + String.valueOf(valBaCang) + "n <br/>";
                 }
             }
+        }
+        if (!stringResXien.equals("")) {
+            content += "xiên" + stringResXien;
         }
 
         contentSend = (EditText) findViewById(R.id.editTextContentSms);

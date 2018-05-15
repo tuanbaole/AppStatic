@@ -125,6 +125,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_93 = "MAXLO";
     public static final String COL_94 = "MAXBACANG";
     public static final String COL_95 = "SDT";
+    public static final String COL_96 = "MAXXIEN";
+
+    public static final String TABLE_NAME_10 = "user_table";
+    public static final String COL_101 = "ID";
+    public static final String COL_102 = "PASSWORD";
 
     // hien thi thoi gian cai cac packed
     GlobalClass controller = new GlobalClass();
@@ -132,7 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
 //        super(context,DATABASE_NAME,factory,version);
-        super(context, DATABASE_NAME, null, 8);
+        super(context, DATABASE_NAME, null, 12);
         SQLiteDatabase db = this.getWritableDatabase(); // su dung khi tao bang
     }
 
@@ -186,7 +191,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(
                 "create table " + TABLE_NAME_9 + " (" +
-                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,MAXDE VARCHAR,MAXLO VARCHAR,MAXBACANG VARCHAR) "
+                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,MAXDE VARCHAR,MAXLO VARCHAR,MAXBACANG VARCHAR,MAXXIEN VARCHAR) "
+        );
+
+        db.execSQL(
+                "create table " + TABLE_NAME_10 + " (" +
+                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,PASSWORD VARCHAR) "
         );
 
     }
@@ -201,6 +211,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_6);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_7);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_9);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_10);
         onCreate(db);
     }
 
@@ -227,13 +238,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertCaiDatCanBang(String maxDe, String maxLo, String maxBaCang, String Sdt) {
+    public boolean insertCaiDatCanBang(String maxDe, String maxLo, String maxBaCang, String Sdt,String maxXien) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_92, maxDe);
         contentValues.put(COL_93, maxLo);
         contentValues.put(COL_94, maxBaCang);
         contentValues.put(COL_95, Sdt);
+        contentValues.put(COL_96, maxXien);
         long result = db.insert(TABLE_NAME_9, null, contentValues);
         if (result == -1) {
             return false;
@@ -454,6 +466,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValue.put(COL_224, ngoihai);
         db.update(TABLE_NAME_2, contentValue, "ID = ? ", new String[]{id});
         return true;
+    }
+
+    public boolean updateUser(String id, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(COL_101, id);
+        contentValue.put(COL_102, password);
+        db.update(TABLE_NAME_10, contentValue, "ID = ? ", new String[]{id});
+        return true;
+    }
+
+    public boolean insertUser(String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_102, password);
+        long result = db.insert(TABLE_NAME_10, null, contentValues);
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public Integer deleteData(String table_name, String id) {
