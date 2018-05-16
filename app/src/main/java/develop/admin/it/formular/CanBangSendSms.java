@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 public class CanBangSendSms extends AppCompatActivity {
     DatabaseHelper sql;
-    EditText sdtCus, contentSend,editTextSdt;
+    EditText sdtCus, contentSend, editTextSdt;
     TextView textViewSdt;
     Button sendSms;
     ProgressBar loadingimage;
@@ -88,9 +88,9 @@ public class CanBangSendSms extends AppCompatActivity {
         ArrayList<String> compareLo = sql.getArrayKeyRes(getDays);
         String stringResXien = "";
         if (table_solieu.getCount() > 0) {
-            ArrayList <String> allXienRes = new ArrayList<String>();
-            ArrayList <String> allXienVal = new ArrayList<String>();
-            ArrayList <String> allXienTh = new ArrayList<String>();
+            ArrayList<String> allXienRes = new ArrayList<String>();
+            ArrayList<String> allXienVal = new ArrayList<String>();
+            ArrayList<String> allXienTh = new ArrayList<String>();
             while (table_solieu.moveToNext()) {
                 String loto = table_solieu.getString(table_solieu.getColumnIndex("LOTO"));
                 String kieuChoi = table_solieu.getString(table_solieu.getColumnIndex("KIHIEU"));
@@ -188,7 +188,7 @@ public class CanBangSendSms extends AppCompatActivity {
                                 bacangArr[intBaCang] = 0 - moicon;
                             }
                         }
-                    }  else if(kieuChoi.equals("xien") || kieuChoi.equals("xien2") || kieuChoi.equals("xien3") || kieuChoi.equals("xien4") ){
+                    } else if (kieuChoi.equals("xien") || kieuChoi.equals("xien2") || kieuChoi.equals("xien3") || kieuChoi.equals("xien4")) {
                         int position = -1;
                         position = allXienRes.indexOf(loto);
                         if (position == -1) {
@@ -215,10 +215,12 @@ public class CanBangSendSms extends AppCompatActivity {
                     }
                 }
             }
-            for (int xs = 0; xs < allXienRes.size();xs++) {
-                if (allXienVal.get(xs) != null && allXienTh.get(xs) != null ) {
+            for (int xs = 0; xs < allXienRes.size(); xs++) {
+                if (allXienVal.get(xs) != null && allXienTh.get(xs) != null) {
                     int valXien = Integer.parseInt(allXienVal.get(xs)) - Integer.parseInt(maxXien);
-                    stringResXien += allXienRes.get(xs) + " x " + String.valueOf(valXien) + "n<br/>";
+                    if (valXien > 0) {
+                        stringResXien += allXienRes.get(xs) + " x " + String.valueOf(valXien) + "n<br/>";
+                    }
                 }
             }
         }
@@ -419,7 +421,7 @@ public class CanBangSendSms extends AppCompatActivity {
             ArrayList<String> parts = sms.divideMessage(message);
             sms.sendMultipartTextMessage(phoneNo, null, parts, null, null);
             SmsManager smsManager = SmsManager.getDefault();
-            loadingimage= (ProgressBar) findViewById(R.id.progressBar);
+            loadingimage = (ProgressBar) findViewById(R.id.progressBar);
             loadingimage.setVisibility(View.VISIBLE);
             Toast.makeText(CanBangSendSms.this, "đang gửi tin nhắn", Toast.LENGTH_LONG).show();
 
@@ -430,18 +432,19 @@ public class CanBangSendSms extends AppCompatActivity {
                 public void onTick(long millisUntilFinished) {
                     int smsCountNew = countSms(phoneNo);
                     if (smsCountDefault < smsCountNew) {
-                        loadingimage= (ProgressBar) findViewById(R.id.progressBar);
+                        loadingimage = (ProgressBar) findViewById(R.id.progressBar);
                         loadingimage.setVisibility(View.GONE);
                         contentSend = (EditText) findViewById(R.id.editTextContentSms);
                         contentSend.setText("");
-                        controller.showAlertDialog( CanBangSendSms.this, "Thông báo", "Gửi tin nhắn thành công" );
+                        controller.showAlertDialog(CanBangSendSms.this, "Thông báo", "Gửi tin nhắn thành công");
                         this.cancel();
                     }
                 }
+
                 public void onFinish() {
-                    loadingimage= (ProgressBar) findViewById(R.id.progressBar);
+                    loadingimage = (ProgressBar) findViewById(R.id.progressBar);
                     loadingimage.setVisibility(View.GONE);
-                    controller.showAlertDialog( CanBangSendSms.this, "Thông báo", "Chưa gửi được tin nhắn! làm ơn thử lại!" );
+                    controller.showAlertDialog(CanBangSendSms.this, "Thông báo", "Chưa gửi được tin nhắn! làm ơn thử lại!");
                 }
 
             };
