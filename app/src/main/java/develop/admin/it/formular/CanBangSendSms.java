@@ -374,7 +374,7 @@ public class CanBangSendSms extends AppCompatActivity {
             }
         }
         if (!stringResXien.equals("")) {
-            content += "xiên" + stringResXien;
+            content += "xiên " + stringResXien;
         }
 
         contentSend = (EditText) findViewById(R.id.editTextContentSms);
