@@ -795,7 +795,7 @@ public class Message extends AppCompatActivity {
                                     .replace("trieu", "trieu JAVASTR");
                             String[] mangDe2 = chuoiDe.split("JAVASTR");
                             String idfinal = "";
-                            if (message[i].length() > 5) {
+                            if (message[i].replaceAll("(^\\s+|\\s+$)", "").length() > 6) {
                                 if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                     Cursor solieufinal = sql.getAllDb("SELECT ID FROM solieu_table WHERE 1 ORDER BY ID DESC LIMIT 0,1 ");
                                     if (solieufinal.getCount() != 0) {
@@ -1341,7 +1341,7 @@ public class Message extends AppCompatActivity {
                                                         }
                                                     }
                                                 }
-                                                if (message[i].length() > 5) {
+                                                if (message[i].replaceAll("(^\\s+|\\s+$)", "").length() > 6) {
                                                     if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                                         String table5Bor = sql.TABLE_NAME_5;
                                                         sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinal), getDays, "de");
@@ -1689,7 +1689,7 @@ public class Message extends AppCompatActivity {
                             String[] mangLo2 = chuoiLo.split("JAVASTR");
                             ArrayList<String> tachChuoiLo = controller.tachchuoi(mangLo2);
                             String idfinalLo = "";
-                            if (message[i].replaceAll("(^\\s+|\\s+$)", "").length() > 5) {
+                            if (message[i].replaceAll("(^\\s+|\\s+$)", "").length() > 6) {
                                 if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                     Cursor solieufinal = sql.getAllDb("SELECT ID FROM solieu_table WHERE 1 ORDER BY ID DESC LIMIT 0,1 ");
                                     if (solieufinal.getCount() != 0) {
@@ -2231,7 +2231,7 @@ public class Message extends AppCompatActivity {
                                                         }
                                                     }
                                                 }
-                                                if (message[i].length() > 5) {
+                                                if (message[i].replaceAll("(^\\s+|\\s+$)", "").length() > 6) {
                                                     if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
                                                         String table5Bor = sql.TABLE_NAME_5;
                                                         sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinalLo), getDays, "lo");
