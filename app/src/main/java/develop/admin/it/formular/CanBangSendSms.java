@@ -218,7 +218,9 @@ public class CanBangSendSms extends AppCompatActivity {
             for (int xs = 0; xs < allXienRes.size();xs++) {
                 if (allXienVal.get(xs) != null && allXienTh.get(xs) != null ) {
                     int valXien = Integer.parseInt(allXienVal.get(xs)) - Integer.parseInt(maxXien);
-                    stringResXien += allXienRes.get(xs) + " x " + String.valueOf(valXien) + "n<br/>";
+                    if (valXien > 0) {
+                        stringResXien += allXienRes.get(xs) + " x " + String.valueOf(valXien) + "n<br/>";
+                    }
                 }
             }
         }

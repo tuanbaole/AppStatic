@@ -143,51 +143,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(
-                "create table " + TABLE_NAME_1 + " (" +
-                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,LOTO VARCHAR,GIAI INTEGER," +
-                        "VITRI INTEGER,NGAY VARCHAR,NGAYTAO DATETIME,VALUE VARCHAR,VALUEDAU VARCHAR,NGAYSUA DATETIME) "
-        );
-
-        db.execSQL(
-                "create table " + TABLE_NAME_2 + " (" +
-                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,TEN VARCHAR,HSDE DOUBLE,HSLO DOUBLE,HSBACANG DOUBLE," +
-                        "HSXIENHAI DOUBLE,HSXIENBA DOUBLE,HSXIENBON DOUBLE,COPHAN DOUBLE,THDE DOUBLE,THLO DOUBLE,THBACANG DOUBLE," +
-                        "THGIAINHAT DOUBLE,THXIENHAI DOUBLE,THXIENBA DOUBLE,THXIENBON DOUBLE,THTRUOTMUOI DOUBLE," +
-                        "THTRUOTCHIN DOUBLE,THTRUOTTAM DOUBLE,THTRUOTBAY DOUBLE,KIEUCOPHAN INTEGER,NGOIMOT VARCHAR,NGOIHAI VARCHAR," +
-                        "NGAYTAO DATETIME,NGAYSUA DATETIME) "
-        );
-
-        db.execSQL(
-                "create table " + TABLE_NAME_3 + " (" +
-                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,KIHIEU VARCHAR,DAYSO TEXT,KIEU INTEGER,VITRI INTEGER,NGAYTAO DATETIME,NGAYSUA DATETIME) "
-        );
-
-        db.execSQL(
-                "create table " + TABLE_NAME_4 + " (" +
-                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,KHOADE VARCHAR,KHOALO VARCHAR,KHOAAPP VARCHAR,NGAYTAO DATETIME,NGAYSUA DATETIME) "
-        );
-
-        db.execSQL(
-                "create table " + TABLE_NAME_5 + " (" +
-                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SMSID INTEGER,DONGIAID INTEGER,LOTO VARCHAR," +
-                        "TRUNG DOUBLE,TIENDANH DOUBLE,TIENTHUONG DOUBLE,TONG DOUBLE,KIEU VARCHAR,SDT VARCHAR,KIHIEU VARCHAR," +
-                        "TEN VARCHAR,NGAY DATETIME,HESO DOUBLE,THUONG DOUBLE,MOICON DOUBLE,TIENDANHSMS DOUBLE,TRUNGSMS DOUBLE, " +
-                        "NGAYTAO DATETIME,NGAYSUA DATETIME) "
-        );
-
-        db.execSQL(
-                "create table " + TABLE_NAME_6 + " (" +
-                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SMSID INTEGER,DONGIAID INTEGER,CONTENT VARCHAR," +
-                        "STATUS INTEGER,NGAY DATETIME,NGAYTAO DATETIME,NGAYSUA DATETIME) "
-        );
-
-        db.execSQL(
-                "create table " + TABLE_NAME_7 + " (" +
-                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,TEN VARCHAR,DANHINBOX VARCHAR," +
-                        "HESOINBOX VARCHAR,DANHSEND VARCHAR,HESOSEND VARCHAR,KIEU VARCHAR,DONGIAID INTEGER,NGAY DATETIME" +
-                        ",NGAYTAO DATETIME,NGAYSUA DATETIME) "
-        );
+//        db.execSQL(
+//                "create table " + TABLE_NAME_1 + " (" +
+//                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,LOTO VARCHAR,GIAI INTEGER," +
+//                        "VITRI INTEGER,NGAY VARCHAR,NGAYTAO DATETIME,VALUE VARCHAR,VALUEDAU VARCHAR,NGAYSUA DATETIME) "
+//        );
+//
+//        db.execSQL(
+//                "create table " + TABLE_NAME_2 + " (" +
+//                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,TEN VARCHAR,HSDE DOUBLE,HSLO DOUBLE,HSBACANG DOUBLE," +
+//                        "HSXIENHAI DOUBLE,HSXIENBA DOUBLE,HSXIENBON DOUBLE,COPHAN DOUBLE,THDE DOUBLE,THLO DOUBLE,THBACANG DOUBLE," +
+//                        "THGIAINHAT DOUBLE,THXIENHAI DOUBLE,THXIENBA DOUBLE,THXIENBON DOUBLE,THTRUOTMUOI DOUBLE," +
+//                        "THTRUOTCHIN DOUBLE,THTRUOTTAM DOUBLE,THTRUOTBAY DOUBLE,KIEUCOPHAN INTEGER,NGOIMOT VARCHAR,NGOIHAI VARCHAR," +
+//                        "NGAYTAO DATETIME,NGAYSUA DATETIME) "
+//        );
+//
+//        db.execSQL(
+//                "create table " + TABLE_NAME_3 + " (" +
+//                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,KIHIEU VARCHAR,DAYSO TEXT,KIEU INTEGER,VITRI INTEGER,NGAYTAO DATETIME,NGAYSUA DATETIME) "
+//        );
+//
+//        db.execSQL(
+//                "create table " + TABLE_NAME_4 + " (" +
+//                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,KHOADE VARCHAR,KHOALO VARCHAR,KHOAAPP VARCHAR,NGAYTAO DATETIME,NGAYSUA DATETIME) "
+//        );
+//
+//        db.execSQL(
+//                "create table " + TABLE_NAME_5 + " (" +
+//                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SMSID INTEGER,DONGIAID INTEGER,LOTO VARCHAR," +
+//                        "TRUNG DOUBLE,TIENDANH DOUBLE,TIENTHUONG DOUBLE,TONG DOUBLE,KIEU VARCHAR,SDT VARCHAR,KIHIEU VARCHAR," +
+//                        "TEN VARCHAR,NGAY DATETIME,HESO DOUBLE,THUONG DOUBLE,MOICON DOUBLE,TIENDANHSMS DOUBLE,TRUNGSMS DOUBLE, " +
+//                        "NGAYTAO DATETIME,NGAYSUA DATETIME) "
+//        );
+//
+//        db.execSQL(
+//                "create table " + TABLE_NAME_6 + " (" +
+//                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SMSID INTEGER,DONGIAID INTEGER,CONTENT VARCHAR," +
+//                        "STATUS INTEGER,NGAY DATETIME,NGAYTAO DATETIME,NGAYSUA DATETIME) "
+//        );
+//
+//        db.execSQL(
+//                "create table " + TABLE_NAME_7 + " (" +
+//                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,SDT VARCHAR,TEN VARCHAR,DANHINBOX VARCHAR," +
+//                        "HESOINBOX VARCHAR,DANHSEND VARCHAR,HESOSEND VARCHAR,KIEU VARCHAR,DONGIAID INTEGER,NGAY DATETIME" +
+//                        ",NGAYTAO DATETIME,NGAYSUA DATETIME) "
+//        );
 
         db.execSQL(
                 "create table " + TABLE_NAME_9 + " (" +
@@ -203,13 +203,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_1);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_2);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_3);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_4);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_5);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_6);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_7);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_1);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_2);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_3);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_4);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_5);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_6);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_7);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_9);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_10);
         onCreate(db);
