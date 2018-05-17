@@ -3973,12 +3973,12 @@ public class Message extends AppCompatActivity {
                                                     // 2-3
                                                     if (trungQ2 > 0 && trungQ3 > 0) {
                                                         if (miliGetTimeLo > miliGettimeSms) {
-                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2],
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
                                                                     1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
                                                         }
                                                     } else {
                                                         if (miliGetTimeLo > miliGettimeSms) {
-                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2],
+                                                            xulydanhXienKieu(getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
                                                                     0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate);
                                                         }
                                                     }
