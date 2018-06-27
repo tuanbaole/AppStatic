@@ -3,6 +3,7 @@ package develop.admin.it.formular;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -99,7 +100,7 @@ public class GlobalClass extends AppCompatActivity {
         return milliseconds;
     }
 
-    public long converMilliseconds(String type,String date) {
+    public long converMilliseconds(String type, String date) {
         SimpleDateFormat formatter = new SimpleDateFormat(type); // "dd.MM.yyyy, HH:mm"
         formatter.setLenient(false);
         Date oldDate = null;
@@ -258,10 +259,11 @@ public class GlobalClass extends AppCompatActivity {
 
     public String repkDau(String kitu) {
         String converKitu = kitu.replace("xien", "xi").replace("xie", "xi").
+                replace("xj", "xi").
                 replace("ghep", "gep").
                 replace("gepbc", "gepbc ").
                 replace("de", "JAVASTR de").replace("lo", "JAVASTR lo").
-                replace("ld", "JAVASTR lD").replace("dd", "JAVASTR DD").
+                replace("ld", "JAVASTR lD").replace("dq", "JAVASTR DQ").
                 replace("3so", "3c").replace("3 so", "3c").replace("bs", "3c").
                 replace("baso", "3c").replace("ba so", "3c").replace("3s", "3c").
                 replace("3cang", "3c").replace("3 cang", "3c").
@@ -297,8 +299,13 @@ public class GlobalClass extends AppCompatActivity {
                         replace("chia 3 du 1", "chia3du1").
                         replace("chia 3 du 2", "chia3du2").
                         replace("on", "ON").replace("t0n", "TON").
-                        replace("sat kep","satcep").replace("satkep","satcep").
-                        replace("kepbang", "cepbalg").replace("kep bang", "cepbalg").replace("kep lech", "ceplech").
+                        replace("sat kep", "satcep").replace("satkep", "satcep").
+                        replace("dinh", "dilh").
+                        replace("vtdd", "vtff").
+                        replace("kepbang", "cepbalg").replace("kep bang", "cepbalg").
+                        replace("kep lech", "ceplech").replace("keplech", "ceplech").
+                        replace("kepb", "cepb").replace("kep b", "cepb").
+                        replace("kep l", "cepl").replace("kepl", "cepl").replace("kep", "cep").
                         replace("dan", "dal").
                         replace("an", "al").
                         replace("nghin", "n").
@@ -325,10 +332,11 @@ public class GlobalClass extends AppCompatActivity {
 
     public String repDauBang(String kitu) {
         String converKitu = kitu.replace("xien", "xi").replace("xie", "xi").
+                replace("xj", "xi").
                 replace("ghep", "gep").
                 replace("gepbc", "gepbc ").
                 replace("de", "JAVASTR de").replace("lo", "JAVASTR lo").
-                replace("ld", "JAVASTR lD").replace("dd", "JAVASTR DD").
+                replace("ld", "JAVASTR lD").replace("dq", "JAVASTR DQ").
                 replace("3so", "3c").replace("3 so", "3c").replace("bs", "3c").
                 replace("baso", "3c").replace("ba so", "3c").replace("3s", "3c").
                 replace("3cang", "3c").replace("3 cang", "3c").
@@ -364,8 +372,12 @@ public class GlobalClass extends AppCompatActivity {
                 replace("chia 3 du 1", "chia3du1").
                 replace("chia 3 du 2", "chia3du2").
                 replace("on", "ON").replace("t0n", "TON").
-                replace("kepbang", "kepbalg").replace("kep bang", "kepbalg").replace("kep lech", "keplech").
+                replace("kepbang", "kepbalg").replace("kep bang", "kepbalg").
+                replace("kep lech", "keplech").replace("keplech", "ceplech").
+                replace("kepb", "cepb").replace("kep b", "cepb").
+                replace("kep l", "cepl").replace("kepl", "cepl").replace("kep", "cep").
                 replace("dan", "dal").
+                replace("vtdd", "vtff").
                 replace("an", "al").
                 replace("nghin", "n").
                 replace("ngin", "n").
@@ -405,9 +417,16 @@ public class GlobalClass extends AppCompatActivity {
                 .replace("he", "JAVASTR he ").replace("bo", "JAVASTR bo ")
                 .replace("dal", "JAVASTR dal ").replace("keplech", "JAVASTR keplech").replace("kepbalg", "JAVASTR kepbalg")
                 .replace("ceplech", "JAVASTR ceplech").replace("cepbalg", "JAVASTR cepbalg")
+                .replace("cepl", "JAVASTR cepl").replace("cepb", "JAVASTR cepb").replace("kep", "cep")
                 .replace("chia 3 du 0", "JAVASTR chia3du0")
                 .replace("chia 3 du 1", "JAVASTR chia3du1")
-                .replace("chia 3 du 2", "JAVASTR chia3du2");
+                .replace("chia 3 du 2", "JAVASTR chia3du2")
+                .replace("cham", "JAVASTR cham")
+                .replace("co", "JAVASTR co")
+                .replace("vtdd", "JAVASTR vtff")
+                .replace("vtff", "JAVASTR vtff")
+                .replace("dinh", "JAVASTR dilh")
+                .replace("dilh", "JAVASTR dilh");
         return message;
     }
 
@@ -419,8 +438,8 @@ public class GlobalClass extends AppCompatActivity {
         kieubobso.add("bo");
         kieubobso.add("he");
         kieubobso.add("dal");
-        kieubobso.add("cham");
         kieubobso.add("day");
+        kieubobso.add("vtff");
         return kieubobso;
     }
 
@@ -439,6 +458,8 @@ public class GlobalClass extends AppCompatActivity {
         kieubobso.add("satkep");
         kieubobso.add("cepbalg");
         kieubobso.add("ceplech");
+        kieubobso.add("cepb");
+        kieubobso.add("cepl");
         kieubobso.add("satcep");
         kieubobso.add("tongtrel10");
         kieubobso.add("tongduoi10");
@@ -637,12 +658,12 @@ public class GlobalClass extends AppCompatActivity {
                     checkXienNum.indexOf("6") == -1 && checkXienNum.indexOf("7") == -1 && checkXienNum.indexOf("8") == -1 &&
                     checkXienNum.indexOf("9") == -1) {
                 if (checkXienStr.length() == 0 && checkXienNum.length() >= 1 && checkXienNum.length() <= 3) {
-                    if (chuoiXienMang.length >  2) {
+                    if (chuoiXienMang.length > 2) {
                         if (checkXienNum.indexOf("4") > -1 && chuoiXienMang.length < 6) {
                             res += "<font color=\"RED\">" + xienChuoi + "</font>";
-                        } else if(checkXienNum.indexOf("3") > -1 && chuoiXienMang.length < 5) {
+                        } else if (checkXienNum.indexOf("3") > -1 && chuoiXienMang.length < 5) {
                             res += "<font color=\"RED\">" + xienChuoi + "</font>";
-                        } else if(checkXienNum.indexOf("2") > -1 && chuoiXienMang.length < 4) {
+                        } else if (checkXienNum.indexOf("2") > -1 && chuoiXienMang.length < 4) {
                             res += "<font color=\"RED\">" + xienChuoi + "</font>";
                         } else {
                             res += "ghep" + checkXienNum + " ";
@@ -730,6 +751,147 @@ public class GlobalClass extends AppCompatActivity {
             }
         }
         return resChuoiXien4;
+    }
+
+    public ArrayList<String> resVtBoso(String[] mangde, HashMap<String, ArrayList<String>> hashmap) {
+        String daysores = "";
+        String errorRes = "";
+        String daysoSosanh = "";
+        ArrayList<String> dataRes = new ArrayList<>();
+        for (int u = 1; u < mangde.length; u++) {
+            if (!mangde[u].equals("")) {
+                if (hashmap.get("dau" + mangde[u]) != null && hashmap.get("dit" + mangde[u]) != null) {
+                    if (daysores.indexOf(mangde[u]) == -1) {
+                        errorRes += mangde[u] + " ";
+                        daysores += mangde[u] + ",";
+                        if (!daysoSosanh.equals("")) {
+                            daysoSosanh += "," + hashmap.get("dau" + mangde[u]).get(0) + "," + hashmap.get("dit" + mangde[u]).get(0);
+                        } else {
+                            daysoSosanh += hashmap.get("dau" + mangde[u]).get(0) + "," + hashmap.get("dit" + mangde[u]).get(0);
+                        }
+                    } else {
+                        errorRes += "<font color=\"RED\">" + mangde[u] + " </font>";
+                    }
+                } else {
+                    if (mangde[u].replaceAll("[0-9]", "").length() > 0) {
+                        errorRes += "<font color=\"RED\">" + mangde[u] + " </font>";
+                    } else {
+                        for (int a = 0; a < mangde[u].length(); a++) {
+                            int b = a + 1;
+                            String giatri = mangde[u].substring(a, b);
+                            if (hashmap.get("dau" + giatri) != null && hashmap.get("dit" + giatri) != null) {
+                                if (daysores.indexOf(giatri) == -1) {
+                                    errorRes += giatri + " ";
+                                    daysores += giatri + ",";
+                                    if (!daysoSosanh.equals("")) {
+                                        daysoSosanh += "," + hashmap.get("dau" + giatri).get(0) + "," + hashmap.get("dit" + giatri).get(0);
+                                    } else {
+                                        daysoSosanh += hashmap.get("dau" + giatri).get(0) + "," + hashmap.get("dit" + giatri).get(0);
+                                    }
+                                } else {
+                                    errorRes += "<font color=\"RED\">" + giatri + " </font>";
+                                }
+                            } else {
+                                errorRes += "<font color=\"RED\">" + giatri + " </font>";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        String[] giatriTrung = daysores.split(",");
+        String soboqua = "";
+        for (int q = 0; q < giatriTrung.length; q++) {
+            for (int v = 0; v < giatriTrung.length; v++) {
+                if (!soboqua.equals("")) {
+                    soboqua += "," + giatriTrung[q] + giatriTrung[v];
+                } else {
+                    soboqua += giatriTrung[q] + giatriTrung[v];
+                }
+            }
+        }
+        String[] valueDayso = daysoSosanh.split(",");
+        String daysocantim = "";
+        for (int x = 0; x < valueDayso.length; x++) {
+            if (soboqua.indexOf(valueDayso[x]) == -1) {
+                daysocantim += valueDayso[x] + ",";
+            }
+        }
+        daysocantim += soboqua;
+        dataRes.add(daysocantim);
+        dataRes.add(errorRes);
+        dataRes.add(daysores);
+        return dataRes;
+    }
+
+    public ArrayList<String> resGhepBcBoso(String[] valueImprotDb) {
+        ArrayList<String> dataRes = new ArrayList<>();
+        String errorRes = "";
+        String gepDeCoX = "";
+        int cakep1 = valueImprotDb.length - 2;
+        int cakep2 = valueImprotDb.length - 1;
+        for (int q1 = 1; q1 < valueImprotDb.length - 2; q1++) {
+            if (valueImprotDb[q1].replaceAll("[0-9]", "").length() > 0) {
+                errorRes += "<font color=\"RED\">" + valueImprotDb[q1] + " </font>";
+            } else {
+                errorRes += valueImprotDb[q1] + " ";
+                gepDeCoX += valueImprotDb[q1];
+            }
+        }
+        Boolean ghepkep = false;
+        if (valueImprotDb[cakep1].equals("ca") && valueImprotDb[cakep2].equals("cep")) {
+            errorRes += valueImprotDb[cakep1] + " " + valueImprotDb[cakep2];
+            ghepkep = true;
+        } else {
+            for (int q2 = cakep1; q2 < valueImprotDb.length; q2++) {
+                if (valueImprotDb[q2].replaceAll("[0-9]", "").length() > 0) {
+                    errorRes += "<font color=\"RED\">" + valueImprotDb[q2] + " </font>";
+                } else {
+                    errorRes += valueImprotDb[q2] + " ";
+                    gepDeCoX += valueImprotDb[q2];
+                }
+            }
+        }
+
+        String newGepDeCoX = gepDeCoX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+        String giatriso = "";
+        if (ghepkep) {
+            for (int ge = 0; ge < newGepDeCoX.length(); ge++) {
+                for (int ge1 = ge; ge1 < newGepDeCoX.length(); ge1++) {
+                    if (ge1 == ge) {
+                        if (giatriso.equals("")) {
+                            giatriso += newGepDeCoX.substring(ge, ge + 1) + newGepDeCoX.substring(ge1, ge1 + 1);
+                        } else {
+                            giatriso += "," + newGepDeCoX.substring(ge, ge + 1) + newGepDeCoX.substring(ge1, ge1 + 1);
+                        }
+                    } else  {
+                        if (giatriso.equals("")) {
+                            giatriso += newGepDeCoX.substring(ge, ge + 1) + newGepDeCoX.substring(ge1, ge1 + 1) + "," +
+                                    newGepDeCoX.substring(ge1, ge1 + 1) + newGepDeCoX.substring(ge, ge + 1);
+                        } else {
+                            giatriso += "," + newGepDeCoX.substring(ge, ge + 1) + newGepDeCoX.substring(ge1, ge1 + 1) + "," +
+                                    newGepDeCoX.substring(ge1, ge1 + 1) + newGepDeCoX.substring(ge, ge + 1);
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int ge = 0; ge < newGepDeCoX.length(); ge++) {
+                for (int ge1 = ge + 1; ge1 < newGepDeCoX.length(); ge1++) {
+                    if (giatriso.equals("")) {
+                        giatriso += newGepDeCoX.substring(ge, ge + 1) + newGepDeCoX.substring(ge1, ge1 + 1) + "," +
+                                newGepDeCoX.substring(ge1, ge1 + 1) + newGepDeCoX.substring(ge, ge + 1);
+                    } else {
+                        giatriso += "," + newGepDeCoX.substring(ge, ge + 1) + newGepDeCoX.substring(ge1, ge1 + 1) + "," +
+                                newGepDeCoX.substring(ge1, ge1 + 1) + newGepDeCoX.substring(ge, ge + 1);
+                    }
+                }
+            }
+        }
+        dataRes.add(errorRes);
+        dataRes.add(giatriso);
+        Log.d("LogFile",giatriso);
+        return dataRes;
     }
 
 }

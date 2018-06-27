@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -86,21 +85,21 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-        countDownLogOut();
+//        countDownLogOut();
     }
 
-    public void countDownLogOut() {
-        CountDownTimer timer = new CountDownTimer(60 * 60 * 1000, 600000) {
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            public void onFinish() {
-                Intent intent7 = new Intent(LoginActivity.this, LoginActivity.class);
-                startActivity(intent7);
-            }
-        };
-        timer.start();
-    }
+//    public void countDownLogOut() {
+//        CountDownTimer timer = new CountDownTimer(60 * 60 * 1000, 600000) {
+//            public void onTick(long millisUntilFinished) {
+//
+//            }
+//
+//            public void onFinish() {
+//                Intent intent7 = new Intent(LoginActivity.this, LoginActivity.class);
+//                startActivity(intent7);
+//            }
+//        };
+//        timer.start();
+//    }
 
 }
