@@ -1,6 +1,7 @@
 package develop.admin.it.formular;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -43,7 +45,7 @@ public class Message extends AppCompatActivity {
     EditText textV;
     TextView textContact, smsId, textViewSmsType, textViewDate,
             textViewHSD, textViewKhoaLo, textViewKhoaDe, timeSmsVn,
-            textViewTypeCheckSms,textMessage;
+            textViewTypeCheckSms, textMessage;
     DatabaseHelper sql;
 
     private int year_x, month_x, day_x;
@@ -54,6 +56,7 @@ public class Message extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
+    private ProgressDialog procress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -347,6 +350,26 @@ public class Message extends AppCompatActivity {
         };
     }
 
+    public Runnable aprocNext() {
+        return new Runnable() {
+            public void run() {
+                buttonDate = (Button) findViewById(R.id.buttonDate);
+                String ngayDaChon = buttonDate.getText().toString();
+                clickShowEditText(ngayDaChon);
+            }
+        };
+    }
+
+    public Runnable bprocNext() {
+        return new Runnable() {
+            public void run() {
+                buttonDate = (Button) findViewById(R.id.buttonDate);
+                String ngayDaChon = buttonDate.getText().toString();
+                clickShowEditText(ngayDaChon);
+            }
+        };
+    }
+
     public Runnable bproc() {
         return new Runnable() {
             public void run() {
@@ -576,11 +599,169 @@ public class Message extends AppCompatActivity {
                 Intent intent3 = new Intent(Message.this, ChiTietTinNhan.class);
                 startActivity(intent3);
                 return true;
+            case R.id.capnhatketqua:
+                buttonDate = (Button) findViewById(R.id.buttonDate);
+                final String ngaySelect = buttonDate.getText().toString();
+                textViewHSD = (TextView) findViewById(R.id.textViewHSD);
+                String getHsd1 = textViewHSD.getText().toString();
+                long miliGetDay1 = controller.converDayToMill("yyyy-MM-dd", ngaySelect);
+                long miligetHsd1 = controller.converDayToMill("yyyy-MM-dd", getHsd1);
+                if (miligetHsd1 >= miliGetDay1) {
+                    Cursor kqsx = sql.getAllDb("SELECT * FROM kq_table WHERE NGAY=\"" + ngaySelect + "\"");
+                    if (kqsx.getCount() != 27) {
+                        new CountDownTimer(4000, 2000) {
+                            public void onTick(long millisUntilFinished) {
+                                getKqsxmb(ngaySelect, ngaySelect);
+                            }
+
+                            public void onFinish() {
+                                Cursor kqsx1 = sql.getAllDb("SELECT * FROM kq_table WHERE NGAY=\"" + ngaySelect + "\"");
+                                if (kqsx1.getCount() == 27) {
+                                    xulySms(ngaySelect);
+                                } else {
+                                    controller.showAlertDialog(Message.this, "Thông báo", "Chưa tìm thấy kết quả");
+                                }
+                            }
+                        }.start();
+                    } else {
+                        xulySms(ngaySelect);
+                    }
+                } else {
+                    controller.showAlertDialog(Message.this, "Thông báo", "Đã hết hạn sử dụng ứng dụng! làm ơn đăng kí sử dụng tiếp");
+                }
+                return true;
         }
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void xulySms(final String ngaySelect) {
+        procress = new ProgressDialog(Message.this);
+        procress.setCancelable(false);
+        procress.setTitle("Lấy dữ liệu");
+        procress.setMessage("Đang Xử lý");
+        procress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        procress.setProgress(0);
+        procress.show();
+        String sms_id_ready_query = "SELECT SMSID FROM \"solieu_table\" WHERE NGAY=\"" + ngaySelect + "\"";
+        Cursor sms_ready_table_query = sql.getAllDb(sms_id_ready_query);
+        String sms_get_by_id = "";
+        if (sms_ready_table_query.getCount() > 0) {
+            while (sms_ready_table_query.moveToNext()) {
+                String get_smsID = sms_ready_table_query.getString(sms_ready_table_query.getColumnIndex("SMSID"));
+                if (sms_get_by_id.indexOf(get_smsID) == -1) {
+                    if (sms_get_by_id.equals("")) {
+                        sms_get_by_id += get_smsID;
+                    } else {
+                        sms_get_by_id += "," + get_smsID;
+                    }
+                }
+            }
+        }
+        final String query = "SELECT sms_ready_table.ID,sms_ready_table.SMSID,sms_ready_table.CONTENT," +
+                "sms_ready_table.NGAY,solieu_table.KIEU AS KIEU," +
+                "solieu_table.SDT AS SDT,solieu_table.TEN AS TEN" +
+                " FROM sms_ready_table" +
+                " LEFT JOIN solieu_table ON (sms_ready_table.SMSID = solieu_table.SMSID )" +
+                " WHERE sms_ready_table.NGAY = \"" + ngaySelect + "\"" +
+                " AND sms_ready_table.SMSID IN (" + sms_get_by_id + ") AND sms_ready_table.CONTENT != \"\" GROUP BY sms_ready_table.ID";
+        Cursor sms_ready_table1 = sql.getAllDb(query);
+        int totalSms = sms_ready_table1.getCount();
+        procress.setMax(totalSms);
+        new CountDownTimer(totalSms * 50, 25) {
+            String startCountdown = "0";
+            public void onTick(long millisUntilFinished) {
+                if (startCountdown.equals("0")) {
+                    PrcrosseData p = new PrcrosseData();
+                    Cursor sms_ready_table = sql.getAllDb(query);
+                    if (sms_ready_table.getCount() > 0) {
+                        p.execute(sms_ready_table);
+                    }
+                    startCountdown = "1";
+                }
+            }
+
+            public void onFinish() {
+                Cursor sms_ready_table1 = sql.getAllDb(query);
+                if (sms_ready_table1.getCount() > 0) {
+                    int i = 0;
+                    while (sms_ready_table1.moveToNext()) {
+                        i++;
+                        String content = sms_ready_table1.getString(sms_ready_table1.getColumnIndex("CONTENT"));
+                        String smsType = sms_ready_table1.getString(sms_ready_table1.getColumnIndex("KIEU"));
+                        String sms_id = sms_ready_table1.getString(sms_ready_table1.getColumnIndex("SMSID"));
+                        String ten = sms_ready_table1.getString(sms_ready_table1.getColumnIndex("TEN"));
+                        String sdt = sms_ready_table1.getString(sms_ready_table1.getColumnIndex("SDT"));
+                        String table5 = sql.TABLE_NAME_5;
+                        TextView textContact1 = (TextView) findViewById(R.id.textViewContact);
+                        textContact1.setText(ten + "-" + sdt);
+                        textViewSmsType = (TextView) findViewById(R.id.textViewSmsType);
+                        textViewSmsType.setText(smsType);
+                        smsId = (TextView) findViewById(textViewSmsId);
+                        smsId.setText(sms_id);
+                        sql.deleteSolieuSmsID(table5, sms_id);
+                        checkMessage(content, ngaySelect, smsType);
+                        if (i == sms_ready_table1.getCount()) {
+                            textViewSmsType.setText("0");
+                            textContact1.setText("");
+                            textViewDate = (TextView) findViewById(R.id.textViewDate);
+                            textViewDate.setText("");
+                            TextView editTextMessage1 = (TextView) findViewById(R.id.editTextMessage);
+                            editTextMessage1.setText("");
+                            smsId.setText("0");
+                            DialogHandler appdialog = new DialogHandler();
+                            appdialog.Confirm(Message.this, "Thông Báo", "Hãy nhấn đồng ý để xử lý tin tiếp theo !",
+                                    "Đóng", "Đồng ý", aprocNext(), bprocNext());
+                            procress.cancel();
+                        }
+                    }
+                } else {
+                    DialogHandler appdialog = new DialogHandler();
+                    appdialog.Confirm(Message.this, "Thông Báo", "Hãy nhấn đồng ý để xử lý tin tiếp theo !",
+                            "Đóng", "Đồng ý", aprocNext(), bprocNext());
+                    procress.cancel();
+                }
+            }
+        }.start();
+    }
+
+    public class PrcrosseData extends AsyncTask<Cursor, String, String> {
+        @Override
+        protected String doInBackground(Cursor... cursors) {
+            int count_sms = cursors[0].getCount();
+            int progcessPrecent = 1;
+            if (count_sms > 0) {
+                while (cursors[0].moveToNext()) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    String content = cursors[0].getString(cursors[0].getColumnIndex("CONTENT"));
+                    this.publishProgress(String.valueOf(progcessPrecent), String.valueOf(count_sms),
+                            content);
+                    progcessPrecent++;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            int progress = Integer.parseInt(values[0]);
+            int total = Integer.parseInt(values[1]);
+            String message = values[2];
+//            int precent = progress * 100 / total;
+            procress.setProgress(progress);
+            procress.setMessage(message);
+            if (values[0] == values[1]) {
+                procress.setMessage("Đang hoàn tất cập nhật");
+//                procress.cancel();
+            }
+        }
     }
 
     private void clickShowEditText(String getDays) {
@@ -815,6 +996,9 @@ public class Message extends AppCompatActivity {
                                         if (mangDecoX.length == 2) {
                                             double getNum = 0; // so tien danh la getNum
                                             if (mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                if (mangDecoX[1].split("j").length == 2) {
+                                                    mangDecoX[1] = mangDecoX[1].replace("j", ".");
+                                                }
                                                 if (mangDecoX[1].indexOf("trieu") > -1) {
                                                     getNum = Double.parseDouble(mangDecoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                 } else {
@@ -839,9 +1023,28 @@ public class Message extends AppCompatActivity {
                                                             if (valueImprotDb.length > 1) {
                                                                 error += valueImprotDb[0] + " " + controller.resVtBoso(valueImprotDb, hashmap).get(1);
                                                                 xulydanhbosoVtDe(controller.resVtBoso(valueImprotDb, hashmap).get(0), getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-                                                                        , "de", listDonGia[0], dataSoLieuDate, valueImprotDb[0],controller.resVtBoso(valueImprotDb, hashmap).get(2), smsType);
+                                                                        , "de", listDonGia[0], dataSoLieuDate, valueImprotDb[0], controller.resVtBoso(valueImprotDb, hashmap).get(2), smsType);
                                                             } else {
                                                                 error += "<font color=\"RED\">" + valueDeArr[k] + " </font>";
+                                                            }
+                                                        } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                        /* danh dan nhonho -toto ... */
+                                                            if (sessionDeCoX.equals("")) {  /* de dau chan chan x 100n */
+                                                                if (!valueImprotDb[0].equals("")) {
+                                                                    if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
+                                                                        error += valueImprotDb[0] + " ";
+                                                                        String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")).get(0);
+                                                                        if (miliGetTimeDe > miliGettimeSms) {
+                                                                            borDeCoX += value + ",";
+                                                                            xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
+                                                                                    , "de", listDonGia[0], dataSoLieuDate, valueImprotDb[0], smsType);
+                                                                        }
+                                                                    } else {
+                                                                        error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                             }
                                                         } else if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
                                                             if (valueImprotDb.length > 1) {
@@ -893,25 +1096,6 @@ public class Message extends AppCompatActivity {
                                                                     error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
                                                                 }
                                                                 sessionDeCoX = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                            }
-                                                        } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
-                                                        /* danh dan nhonho -toto ... */
-                                                            if (sessionDeCoX.equals("")) {  /* de dau chan chan x 100n */
-                                                                if (!valueImprotDb[0].equals("")) {
-                                                                    if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
-                                                                        error += valueImprotDb[0] + " ";
-                                                                        String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")).get(0);
-                                                                        if (miliGetTimeDe > miliGettimeSms) {
-                                                                            borDeCoX += value + ",";
-                                                                            xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-                                                                                    , "de", listDonGia[0], dataSoLieuDate, valueImprotDb[0], smsType);
-                                                                        }
-                                                                    } else {
-                                                                        error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
-                                                                    }
-                                                                }
-                                                            } else {
-                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                             }
                                                         } else {
                                                             String newVal = valueImprotDb[0].replaceAll("\\d", "");
@@ -1012,8 +1196,8 @@ public class Message extends AppCompatActivity {
 
                                                             } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
                                                                 // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
-                                                                error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0)+ " ";
-                                                                xuLyDanhLeDeGhep(controller.resGhepBcBoso(valueImprotDb).get(1),compareDe, getNum, hsde, thuongde, idSmsInt, dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
+                                                                error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0) + " ";
+                                                                xuLyDanhLeDeGhep(controller.resGhepBcBoso(valueImprotDb).get(1), compareDe, getNum, hsde, thuongde, idSmsInt, dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
 //                                                                String gepDeCoX = "";
 //                                                                error += valueImprotDb[0];
 //                                                                for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
@@ -1084,21 +1268,21 @@ public class Message extends AppCompatActivity {
                                                 } // end ghepab
                                                 if (mangDecoX[1].indexOf("n") > -1 &&
                                                         mangDecoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1) {
-                                                    error += "x " + mangDecoX[1] + " ";
+                                                    error += "x " + mangDecoX[1].replace(".", "j") + " ";
                                                 } else if (mangDecoX[1].indexOf("k") > -1 &&
                                                         mangDecoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1) {
-                                                    error += "x " + mangDecoX[1] + " ";
+                                                    error += "x " + mangDecoX[1].replace(".", "j") + " ";
                                                 } else if (mangDecoX[1].indexOf("trieu") > -1 &&
                                                         mangDecoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 5) {
-                                                    error += "x " + mangDecoX[1] + " ";
+                                                    error += "x " + mangDecoX[1].replace(".", "j") + " ";
                                                 } else if (mangDecoX[1].indexOf("N1c") > -1 &&
                                                         mangDecoX[1].replaceAll("[0-9]", "").replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 2) {
-                                                    error += "x " + mangDecoX[1] + " ";
+                                                    error += "x " + mangDecoX[1].replace(".", "j") + " ";
                                                 } else if (mangDecoX[1].replaceAll("(^\\s+|\\s+$)", "").
                                                         replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0) {
-                                                    error += "x " + mangDecoX[1] + " ";
+                                                    error += "x " + mangDecoX[1].replace(".", "j") + " ";
                                                 } else {
-                                                    error += "x " + "<font color=\"RED\">" + mangDecoX[1] + " </font>";
+                                                    error += "x " + "<font color=\"RED\">" + mangDecoX[1].replace(".", "j") + " </font>";
                                                 }
 
                                             } else {
@@ -1113,6 +1297,9 @@ public class Message extends AppCompatActivity {
                                         if (mangDecoDauB.length == 2) {
                                             double getNum = 0; // so tien danh la getNum
                                             if (mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                if (mangDecoDauB[1].split("j").length == 2) {
+                                                    mangDecoDauB[1] = mangDecoDauB[1].replace("j", ".");
+                                                }
                                                 if (mangDecoDauB[1].indexOf("trieu") > -1) {
                                                     getNum = Double.parseDouble(mangDecoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                 } else {
@@ -1125,7 +1312,22 @@ public class Message extends AppCompatActivity {
                                                 String sessionDeCoDauB = "";
                                                 for (int k = 0; k < valueDeArrCoDauB.length; k++) {
                                                     String[] valueImprotDb = valueDeArrCoDauB[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                                    if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                    if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                        /* danh dan nhonho -toto ... */
+                                                        if (sessionDeCoDauB.equals("")) { /* de dau chan chan x 100n */
+                                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
+                                                                error += valueImprotDb[0] + " ";
+                                                                String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")).get(0);
+                                                                if (miliGetTimeDe > miliGettimeSms) {
+                                                                    borDeCoDauB += value + ",";
+                                                                }
+                                                            } else {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                            }
+                                                        } else {
+                                                            error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                        }
+                                                    } else if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
                                                         if (valueImprotDb.length > 1) {
                                                             error += valueImprotDb[0] + " ";
                                                             for (int q = 1; q < valueImprotDb.length; q++) {
@@ -1171,21 +1373,6 @@ public class Message extends AppCompatActivity {
                                                                 error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
                                                             }
                                                             sessionDeCoDauB = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                        }
-                                                    } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
-                                                        /* danh dan nhonho -toto ... */
-                                                        if (sessionDeCoDauB.equals("")) { /* de dau chan chan x 100n */
-                                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
-                                                                error += valueImprotDb[0] + " ";
-                                                                String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")).get(0);
-                                                                if (miliGetTimeDe > miliGettimeSms) {
-                                                                    borDeCoDauB += value + ",";
-                                                                }
-                                                            } else {
-                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
-                                                            }
-                                                        } else {
-                                                            error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                         }
                                                     } else {
                                                         String newVal = valueImprotDb[0].replaceAll("\\d", "");
@@ -1269,8 +1456,8 @@ public class Message extends AppCompatActivity {
                                                             }
                                                         } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
                                                             // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
-                                                            error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0)+ " ";
-                                                            xuLyDanhLeDeGhep(controller.resGhepBcBoso(valueImprotDb).get(1),compareDe, getNum, hsde, thuongde, idSmsInt, dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
+                                                            error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0) + " ";
+                                                            xuLyDanhLeDeGhep(controller.resGhepBcBoso(valueImprotDb).get(1), compareDe, getNum, hsde, thuongde, idSmsInt, dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
 //                                                            error += valueImprotDb[0];
 //                                                            String gepDeCoDauB = "";
 //                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
@@ -1383,19 +1570,19 @@ public class Message extends AppCompatActivity {
                                                     error += "= " + "<font color=\"RED\">" + mangDecoDauB[1] + " </font>";
                                                 } else if (mangDecoDauB[1].indexOf("n") > -1 &&
                                                         mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1) {
-                                                    error += "= " + mangDecoDauB[1] + " ";
+                                                    error += "= " + mangDecoDauB[1].replace(".", "j") + " ";
                                                 } else if (mangDecoDauB[1].indexOf("k") > -1 &&
                                                         mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1) {
-                                                    error += "= " + mangDecoDauB[1] + " ";
+                                                    error += "= " + mangDecoDauB[1].replace(".", "j") + " ";
                                                 } else if (mangDecoDauB[1].indexOf("trieu") > -1 &&
                                                         mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 5) {
-                                                    error += "= " + mangDecoDauB[1] + " ";
+                                                    error += "= " + mangDecoDauB[1].replace(".", "j") + " ";
                                                 } else if (mangDecoDauB[1].indexOf("N1c") > -1 &&
                                                         mangDecoDauB[1].replaceAll("[0-9]", "").replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 2) {
-                                                    error += "= " + mangDecoDauB[1] + " ";
+                                                    error += "= " + mangDecoDauB[1].replace(".", "j") + " ";
                                                 } else if (mangDecoDauB[1].replaceAll("(^\\s+|\\s+$)", "").
                                                         replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0) {
-                                                    error += "= " + mangDecoDauB[1] + " ";
+                                                    error += "= " + mangDecoDauB[1].replace(".", "j") + " ";
                                                 } else {
                                                     error += "= " + "<font color=\"RED\">" + mangDecoDauB[1] + " </font>";
                                                 }
@@ -1408,10 +1595,13 @@ public class Message extends AppCompatActivity {
 
                                     } else {
                                         String[] mangDekhongX = tachChuoiDe.get(j).replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                        if (mangDekhongX.length == 2) {
+                                        if (mangDekhongX.length == 2 && mangDekhongX[0].replaceAll("[0-9]", "").length() == 0) {
                                             String valueMangDe = String.valueOf(mangDekhongX[mangDekhongX.length - 1]);
                                             double getNum = 0; // gia tri loto
                                             if (valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                if (valueMangDe.split("j").length == 2) {
+                                                    valueMangDe = valueMangDe.replace("j", ".");
+                                                }
                                                 if (valueMangDe.indexOf("trieu") > -1) {
                                                     getNum = Double.parseDouble(valueMangDe.replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                 } else {
@@ -1426,7 +1616,24 @@ public class Message extends AppCompatActivity {
                                                 String SessionDeKX = "";
                                                 for (int k = 0; k < valueDeArr.length; k++) {
                                                     String[] valueImprotDb = valueDeArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                                    if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                    if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                        /* danh dan nhonho -toto ... */
+                                                        if (SessionDeKX.equals("")) { // de dau chan chan x 100n
+                                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
+                                                                error += valueImprotDb[0] + " ";
+                                                                String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")).get(0);
+                                                                if (miliGetTimeDe > miliGettimeSms) {
+                                                                    boDeKX += value + ",";
+                                                                    xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
+                                                                            , "de", listDonGia[0], dataSoLieuDate, valueImprotDb[0], smsType);
+                                                                }
+                                                            } else {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                            }
+                                                        } else {
+                                                            error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                        }
+                                                    } else if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
                                                         if (valueImprotDb.length > 1) {
                                                             error += valueImprotDb[0] + " ";
                                                             for (int q = 1; q < valueImprotDb.length; q++) {
@@ -1463,23 +1670,6 @@ public class Message extends AppCompatActivity {
                                                                 error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
                                                             }
                                                             SessionDeKX = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                        }
-                                                    } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
-                                                        /* danh dan nhonho -toto ... */
-                                                        if (SessionDeKX.equals("")) { // de dau chan chan x 100n
-                                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
-                                                                error += valueImprotDb[0] + " ";
-                                                                String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")).get(0);
-                                                                if (miliGetTimeDe > miliGettimeSms) {
-                                                                    boDeKX += value + ",";
-                                                                    xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-                                                                            , "de", listDonGia[0], dataSoLieuDate, valueImprotDb[0], smsType);
-                                                                }
-                                                            } else {
-                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
-                                                            }
-                                                        } else {
-                                                            error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                         }
                                                     } else {
                                                         String newVal2 = valueImprotDb[0].replaceAll("\\d", "");
@@ -1541,8 +1731,8 @@ public class Message extends AppCompatActivity {
                                                             SessionDeKX = "";
                                                         } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
                                                             // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
-                                                            error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0)+ " ";
-                                                            xuLyDanhLeDeGhep(controller.resGhepBcBoso(valueImprotDb).get(1),compareDe, getNum, hsde, thuongde, idSmsInt, dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
+                                                            error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0) + " ";
+                                                            xuLyDanhLeDeGhep(controller.resGhepBcBoso(valueImprotDb).get(1), compareDe, getNum, hsde, thuongde, idSmsInt, dongiaId, listDonGia[1], "de", listDonGia[0], dataSoLieuDate, smsType);
 //                                                            error += valueImprotDb[0];
 //                                                            String gepDeKX = "";
 //                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
@@ -1622,24 +1812,24 @@ public class Message extends AppCompatActivity {
                                                             valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
                                                             valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1
                                                             ) {
-                                                        error += valueMangDe + " ";
+                                                        error += valueMangDe.replace(".", "j") + " ";
                                                     } else if (valueMangDe.indexOf("k") > -1 &&
                                                             valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
                                                             valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += valueMangDe + " ";
+                                                        error += valueMangDe.replace(".", "j") + " ";
                                                     } else if (valueMangDe.indexOf("trieu") > -1 &&
                                                             valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 5 &&
                                                             valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += valueMangDe + " ";
+                                                        error += valueMangDe.replace(".", "j") + " ";
                                                     } else if (valueMangDe.indexOf("N1c") > -1 &&
                                                             valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 2 &&
                                                             valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 2) {
-                                                        error += valueMangDe + " ";
+                                                        error += valueMangDe.replace(".", "j") + " ";
                                                     } else if (valueMangDe.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
                                                             valueMangDe.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += valueMangDe + " ";
+                                                        error += valueMangDe.replace(".", "j") + " ";
                                                     } else {
-                                                        error += "<font color=\"RED\">" + valueMangDe + " </font>";
+                                                        error += "<font color=\"RED\">" + valueMangDe.replace(".", "j") + " </font>";
                                                     }
                                                 }
                                             } else {
@@ -1684,6 +1874,9 @@ public class Message extends AppCompatActivity {
                                             String boLoCoX = "";
                                             double getNum = 0; // so tien danh la getNum
                                             if (mangLocoX[1].replace("D1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                if (mangLocoX[1].split("j").length == 2) {
+                                                    mangLocoX[1] = mangLocoX[1].replace("j", ".");
+                                                }
                                                 getNum = Double.parseDouble(mangLocoX[1].replace("D1c", "").replaceAll("[^\\d.]", ""));
                                             }
                                             mangLocoX[0] = mangLocoX[0].replace(".", " ");
@@ -1705,10 +1898,27 @@ public class Message extends AppCompatActivity {
                                                             if (valueImprotDb.length > 1) {
                                                                 error += valueImprotDb[0] + " " + controller.resVtBoso(valueImprotDb, hashmap).get(1);
                                                                 xulydanhbosoVtLo(controller.resVtBoso(valueImprotDb, hashmap).get(0), compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
-                                                                        valueImprotDb[0],controller.resVtBoso(valueImprotDb, hashmap).get(2),
+                                                                        valueImprotDb[0], controller.resVtBoso(valueImprotDb, hashmap).get(2),
                                                                         listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
                                                             } else {
                                                                 error += "<font color=\"RED\">" + valueLoArrCoX[k] + " </font>";
+                                                            }
+                                                        } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                        /* danh dan nhonho -toto ... */
+                                                            if (SessionLoCoX.equals("")) {
+                                                                if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
+                                                                    error += valueImprotDb[0] + " ";
+                                                                    String value = hashmap.get(valueImprotDb[0]).get(0);
+                                                                    if (miliGetTimeLo > miliGettimeSms) {
+                                                                        boLoCoX += value + ",";
+                                                                        xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0],
+                                                                                listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                    }
+                                                                } else {
+                                                                    error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                                }
+                                                            } else {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                             }
                                                         } else if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
                                                             if (valueImprotDb.length > 1) {
@@ -1762,23 +1972,6 @@ public class Message extends AppCompatActivity {
                                                                     error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
                                                                 }
                                                                 SessionLoCoX = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                            }
-                                                        } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
-                                                        /* danh dan nhonho -toto ... */
-                                                            if (SessionLoCoX.equals("")) {
-                                                                if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
-                                                                    error += valueImprotDb[0] + " ";
-                                                                    String value = hashmap.get(valueImprotDb[0]).get(0);
-                                                                    if (miliGetTimeLo > miliGettimeSms) {
-                                                                        boLoCoX += value + ",";
-                                                                        xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0],
-                                                                                listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
-                                                                    }
-                                                                } else {
-                                                                    error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
-                                                                }
-                                                            } else {
-                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                             }
                                                         } else {
                                                             String newValLoCoX = valueImprotDb[0].replaceAll("\\d", "");
@@ -1877,9 +2070,9 @@ public class Message extends AppCompatActivity {
                                                                 SessionLoCoX = "";
                                                             } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
                                                                 // doan nay xu ly Lo ghep 1234 thanh 12 cap so 12-21-13-31...
-                                                                error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0)+ " ";
-                                                                xulydanhleLoToGhep( controller.resGhepBcBoso(valueImprotDb).get(1),getNum, hslo, compareLo, thuonglo,
-                                                                        idSmsInt, dongiaId, listDonGia[1],"lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0) + " ";
+                                                                xulydanhleLoToGhep(controller.resGhepBcBoso(valueImprotDb).get(1), getNum, hslo, compareLo, thuonglo,
+                                                                        idSmsInt, dongiaId, listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
 //                                                                error += valueImprotDb[0];
 //                                                                String gepLoCoX = "";
 //                                                                for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
@@ -1962,15 +2155,15 @@ public class Message extends AppCompatActivity {
                                                     if (mangLocoX[1].indexOf("d") > -1 &&
                                                             mangLocoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
                                                             mangLocoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += "x " + mangLocoX[1] + " ";
+                                                        error += "x " + mangLocoX[1].replace(".", "j") + " ";
                                                     } else if (mangLocoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
                                                             mangLocoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += "x " + mangLocoX[1] + " ";
+                                                        error += "x " + mangLocoX[1].replace(".", "j") + " ";
                                                     } else if (mangLocoX[1].indexOf("D1c") > -1 && mangLocoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
                                                             mangLocoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += "x " + mangLocoX[1] + " ";
+                                                        error += "x " + mangLocoX[1].replace(".", "j") + " ";
                                                     } else {
-                                                        error += "x " + "<font color=\"RED\">" + mangLocoX[1] + " </font>";
+                                                        error += "x " + "<font color=\"RED\">" + mangLocoX[1].replace(".", "j") + " </font>";
                                                     }
                                                 }
                                             } else {
@@ -1985,6 +2178,9 @@ public class Message extends AppCompatActivity {
                                             String boLoCoDauB = "";
                                             double getNum = 0; // so tien danh la getNum
                                             if (mangLocoDauB[1].replace("D1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                if (mangLocoDauB[1].split("j").length == 2) {
+                                                    mangLocoDauB[1] = mangLocoDauB[1].replace("j", ".");
+                                                }
                                                 getNum = Double.parseDouble(mangLocoDauB[1].replace("D1c", "").replaceAll("[^\\d.]", ""));
                                             }
                                             if (!mangLocoDauB[0].replaceAll("(^\\s+|\\s+$)", "").equals("")) {
@@ -1993,6 +2189,22 @@ public class Message extends AppCompatActivity {
                                                 String SessionLoCoDaub = "";
                                                 for (int k = 0; k < valueLoArrCoDauB.length; k++) {
                                                     String[] valueImprotDb = valueLoArrCoDauB[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
+                                                    if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                        /* danh dan nhonho -toto ... */
+                                                        if (SessionLoCoDaub.equals("")) {
+                                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
+                                                                error += valueImprotDb[0] + " ";
+                                                                String value = hashmap.get(valueImprotDb[0]).get(0);
+                                                                if (miliGetTimeLo > miliGettimeSms) {
+                                                                    boLoCoDauB += value + ",";
+                                                                }
+                                                            } else {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                            }
+                                                        } else {
+                                                            error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                        }
+                                                    }
                                                     if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
                                                         if (valueImprotDb.length > 1) {
                                                             error += valueImprotDb[0] + " ";
@@ -2040,21 +2252,6 @@ public class Message extends AppCompatActivity {
                                                                 error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
                                                             }
                                                             SessionLoCoDaub = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                        }
-                                                    } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
-                                                        /* danh dan nhonho -toto ... */
-                                                        if (SessionLoCoDaub.equals("")) {
-                                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
-                                                                error += valueImprotDb[0] + " ";
-                                                                String value = hashmap.get(valueImprotDb[0]).get(0);
-                                                                if (miliGetTimeLo > miliGettimeSms) {
-                                                                    boLoCoDauB += value + ",";
-                                                                }
-                                                            } else {
-                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
-                                                            }
-                                                        } else {
-                                                            error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                         }
                                                     } else {
                                                         String newValLoCoDauB = valueImprotDb[0].replaceAll("\\d", "");
@@ -2139,9 +2336,9 @@ public class Message extends AppCompatActivity {
                                                             SessionLoCoDaub = "";
                                                         } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
                                                             // doan nay xu ly Lo ghep 1234 thanh 12 cap so 12-21-13-31...
-                                                            error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0)+ " ";
-                                                            xulydanhleLoToGhep( controller.resGhepBcBoso(valueImprotDb).get(1),getNum, hslo, compareLo, thuonglo,
-                                                                    idSmsInt, dongiaId, listDonGia[1],"lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                            error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0) + " ";
+                                                            xulydanhleLoToGhep(controller.resGhepBcBoso(valueImprotDb).get(1), getNum, hslo, compareLo, thuonglo,
+                                                                    idSmsInt, dongiaId, listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
 //                                                            error += valueImprotDb[0];
 //                                                            String gepLoCoDauB = "";
 //                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
@@ -2257,15 +2454,15 @@ public class Message extends AppCompatActivity {
                                                     if (mangLocoDauB[1].indexOf("d") > -1 &&
                                                             mangLocoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
                                                             mangLocoDauB[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += "= " + mangLocoDauB[1] + " ";
+                                                        error += "= " + mangLocoDauB[1].replace(".", "j") + " ";
                                                     } else if (mangLocoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
                                                             mangLocoDauB[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += "= " + mangLocoDauB[1] + " ";
+                                                        error += "= " + mangLocoDauB[1].replace(".", "j") + " ";
                                                     } else if (mangLocoDauB[1].indexOf("D1c") > -1 && mangLocoDauB[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
                                                             mangLocoDauB[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += "= " + mangLocoDauB[1] + " ";
+                                                        error += "= " + mangLocoDauB[1].replace(".", "j") + " ";
                                                     } else {
-                                                        error += "= " + "<font color=\"RED\">" + mangLocoDauB[1] + " </font>";
+                                                        error += "= " + "<font color=\"RED\">" + mangLocoDauB[1].replace(".", "j") + " </font>";
                                                     }
                                                 }
                                             } else {
@@ -2276,12 +2473,15 @@ public class Message extends AppCompatActivity {
                                         }
                                     } else {
                                         String[] mangLokhongX = tachChuoiLo.get(j).replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                        if (mangLokhongX.length == 2) {
+                                        if (mangLokhongX.length == 2 && mangLokhongX[0].replaceAll("[0-9]", "").length() == 0) {
                                             String valueMangLo = String.valueOf(mangLokhongX[mangLokhongX.length - 1]);
                                             double getNum = 0;
                                             String loBorKX = "";
                                             if (mangLokhongX.length >= 2) {
                                                 if (valueMangLo.replace("D1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                    if (valueMangLo.split("j").length == 2) {
+                                                        valueMangLo = valueMangLo.replace("j", ".");
+                                                    }
                                                     getNum = Double.parseDouble(valueMangLo.replace("D1c", "").replaceAll("[^\\d.]", ""));
                                                 }
                                             }
@@ -2293,7 +2493,24 @@ public class Message extends AppCompatActivity {
                                                 String SessionLoKX = "";
                                                 for (int k = 0; k < valueLoArr.length; k++) {
                                                     String[] valueImprotDb = valueLoArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                                    if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                    if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                    /* danh dan nhonho -toto ... */
+                                                        if (SessionLoKX.equals("")) {
+                                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
+                                                                error += valueImprotDb[0] + " ";
+                                                                String value = hashmap.get(valueImprotDb[0]).get(0);
+                                                                if (miliGetTimeLo > miliGettimeSms) {
+                                                                    loBorKX += value + ",";
+                                                                    xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0],
+                                                                            listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                }
+                                                            } else {
+                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                            }
+                                                        } else {
+                                                            error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                        }
+                                                    } else if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
                                                         if (valueImprotDb.length > 1) {
                                                             error += valueImprotDb[0] + " ";
                                                             for (int q = 1; q < valueImprotDb.length; q++) {
@@ -2330,23 +2547,6 @@ public class Message extends AppCompatActivity {
                                                                 error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
                                                             }
                                                             SessionLoKX = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-                                                        }
-                                                    } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
-                                                    /* danh dan nhonho -toto ... */
-                                                        if (SessionLoKX.equals("")) {
-                                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
-                                                                error += valueImprotDb[0] + " ";
-                                                                String value = hashmap.get(valueImprotDb[0]).get(0);
-                                                                if (miliGetTimeLo > miliGettimeSms) {
-                                                                    loBorKX += value + ",";
-                                                                    xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0],
-                                                                            listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
-                                                                }
-                                                            } else {
-                                                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
-                                                            }
-                                                        } else {
-                                                            error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
                                                         }
                                                     } else {
                                                         String newValLoCoX2 = valueImprotDb[0].replaceAll("\\d", "");
@@ -2412,9 +2612,9 @@ public class Message extends AppCompatActivity {
                                                             SessionLoKX = "";
                                                         } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
                                                             // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
-                                                            error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0)+ " ";
-                                                            xulydanhleLoToGhep( controller.resGhepBcBoso(valueImprotDb).get(1),getNum, hslo, compareLo, thuonglo,
-                                                                    idSmsInt, dongiaId, listDonGia[1],"lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                            error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0) + " ";
+                                                            xulydanhleLoToGhep(controller.resGhepBcBoso(valueImprotDb).get(1), getNum, hslo, compareLo, thuonglo,
+                                                                    idSmsInt, dongiaId, listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
 //                                                            error += valueImprotDb[0];
 //                                                            String gepLoKX = "";
 //                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
@@ -2500,16 +2700,16 @@ public class Message extends AppCompatActivity {
                                                             valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 1 &&
                                                             valueMangLo.replaceAll("[^\\d.]", "").replace(".", "").length() >= 1
                                                             ) {
-                                                        error += valueMangLo + " ";
+                                                        error += valueMangLo.replace(".", "j") + " ";
                                                     } else if (valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 0 &&
                                                             valueMangLo.replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += valueMangLo + " ";
+                                                        error += valueMangLo.replace(".", "j") + " ";
                                                     } else if (valueMangLo.indexOf("D1c") > -1 &&
                                                             valueMangLo.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replace(".", "").replaceAll("[0-9]", "").length() == 2 &&
                                                             valueMangLo.replaceAll("[^\\d.]", "").replace(".", "").length() >= 2) {
-                                                        error += valueMangLo + " ";
+                                                        error += valueMangLo.replace(".", "j") + " ";
                                                     } else {
-                                                        error += "<font color=\"RED\">" + valueMangLo + " </font>";
+                                                        error += "<font color=\"RED\">" + valueMangLo.replace(".", "j") + " </font>";
                                                     }
                                                 }
                                             } else {
@@ -2536,6 +2736,9 @@ public class Message extends AppCompatActivity {
                                         if (mangBaCangcoX.length == 2) {
                                             double getNum = 0;// so tien danh la getNum
                                             if (mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                if (mangBaCangcoX[1].split("j").length == 2) {
+                                                    mangBaCangcoX[1] = mangBaCangcoX[1].replace("j", ".");
+                                                }
                                                 if (mangBaCangcoX[1].indexOf("trieu") > -1) {
                                                     getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                 } else {
@@ -2587,23 +2790,23 @@ public class Message extends AppCompatActivity {
                                                 if (mangBaCangcoX[1].indexOf("n") > -1 &&
                                                         mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(".", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += "x " + mangBaCangcoX[1] + " ";
+                                                    error += "x " + mangBaCangcoX[1].replace(".", "j") + " ";
                                                 } else if (mangBaCangcoX[1].indexOf("k") > -1 &&
                                                         mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(".", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += "x " + mangBaCangcoX[1] + " ";
+                                                    error += "x " + mangBaCangcoX[1].replace(".", "j") + " ";
                                                 } else if (mangBaCangcoX[1].indexOf("trieu") > -1 &&
                                                         mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(".", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += "x " + mangBaCangcoX[1] + " ";
+                                                    error += "x " + mangBaCangcoX[1].replace(".", "j") + " ";
                                                 } else if (mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(".", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += "x " + mangBaCangcoX[1] + " ";
+                                                    error += "x " + mangBaCangcoX[1].replace(".", "j") + " ";
                                                 } else if (mangBaCangcoX[1].indexOf("N1c") > -1 && mangBaCangcoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += "x " + mangBaCangcoX[1] + " ";
+                                                    error += "x " + mangBaCangcoX[1].replace(".", "j") + " ";
                                                 } else {
-                                                    error += "x " + "<font color=\"RED\">" + mangBaCangcoX[1] + " </font>";
+                                                    error += "x " + "<font color=\"RED\">" + mangBaCangcoX[1].replace(".", "j") + " </font>";
                                                 }
                                             } else {
                                                 error += "<font color=\"RED\">" + tachChuoiBaCang.get(j) + "</font>";
@@ -2616,6 +2819,9 @@ public class Message extends AppCompatActivity {
                                         if (mangBaCangcoX.length == 2) {
                                             double getNum = 0;   // so tien danh la getNum
                                             if (mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                if (mangBaCangcoX[1].split("j").length == 2) {
+                                                    mangBaCangcoX[1] = mangBaCangcoX[1].replace("j", ".");
+                                                }
                                                 if (mangBaCangcoX[1].indexOf("trieu") > -1) {
                                                     getNum = Double.parseDouble(mangBaCangcoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                 } else {
@@ -2676,27 +2882,27 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 }
                                                 if (valueBacangArr.length > 1) {
-                                                    error += "= " + "<font color=\"RED\">" + mangBaCangcoX[1] + " </font>";
+                                                    error += "= " + "<font color=\"RED\">" + mangBaCangcoX[1].replace(".", "j") + " </font>";
                                                 } else if (mangBaCangcoX[1].indexOf("n") > -1 &&
                                                         mangBaCangcoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(".", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += "= " + mangBaCangcoX[1] + " ";
+                                                    error += "= " + mangBaCangcoX[1].replace(".", "j") + " ";
                                                 } else if (mangBaCangcoX[1].indexOf("d") > -1 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += "= " + mangBaCangcoX[1] + " ";
+                                                    error += "= " + mangBaCangcoX[1].replace(".", "j") + " ";
                                                 } else if (mangBaCangcoX[1].indexOf("trieu") > -1 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += "= " + mangBaCangcoX[1] + " ";
+                                                    error += "= " + mangBaCangcoX[1].replace(".", "j") + " ";
                                                 } else if (mangBaCangcoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += "= " + mangBaCangcoX[1] + " ";
+                                                    error += "= " + mangBaCangcoX[1].replace(".", "j") + " ";
                                                 } else if (mangBaCangcoX[1].indexOf("N1c") > -1 && mangBaCangcoX[1].replace(".", "").replaceAll("(^\\s+|\\s+$)", "").length() == 3 &&
                                                         mangBaCangcoX[1].replace(".", "").replaceAll("[^\\d.]", "").length() >= 1) {
-                                                    error += "= " + mangBaCangcoX[1] + " ";
+                                                    error += "= " + mangBaCangcoX[1].replace(".", "j") + " ";
                                                 } else {
-                                                    error += "= " + "<font color=\"RED\">" + mangBaCangcoX[1] + " </font>";
+                                                    error += "= " + "<font color=\"RED\">" + mangBaCangcoX[1].replace(".", "j") + " </font>";
                                                 }
                                             } else {
                                                 error += "<font color=\"RED\">" + tachChuoiBaCang.get(j) + "</font>";
@@ -2706,11 +2912,14 @@ public class Message extends AppCompatActivity {
                                         }
                                     } else {
                                         String[] mangBacangkhongX = tachChuoiBaCang.get(j).replaceAll("(^\\s+|\\s+$)", "").split(" ");
-                                        if (mangBacangkhongX.length == 2) {
+                                        if (mangBacangkhongX.length == 2 && mangBacangkhongX[0].replaceAll("[0-9]", "").length() == 0) {
                                             String valueMangBacang = String.valueOf(mangBacangkhongX[mangBacangkhongX.length - 1]);
                                             double getNum = 0;
                                             if (tachChuoiBaCang.get(j).indexOf("N1c") > -1) {
                                                 if (valueMangBacang.replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                    if (valueMangBacang.split("j").length == 2) {
+                                                        valueMangBacang = valueMangBacang.replace("j", ".");
+                                                    }
                                                     if (valueMangBacang.indexOf("trieu") > -1) {
                                                         getNum = Double.parseDouble(valueMangBacang.replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                     } else {
@@ -2782,24 +2991,24 @@ public class Message extends AppCompatActivity {
                                                             valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                             valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1
                                                             ) {
-                                                        error += valueMangBacang + " ";
+                                                        error += valueMangBacang.replace(".", "j") + " ";
                                                     } else if (valueMangBacang.indexOf("k") > -1 &&
                                                             valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                             valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += valueMangBacang + " ";
+                                                        error += valueMangBacang.replace(".", "j") + " ";
                                                     } else if (valueMangBacang.indexOf("trieu") > -1 &&
                                                             valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
                                                             valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += valueMangBacang + " ";
+                                                        error += valueMangBacang.replace(".", "j") + " ";
                                                     } else if (valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
                                                             valueMangBacang.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                        error += valueMangBacang + " ";
+                                                        error += valueMangBacang.replace(".", "j") + " ";
                                                     } else if (valueMangBacang.indexOf("N1c") > -1 &&
                                                             valueMangBacang.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 2 &&
                                                             valueMangBacang.replaceAll("[^\\d.]", "").length() >= 2) {
-                                                        error += valueMangBacang + " ";
+                                                        error += valueMangBacang.replace(".", "j") + " ";
                                                     } else {
-                                                        error += "<font color=\"RED\">" + valueMangBacang + " </font>";
+                                                        error += "<font color=\"RED\">" + valueMangBacang.replace(".", "j") + " </font>";
                                                     }
                                                 }
                                             } else {
@@ -2834,6 +3043,9 @@ public class Message extends AppCompatActivity {
                                             if (mangXienCoX.length == 2) {
                                                 double getNum = 0;
                                                 if (mangXienCoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                    if (mangXienCoX[1].split("j").length == 2) {
+                                                        mangXienCoX[1] = mangXienCoX[1].replace("j", ".");
+                                                    }
                                                     if (mangXienCoX[1].indexOf("trieu") > -1) {
                                                         getNum = Double.parseDouble(mangXienCoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                     } else if (mangXienCoX[1].indexOf("d") > -1) {
@@ -3083,22 +3295,22 @@ public class Message extends AppCompatActivity {
                                                 } else {
                                                     if (mangXienCoX[1].indexOf("n") > -1 &&
                                                             mangXienCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                        error += " x " + mangXienCoX[1] + " ";
+                                                        error += " x " + mangXienCoX[1].replace(".", "j") + " ";
                                                     } else if (mangXienCoX[1].indexOf("k") > -1 &&
                                                             mangXienCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                        error += " x " + mangXienCoX[1] + " ";
+                                                        error += " x " + mangXienCoX[1].replace(".", "j") + " ";
                                                     } else if (mangXienCoX[1].indexOf("d") > -1 &&
                                                             mangXienCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                        error += " x " + mangXienCoX[1] + " ";
+                                                        error += " x " + mangXienCoX[1].replace(".", "j") + " ";
                                                     } else if (mangXienCoX[1].indexOf("trieu") > -1 &&
                                                             mangXienCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5) {
-                                                        error += " x " + mangXienCoX[1] + " ";
+                                                        error += " x " + mangXienCoX[1].replace(".", "j") + " ";
                                                     } else if (mangXienCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0) {
-                                                        error += " x " + mangXienCoX[1] + " ";
+                                                        error += " x " + mangXienCoX[1].replace(".", "j") + " ";
                                                     } else if (mangXienCoX[1].indexOf("N1c") > -1 && mangXienCoX[1].replaceAll("(^\\s+|\\s+$)", "").length() == 3) {
-                                                        error += " x " + mangXienCoX[1] + " ";
+                                                        error += " x " + mangXienCoX[1].replace(".", "j") + " ";
                                                     } else {
-                                                        error += " x " + "<font color=\"RED\">" + mangXienCoX[1] + " </font>";
+                                                        error += " x " + "<font color=\"RED\">" + mangXienCoX[1].replace(".", "j") + " </font>";
                                                     }
                                                 }
                                             } else if (mangXienCoX.length > 2) {
@@ -3114,6 +3326,9 @@ public class Message extends AppCompatActivity {
                                             if (mangXienCoDauB.length == 2) {
                                                 double getNum = 0;
                                                 if (mangXienCoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                    if (mangXienCoDauB[1].split("j").length == 2) {
+                                                        mangXienCoDauB[1] = mangXienCoDauB[1].replace("j", ".");
+                                                    }
                                                     if (mangXienCoDauB[1].indexOf("trieu") > -1) {
                                                         getNum = Double.parseDouble(mangXienCoDauB[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                     } else if (mangXienCoDauB[1].indexOf("d") > -1) {
@@ -3358,22 +3573,22 @@ public class Message extends AppCompatActivity {
                                                 } else {
                                                     if (mangXienCoDauB[1].indexOf("n") > -1 &&
                                                             mangXienCoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                        error += " = " + mangXienCoDauB[1] + " ";
+                                                        error += " = " + mangXienCoDauB[1].replace(".", "j") + " ";
                                                     } else if (mangXienCoDauB[1].indexOf("d") > -1 &&
                                                             mangXienCoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                        error += " = " + mangXienCoDauB[1] + " ";
+                                                        error += " = " + mangXienCoDauB[1].replace(".", "j") + " ";
                                                     } else if (mangXienCoDauB[1].indexOf("k") > -1 &&
                                                             mangXienCoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                        error += " = " + mangXienCoDauB[1] + " ";
+                                                        error += " = " + mangXienCoDauB[1].replace(".", "j") + " ";
                                                     } else if (mangXienCoDauB[1].indexOf("trieu") > -1 &&
                                                             mangXienCoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5) {
-                                                        error += " = " + mangXienCoDauB[1] + " ";
+                                                        error += " = " + mangXienCoDauB[1].replace(".", "j") + " ";
                                                     } else if (mangXienCoDauB[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0) {
-                                                        error += " = " + mangXienCoDauB[1] + " ";
+                                                        error += " = " + mangXienCoDauB[1].replace(".", "j") + " ";
                                                     } else if (mangXienCoDauB[1].indexOf("N1c") > -1 && mangXienCoDauB[1].replaceAll("(^\\s+|\\s+$)", "").length() == 3) {
-                                                        error += " = " + mangXienCoDauB[1] + " ";
+                                                        error += " = " + mangXienCoDauB[1].replace(".", "j") + " ";
                                                     } else {
-                                                        error += " = " + "<font color=\"RED\">" + mangXienCoDauB[1] + " </font>";
+                                                        error += " = " + "<font color=\"RED\">" + mangXienCoDauB[1].replace(".", "j") + " </font>";
                                                     }
                                                 }
                                             } else if (mangXienCoDauB.length > 2) {
@@ -3393,6 +3608,9 @@ public class Message extends AppCompatActivity {
                                             boolean checkGetNum = false;
                                             if (tachChuoiXien.get(tc).replaceAll("(^\\s+|\\s+$)", "").indexOf("N1c") > -1) {
                                                 if (mangXienKhongX[endArr].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                    if (mangXienKhongX[endArr].split("j").length == 2) {
+                                                        mangXienKhongX[endArr] = mangXienKhongX[1].replace("j", ".");
+                                                    }
                                                     if (mangXienKhongX[endArr].indexOf("trieu") > -1) {
                                                         getNum = Double.parseDouble(mangXienKhongX[endArr].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                     } else if (mangXienKhongX[endArr].indexOf("d") > -1) {
@@ -3404,6 +3622,9 @@ public class Message extends AppCompatActivity {
                                             } else {
                                                 if (mangXienKhongX.length >= 2) {
                                                     if (mangXienKhongX[endArr].replaceAll("[^\\d.]", "").length() > 0) {
+                                                        if (mangXienKhongX[endArr].split("j").length == 2) {
+                                                            mangXienKhongX[endArr] = mangXienKhongX[endArr].replace("j", ".");
+                                                        }
                                                         if (mangXienKhongX[endArr].indexOf("trieu") > -1) {
                                                             getNum = Double.parseDouble(mangXienKhongX[endArr].replaceAll("[^\\d.]", "")) * 1000;
                                                         } else if (mangXienKhongX[endArr].indexOf("d") > -1) {
@@ -3657,28 +3878,28 @@ public class Message extends AppCompatActivity {
                                                     valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                     valXienEnd.replaceAll("[^\\d.]", "").length() >= 1
                                                     ) {
-                                                error += " " + valXienEnd + " ";
+                                                error += " " + valXienEnd.replace(".", "j") + " ";
                                             } else if (valXienEnd.indexOf("k") > -1 &&
                                                     valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                     valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += " " + valXienEnd + " ";
+                                                error += " " + valXienEnd.replace(".", "j") + " ";
                                             } else if (valXienEnd.indexOf("d") > -1 &&
                                                     valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                     valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += " " + valXienEnd + " ";
+                                                error += " " + valXienEnd.replace(".", "j") + " ";
                                             } else if (valXienEnd.indexOf("trieu") > -1 &&
                                                     valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
                                                     valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += " " + valXienEnd + " ";
+                                                error += " " + valXienEnd.replace(".", "j") + " ";
                                             } else if (valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
                                                     valXienEnd.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += " " + valXienEnd + " ";
+                                                error += " " + valXienEnd.replace(".", "j") + " ";
                                             } else if (valXienEnd.indexOf("N1c") > -1 &&
                                                     valXienEnd.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 2 &&
                                                     valXienEnd.replaceAll("[^\\d.]", "").length() >= 2) {
-                                                error += " " + valXienEnd + " ";
+                                                error += " " + valXienEnd.replace(".", "j") + " ";
                                             } else {
-                                                error += "<font color=\"RED\"> " + valXienEnd + " </font>";
+                                                error += "<font color=\"RED\"> " + valXienEnd.replace(".", "j") + " </font>";
                                             }
 //                                            } else {
 //                                                error += "<font color=\"RED\"> " + tachChuoiXien.get(tc) + " </font>";
@@ -3706,6 +3927,9 @@ public class Message extends AppCompatActivity {
                                         if (mangXienQuayCoX.length == 2) {
                                             double getNum = 0;
                                             if (mangXienQuayCoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                if (mangXienQuayCoX[1].split("j").length == 2) {
+                                                    mangXienQuayCoX[1] = mangXienQuayCoX[1].replace("j", ".");
+                                                }
                                                 if (mangXienQuayCoX[1].indexOf("trieu") > -1) {
                                                     getNum = Double.parseDouble(mangXienQuayCoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                 } else if (mangXienQuayCoX[1].indexOf("d") > -1) {
@@ -3964,23 +4188,23 @@ public class Message extends AppCompatActivity {
 
                                             if (mangXienQuayCoX[1].indexOf("n") > -1 &&
                                                     mangXienQuayCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                error += "x " + mangXienQuayCoX[1] + " ";
+                                                error += "x " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else if (mangXienQuayCoX[1].indexOf("k") > -1 &&
                                                     mangXienQuayCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                error += "x " + mangXienQuayCoX[1] + " ";
+                                                error += "x " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else if (mangXienQuayCoX[1].indexOf("d") > -1 &&
                                                     mangXienQuayCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                error += "x " + mangXienQuayCoX[1] + " ";
+                                                error += "x " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else if (mangXienQuayCoX[1].indexOf("trieu") > -1 &&
                                                     mangXienQuayCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5) {
-                                                error += "x " + mangXienQuayCoX[1] + " ";
+                                                error += "x " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else if (mangXienQuayCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0) {
-                                                error += "x " + mangXienQuayCoX[1] + " ";
+                                                error += "x " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else if (mangXienQuayCoX[1].indexOf("N1c") > -1 &&
                                                     mangXienQuayCoX[1].replaceAll("[0-9]", "").replaceAll("(^\\s+|\\s+$)", "").length() == 2) {
-                                                error += "x " + mangXienQuayCoX[1] + " ";
+                                                error += "x " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else {
-                                                error += "x " + "<font color=\"RED\">" + mangXienQuayCoX[1] + " </font>";
+                                                error += "x " + "<font color=\"RED\">" + mangXienQuayCoX[1].replace(".", "j") + " </font>";
                                             }
 
                                         } else {
@@ -3991,6 +4215,9 @@ public class Message extends AppCompatActivity {
                                         if (mangXienQuayCoX.length == 1) {
                                             double getNum = 0;
                                             if (mangXienQuayCoX[1].replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                if (mangXienQuayCoX[1].split("j").length == 2) {
+                                                    mangXienQuayCoX[1] = mangXienQuayCoX[1].replace("j", ".");
+                                                }
                                                 if (mangXienQuayCoX[1].indexOf("trieu") > -1) {
                                                     getNum = Double.parseDouble(mangXienQuayCoX[1].replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                 } else if (mangXienQuayCoX[1].indexOf("d") > -1) {
@@ -4251,23 +4478,23 @@ public class Message extends AppCompatActivity {
 
                                             if (mangXienQuayCoX[1].indexOf("n") > -1 &&
                                                     mangXienQuayCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                error += "= " + mangXienQuayCoX[1] + " ";
+                                                error += "= " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else if (mangXienQuayCoX[1].indexOf("d") > -1 &&
                                                     mangXienQuayCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                error += "= " + mangXienQuayCoX[1] + " ";
+                                                error += "= " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else if (mangXienQuayCoX[1].indexOf("k") > -1 &&
                                                     mangXienQuayCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1) {
-                                                error += "= " + mangXienQuayCoX[1] + " ";
+                                                error += "= " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else if (mangXienQuayCoX[1].indexOf("trieu") > -1 &&
                                                     mangXienQuayCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5) {
-                                                error += "= " + mangXienQuayCoX[1] + " ";
+                                                error += "= " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else if (mangXienQuayCoX[1].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0) {
-                                                error += "= " + mangXienQuayCoX[1] + " ";
+                                                error += "= " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else if (mangXienQuayCoX[1].indexOf("N1c") > -1 &&
                                                     mangXienQuayCoX[1].replaceAll("[0-9]", "").replaceAll("(^\\s+|\\s+$)", "").length() == 2) {
-                                                error += "= " + mangXienQuayCoX[1] + " ";
+                                                error += "= " + mangXienQuayCoX[1].replace(".", "j") + " ";
                                             } else {
-                                                error += "= " + "<font color=\"RED\">" + mangXienQuayCoX[1] + " </font>";
+                                                error += "= " + "<font color=\"RED\">" + mangXienQuayCoX[1].replace(".", "j") + " </font>";
                                             }
                                         } else {
                                             error += "<font color=\"RED\">" + tachChuoiXq.get(xqu) + " </font>";
@@ -4279,6 +4506,9 @@ public class Message extends AppCompatActivity {
                                             double getNum = 0;
                                             if (tachChuoiXq.get(xqu).indexOf("N1c") > -1) {
                                                 if (valueMangXienQuayKX.replace("N1c", "").replaceAll("[^\\d.]", "").length() > 0) {
+                                                    if (valueMangXienQuayKX.split("j").length == 2) {
+                                                        valueMangXienQuayKX = valueMangXienQuayKX.replace("j", ".");
+                                                    }
                                                     if (valueMangXienQuayKX.indexOf("trieu") > -1) {
                                                         getNum = Double.parseDouble(valueMangXienQuayKX.replace("N1c", "").replaceAll("[^\\d.]", "")) * 1000;
                                                     } else if (valueMangXienQuayKX.indexOf("d") > -1) {
@@ -4290,6 +4520,9 @@ public class Message extends AppCompatActivity {
                                             } else {
                                                 if (mangXienQuayKX.length >= 2) {
                                                     if (valueMangXienQuayKX.replaceAll("[^\\d.]", "").length() > 0) {
+                                                        if (valueMangXienQuayKX.split("j").length == 2) {
+                                                            valueMangXienQuayKX = valueMangXienQuayKX.replace("j", ".");
+                                                        }
                                                         if (valueMangXienQuayKX.indexOf("trieu") > -1) {
                                                             getNum = Double.parseDouble(valueMangXienQuayKX.replaceAll("[^\\d.]", "")) * 1000;
                                                         } else if (valueMangXienQuayKX.indexOf("d") > -1) {
@@ -4560,26 +4793,26 @@ public class Message extends AppCompatActivity {
                                                     valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                     valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1
                                                     ) {
-                                                error += valueXienQuayKX + " ";
+                                                error += valueXienQuayKX.replace(".", "j") + " ";
                                             } else if (valueXienQuayKX.indexOf("k") > -1 &&
                                                     valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                     valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += valueXienQuayKX + " ";
+                                                error += valueXienQuayKX.replace(".", "j") + " ";
                                             } else if (valueXienQuayKX.indexOf("d") > -1 &&
                                                     valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 1 &&
                                                     valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += valueXienQuayKX + " ";
+                                                error += valueXienQuayKX.replace(".", "j") + " ";
                                             } else if (valueXienQuayKX.indexOf("trieu") > -1 &&
                                                     valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 5 &&
                                                     valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += valueXienQuayKX + " ";
+                                                error += valueXienQuayKX.replace(".", "j") + " ";
                                             } else if (valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 0 &&
                                                     valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 1) {
-                                                error += valueXienQuayKX + " ";
+                                                error += valueXienQuayKX.replace(".", "j") + " ";
                                             } else if (valueXienQuayKX.indexOf("N1c") > -1 &&
                                                     valueXienQuayKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").replaceAll("[0-9]", "").length() == 2 &&
                                                     valueXienQuayKX.replaceAll("[^\\d.]", "").length() >= 2) {
-                                                error += valueXienQuayKX + " ";
+                                                error += valueXienQuayKX.replace(".", "j") + " ";
                                             } else {
                                                 error += "<font color=\"RED\">" + valueXienQuayKX + " </font>";
                                             }
@@ -4602,64 +4835,7 @@ public class Message extends AppCompatActivity {
                 }
             }
         }
-        return error.replaceAll("(^\\s+|\\s+$)", "").
-                replace("si ", "xi ").
-                replace("si2", "xi2").
-                replace("si3", "xi3").
-                replace("si4", "xi4").
-                replace("DA", "da").
-                replace("ON", "on").
-                replace("O</font>N", "o</font>n").
-                replace("a</font>l", "a</font>n").
-                replace("TON", "t0n").
-                replace("DI", "di").
-                replace("DU", "du").
-                replace("s2", "x2").
-                replace("s3", "x3").
-                replace("sq", "xq").
-                replace("kepbalg", "kepbang").
-                replace("cepbalg", "kepbang").
-                replace("sa<font/>tcep", "sa<font/>tkep").
-                replace("satcep", "satkep").
-                replace("ce<font/>pbalg", "ke<font/>pbang").
-                replace("ceplech", "keplech").
-                replace("ce<font/>plech", "ke<font/>plech").
-                replace("dal", "dan").
-                replace("s4", "x4").
-                replace("toto", "to to").
-                replace("tolho", "to nho").
-                replace("to<font/>lho", "to<font/> nho").
-                replace("lhoto", "nho to").
-                replace("lh<font/>oto", "nh<font/>o to").
-                replace("lholho", "nho nho").
-                replace("lh<font/>olho", "nh<font/>o nho").
-                replace("lechal", "le chan").
-                replace("le<font/>chal", "le<font/> chan").
-                replace("lele", "le le").
-                replace("challe", "chan le").
-                replace("ch<font/>alle", "ch<font/>an le").
-                replace("chalchal", "chan chan").
-                replace("ch<font/>alchal", "ch<font/>an chan").
-                replace("dilh", "dinh").
-                replace("di<font/>lh", "di<font/>nh").
-                replace("vtff", "vtdd").
-                replace("vt<font/>ff", "vt<font/>dd").
-                replace("cep", "kep").
-                replace("ce<font/>p", "ce<font/>p").
-                replace("tongtrel10", "tong tren 10").
-                replace("to<font/>ngtrel10", "to<font/>ng tren 10").
-                replace("tongduoi10", "tong duoi 10").
-                replace("chia3du0", "chia 3 du 0").
-                replace("chia3du1", "chia 3 du 1").
-                replace("chia3du2", "chia 3 du 2").
-                replace("ch<font/>ia3du0", "ch<font/>ia 3 du 0").
-                replace("ch<font/>ia3du1", "ch<font/>ia 3 du 1").
-                replace("ch<font/>ia3du2", "ch<font/>ia 3 du 2").
-                replace("gep", "ghep").
-                replace("N1c", "n1c").
-                replace("D1c", "d1c").
-                replace("al", "an");
-
+        return controller.resStringError(error);
     }
 
     private void xuLyDanhLeDeGhep(String compareDe, double getNum, double hsde, String boSoLoTo, double thuongde, int idSmsInt
@@ -4958,15 +5134,15 @@ public class Message extends AppCompatActivity {
     }
 
     public void xulydanhbosoVtDe(String value, double getNum, double hsde, String compareDe, double thuongde, int idSmsInt
-            , int dongiaId, String sdt, String kieuchoi, String ten, String ngay,String tenBoso ,String boSoLoTo, String smsType) {
-        String [] importBoso = boSoLoTo.split(",");
-        String [] valueBoso = value.split(",");
-        String [] giatri = new String[importBoso.length];
-        for (int r = 0;r < importBoso.length;r++) {
+            , int dongiaId, String sdt, String kieuchoi, String ten, String ngay, String tenBoso, String boSoLoTo, String smsType) {
+        String[] importBoso = boSoLoTo.split(",");
+        String[] valueBoso = value.split(",");
+        String[] giatri = new String[importBoso.length];
+        for (int r = 0; r < importBoso.length; r++) {
             giatri[r] = "";
         }
-        for (int q=0; q < valueBoso.length; q++) {
-            for (int z = 0;z < importBoso.length;z++) {
+        for (int q = 0; q < valueBoso.length; q++) {
+            for (int z = 0; z < importBoso.length; z++) {
                 if (valueBoso[q].indexOf(importBoso[z]) > -1) {
                     if (!giatri[z].equals("")) {
                         giatri[z] += "," + valueBoso[q];
@@ -4978,23 +5154,23 @@ public class Message extends AppCompatActivity {
             }
         }
 
-        for (int k=0;k < importBoso.length;k++) {
+        for (int k = 0; k < importBoso.length; k++) {
             if (k < giatri.length) {
-                xulydanhboDe(giatri[k], getNum,hsde,compareDe,thuongde,idSmsInt,dongiaId,sdt,kieuchoi,ten,ngay,tenBoso+importBoso[k],smsType);
+                xulydanhboDe(giatri[k], getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, sdt, kieuchoi, ten, ngay, tenBoso + importBoso[k], smsType);
             }
         }
     }
 
     public void xulydanhbosoVtLo(String value, ArrayList<String> compareLo, double getNum, double hslo, double thuonglo
-            , int idSmsInt, int dongiaId,String tenBoso, String boSoLoTo,String sdt, String kieuchoi, String ten, String ngay, String smsType) {
-        String [] importBoso = boSoLoTo.split(",");
-        String [] valueBoso = value.split(",");
-        String [] giatri = new String[importBoso.length];
-        for (int r = 0;r < importBoso.length;r++) {
+            , int idSmsInt, int dongiaId, String tenBoso, String boSoLoTo, String sdt, String kieuchoi, String ten, String ngay, String smsType) {
+        String[] importBoso = boSoLoTo.split(",");
+        String[] valueBoso = value.split(",");
+        String[] giatri = new String[importBoso.length];
+        for (int r = 0; r < importBoso.length; r++) {
             giatri[r] = "";
         }
-        for (int q=0; q < valueBoso.length; q++) {
-            for (int z = 0;z < importBoso.length;z++) {
+        for (int q = 0; q < valueBoso.length; q++) {
+            for (int z = 0; z < importBoso.length; z++) {
 
                 if (valueBoso[q].indexOf(importBoso[z]) > -1) {
                     if (!giatri[z].equals("")) {
@@ -5007,26 +5183,26 @@ public class Message extends AppCompatActivity {
             }
         }
 
-        for (int k=0;k < importBoso.length;k++) {
+        for (int k = 0; k < importBoso.length; k++) {
             if (k < giatri.length) {
-                xulydanhboLoTo(giatri[k],compareLo,getNum,hslo,thuonglo,idSmsInt,dongiaId,tenBoso+importBoso[k],sdt,kieuchoi,ten,ngay,smsType);
+                xulydanhboLoTo(giatri[k], compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, tenBoso + importBoso[k], sdt, kieuchoi, ten, ngay, smsType);
             }
         }
     }
 
-    private void xuLyDanhLeDeGhep(String dayso,String compareDe, double getNum, double hsde, double thuongde, int idSmsInt
+    private void xuLyDanhLeDeGhep(String dayso, String compareDe, double getNum, double hsde, double thuongde, int idSmsInt
             , int dongiaId, String sdt, String kieuchoi, String ten, String ngay, String smsType) {
-        String [] arrDayso = dayso.split(",");
-        for (int b = 0;b < arrDayso.length;b++) {
-            xuLyDanhLeDe(compareDe,getNum,hsde,arrDayso[b],thuongde,idSmsInt,dongiaId, sdt,kieuchoi,ten,ngay,smsType);
+        String[] arrDayso = dayso.split(",");
+        for (int b = 0; b < arrDayso.length; b++) {
+            xuLyDanhLeDe(compareDe, getNum, hsde, arrDayso[b], thuongde, idSmsInt, dongiaId, sdt, kieuchoi, ten, ngay, smsType);
         }
     }
 
-    private void xulydanhleLoToGhep(String dayso,double getNum, double hslo, ArrayList<String> compareLo,
+    private void xulydanhleLoToGhep(String dayso, double getNum, double hslo, ArrayList<String> compareLo,
                                     double thuonglo, int idSmsInt, int dongiaId, String sdt, String kieuchoi, String ten, String ngay, String smsType) {
-        String [] arrDayso = dayso.split(",");
-        for (int b = 0;b < arrDayso.length;b++) {
-            xulydanhleLoTo(getNum,hslo,compareLo,arrDayso[b],thuonglo,idSmsInt,dongiaId,sdt,kieuchoi,ten,ngay,smsType);
+        String[] arrDayso = dayso.split(",");
+        for (int b = 0; b < arrDayso.length; b++) {
+            xulydanhleLoTo(getNum, hslo, compareLo, arrDayso[b], thuonglo, idSmsInt, dongiaId, sdt, kieuchoi, ten, ngay, smsType);
         }
     }
 

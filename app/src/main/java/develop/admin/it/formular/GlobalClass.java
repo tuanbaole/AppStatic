@@ -3,7 +3,6 @@ package develop.admin.it.formular;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -297,7 +296,15 @@ public class GlobalClass extends AppCompatActivity {
                         replace("tong duoi muoi", "tongduoimuoi").replace("tong duoi 10", "tongduoi10").
                         replace("chia 3 du 0", "chia3du0").
                         replace("chia 3 du 1", "chia3du1").
-                        replace("chia 3 du 2", "chia3du2").
+                        replace("chia 3 du 2", "chia3du2").replace("dau le", "daule").
+                        replace("dau chan", "dauchal").replace("dau chal", "dauchal").
+                        replace("dau be", "daube").replace("dau to", "dauto").
+                        replace("dit le", "ditle").
+                        replace("dit chan", "ditchal").replace("dit chal", "ditchal").
+                        replace("dit be", "ditbe").replace("dit to", "dauto").
+                        replace("tong le", "tongle").
+                        replace("tong chan", "tongchal").replace("tong chal", "tongchal").
+                        replace("tong be", "tongbe").replace("tong to", "dauto").
                         replace("on", "ON").replace("t0n", "TON").
                         replace("sat kep", "satcep").replace("satkep", "satcep").
                         replace("dinh", "dilh").
@@ -371,6 +378,15 @@ public class GlobalClass extends AppCompatActivity {
                 replace("chia 3 du 0", "chia3du0").
                 replace("chia 3 du 1", "chia3du1").
                 replace("chia 3 du 2", "chia3du2").
+                replace("dau le", "daule").
+                replace("dau chan", "dauchal").replace("dau chal", "dauchal").
+                replace("dau be", "daube").replace("dau to", "dauto").
+                replace("dit le", "ditle").
+                replace("dit chan", "ditchal").replace("dit chal", "ditchal").
+                replace("dit be", "ditbe").replace("dit to", "dauto").
+                replace("tong le", "tongle").
+                replace("tong chan", "tongchal").replace("tong chal", "tongchal").
+                replace("tong be", "tongbe").replace("tong to", "dauto").
                 replace("on", "ON").replace("t0n", "TON").
                 replace("kepbang", "kepbalg").replace("kep bang", "kepbalg").
                 replace("kep lech", "keplech").replace("keplech", "ceplech").
@@ -421,6 +437,15 @@ public class GlobalClass extends AppCompatActivity {
                 .replace("chia 3 du 0", "JAVASTR chia3du0")
                 .replace("chia 3 du 1", "JAVASTR chia3du1")
                 .replace("chia 3 du 2", "JAVASTR chia3du2")
+                .replace("dau le", "JAVASTR daule").
+                replace("dau chan", "JAVASTR dauchal").replace("dau chal", "JAVASTR dauchal").
+                replace("dau be", "JAVASTR daube").replace("dau to", "JAVASTR dauto").
+                replace("dit le", "JAVASTR ditle").
+                replace("dit chan", "JAVASTR ditchal").replace("dit chal", "JAVASTR ditchal").
+                replace("dit be", "JAVASTR ditbe").replace("dit to", "JAVASTR dauto").
+                replace("tong le", "JAVASTR tongle").
+                replace("tong chan", "JAVASTR tongchal").replace("tong chal", "JAVASTR tongchal").
+                replace("tong be", "JAVASTR tongbe").replace("tong to", "JAVASTR dauto")
                 .replace("cham", "JAVASTR cham")
                 .replace("co", "JAVASTR co")
                 .replace("vtdd", "JAVASTR vtff")
@@ -466,6 +491,18 @@ public class GlobalClass extends AppCompatActivity {
         kieubobso.add("chia3du0");
         kieubobso.add("chia3du1");
         kieubobso.add("chia3du2");
+        kieubobso.add("daule");
+        kieubobso.add("dauchal");
+        kieubobso.add("dauto");
+        kieubobso.add("daube");
+        kieubobso.add("ditle");
+        kieubobso.add("ditchal");
+        kieubobso.add("ditto");
+        kieubobso.add("ditbe");
+        kieubobso.add("tongle");
+        kieubobso.add("tongchal");
+        kieubobso.add("tongto");
+        kieubobso.add("tongbe");
         return kieubobso;
     }
 
@@ -890,8 +927,98 @@ public class GlobalClass extends AppCompatActivity {
         }
         dataRes.add(errorRes);
         dataRes.add(giatriso);
-        Log.d("LogFile",giatriso);
         return dataRes;
+    }
+
+    public String resStringError(String error) {
+        error = error.replaceAll("(^\\s+|\\s+$)", "").
+                replace("si ", "xi ").
+                replace("si2", "xi2").
+                replace("si3", "xi3").
+                replace("si4", "xi4").
+                replace("DA", "da").
+                replace("ON", "on").
+                replace("O</font>N", "o</font>n").
+                replace("a</font>l", "a</font>n").
+                replace("TON", "t0n").
+                replace("DI", "di").
+                replace("DU", "du").
+                replace("s2", "x2").
+                replace("s3", "x3").
+                replace("sq", "xq").
+                replace("kepbalg", "kepbang").
+                replace("cepbalg", "kepbang").
+                replace("sa<font/>tcep", "sa<font/>tkep").
+                replace("satcep", "satkep").
+                replace("ce<font/>pbalg", "ke<font/>pbang").
+                replace("ceplech", "keplech").
+                replace("ce<font/>plech", "ke<font/>plech").
+                replace("dal", "dan").
+                replace("s4", "x4").
+                replace("toto", "to to").
+                replace("tolho", "to nho").
+                replace("to<font/>lho", "to<font/> nho").
+                replace("lhoto", "nho to").
+                replace("lh<font/>oto", "nh<font/>o to").
+                replace("lholho", "nho nho").
+                replace("lh<font/>olho", "nh<font/>o nho").
+                replace("lechal", "le chan").
+                replace("le<font/>chal", "le<font/> chan").
+                replace("lele", "le le").
+                replace("challe", "chan le").
+                replace("ch<font/>alle", "ch<font/>an le").
+                replace("chalchal", "chan chan").
+                replace("ch<font/>alchal", "ch<font/>an chan").
+                replace("dilh", "dinh").
+                replace("di<font/>lh", "di<font/>nh").
+                replace("vtff", "vtdd").
+                replace("vt<font/>ff", "vt<font/>dd").
+                replace("cep", "kep").
+                replace("ce<font/>p", "ce<font/>p").
+                replace("tongtrel10", "tong tren 10").
+                replace("to<font/>ngtrel10", "to<font/>ng tren 10").
+                replace("tongduoi10", "tong duoi 10").
+                replace("chia3du0", "chia 3 du 0").
+                replace("chia3du1", "chia 3 du 1").
+                replace("chia3du2", "chia 3 du 2").
+                replace("ch<font/>ia3du0", "ch<font/>ia 3 du 0").
+                replace("ch<font/>ia3du1", "ch<font/>ia 3 du 1").
+                replace("ch<font/>ia3du2", "ch<font/>ia 3 du 2").
+                replace("dauto", "dau to").
+                replace("da<font/>uto", "da<font/>u to").
+                replace("daube", "dau be").
+                replace("da<font/>ube", "da<font/>u be").
+                replace("daule", "dau le").
+                replace("da<font/>ule", "da<font/>u le").
+                replace("dauchal", "dau chal").
+                replace("da<font/>uchal", "da<font/>u chal").
+                replace("dauchan", "dau chan").
+                replace("da<font/>uchan", "da<font/>u chan").
+                replace("ditto", "dit to").
+                replace("di<font/>tto", "di<font/>t to").
+                replace("ditbe", "dit be").
+                replace("di<font/>tbe", "di<font/>t be").
+                replace("ditle", "dit le").
+                replace("di<font/>tle", "di<font/>t le").
+                replace("ditchal", "dit chal").
+                replace("di<font/>tchal", "di<font/>t chal").
+                replace("ditchal", "dit chal").
+                replace("di<font/>tchal", "di<font/>t chal").
+                replace("tongto", "tong to").
+                replace("to<font/>ngto", "to<font/>ng to").
+                replace("tongbe", "tong be").
+                replace("to<font/>ngbe", "to<font/>ng be").
+                replace("tongle", "tong le").
+                replace("to<font/>ngle", "to<font/>ng le").
+                replace("tongchal", "tong chal").
+                replace("to<font/>ngchal", "to<font/>ng chal").
+                replace("tongchal", "tong chal").
+                replace("to<font/>ngchal", "to<font/>ng chal").
+                replace("gep", "ghep").
+                replace("N1c", "n1c").
+                replace("D1c", "d1c").
+                replace("al", "an");
+        return error;
     }
 
 }

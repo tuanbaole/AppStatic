@@ -20,4 +20,7 @@
     <item
         android:id="@+id/chitiettinnhan"
         android:title="Chi Tiết Tin Nhắn" />
+    <item
+        android:id="@+id/capnhatketqua"
+        android:title="Cập Nhật Kết Quả" />
 </menu>
