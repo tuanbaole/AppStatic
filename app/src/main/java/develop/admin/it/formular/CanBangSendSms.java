@@ -325,6 +325,7 @@ public class CanBangSendSms extends AppCompatActivity {
         }
 
         String content = "";
+        int valDe = 0;
         for (int a = 0; a < sortDe.length; a++) {
             if (sortDe[a] != null) {
                 String[] showResDe = sortDe[a].split("_");
@@ -332,9 +333,21 @@ public class CanBangSendSms extends AppCompatActivity {
                     if (content.indexOf("de") == -1) {
                         content += "de ";
                     }
-                    int valDe = Integer.parseInt(showResDe[1]) - Integer.parseInt(maxde);
-                    content += showResDe[0] + " x " + String.valueOf(valDe) + "n ";
+                    int valDe1 = Integer.parseInt(showResDe[1]) - Integer.parseInt(maxde);
+                    if (valDe == valDe1) {
+                        content += showResDe[0] + " ";
+                    } else {
+                        if (valDe != 0) {
+                            content += " x " + String.valueOf(valDe) + "n " + showResDe[0] + " ";
+                        } else {
+                            content += showResDe[0] + " ";
+                        }
+                        valDe = valDe1;
+                    }
                 }
+            }
+            if ((sortDe.length-1) == a && valDe != 0 ) {
+                content += " x " + String.valueOf(valDe) + "n";
             }
         }
         int valueFirst = 0;
@@ -342,7 +355,7 @@ public class CanBangSendSms extends AppCompatActivity {
             content += "<br/>";
             valueFirst = content.length();
         }
-
+        int valLo = 0;
         for (int b = 0; b < sortLo.length; b++) {
             if (sortLo[b] != null) {
                 String[] showResLo = sortLo[b].split("_");
@@ -350,9 +363,21 @@ public class CanBangSendSms extends AppCompatActivity {
                     if (content.indexOf("lo") == -1) {
                         content += "lo ";
                     }
-                    int valLo = Integer.parseInt(showResLo[1]) - Integer.parseInt(maxlo);
-                    content += showResLo[0] + " x " + String.valueOf(valLo) + "d ";
+                    int valLo1 = Integer.parseInt(showResLo[1]) - Integer.parseInt(maxlo);
+                    if (valLo == valLo1) {
+                        content += showResLo[0] + " ";
+                    } else {
+                        if (valLo != 0) {
+                            content += " x " + String.valueOf(valLo) + "d " + showResLo[0] + " ";
+                        } else {
+                            content += showResLo[0] + " ";
+                        }
+                        valLo = valLo1;
+                    }
                 }
+            }
+            if ((sortLo.length-1) == b && valLo != 0) {
+                content += " x " + String.valueOf(valLo) + "d";
             }
         }
 

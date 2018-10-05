@@ -301,7 +301,7 @@ public class GlobalClass extends AppCompatActivity {
                         replace("dau be", "daube").replace("dau to", "dauto").
                         replace("dit le", "ditle").
                         replace("dit chan", "ditchal").replace("dit chal", "ditchal").
-                        replace("dit be", "ditbe").replace("dit to", "dauto").
+                        replace("dit be", "ditbe").replace("dit to", "ditto").
                         replace("tong le", "tongle").
                         replace("tong chan", "tongchal").replace("tong chal", "tongchal").
                         replace("tong be", "tongbe").replace("tong to", "dauto").
@@ -383,7 +383,7 @@ public class GlobalClass extends AppCompatActivity {
                 replace("dau be", "daube").replace("dau to", "dauto").
                 replace("dit le", "ditle").
                 replace("dit chan", "ditchal").replace("dit chal", "ditchal").
-                replace("dit be", "ditbe").replace("dit to", "dauto").
+                replace("dit be", "ditbe").replace("dit to", "ditto").
                 replace("tong le", "tongle").
                 replace("tong chan", "tongchal").replace("tong chal", "tongchal").
                 replace("tong be", "tongbe").replace("tong to", "dauto").
