@@ -86,6 +86,8 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         "sms_ready_table.CONTENT AS READY_CONTENT," +
                         "tiendanh_de.TIENDANHDE AS TIENDANHDE," +
                         "tiendanh_de.TIENTHUONGDE AS TIENTHUONGDE," +
+                        "tiendanh_dedau.TIENDANHDEDAU AS TIENDANHDEDAU," +
+                        "tiendanh_dedau.TIENTHUONGDEDAU AS TIENTHUONGDEDAU," +
                         "tiendanh_lo.TIENDANHLO AS TIENDANHLO," +
                         "tiendanh_lo.TIENTHUONGLO AS TIENTHUONGLO," +
                         "tiendanh_xien.TIENDANHXIEN AS TIENDANHXIEN," +
@@ -102,6 +104,14 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU = 'de' " +
                         "GROUP BY solieu_table.SMSID" +
                         ") tiendanh_de ON (tiendanh_de.SMSID = sms_ready_table.SMSID) " +
+                        "LEFT JOIN (" +
+                        "SELECT SMSID,NGAY,KIHIEU," +
+                        "sum(solieu_table.TIENDANHSMS) AS TIENDANHDEDAU," +
+                        "sum(solieu_table.TRUNGSMS) AS TIENTHUONGDEDAU " +
+                        "FROM solieu_table " +
+                        "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU = 'dq' " +
+                        "GROUP BY solieu_table.SMSID" +
+                        ") tiendanh_dedau ON (tiendanh_dedau.SMSID = sms_ready_table.SMSID) " +
                         "LEFT JOIN (" +
                         "SELECT SMSID,NGAY,KIHIEU," +
                         "sum(solieu_table.TIENDANHSMS) AS TIENDANHLO," +
@@ -136,6 +146,7 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         ") kieu_choi ON (kieu_choi.SMSID = sms_ready_table.SMSID) " +
                         "WHERE sms_ready_table.CONTENT != '' AND sms_ready_table.NGAY = '" + date + "' AND sms_ready_table.SMSID IN (" + GETSMSID + ") " +
                         "GROUP BY sms_ready_table.ID ";
+        Log.d("LogFile",importQuery);
         Cursor smsReady = sql.getAllDb(importQuery);
         content = new ArrayList<>();
         smsId = new ArrayList<>();
@@ -152,6 +163,8 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         + "</font><br />";
                 String tiende = "0";
                 String thuongde = "0";
+                String tiendedau = "0";
+                String thuongdedau = "0";
                 String tienlo = "0";
                 String thuonglo = "0";
                 String tienxien = "0";
@@ -169,6 +182,19 @@ public class Xemtungtinnhan extends AppCompatActivity {
                 if (!tiende.equals("0") || !thuongde.equals("0")) {
                     ketqua += "Đề : " + tiende + "/" + thuongde + "<br />";
                 }
+
+                if (smsReady.getString(smsReady.getColumnIndex("TIENDANHDEDAU")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENDANHDEDAU")).isEmpty()) {
+                    tiendedau = smsReady.getString(smsReady.getColumnIndex("TIENDANHDEDAU"));
+                }
+                if (smsReady.getString(smsReady.getColumnIndex("TIENTHUONGDEDAU")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENTHUONGDEDAU")).isEmpty()) {
+                    thuongdedau = smsReady.getString(smsReady.getColumnIndex("TIENTHUONGDEDAU"));
+                }
+                if (!tiendedau.equals("0") || !thuongdedau.equals("0")) {
+                    ketqua += "Đề Đầu : " + tiendedau + "/" + thuongdedau + "<br />";
+                }
+
                 if (smsReady.getString(smsReady.getColumnIndex("TIENDANHLO")) != null &&
                         !smsReady.getString(smsReady.getColumnIndex("TIENDANHLO")).isEmpty()) {
                     tienlo = smsReady.getString(smsReady.getColumnIndex("TIENDANHLO"));

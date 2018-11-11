@@ -250,7 +250,7 @@ public class GlobalClass extends AppCompatActivity {
     }
 
     public static String removeAccent(String s) {
-        s = s.replace("bỏ", "bor");
+        s = s.replace("bỏ", "bro").replace("bỏ", "bro");
         String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(temp).replaceAll("");
@@ -438,14 +438,14 @@ public class GlobalClass extends AppCompatActivity {
                 .replace("chia 3 du 1", "JAVASTR chia3du1")
                 .replace("chia 3 du 2", "JAVASTR chia3du2")
                 .replace("dau le", "JAVASTR daule").
-                replace("dau chan", "JAVASTR dauchal").replace("dau chal", "JAVASTR dauchal").
-                replace("dau be", "JAVASTR daube").replace("dau to", "JAVASTR dauto").
-                replace("dit le", "JAVASTR ditle").
-                replace("dit chan", "JAVASTR ditchal").replace("dit chal", "JAVASTR ditchal").
-                replace("dit be", "JAVASTR ditbe").replace("dit to", "JAVASTR dauto").
-                replace("tong le", "JAVASTR tongle").
-                replace("tong chan", "JAVASTR tongchal").replace("tong chal", "JAVASTR tongchal").
-                replace("tong be", "JAVASTR tongbe").replace("tong to", "JAVASTR dauto")
+                        replace("dau chan", "JAVASTR dauchal").replace("dau chal", "JAVASTR dauchal").
+                        replace("dau be", "JAVASTR daube").replace("dau to", "JAVASTR dauto").
+                        replace("dit le", "JAVASTR ditle").
+                        replace("dit chan", "JAVASTR ditchal").replace("dit chal", "JAVASTR ditchal").
+                        replace("dit be", "JAVASTR ditbe").replace("dit to", "JAVASTR dauto").
+                        replace("tong le", "JAVASTR tongle").
+                        replace("tong chan", "JAVASTR tongchal").replace("tong chal", "JAVASTR tongchal").
+                        replace("tong be", "JAVASTR tongbe").replace("tong to", "JAVASTR dauto")
                 .replace("cham", "JAVASTR cham")
                 .replace("co", "JAVASTR co")
                 .replace("vtdd", "JAVASTR vtff")
@@ -901,7 +901,7 @@ public class GlobalClass extends AppCompatActivity {
                         } else {
                             giatriso += "," + newGepDeCoX.substring(ge, ge + 1) + newGepDeCoX.substring(ge1, ge1 + 1);
                         }
-                    } else  {
+                    } else {
                         if (giatriso.equals("")) {
                             giatriso += newGepDeCoX.substring(ge, ge + 1) + newGepDeCoX.substring(ge1, ge1 + 1) + "," +
                                     newGepDeCoX.substring(ge1, ge1 + 1) + newGepDeCoX.substring(ge, ge + 1);
@@ -1021,4 +1021,486 @@ public class GlobalClass extends AppCompatActivity {
         return error;
     }
 
+    public ArrayList<String> xuLyDeBro(String chuoiDeAll, HashMap<String, ArrayList<String>> hashmap, ArrayList<String> kieubosodan, ArrayList<String> kieuboso, ArrayList<String> limitNumber, ArrayList<String> limitNumberBaCang) {
+        ArrayList<String> dataRes = new ArrayList<>();
+        String error = "";
+        String valueResFindDe1 = "";
+        String valueResFindDe2 = "";
+        String[] chuoiDeArr = chuoiDeAll.split("bro");
+        for (int h = 0; h < chuoiDeArr.length; h++) {
+            String valueResFindDe = "";
+            chuoiDeArr[h] = chuoiDeArr[h].trim();
+            if (!chuoiDeArr[h].equals("")) {
+                if (chuoiDeArr[h].indexOf("ghepab") > -1 || chuoiDeArr[h].indexOf("gepab") > -1) {
+                    ArrayList<String> resGhepDeab = ghepab(chuoiDeArr[h]);
+                    valueResFindDe += resGhepDeab.get(1) + ",";
+                    error += resGhepDeab.get(0);
+                } else {
+                    String valueDe = converStringSms(chuoiDeArr[h]);
+                    String[] valueDeArr = valueDe.split("JAVASTR");
+                    String sessionDeCoX = "";
+                    for (int k = 0; k < valueDeArr.length; k++) {
+                        String[] valueImprotDb = valueDeArr[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
+                        String bosovtat = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                        if (bosovtat.equals("cham") || bosovtat.equals("co") || bosovtat.equals("dilh")) {
+                            if (valueImprotDb.length > 1) {
+                                error += valueImprotDb[0] + " " + resVtBoso(valueImprotDb, hashmap).get(1);
+                                valueResFindDe += resVtBoso(valueImprotDb, hashmap).get(0) + ",";
+                            } else {
+                                error += "<font color=\"RED\">" + valueDeArr[k] + " </font>";
+                            }
+                        } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                        /* danh dan nhonho -toto ... */
+                            if (sessionDeCoX.equals("")) {  /* de dau chan chan x 100n */
+                                if (!valueImprotDb[0].equals("")) {
+                                    if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
+                                        error += valueImprotDb[0] + " ";
+                                        String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")).get(0);
+                                        valueResFindDe += value + ",";
+
+                                    } else {
+                                        error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                    }
+                                }
+                            } else {
+                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                            }
+                        } else if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                            if (valueDeArr.length == 2 && valueImprotDb.length == 1) {
+                                error += "<font color=\"RED\">" + valueDeArr[k] + " </font>";
+                            } else {
+                                if (valueImprotDb.length > 1) {
+                                    error += valueImprotDb[0] + " ";
+                                    for (int q = 1; q < valueImprotDb.length; q++) {
+                                        if (!valueImprotDb[q].equals("")) {
+                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                    valueImprotDb[q]) != null) {
+                                                                        /*... danh dan bo - he -tong...*/
+                                                error += valueImprotDb[q] + " ";
+                                                String value = hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + valueImprotDb[q]).get(0);
+
+                                                if (sessionDeCoX != "") {
+                                                    String SessionValueDeCoX = "";
+                                                    if (hashmap.get(sessionDeCoX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                            valueImprotDb[q]) != null) {
+                                                        SessionValueDeCoX = hashmap.get(sessionDeCoX + valueImprotDb[q]).get(0);
+                                                    }
+                                                    if (valueImprotDb[valueImprotDb.length - 1].equals("bcp")) {
+                                                        for (int bcx = 1; bcx < valueImprotDb.length - 1; bcx++) {
+                                                            if (!valueImprotDb[bcx].equals("")) {
+                                                                String bcpRep = valueImprotDb[q] + valueImprotDb[bcx];
+                                                                SessionValueDeCoX = SessionValueDeCoX.replace(bcpRep + ",", "").replace(bcpRep, "");
+                                                            }
+                                                        }
+                                                    }
+                                                    valueResFindDe += SessionValueDeCoX + ",";
+                                                }
+                                                valueResFindDe += value + ",";
+                                            } else {
+                                                if (!valueImprotDb[q].equals("bcp")) {
+                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                } else {
+                                                    error += valueImprotDb[q] + " ";
+                                                }
+                                            }
+                                        }
+                                    }
+                                    sessionDeCoX = "";
+                                } else {
+                                    if (sessionDeCoX != "") {
+                                        error += "<font color=\"RED\">" + valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " </font>";
+                                    } else {
+                                        error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
+                                    }
+                                    sessionDeCoX = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                                }
+                            }
+                        } else {
+                            String newVal = valueImprotDb[0].replaceAll("\\d", "");
+                            // kiem tra truong hop dau9 khong co dau cach
+                            if (kieuboso.contains(newVal)) {
+                                String[] arrNewVal = valueImprotDb[0].replace(newVal, newVal + "JAVASTR").
+                                        split("JAVASTR");
+                                error += arrNewVal[0];
+                                if (!arrNewVal[1].equals("")) {
+                                    if (hashmap.get(arrNewVal[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                            arrNewVal[1]) != null) {
+                                        error += arrNewVal[1] + " ";
+                                                                    /* danh dan bo - he -tong...*/
+                                        String value = hashmap.get(arrNewVal[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + arrNewVal[1]).get(0);
+
+                                        if (sessionDeCoX != "") {
+                                            String SessionValueDeCoX1 = "";
+                                            // xu ly cac tin nhan kieu de dau dit09 viet sat
+                                            if (hashmap.get(sessionDeCoX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                    arrNewVal[1]) != null) {
+                                                SessionValueDeCoX1 = hashmap.get(sessionDeCoX + arrNewVal[1]).get(0);
+                                            }
+                                            if (valueImprotDb[valueImprotDb.length - 1].equals("bcp")) {
+                                                // doan xu ly chuoi 36 dau dit 09 bcp
+                                                String bcpRepa = arrNewVal[1] + arrNewVal[1];
+                                                SessionValueDeCoX1 = SessionValueDeCoX1.replace(bcpRepa + ",", "").replace(bcpRepa, "");
+                                                for (int bcx = 1; bcx < valueImprotDb.length - 1; bcx++) {
+                                                    if (!valueImprotDb[bcx].equals("")) {
+                                                        String bcpRepb = arrNewVal[1] + valueImprotDb[bcx];
+                                                        SessionValueDeCoX1 = SessionValueDeCoX1.replace(bcpRepb + ",", "").replace(bcpRepb, "");
+                                                    }
+                                                }
+                                            }
+                                            valueResFindDe += SessionValueDeCoX1 + ",";
+                                        }
+                                        valueResFindDe += value + ",";
+
+                                        if (valueImprotDb.length == 1) {
+                                            sessionDeCoX = "";
+                                        }
+                                    } else {
+                                        error += "<font color=\"RED\">" + arrNewVal[1] + " </font>";
+                                    }
+                                }
+                                if (valueImprotDb.length > 1) {
+                                    for (int q = 1; q < valueImprotDb.length - 1; q++) {
+                                        if (!valueImprotDb[q].equals("")) {
+                                            if (hashmap.get(arrNewVal[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                    valueImprotDb[q]) != null) {
+                                                                            /* danh dan bo - he -tong...*/
+                                                error += valueImprotDb[q] + " ";
+                                                String value = hashmap.get(arrNewVal[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")
+                                                        + valueImprotDb[q]).get(0);
+                                                if (sessionDeCoX != "") {
+                                                    String SessionValueDeCoX2 = "";
+                                                    if (hashmap.get(sessionDeCoX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                            valueImprotDb[q]) != null) {
+                                                        // xu ly cac tin nhan kieu de dau dit09 viet sat
+                                                        SessionValueDeCoX2 = hashmap.get(sessionDeCoX + valueImprotDb[q]).get(0);
+                                                    }
+                                                    if (valueImprotDb[valueImprotDb.length - 1].equals("bcp")) {
+                                                        // doan xu ly chuoi 36 dau dit 09 bcp
+                                                        String bcpRep2 = valueImprotDb[q] + arrNewVal[1];
+                                                        SessionValueDeCoX2 = SessionValueDeCoX2.replace(bcpRep2 + ",", "").replace(bcpRep2, "");
+                                                        for (int bcx = 1; bcx < valueImprotDb.length - 1; bcx++) {
+                                                            if (!valueImprotDb[bcx].equals("")) {
+                                                                String bcpRep1 = valueImprotDb[q] + valueImprotDb[bcx];
+                                                                SessionValueDeCoX2 = SessionValueDeCoX2.replace(bcpRep1 + ",", "").replace(bcpRep1, "");
+                                                            }
+                                                        }
+                                                    }
+                                                    valueResFindDe += SessionValueDeCoX2 + ",";
+                                                }
+                                                valueResFindDe += value + ",";
+
+                                                if (valueImprotDb.length - 2 == q) {
+                                                    sessionDeCoX = "";
+                                                }
+                                            } else {
+                                                if (!valueImprotDb[q].equals("bcp")) {
+                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                } else {
+                                                    error += valueImprotDb[q] + " ";
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                            } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
+                                // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
+                                error += valueImprotDb[0] + resGhepBcBoso(valueImprotDb).get(0) + " ";
+                                valueResFindDe += resGhepBcBoso(valueImprotDb).get(1) + ',';
+                            } else {
+                                for (int q = 0; q < valueImprotDb.length; q++) {
+                                    if (limitNumber.contains(valueImprotDb[q])) {
+                                        error += valueImprotDb[q] + " ";
+                                        valueResFindDe += valueImprotDb[q] + ",";
+                                    } else {
+                                        if (limitNumberBaCang.contains(valueImprotDb[q])) {
+                                            // doan nay xu ly cac so kieu de 565 656
+                                            if (valueImprotDb[q].substring(0, 1).equals(valueImprotDb[q].substring(2, 3))) {
+                                                error += " " + valueImprotDb[q] + " ";
+                                                String vtSo1 = valueImprotDb[q].substring(0, 2);
+                                                String vtSo2 = valueImprotDb[q].substring(1, 3);
+                                                // mang co x thi khong phai chia cho 2
+                                                valueResFindDe += vtSo1 + ",";
+                                                valueResFindDe += vtSo2 + ",";
+                                            } else {
+                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                            }
+                                        } else {
+                                            if (!valueImprotDb[q].equals("")) {
+                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                            }
+                                        }
+                                    }
+                                }
+                            } // end if
+                        }
+                    }
+                } // end ghepab
+
+                if (h == 0) {
+                    valueResFindDe1 = valueResFindDe;
+                } else {
+                    valueResFindDe2 += valueResFindDe + ",";
+                }
+                if ((h + 1) != chuoiDeArr.length) {
+                    error += "bro ";
+                }
+            } else {
+                error += "<font color=\"RED\">bro </font>";
+            }
+
+
+        }
+
+        String resValue = "";
+        dataRes.add(error);
+        if (valueResFindDe1.length() > 1) {
+            String[] arrResFindDe1 = valueResFindDe1.split(",");
+            for (int f = 0; f < arrResFindDe1.length; f++) {
+                if (valueResFindDe2.indexOf(arrResFindDe1[f]) == -1) {
+                    resValue += arrResFindDe1[f] + ",";
+                }
+            }
+            dataRes.add(resValue.substring(0, resValue.length() - 1));
+        } else {
+            dataRes.add(resValue);
+        }
+        return dataRes;
+    }
+
+    public ArrayList<String> xuLyLoBro(String chuoiLoAll, HashMap<String, ArrayList<String>> hashmap, ArrayList<String> kieubosodan, ArrayList<String> kieuboso, ArrayList<String> limitNumber, ArrayList<String> limitNumberBaCang) {
+        ArrayList<String> dataRes = new ArrayList<>();
+        String error = "";
+        String valueResFindLo1 = "";
+        String valueResFindLo2 = "";
+        String[] chuoiLoArr = chuoiLoAll.split("bro");
+        for (int p = 0; p < chuoiLoArr.length; p++) {
+            String valueResFindLo = "";
+            chuoiLoArr[p] = chuoiLoArr[p].trim();
+            if (!chuoiLoArr[p].equals("")) {
+                if (chuoiLoArr[p].indexOf("ghepab") > -1 || chuoiLoArr[p].indexOf("gepab") > -1) {
+                    ArrayList<String> resGhepLoab = ghepab(chuoiLoArr[p]);
+                    valueResFindLo += resGhepLoab.get(1) + ",";
+                    error += resGhepLoab.get(0);
+                } else {
+                    String valueLoCoX = converStringSms(chuoiLoArr[p]);
+                    String[] valueLoArrCoX = valueLoCoX.split("JAVASTR");
+                    String SessionLoCoX = "";
+                    for (int k = 0; k < valueLoArrCoX.length; k++) {
+                        String[] valueImprotDb = valueLoArrCoX[k].replaceAll("(^\\s+|\\s+$)", "").split(" ");
+                        String bosovtat = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                        if (bosovtat.equals("cham") || bosovtat.equals("co") || bosovtat.equals("dilh")) {
+                            if (valueImprotDb.length > 1) {
+                                error += valueImprotDb[0] + " " + resVtBoso(valueImprotDb, hashmap).get(1);
+                                valueResFindLo += resVtBoso(valueImprotDb, hashmap).get(0) + ",";
+                            } else {
+                                error += "<font color=\"RED\">" + valueLoArrCoX[k] + " </font>";
+                            }
+                        } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                                                        /* danh dan nhonho -toto ... */
+                            if (SessionLoCoX.equals("")) {
+                                if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
+                                    error += valueImprotDb[0] + " ";
+                                    String value = hashmap.get(valueImprotDb[0]).get(0);
+                                    valueResFindLo += value + ",";
+
+                                } else {
+                                    error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                }
+                            } else {
+                                error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                            }
+                        } else if (kieuboso.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
+                            if (valueLoArrCoX.length == 2 && valueImprotDb.length == 1) {
+                                error += "<font color=\"RED\">" + valueLoArrCoX[k] + " </font>";
+                            } else {
+                                if (valueImprotDb.length > 1) {
+                                    error += valueImprotDb[0] + " ";
+                                    for (int q = 1; q < valueImprotDb.length; q++) {
+                                        if (!valueImprotDb[q].equals("")) {
+                                            if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                    valueImprotDb[q]) != null) {
+                                                                        /* danh dan bo - he -tong...*/
+                                                error += valueImprotDb[q] + " ";
+                                                String value = hashmap.get(valueImprotDb[0] + valueImprotDb[q]).get(0);
+                                                if (SessionLoCoX != "") {
+                                                    String valueSessinoLoCoX = "";
+                                                    if (hashmap.get(SessionLoCoX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                            valueImprotDb[q]) != null) {
+                                                        valueSessinoLoCoX = hashmap.get(SessionLoCoX + valueImprotDb[q]).get(0);
+                                                    }
+                                                    if (valueImprotDb[valueImprotDb.length - 1].equals("bcp")) {
+                                                        // doan xu ly chuoi 36 dau dit 09 bcp
+                                                        for (int bcx = 1; bcx < valueImprotDb.length - 1; bcx++) {
+                                                            if (!valueImprotDb[bcx].equals("")) {
+                                                                String bcpRep = valueImprotDb[q] + valueImprotDb[bcx];
+                                                                valueSessinoLoCoX = valueSessinoLoCoX.replace(bcpRep + ",", "").replace(bcpRep, "");
+                                                            }
+                                                        }
+                                                    }
+                                                    valueResFindLo += valueSessinoLoCoX + ",";
+                                                }
+                                                valueResFindLo += value + ",";
+                                            } else {
+                                                if (!valueImprotDb[q].equals("bcp")) {
+                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                } else {
+                                                    error += valueImprotDb[q] + " ";
+                                                }
+                                            }
+                                        }
+                                    }
+                                    SessionLoCoX = "";
+                                } else {
+                                    if (SessionLoCoX != "") {
+                                        error += "<font color=\"RED\">" + valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " </font>";
+                                    } else {
+                                        error += valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + " ";
+                                    }
+                                    SessionLoCoX = valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
+                                }
+                            }
+                        } else {
+                            String newValLoCoX = valueImprotDb[0].replaceAll("\\d", "");
+                            // xu ly cac ki tu dau9 viet lien
+                            if (kieuboso.contains(newValLoCoX)) {
+                                String[] arrNewValLoCoX = valueImprotDb[0].replace(newValLoCoX, newValLoCoX + "JAVASTR").
+                                        split("JAVASTR");
+                                error += arrNewValLoCoX[0] + " ";
+                                if (!arrNewValLoCoX[1].equals("")) {
+                                    if (hashmap.get(arrNewValLoCoX[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                            arrNewValLoCoX[1]) != null) {
+                                                                    /* danh dan bo - he -tong...*/
+                                        error += arrNewValLoCoX[1] + " ";
+                                        String value = hashmap.get(arrNewValLoCoX[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + arrNewValLoCoX[1]).get(0);
+                                        if (!SessionLoCoX.equals("")) {
+                                            String valueSessinoLoCoX1 = "";
+                                            if (hashmap.get(SessionLoCoX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                    arrNewValLoCoX[1]) != null) {
+                                                valueSessinoLoCoX1 = hashmap.get(SessionLoCoX + arrNewValLoCoX[1]).get(0);
+                                            }
+                                            if (valueImprotDb[valueImprotDb.length - 1].equals("bcp")) {
+                                                // doan xu ly chuoi 36 dau dit 09 bcp
+                                                if (valueImprotDb.length == 4) {
+                                                    String bcpRepa = arrNewValLoCoX[1] + arrNewValLoCoX[1];
+                                                    valueSessinoLoCoX1 = valueSessinoLoCoX1.replace(bcpRepa + ",", "").replace(bcpRepa, "");
+                                                    for (int bcx = 1; bcx < valueImprotDb.length - 1; bcx++) {
+                                                        if (!valueImprotDb[bcx].equals("")) {
+                                                            String bcpRepb = arrNewValLoCoX[1] + valueImprotDb[bcx];
+                                                            valueSessinoLoCoX1 = valueSessinoLoCoX1.replace(bcpRepb + ",", "").replace(bcpRepb, "");
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            valueResFindLo += valueSessinoLoCoX1 + ",";
+                                        }
+                                        valueResFindLo += value + ",";
+
+                                        if (valueImprotDb.length == 1) {
+                                            SessionLoCoX = "";
+                                        }
+                                    } else {
+                                        error += "<font color=\"RED\">" + arrNewValLoCoX[1] + " </font>";
+                                    }
+                                }
+                                for (int q = 1; q < valueImprotDb.length - 1; q++) {
+                                    if (!valueImprotDb[q].equals("")) {
+                                        if (hashmap.get(arrNewValLoCoX[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                valueImprotDb[q]) != null) {
+                                                                        /* danh dan bo - he -tong...*/
+                                            error += valueImprotDb[q] + " ";
+                                            String value = hashmap.get(arrNewValLoCoX[0] + valueImprotDb[q]).get(0);
+                                            if (SessionLoCoX != "") {
+                                                String valueSessinoLoCoX2 = "";
+                                                if (hashmap.get(arrNewValLoCoX[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") +
+                                                        valueImprotDb[q]) != null) {
+                                                    valueSessinoLoCoX2 = hashmap.get(SessionLoCoX + valueImprotDb[q]).get(0);
+                                                }
+                                                if (valueImprotDb[valueImprotDb.length - 1].equals("bcp")) {
+                                                    // doan xu ly chuoi 36 dau dit 09 bcp
+                                                    String bcpRep2 = valueImprotDb[q] + arrNewValLoCoX[1];
+                                                    valueSessinoLoCoX2 = valueSessinoLoCoX2.replace(bcpRep2 + ",", "").replace(bcpRep2, "");
+                                                    for (int bcx = 1; bcx < valueImprotDb.length - 1; bcx++) {
+                                                        if (!valueImprotDb[bcx].equals("")) {
+                                                            String bcpRep1 = valueImprotDb[q] + valueImprotDb[bcx];
+                                                            valueSessinoLoCoX2 = valueSessinoLoCoX2.replace(bcpRep1 + ",", "").replace(bcpRep1, "");
+                                                        }
+                                                    }
+                                                }
+                                                valueResFindLo += valueSessinoLoCoX2 + ",";
+                                            }
+                                            valueResFindLo += value + ",";
+                                        } else {
+                                            if (!valueImprotDb[q].equals("bcp")) {
+                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                            } else {
+                                                error += valueImprotDb[q] + " ";
+                                            }
+                                        }
+                                    }
+                                }
+                                SessionLoCoX = "";
+                            } else if (valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "").equals("gepbc")) {
+                                // doan nay xu ly Lo ghep 1234 thanh 12 cap so 12-21-13-31...
+                                error += valueImprotDb[0] + resGhepBcBoso(valueImprotDb).get(0) + " ";
+                                valueResFindLo += resGhepBcBoso(valueImprotDb).get(1) + ",";
+                            } else {
+                                for (int q = 0; q < valueImprotDb.length; q++) {
+                                    if (limitNumber.contains(valueImprotDb[q])) {
+                                        error += valueImprotDb[q] + " ";
+                                        valueResFindLo += valueImprotDb[q] + ",";
+                                    } else {
+                                        if (limitNumberBaCang.contains(valueImprotDb[q])) {
+                                            // doan nay xu ly cac so kieu de 565 656
+                                            if (valueImprotDb[q].substring(0, 1).equals(valueImprotDb[q].substring(2, 3))) {
+                                                error += " " + valueImprotDb[q] + " ";
+                                                String vtSo1 = valueImprotDb[q].substring(0, 2);
+                                                String vtSo2 = valueImprotDb[q].substring(1, 3);
+                                                // lo co x thi khong phai chia cho 2
+                                                valueResFindLo += vtSo1 + ",";
+                                                valueResFindLo += vtSo2 + ",";
+                                            } else {
+                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                            }
+                                        } else {
+                                            if (!valueImprotDb[q].equals("")) {
+                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }// end ghepab
+
+                if (p == 0) {
+                    valueResFindLo1 = valueResFindLo;
+                } else {
+                    valueResFindLo2 += valueResFindLo + ",";
+                }
+                if ((p + 1) != chuoiLoArr.length) {
+                    error += "bro ";
+                }
+            } else {
+                error += "<font color=\"RED\">bro </font>";
+            }
+        } // end for
+
+
+        String resValue = "";
+        dataRes.add(error);
+        if (valueResFindLo1.length() > 1) {
+            String[] arrResFindLo1 = valueResFindLo1.split(",");
+            for (int f = 0; f < arrResFindLo1.length; f++) {
+                if (valueResFindLo2.indexOf(arrResFindLo1[f]) == -1) {
+                    resValue += arrResFindLo1[f] + ",";
+                }
+            }
+            dataRes.add(resValue.substring(0, resValue.length() - 1));
+        } else {
+            dataRes.add(resValue);
+        }
+        return dataRes;
+    }
 }

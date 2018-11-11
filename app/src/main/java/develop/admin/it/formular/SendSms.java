@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -163,6 +164,7 @@ public class SendSms extends AppCompatActivity {
                         ") kieu_choi ON (kieu_choi.SMSID = sms_ready_table.SMSID) " +
                         "WHERE sms_ready_table.CONTENT != '' AND sms_ready_table.NGAY = '" + date + "' AND sms_ready_table.SMSID IN (" + GETSMSID + ") " +
                         "GROUP BY sms_ready_table.ID ";
+
         Cursor smsReady = sql.getAllDb(importQuery);
         String smsIdAll = "";
         String ketqua = "";
@@ -253,6 +255,18 @@ public class SendSms extends AppCompatActivity {
         double tongDanhDeSendSms = 0;
         double tongThuongDeSend = 0;
         double tongThuongDeSendSms = 0;
+
+        // de Dau Inbox
+        double tongDanhDeDauInbox = 0;
+        double tongDanhDeDauInboxSms = 0;
+        double tongThuongDeDauInbox = 0;
+        double tongThuongDeDauInboxSms = 0;
+        // de Send
+        double tongDanhDeDauSend = 0;
+        double tongDanhDeDauSendSms = 0;
+        double tongThuongDeDauSend = 0;
+        double tongThuongDeDauSendSms = 0;
+
         // lo inbox
         double tongDanhLoInbox = 0;
         double tongDanhLoInboxSms = 0;
@@ -323,6 +337,19 @@ public class SendSms extends AppCompatActivity {
                             tongThuongDeSendSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
                         }
                         break;
+                    case "dq":
+                        if (kieuguitin.equals("inbox")) {
+                            tongDanhDeDauInbox += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuongDeDauInbox += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhDeDauInboxSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuongDeDauInboxSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        } else if (kieuguitin.equals("send")) {
+                            tongDanhDeDauSend += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuongDeDauSend += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhDeDauSendSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuongDeDauSendSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        }
+                        break;
                     case "lo":
                         if (kieuguitin.equals("inbox")) {
                             tongDanhLoInbox += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
@@ -378,7 +405,7 @@ public class SendSms extends AppCompatActivity {
         /***************** thong tin phan inbox sms **************************/
         /***************** chu y cac dong thuong tien inbox thi dau bao do bị nguoc lại **************/
         if (tongDanhDeInbox != 0 || tongDanhLoInbox != 0 ||
-                tongDanhXienInbox != 0 || tongDanhBaCangInbox != 0) {
+                tongDanhXienInbox != 0 || tongDanhBaCangInbox != 0 || tongDanhDeDauInbox != 0 ) {
             tongText += ngoiHai + " chuyen cho " + ngoiMot + "<br/>";
         }
         if (tongDanhDeInbox < 0) {
@@ -403,7 +430,28 @@ public class SendSms extends AppCompatActivity {
                     "=" + String.valueOf(Math.round(tongThuongDeInbox * -1 * 100.0) / 100.0) + " n" +
                     "<br/>";
         }
-
+        if (tongDanhDeDauInbox < 0) {
+            tongText += "dedau" +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauInboxSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauInbox * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongDanhDeDauInbox > 0) {
+            tongText += "dedau" +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauInboxSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauInbox * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
+        if (tongThuongDeDauInbox > 0) {
+            tongText += "thdedau" +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauInboxSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauInbox * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongThuongDeDauInbox < 0) {
+            tongText += "thdedau" +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauInboxSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauInbox * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
 
         if (tongDanhLoInbox < 0) {
             tongText += "lo" +
@@ -505,10 +553,33 @@ public class SendSms extends AppCompatActivity {
                     "=" + String.valueOf(Math.round(tongThuongDeSendSms * -1 * 100.0) / 100.0) + "n" +
                     "=" + String.valueOf(Math.round(tongThuongDeSend * -1 * 100.0) / 100.0) + " n" +
                     "<br/>";
-        } else if (tongThuongDeSend > 0) {
+        } else if (tongThuongDeDauSend > 0) {
             tongText += "thde" +
                     "=" + String.valueOf(Math.round(tongThuongDeSendSms * 100.0) / 100.0) + "n" +
                     "=" + String.valueOf(Math.round(tongThuongDeSend * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
+
+        if (tongDanhDeDauSend > 0) {
+            tongText += "dedau" +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauSendSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauSend * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongDanhDeDauSend < 0) {
+            tongText += "dedau" +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauSendSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauSend * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
+        if (tongThuongDeDauSend < 0) {
+            tongText += "thdedau" +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauSendSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauSend * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongThuongDeDauSend > 0) {
+            tongText += "thdedau" +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauSendSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauSend * 100.0) / 100.0) + " n" +
                     "<br/>";
         }
 

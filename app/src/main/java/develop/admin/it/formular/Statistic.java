@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -79,11 +80,14 @@ public class Statistic extends AppCompatActivity {
 
         Integer[] deArr = new Integer[100];
         Integer[] deTrung = new Integer[100];
+        Integer[] dedauArr = new Integer[100];
+        Integer[] dedauTrung = new Integer[100];
         Integer[] loArr = new Integer[100];
         Integer[] loTrung = new Integer[100];
         Integer[] bacangArr = new Integer[1000];
         HashMap<String, ArrayList<String>> hashmap = sql.readkitu();
         String compareDe = sql.compareDe(getDays);
+        String compareDeDau = sql.compareDeDau(getDays);
         ArrayList<String> compareLo = sql.getArrayKeyRes(getDays);
         // de Inbox
         double tongDanhDeInbox = 0;
@@ -95,6 +99,18 @@ public class Statistic extends AppCompatActivity {
         double tongDanhDeSendSms = 0;
         double tongThuongDeSend = 0;
         double tongThuongDeSendSms = 0;
+
+        // de dau Inbox
+        double tongDanhDeDauInbox = 0;
+        double tongDanhDeDauInboxSms = 0;
+        double tongThuongDeDauInbox = 0;
+        double tongThuongDeDauInboxSms = 0;
+        // de dau Send
+        double tongDanhDeDauSend = 0;
+        double tongDanhDeDauSendSms = 0;
+        double tongThuongDeDauSend = 0;
+        double tongThuongDeDauSendSms = 0;
+
         // lo inbox
         double tongDanhLoInbox = 0;
         double tongDanhLoInboxSms = 0;
@@ -165,6 +181,19 @@ public class Statistic extends AppCompatActivity {
                             tongThuongDeSend += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
                             tongDanhDeSendSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
                             tongThuongDeSendSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        }
+                        break;
+                    case "dq":
+                        if (kieuguitin.equals("inbox")) {
+                            tongDanhDeDauInbox += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuongDeDauInbox += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhDeDauInboxSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuongDeDauInboxSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        } else if (kieuguitin.equals("send")) {
+                            tongDanhDeDauSend += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuongDeDauSend += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhDeDauSendSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuongDeDauSendSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
                         }
                         break;
                     case "lo":
@@ -240,6 +269,32 @@ public class Statistic extends AppCompatActivity {
                                 deTrung[solo] = 0;
                             }
                         }
+                    } else if (kieuChoi.equals("dq")) {
+                        for (int i = 0; i < arrVal.length; i++) {
+                            int solo = Integer.parseInt(String.valueOf(arrVal[i].replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")));
+                            if(kieuguitin.equals("inbox")) {
+                                if (dedauArr[solo] != null) {
+                                    dedauArr[solo] += moicon;
+                                } else {
+                                    dedauArr[solo] = moicon;
+                                }
+                            } else {
+                                if (dedauArr[solo] != null) {
+                                    dedauArr[solo] -= moicon;
+                                } else {
+                                    dedauArr[solo] = 0 - moicon;
+                                }
+                            }
+                            String compreIntDeDau = String.valueOf(arrVal[i]);
+                            if (solo < 10 ) {
+                                compreIntDeDau = "0" + String.valueOf(arrVal[i]);
+                            }
+                            if (compareDeDau.equals(compreIntDeDau)) {
+                                dedauTrung[solo] = 1;
+                            } else {
+                                dedauTrung[solo] = 0;
+                            }
+                        }
                     } else if (kieuChoi.equals("lo")) {
                         for (int i = 0; i < arrVal.length; i++) {
                             int solo = Integer.parseInt(String.valueOf(arrVal[i].replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")));
@@ -288,6 +343,30 @@ public class Statistic extends AppCompatActivity {
                                 deTrung[intLoTo] = 1;
                             } else {
                                 deTrung[intLoTo] = 0;
+                            }
+                        } else if (kieuChoi.equals("dq")) {
+                            int intLoTo = Integer.parseInt(String.valueOf(loto.replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")));
+                            if (kieuguitin.equals("inbox")) {
+                                if (dedauArr[intLoTo] != null) {
+                                    dedauArr[intLoTo] += moicon;
+                                } else {
+                                    dedauArr[intLoTo] = moicon;
+                                }
+                            } else {
+                                if (dedauArr[intLoTo] != null) {
+                                    dedauArr[intLoTo] -= moicon;
+                                } else {
+                                    dedauArr[intLoTo] = 0 - moicon;
+                                }
+                            }
+                            String compreIntDeDau = String.valueOf(intLoTo);
+                            if (intLoTo < 10 ) {
+                                compreIntDeDau = "0" + String.valueOf(intLoTo);
+                            }
+                            if (compareDeDau.equals(compreIntDeDau)) {
+                                dedauTrung[intLoTo] = 1;
+                            } else {
+                                dedauTrung[intLoTo] = 0;
                             }
                         } else if (kieuChoi.equals("lo")) {
                             int intLoTo = Integer.parseInt(String.valueOf(loto.replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")));
@@ -363,17 +442,21 @@ public class Statistic extends AppCompatActivity {
 
         String textDeLeft = "<font color =\"blue\"><big>Đề</big></font><br/>";
         String textDeRight = "<font color =\"blue\"><big> </big></font><br/>";
+        String textDeDauLeft = "<font color =\"blue\"><big>Đề Đầu</big></font><br/>";
+        String textDeDauRight = "<font color =\"blue\"><big> </big></font><br/>";
         String textLoLeft = "<font color =\"blue\"><big>Lô</big></font><br/>";
         String textLoRight = "<font color =\"blue\"> </font><br/>";
         String textBaCang = "<font color =\"blue\"><big>Ba Càng</big></font><br/>";
 
         String[] sortDe = new String[100];
+        String[] sortDeDau = new String[100];
         String[] sortLo = new String[100];
         String[] sortBacang = new String[1000];
 
         int z = 0;
         int k = 0;
         int s = 0;
+        int h = 0;
 
         for (int q = 0; q < deArr.length; q++) {
             String showDe = "";
@@ -389,6 +472,21 @@ public class Statistic extends AppCompatActivity {
               //  sortDe[z] = String.valueOf(showDe) + "java0java0"; // xoa di neu k phai a vuong
             }
             z++;
+
+            String showDeDau = "";
+            if (q < 10) {
+                showDeDau = "0" + String.valueOf(q);
+            } else {
+                showDeDau = String.valueOf(q);
+            }
+
+            if (dedauArr[q] != null) {
+                sortDeDau[h] = String.valueOf(showDeDau) + "java" + String.valueOf(dedauArr[q]) + "java" + String.valueOf(dedauTrung[q]);
+            } else {
+                //  sortDe[z] = String.valueOf(showDe) + "java0java0"; // xoa di neu k phai a vuong
+            }
+            h++;
+
             String showLo = "";
             if (q < 10) {
                 showLo = "0" + String.valueOf(q);
@@ -435,6 +533,25 @@ public class Statistic extends AppCompatActivity {
                 }
             }
         }
+
+        String tempDeDau;
+        for (int m = 0; m < sortDeDau.length; m++) {
+            if (sortDeDau[m] != null) {
+                String[] arrSortDe1 = sortDeDau[m].split("java");
+                for (int t = m + 1; t < sortDeDau.length; t++) {
+                    if (sortDeDau[t] != null) {
+                        String[] arrSortDe2 = sortDeDau[t].split("java");
+                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
+                            tempDe = sortDeDau[t];
+                            sortDeDau[t] = sortDeDau[m];
+                            sortDeDau[m] = tempDe;
+                            arrSortDe1[1] = arrSortDe2[1];
+                        }
+                    }
+                }
+            }
+        }
+
         String tempLo;
         for (int c = 0; c < sortLo.length; c++) {
             if (sortLo[c] != null) {
@@ -469,6 +586,31 @@ public class Statistic extends AppCompatActivity {
                         textDeLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
                                 "<font color=\"blue\"> " + showResDe[2] + "</font> " +
                                 showResDe[1] + "n</b></big></big><br />";
+//                    } else {
+//                        textDeRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
+//                                "<font color=\"blue\"> " + showResDe[2] + "</font> " +
+//                                showResDe[1] + "n</b></big></big><br />";
+//                    }
+                }
+            }
+        }
+
+        for (int f = 0; f < sortDeDau.length; f++) {
+            if (sortDeDau[f] != null) {
+                String[] showResDeDau = sortDeDau[f].split("java");
+                if (Integer.parseInt(showResDeDau[2]) == 0) {
+//                    if (a < 50) {
+                    textDeDauLeft += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + " </font>" +
+                            showResDeDau[1] + "n</b></big></big><br />";
+//                    } else {
+//                        textDeRight += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + " </font>" +
+//                                showResDe[1] + "n</b></big></big><br />";
+//                    }
+                } else {
+//                    if (a < 50) {
+                    textDeDauLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + "</font>" +
+                            "<font color=\"blue\"> " + showResDeDau[2] + "</font> " +
+                            showResDeDau[1] + "n</b></big></big><br />";
 //                    } else {
 //                        textDeRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
 //                                "<font color=\"blue\"> " + showResDe[2] + "</font> " +
@@ -541,6 +683,29 @@ public class Statistic extends AppCompatActivity {
             tongText += "<font color=\"blue\"><big>thde" +
                     "=" + String.valueOf(Math.round(tongThuongDeInboxSms * -1 * 100.0) / 100.0) + "n " +
                     "=" + String.valueOf(Math.round(tongThuongDeInbox * -1 * 100.0) / 100.0) + "n" +
+                    "</big></font><br/>";
+        }
+
+        if (tongDanhDeDauInbox < 0) {
+            tongText += "<font color=\"red\"><big>de dau" +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauInboxSms * -1 * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauInbox * -1 * 100.0) / 100.0) + "n " +
+                    "</big></font><br/>";
+        } else if (tongDanhDeDauInbox > 0) {
+            tongText += "<font color=\"blue\"><big>de dau" +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauInboxSms * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongDanhDeDauInbox * 100.0) / 100.0) + "n " +
+                    "</big></font><br/>";
+        }
+        if (tongThuongDeDauInbox > 0) {
+            tongText += "<font color=\"red\"><big>thde dau" +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauInboxSms * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauInbox * 100.0) / 100.0) + "n " +
+                    "</big></font><br/>";
+        } else if (tongThuongDeInbox < 0) {
+            tongText += "<font color=\"blue\"><big>thde dau" +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauInboxSms * -1 * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongThuongDeDauInbox * -1 * 100.0) / 100.0) + "n" +
                     "</big></font><br/>";
         }
 
@@ -652,6 +817,29 @@ public class Statistic extends AppCompatActivity {
                     "</big></font><br/>";
         }
 
+        if (tongDanhDeDauSend > 0) {
+            tongText += "<font color=\"red\"><big>de" +
+                    "=" + String.valueOf(Math.round(tongDanhDeSendSms * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongDanhDeSend * 100.0) / 100.0) + "n " +
+                    "</big></font><br/>";
+        } else if (tongDanhDeDauSend < 0) {
+            tongText += "<font color=\"blue\"><big>de" +
+                    "=" + String.valueOf(Math.round(tongDanhDeSendSms * -1 * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongDanhDeSend * -1 * 100.0) / 100.0) + "n" +
+                    "</big></font><br/>";
+        }
+        if (tongThuongDeDauSend < 0) {
+            tongText += "<font color=\"red\"><big>thde" +
+                    "=" + String.valueOf(Math.round(tongThuongDeSendSms * -1 * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongThuongDeSend * -1 * 100.0) / 100.0) + "n " +
+                    "</big></font><br/>";
+        } else if (tongThuongDeDauSend > 0) {
+            tongText += "<font color=\"blue\"><big>thde" +
+                    "=" + String.valueOf(Math.round(tongThuongDeSendSms * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongThuongDeSend * 100.0) / 100.0) + "n" +
+                    "</big></font><br/>";
+        }
+
         if (tongDanhLoSend > 0) {
             tongText += "<font color=\"red\"><big>lo" +
                     "=" + String.valueOf(Math.round(tongDanhLoSendSms * 100.0) / 100.0) + "d " +
@@ -743,6 +931,7 @@ public class Statistic extends AppCompatActivity {
                     "</big></font><br/>";
         }
         /***************** thong tin phan end send sms **************************/
+        Log.d("LogFile", textDeDauLeft);
         TableRow.LayoutParams rowSpanLayout2 = new TableRow.LayoutParams();
         rowSpanLayout2.span = 2;
         String tongBaCangAndText = textBaCang + stringResXien + tongText;
@@ -755,6 +944,13 @@ public class Statistic extends AppCompatActivity {
         tr2.addView(de);
         tr2.addView(lo);
         tableLayout.addView(tr2);
+
+        TableRow tr4 = new TableRow(Statistic.this);
+        TextView dedau = new TextView(Statistic.this);
+        TextView lodau = new TextView(Statistic.this);
+        dedau.setText(Html.fromHtml(textDeDauLeft));
+        tr4.addView(dedau);
+        tableLayout.addView(tr4);
 //        TableRow tr4 = new TableRow(Statistic.this);//1
 //        TextView de1 = new TextView(Statistic.this); //1
 //        TextView lo1 = new TextView(Statistic.this); //1
