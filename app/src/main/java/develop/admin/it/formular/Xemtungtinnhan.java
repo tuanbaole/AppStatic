@@ -146,7 +146,6 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         ") kieu_choi ON (kieu_choi.SMSID = sms_ready_table.SMSID) " +
                         "WHERE sms_ready_table.CONTENT != '' AND sms_ready_table.NGAY = '" + date + "' AND sms_ready_table.SMSID IN (" + GETSMSID + ") " +
                         "GROUP BY sms_ready_table.ID ";
-        Log.d("LogFile",importQuery);
         Cursor smsReady = sql.getAllDb(importQuery);
         content = new ArrayList<>();
         smsId = new ArrayList<>();
@@ -289,6 +288,10 @@ public class Xemtungtinnhan extends AppCompatActivity {
                     case R.id.smsnook:
                         Intent intent7 = new Intent(Xemtungtinnhan.this, viewSmsNotMoney.class);
                         startActivity(intent7);
+                        return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(Xemtungtinnhan.this, HistorySms.class);
+                        startActivity(intent8);
                         return true;
                     default:
                         return true;

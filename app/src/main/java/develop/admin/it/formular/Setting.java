@@ -1,8 +1,10 @@
 package develop.admin.it.formular;
 
+import android.Manifest;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,99 +40,119 @@ public class Setting extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_setting );
         controller = new GlobalClass();
-        sql = new DatabaseHelper(this);
-        Cursor timeTable = sql.getAllDb("SELECT * FROM time_table LIMIT 0,1");
+        sql = new DatabaseHelper( this );
+        Cursor timeTable = sql.getAllDb( "SELECT * FROM time_table LIMIT 0,1" );
         String timeDe = "18:14";
         String timeLo = "18:29";
         String timeApp = "chưa có";
         String time_id = "";
         if (timeTable.getCount() > 0) {
             timeTable.moveToFirst();
-            time_id = timeTable.getString(timeTable.getColumnIndex("ID"));
-            timeDe = timeTable.getString(timeTable.getColumnIndex("KHOADE"));
-            timeLo = timeTable.getString(timeTable.getColumnIndex("KHOALO"));
-            timeApp = timeTable.getString(timeTable.getColumnIndex("KHOAAPP"));
+            time_id = timeTable.getString( timeTable.getColumnIndex( "ID" ) );
+            timeDe = timeTable.getString( timeTable.getColumnIndex( "KHOADE" ) );
+            timeLo = timeTable.getString( timeTable.getColumnIndex( "KHOALO" ) );
+            timeApp = timeTable.getString( timeTable.getColumnIndex( "KHOAAPP" ) );
         }
 
-        textViewKhoaApp = (TextView) findViewById(R.id.textViewKhoaApp);
-        textViewKhoaApp.setText(timeApp);
+        textViewKhoaApp = (TextView) findViewById( R.id.textViewKhoaApp );
+        textViewKhoaApp.setText( timeApp );
 
-        TelephonyManager telemamanger = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager telemamanger = (TelephonyManager) getSystemService( Context.TELEPHONY_SERVICE );
+        if (ActivityCompat.checkSelfPermission( this, Manifest.permission.READ_PHONE_STATE ) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         String getSimSerialNumber = telemamanger.getSimSerialNumber();
-        textViewShowImei = (TextView) findViewById(R.id.textViewShowImei);
-        textViewShowImei.setText(getSimSerialNumber);
+        textViewShowImei = (TextView) findViewById( R.id.textViewShowImei );
+        textViewShowImei.setText( getSimSerialNumber );
 
-        textViewTimeDe = (TextView) findViewById(R.id.textViewTimeDe);
-        textViewTimeDe.setText(timeDe);
+        textViewTimeDe = (TextView) findViewById( R.id.textViewTimeDe );
+        textViewTimeDe.setText( timeDe );
         final String finalTime_id = time_id;
         final String finalTimeLo = timeLo;
         final String finalTimeDe = timeDe;
-        textViewTimeDe.setOnClickListener(new View.OnClickListener() {
+        textViewTimeDe.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] deArr = textViewTimeDe.getText().toString().split(":");
-                int hour = controller.dateInt("HH");
-                int minute = controller.dateInt("mm");
+                String[] deArr = textViewTimeDe.getText().toString().split( ":" );
+                int hour = controller.dateInt( "HH" );
+                int minute = controller.dateInt( "mm" );
                 if (deArr.length == 2) {
-                    hour = Integer.parseInt(deArr[0].replaceAll("(^\\s+|\\s+$)", "").trim());
-                    minute = Integer.parseInt(deArr[1].replaceAll("(^\\s+|\\s+$)", "").trim());
+                    hour = Integer.parseInt( deArr[0].replaceAll( "(^\\s+|\\s+$)", "" ).trim() );
+                    minute = Integer.parseInt( deArr[1].replaceAll( "(^\\s+|\\s+$)", "" ).trim() );
                 }
-                TimePickerDialog timePickerDialog = new TimePickerDialog(Setting.this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog( Setting.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String newTimeDe = String.valueOf(hourOfDay) + " : " + String.valueOf(minute);
-                        textViewTimeDe.setText(newTimeDe);
-                        if (!finalTime_id.equals("")) {
-                            sql.updateTimeTable(finalTime_id, newTimeDe, finalTimeLo);
+                        String newTimeDe = String.valueOf( hourOfDay ) + " : " + String.valueOf( minute );
+                        textViewTimeDe.setText( newTimeDe );
+                        if (!finalTime_id.equals( "" )) {
+                            sql.updateTimeTable( finalTime_id, newTimeDe, finalTimeLo );
                         }
                     }
-                }, hour, minute, true);//Yes 24 hour time
-                timePickerDialog.setTitle("Chọn thời gian khóa đề");
+                }, hour, minute, true );//Yes 24 hour time
+                timePickerDialog.setTitle( "Chọn thời gian khóa đề" );
                 timePickerDialog.show();
             }
-        });
+        } );
 
-        textViewTimeLo = (TextView) findViewById(R.id.textViewTimeLo);
-        textViewTimeLo.setText(timeLo);
-        textViewTimeLo.setOnClickListener(new View.OnClickListener() {
+        textViewTimeLo = (TextView) findViewById( R.id.textViewTimeLo );
+        textViewTimeLo.setText( timeLo );
+        textViewTimeLo.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] loArr = textViewTimeLo.getText().toString().split(":");
-                int hour = controller.dateInt("HH");
-                int minute = controller.dateInt("mm");
+                String[] loArr = textViewTimeLo.getText().toString().split( ":" );
+                int hour = controller.dateInt( "HH" );
+                int minute = controller.dateInt( "mm" );
                 if (loArr.length == 2) {
-                    hour = Integer.parseInt(loArr[0].replaceAll("(^\\s+|\\s+$)", "").trim());
-                    minute = Integer.parseInt(loArr[1].replaceAll("(^\\s+|\\s+$)", "").trim());
+                    hour = Integer.parseInt( loArr[0].replaceAll( "(^\\s+|\\s+$)", "" ).trim() );
+                    minute = Integer.parseInt( loArr[1].replaceAll( "(^\\s+|\\s+$)", "" ).trim() );
                 }
-                TimePickerDialog timePickerDialog = new TimePickerDialog(Setting.this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog( Setting.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String newTimeLo = String.valueOf(hourOfDay) + " : " + String.valueOf(minute);
-                        textViewTimeLo.setText(newTimeLo);
-                        if (!finalTime_id.equals("")) {
-                            sql.updateTimeTable(finalTime_id, finalTimeDe, newTimeLo);
+                        String newTimeLo = String.valueOf( hourOfDay ) + " : " + String.valueOf( minute );
+                        textViewTimeLo.setText( newTimeLo );
+                        if (!finalTime_id.equals( "" )) {
+                            sql.updateTimeTable( finalTime_id, finalTimeDe, newTimeLo );
                         }
                     }
-                }, hour, minute, true);//Yes 24 hour time
-                timePickerDialog.setTitle("Chọn thời gian khóa lô");
+                }, hour, minute, true );//Yes 24 hour time
+                timePickerDialog.setTitle( "Chọn thời gian khóa lô" );
                 timePickerDialog.show();
             }
-        });
+        } );
 
-        buttonCreated = (Button) findViewById(R.id.buttonCreated);
-        buttonCreated.setOnClickListener(new View.OnClickListener() {
+        buttonCreated = (Button) findViewById( R.id.buttonCreated );
+        buttonCreated.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( Context.CONNECTIVITY_SERVICE );
                 NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
                 if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-                    runOnUiThread(new Runnable() {
+                    runOnUiThread( new Runnable() {
                         @Override
                         public void run() {
-                            TelephonyManager telemamanger = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                            TelephonyManager telemamanger = (TelephonyManager) getSystemService( Context.TELEPHONY_SERVICE );
+                            if (ActivityCompat.checkSelfPermission( Setting.this, Manifest.permission.READ_PHONE_STATE ) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
                             String getSimSerialNumber = telemamanger.getSimSerialNumber();
                             String link = "http://hostingkqxs.esy.es/registerApp.php?imei=" + getSimSerialNumber;
                             Log.d("LogFile", link);
@@ -227,6 +250,10 @@ public class Setting extends AppCompatActivity {
                     case R.id.smsnook:
                         Intent intent7 = new Intent(Setting.this, viewSmsNotMoney.class);
                         startActivity(intent7);
+                        return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(Setting.this, HistorySms.class);
+                        startActivity(intent8);
                         return true;
                     default:
                         return true;

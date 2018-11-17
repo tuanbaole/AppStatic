@@ -156,6 +156,14 @@ public class viewSmsNotMoney extends AppCompatActivity {
                         Intent intent6 = new Intent(viewSmsNotMoney.this, MainXoaCongNo.class);
                         startActivity(intent6);
                         return true;
+                    case R.id.smsnook:
+                        Intent intent7 = new Intent(viewSmsNotMoney.this, viewSmsNotMoney.class);
+                        startActivity(intent7);
+                        return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(viewSmsNotMoney.this, HistorySms.class);
+                        startActivity(intent8);
+                        return true;
                     default:
                         return true;
                 }

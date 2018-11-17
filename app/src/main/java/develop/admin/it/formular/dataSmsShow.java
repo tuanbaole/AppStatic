@@ -399,6 +399,10 @@ public class dataSmsShow extends AppCompatActivity {
                         Intent intent7 = new Intent(dataSmsShow.this, viewSmsNotMoney.class);
                         startActivity(intent7);
                         return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(dataSmsShow.this, HistorySms.class);
+                        startActivity(intent8);
+                        return true;
                     default:
                         return true;
                 }

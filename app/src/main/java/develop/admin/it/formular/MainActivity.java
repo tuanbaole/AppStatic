@@ -113,14 +113,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        dataSms = (ImageButton) findViewById(R.id.imageButtonDataSms);
-//        dataSms.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, dataSmsShow.class);
-//                startActivity(intent);
-//            }
-//        });
+        Intent intent = new Intent(this, StartService.class);
+        startService(intent);
 
         sideBarMenu();
         deleteData();
@@ -225,6 +219,10 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent7 = new Intent(MainActivity.this, viewSmsNotMoney.class);
                         startActivity(intent7);
                         return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(MainActivity.this, HistorySms.class);
+                        startActivity(intent8);
+                        return true;
                     default:
                         return true;
                 }
@@ -258,5 +256,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
 }

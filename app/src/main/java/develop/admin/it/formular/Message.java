@@ -315,6 +315,10 @@ public class Message extends AppCompatActivity {
                         Intent intent7 = new Intent(Message.this, viewSmsNotMoney.class);
                         startActivity(intent7);
                         return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(Message.this, HistorySms.class);
+                        startActivity(intent8);
+                        return true;
                     default:
                         return true;
                 }

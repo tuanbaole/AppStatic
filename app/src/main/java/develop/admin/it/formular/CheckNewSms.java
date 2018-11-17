@@ -300,6 +300,10 @@ public class CheckNewSms extends AppCompatActivity {
                         Intent intent7 = new Intent(CheckNewSms.this, viewSmsNotMoney.class);
                         startActivity(intent7);
                         return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(CheckNewSms.this, HistorySms.class);
+                        startActivity(intent8);
+                        return true;
                     default:
                         return true;
                 }

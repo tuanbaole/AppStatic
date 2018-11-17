@@ -13,7 +13,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -816,6 +815,10 @@ public class SendSms extends AppCompatActivity {
                     case R.id.smsnook:
                         Intent intent7 = new Intent(SendSms.this, viewSmsNotMoney.class);
                         startActivity(intent7);
+                        return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(SendSms.this, HistorySms.class);
+                        startActivity(intent8);
                         return true;
                     default:
                         return true;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <item
+        android:id="@+id/item_date"
+        android:icon="@drawable/date64"
+        android:title="Share"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/buttonDeleteFile"
+        android:title="Xóa dữ liệu không phải hôm nay" />
+    <item
+        android:id="@+id/buttonDeleteFileThree"
+        android:title="Xóa dữ liệu không phải 3 hôm nay" />
+    <item
+        android:id="@+id/buttonDeleteFileWeek"
+        android:title="Xóa dữ liệu không phải 1 tuần nay" />
+    <item
+        android:id="@+id/buttonDeleteAllFile"
+        android:title="Xóa tất cả dữ liệu" />
+</menu>

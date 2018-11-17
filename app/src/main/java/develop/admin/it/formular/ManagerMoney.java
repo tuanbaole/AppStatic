@@ -88,6 +88,10 @@ public class ManagerMoney extends AppCompatActivity {
                         Intent intent7 = new Intent(ManagerMoney.this, viewSmsNotMoney.class);
                         startActivity(intent7);
                         return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(ManagerMoney.this, HistorySms.class);
+                        startActivity(intent8);
+                        return true;
                     default:
                         return true;
                 }

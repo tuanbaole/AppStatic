@@ -205,6 +205,10 @@ public class CaiDatCanBang extends AppCompatActivity {
                         Intent intent7 = new Intent(CaiDatCanBang.this, viewSmsNotMoney.class);
                         startActivity(intent7);
                         return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(CaiDatCanBang.this, HistorySms.class);
+                        startActivity(intent8);
+                        return true;
                     default:
                         return true;
                 }

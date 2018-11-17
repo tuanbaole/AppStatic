@@ -167,6 +167,10 @@ public class Contact extends AppCompatActivity {
                         Intent intent7 = new Intent(Contact.this, viewSmsNotMoney.class);
                         startActivity(intent7);
                         return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(Contact.this, HistorySms.class);
+                        startActivity(intent8);
+                        return true;
                     default:
                         return true;
                 }

@@ -41,4 +41,9 @@
         android:state_checked="false"
         android:title="Tin chưa tính" />
 
+    <item
+        android:id="@+id/historySms"
+        android:icon="@drawable/historysms"
+        android:state_checked="false"
+        android:title="Lịch Sử Sms" />
 </menu>

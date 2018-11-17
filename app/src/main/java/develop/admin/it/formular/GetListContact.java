@@ -138,6 +138,10 @@ public class GetListContact extends AppCompatActivity {
                         Intent intent7 = new Intent(GetListContact.this, viewSmsNotMoney.class);
                         startActivity(intent7);
                         return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(GetListContact.this, HistorySms.class);
+                        startActivity(intent8);
+                        return true;
                     default:
                         return true;
                 }

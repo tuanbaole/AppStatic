@@ -106,6 +106,10 @@ public class GuiTinCanBang extends AppCompatActivity {
                         Intent intent7 = new Intent(GuiTinCanBang.this, viewSmsNotMoney.class);
                         startActivity(intent7);
                         return true;
+                    case R.id.historySms:
+                        Intent intent8 = new Intent(GuiTinCanBang.this, HistorySms.class);
+                        startActivity(intent8);
+                        return true;
                     default:
                         return true;
                 }

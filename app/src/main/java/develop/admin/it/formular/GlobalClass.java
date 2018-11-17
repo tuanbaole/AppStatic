@@ -1,11 +1,21 @@
 package develop.admin.it.formular;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -21,6 +31,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 
 public class GlobalClass extends AppCompatActivity {
@@ -48,7 +66,7 @@ public class GlobalClass extends AppCompatActivity {
     }
 
     public String dateDayChange(String typeDate, int time) {
-        Date today = new Date(System.currentTimeMillis() - time);
+        Date today = new Date(System.currentTimeMillis() - time); // time 7 * 24 * 60 * 60 * 1000
         DateFormat df = new SimpleDateFormat(typeDate);//yyyy-MM-dd HH:mm:ss
         df.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
         String day = df.format(today);
@@ -1503,4 +1521,177 @@ public class GlobalClass extends AppCompatActivity {
         }
         return dataRes;
     }
+
+    public ArrayList<String> readTextFile(File file) {
+        ArrayList<String> dataRes = new ArrayList<>();
+        try {
+            FileInputStream fileXml = new FileInputStream(file);
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder =  builderFactory.newDocumentBuilder();
+            Document xmlDocument = builder.parse(fileXml);
+            XPath xPath =  XPathFactory.newInstance().newXPath();
+
+            String expressionPhone = "/root/element/phone";
+            NodeList nodeListPhone = (NodeList) xPath.compile(expressionPhone).evaluate(xmlDocument, XPathConstants.NODESET);
+
+            String expressionContent = "/root/element/content";
+            NodeList nodeListContent = (NodeList) xPath.compile(expressionContent).evaluate(xmlDocument, XPathConstants.NODESET);
+
+            String expressionDate = "/root/element/date";
+            NodeList nodeListDate = (NodeList) xPath.compile(expressionDate).evaluate(xmlDocument, XPathConstants.NODESET);
+
+            String expressionType = "/root/element/type";
+            NodeList nodeListType = (NodeList) xPath.compile(expressionType).evaluate(xmlDocument, XPathConstants.NODESET);
+
+            String expressionCode = "/root/element/code";
+            NodeList nodeListCode = (NodeList) xPath.compile(expressionCode).evaluate(xmlDocument, XPathConstants.NODESET);
+
+            String expressionPerson = "/root/element/person";
+            NodeList nodeListPerson = (NodeList) xPath.compile(expressionPerson).evaluate(xmlDocument, XPathConstants.NODESET);
+            // Note : ========> content is has charter [,] so edit JavaCode
+            for (int i = 0; i < nodeListPhone.getLength(); i++) {
+                String valueData = nodeListPhone.item(i).getFirstChild().getNodeValue();
+                if (nodeListContent.item(i) != null) {
+                    valueData +=  "JavaCode" + nodeListContent.item(i).getFirstChild().getNodeValue();
+                } else {
+                    valueData += "JavaCode0";
+                }
+                if (nodeListDate.item(i) != null) {
+                    valueData +=  "JavaCode" + nodeListDate.item(i).getFirstChild().getNodeValue();
+                } else {
+                    valueData += "JavaCode0";
+                }
+
+                if (nodeListType.item(i) != null) {
+                    valueData +=  "JavaCode" + nodeListType.item(i).getFirstChild().getNodeValue();
+                } else {
+                    valueData += "JavaCode0";
+                }
+
+                if (nodeListCode.item(i) != null) {
+                    valueData +=  "JavaCode" + nodeListCode.item(i).getFirstChild().getNodeValue();
+                } else {
+                    valueData += "JavaCode0";
+                }
+
+                if (nodeListPerson.item(i) != null) {
+                    valueData +=  "JavaCode" + nodeListPerson.item(i).getFirstChild().getNodeValue();
+                } else {
+                    valueData += "JavaCode0";
+                }
+                dataRes.add(valueData);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+        return dataRes;
+    }
+
+    public ArrayList<String> readXmlDataPhone(File file ,Context context) {
+
+        ArrayList<String> dataRes = new ArrayList<>();
+        try {
+            FileInputStream fileXml = new FileInputStream(file);
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder =  builderFactory.newDocumentBuilder();
+            Document xmlDocument = builder.parse(fileXml);
+            XPath xPath =  XPathFactory.newInstance().newXPath();
+            String expressionPhone = "/root/listData";
+            NodeList nodeListPhone = (NodeList) xPath.compile(expressionPhone).evaluate(xmlDocument, XPathConstants.NODESET);
+            String [] valueData = nodeListPhone.item(0).getFirstChild().getNodeValue().split( "," );
+            for (int j = 0; j < valueData.length;j++) {
+                String person = getContactName(valueData[j],context);
+                if (person.equals( "0" )) {
+                    dataRes.add( valueData[j]);
+                } else {
+                    dataRes.add( person + "," +valueData[j]);
+                }
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+        return dataRes;
+    }
+
+    public String getContactName(final String phoneNumber, Context context)
+    {
+        Uri uri=Uri.withAppendedPath( ContactsContract.PhoneLookup.CONTENT_FILTER_URI,Uri.encode(phoneNumber));
+        String[] projection = new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME};
+        String contactName="";
+        Cursor cursor= context.getContentResolver().query(uri,projection,null,null,null);
+        if (cursor != null) {
+            if(cursor.moveToFirst()) {
+                contactName=cursor.getString(0);
+            }
+            cursor.close();
+        }
+        return contactName;
+    }
+
+    public ArrayList<String> readTextFileToPhone(File file,String phone) {
+        ArrayList<String> dataRes = new ArrayList<>();
+        try {
+            FileInputStream fileXml = new FileInputStream(file);
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder =  builderFactory.newDocumentBuilder();
+            Document xmlDocument = builder.parse(fileXml);
+            XPath xPath =  XPathFactory.newInstance().newXPath();
+
+            String expressionContent = "/root/element[@telephone=\"" + phone+ "\"]/content";
+            NodeList nodeListContent = (NodeList) xPath.compile(expressionContent).evaluate(xmlDocument, XPathConstants.NODESET);
+
+            String expressionDate = "/root/element[@telephone=\"" + phone+ "\"]/date";
+            NodeList nodeListDate = (NodeList) xPath.compile(expressionDate).evaluate(xmlDocument, XPathConstants.NODESET);
+
+            String expressionType = "/root/element[@telephone=\"" + phone+ "\"]/type";
+            NodeList nodeListType = (NodeList) xPath.compile(expressionType).evaluate(xmlDocument, XPathConstants.NODESET);
+
+            for (int i = 0; i < nodeListContent.getLength(); i++) {
+                String valueData = nodeListContent.item(i).getFirstChild().getNodeValue();
+
+                if (nodeListDate.item(i) != null) {
+                    valueData +=  "JavaCode" + nodeListDate.item(i).getFirstChild().getNodeValue();
+                } else {
+                    valueData += "JavaCode0";
+                }
+
+                if (nodeListType.item(i) != null) {
+                    valueData +=  "JavaCode" + nodeListType.item(i).getFirstChild().getNodeValue();
+                } else {
+                    valueData += "JavaCode0";
+                }
+
+                dataRes.add(valueData);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+        return dataRes;
+    }
+
 }
