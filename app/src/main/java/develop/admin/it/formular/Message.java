@@ -1870,9 +1870,11 @@ public class Message extends AppCompatActivity {
                             if (kieuchoi.equals("lD")) {
                                 error += "ld ";
                                 compareLo = compareLoDau;
+                                kieuchoi = "ld";
                             } else {
                                 error += "lo ";
                                 compareLo = compareLo2;
+                                kieuchoi = "lo";
                             }
                             String chuoiLo = message[i].substring(2, message[i].length()).replaceAll("(^\\s+|\\s+$)", "")
                                     .replace(" d", "d").replace("D1c", "D1c JAVASTR").replace("d", "d JAVASTR");
@@ -1909,14 +1911,14 @@ public class Message extends AppCompatActivity {
                                                     if (resLoBor.get(1).length() > 1) {
                                                         xulydanhleLoToGhepAB(getNum, hslo, compareLo, resLoBor.get(1)
                                                                 , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                     }
                                                     error += resLoBor.get(0);
                                                 } else if (mangLocoX[0].indexOf("ghepab") > -1 || mangLocoX[0].indexOf("gepab") > -1) {
                                                     ArrayList<String> resGhepLoab = controller.ghepab(mangLocoX[0]);
                                                     xulydanhleLoToGhepAB(getNum, hslo, compareLo, resGhepLoab.get(1)
                                                             , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                            "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                            kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                     error += resGhepLoab.get(0);
                                                 } else {
                                                     String valueLoCoX = controller.converStringSms(mangLocoX[0]);
@@ -1930,7 +1932,7 @@ public class Message extends AppCompatActivity {
                                                                 error += valueImprotDb[0] + " " + controller.resVtBoso(valueImprotDb, hashmap).get(1);
                                                                 xulydanhbosoVtLo(controller.resVtBoso(valueImprotDb, hashmap).get(0), compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
                                                                         valueImprotDb[0], controller.resVtBoso(valueImprotDb, hashmap).get(2),
-                                                                        listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                        listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                             } else {
                                                                 error += "<font color=\"RED\">" + valueLoArrCoX[k] + " </font>";
                                                             }
@@ -1943,7 +1945,7 @@ public class Message extends AppCompatActivity {
                                                                     if (miliGetTimeLo > miliGettimeSms) {
                                                                         boLoCoX += value + ",";
                                                                         xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0],
-                                                                                listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                     }
                                                                 } else {
                                                                     error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
@@ -1983,15 +1985,15 @@ public class Message extends AppCompatActivity {
                                                                                         boLoCoX += valueSessinoLoCoX + ",";
 //                                                                                    xulydanhboLoTo(valueSessinoLoCoX, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
 //                                                                                            SessionLoCoX + valueImprotDb[q],
-//                                                                                            listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+//                                                                                            listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                                         xulydanhleLoToGhep(valueSessinoLoCoX, getNum, hslo, compareLo, thuonglo,
-                                                                                                idSmsInt, dongiaId, listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                                idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                                     }
                                                                                     boLoCoX += value + ",";
                                                                                     xulydanhleLoToGhep(value, getNum, hslo, compareLo, thuonglo,
-                                                                                            idSmsInt, dongiaId, listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                            idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
 //                                                                                xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0] + valueImprotDb[q],
-//                                                                                        listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+//                                                                                        listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                                 }
                                                                             } else {
                                                                                 if (!valueImprotDb[q].equals("bcp")) {
@@ -2049,12 +2051,12 @@ public class Message extends AppCompatActivity {
                                                                                 boLoCoX += valueSessinoLoCoX1 + ",";
                                                                                 xulydanhboLoTo(valueSessinoLoCoX1, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
                                                                                         SessionLoCoX + arrNewValLoCoX[1],
-                                                                                        listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                        listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                             }
                                                                             boLoCoX += value + ",";
                                                                             xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
                                                                                     arrNewValLoCoX[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + arrNewValLoCoX[1],
-                                                                                    listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                    listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                         }
                                                                         if (valueImprotDb.length == 1) {
                                                                             SessionLoCoX = "";
@@ -2091,12 +2093,12 @@ public class Message extends AppCompatActivity {
                                                                                     boLoCoX += valueSessinoLoCoX2 + ",";
                                                                                     xulydanhboLoTo(valueSessinoLoCoX2, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
                                                                                             SessionLoCoX + valueImprotDb[q],
-                                                                                            listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                            listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                                 }
                                                                                 boLoCoX += value + ",";
                                                                                 xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
                                                                                         arrNewValLoCoX[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "") + valueImprotDb[q],
-                                                                                        listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                        listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                             }
                                                                         } else {
                                                                             if (!valueImprotDb[q].equals("bcp")) {
@@ -2112,7 +2114,7 @@ public class Message extends AppCompatActivity {
                                                                 // doan nay xu ly Lo ghep 1234 thanh 12 cap so 12-21-13-31...
                                                                 error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0) + " ";
                                                                 xulydanhleLoToGhep(controller.resGhepBcBoso(valueImprotDb).get(1), getNum, hslo, compareLo, thuonglo,
-                                                                        idSmsInt, dongiaId, listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                        idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
 //                                                                error += valueImprotDb[0];
 //                                                                String gepLoCoX = "";
 //                                                                for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
@@ -2135,10 +2137,10 @@ public class Message extends AppCompatActivity {
 //                                                                        boLoCoX += ghepVal1 + "," + ghepVal2 + ",";
 //                                                                        xulydanhleLoTo(getNum, hslo, compareLo, ghepVal1
 //                                                                                , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                                "lo", listDonGia[0], dataSoLieuDate, smsType);
+//                                                                                kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
 //                                                                        xulydanhleLoTo(getNum, hslo, compareLo, ghepVal2
 //                                                                                , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                                "lo", listDonGia[0], dataSoLieuDate, smsType);
+//                                                                                kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
 //                                                                    }
 //                                                                }
                                                             } else {
@@ -2149,7 +2151,7 @@ public class Message extends AppCompatActivity {
                                                                             boLoCoX += valueImprotDb[q] + ",";
                                                                             xulydanhleLoTo(getNum, hslo, compareLo, valueImprotDb[q]
                                                                                     , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                    "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                    kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                         }
                                                                     } else {
                                                                         if (limitNumberBaCang.contains(valueImprotDb[q])) {
@@ -2163,10 +2165,10 @@ public class Message extends AppCompatActivity {
                                                                                 boLoCoX += vtSo2 + ",";
                                                                                 xulydanhleLoTo(getNum, hslo, compareLo, vtSo1
                                                                                         , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                        "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                        kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                                 xulydanhleLoTo(getNum, hslo, compareLo, vtSo2
                                                                                         , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                        "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                        kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                             } else {
                                                                                 error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                             }
@@ -2378,7 +2380,7 @@ public class Message extends AppCompatActivity {
                                                             // doan nay xu ly Lo ghep 1234 thanh 12 cap so 12-21-13-31...
                                                             error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0) + " ";
                                                             xulydanhleLoToGhep(controller.resGhepBcBoso(valueImprotDb).get(1), getNum, hslo, compareLo, thuonglo,
-                                                                    idSmsInt, dongiaId, listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                    idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
 //                                                            error += valueImprotDb[0];
 //                                                            String gepLoCoDauB = "";
 //                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
@@ -2444,7 +2446,7 @@ public class Message extends AppCompatActivity {
                                                 if (message[i].replaceAll("(^\\s+|\\s+$)", "").length() > 6) {
 //                                                    if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
 //                                                        String table5Bor = sql.TABLE_NAME_5;
-//                                                        sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinalLo), getDays, "lo");
+//                                                        sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinalLo), getDays, kieuchoi);
 //                                                        String[] arrBoLoCoDauB = boLoCoDauB.split(",");
 //                                                        if (arrBoLoCoDauB.length < 100) {
 //                                                            int a = 1;
@@ -2465,7 +2467,7 @@ public class Message extends AppCompatActivity {
 //                                                                    a++;
 //                                                                    xulydanhleLoTo(newGetNum, hslo, compareLo, broStt
 //                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                            "lo", listDonGia[0], dataSoLieuDate, smsType);
+//                                                                            kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
 //                                                                }
 //                                                            }
 //                                                        }
@@ -2476,7 +2478,7 @@ public class Message extends AppCompatActivity {
                                                         for (int stt = 0; stt < arrBoLoCoDauB.length; stt++) {
                                                             xulydanhleLoTo(newGetNum, hslo, compareLo, arrBoLoCoDauB[stt]
                                                                     , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                    "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                    kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                         }
                                                     }
 //                                                    }
@@ -2542,7 +2544,7 @@ public class Message extends AppCompatActivity {
                                                                 if (miliGetTimeLo > miliGettimeSms) {
                                                                     loBorKX += value + ",";
                                                                     xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0],
-                                                                            listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                            listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                 }
                                                             } else {
                                                                 error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
@@ -2566,14 +2568,14 @@ public class Message extends AppCompatActivity {
                                                                                     String valueSessionLoKX = hashmap.get(SessionLoKX + valueImprotDb[q]).get(0);
                                                                                     xulydanhboLoTo(valueSessionLoKX, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
                                                                                             SessionLoKX + valueImprotDb[q],
-                                                                                            listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                            listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                                 } else {
                                                                                     error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                                 }
                                                                             }
                                                                             loBorKX += value + ",";
                                                                             xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0] + valueImprotDb[q],
-                                                                                    listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                    listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                         }
                                                                     } else {
                                                                         error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
@@ -2611,11 +2613,11 @@ public class Message extends AppCompatActivity {
                                                                             loBorKX += valueSessionLoKX + ",";
                                                                             xulydanhboLoTo(valueSessionLoKX, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
                                                                                     SessionLoKX + arrNewValLoCoX[1],
-                                                                                    listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                    listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                         }
                                                                         loBorKX += value + ",";
                                                                         xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, arrNewValLoCoX[0] + arrNewValLoCoX[1],
-                                                                                listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                     }
                                                                 } else {
                                                                     error += "<font color=\"RED\">" + arrNewValLoCoX[1] + " </font>";
@@ -2638,11 +2640,11 @@ public class Message extends AppCompatActivity {
                                                                                 loBorKX += valueSessionLoKX + ",";
                                                                                 xulydanhboLoTo(valueSessionLoKX, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
                                                                                         SessionLoKX + valueImprotDb[q],
-                                                                                        listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                        listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                             }
                                                                             loBorKX += value + ",";
                                                                             xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, arrNewValLoCoX[0] + valueImprotDb[q],
-                                                                                    listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                    listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                         }
                                                                     } else {
                                                                         error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
@@ -2654,7 +2656,7 @@ public class Message extends AppCompatActivity {
                                                             // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
                                                             error += valueImprotDb[0] + controller.resGhepBcBoso(valueImprotDb).get(0) + " ";
                                                             xulydanhleLoToGhep(controller.resGhepBcBoso(valueImprotDb).get(1), getNum, hslo, compareLo, thuonglo,
-                                                                    idSmsInt, dongiaId, listDonGia[1], "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                    idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
 //                                                            error += valueImprotDb[0];
 //                                                            String gepLoKX = "";
 //                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
@@ -2677,10 +2679,10 @@ public class Message extends AppCompatActivity {
 //                                                                    loBorKX += ghepVal1 + "," + ghepVal2 + ",";
 //                                                                    xulydanhleLoTo(getNum, hslo, compareLo, ghepVal1
 //                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                            "lo", listDonGia[0], dataSoLieuDate, smsType);
+//                                                                            kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
 //                                                                    xulydanhleLoTo(getNum, hslo, compareLo, ghepVal2
 //                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                            "lo", listDonGia[0], dataSoLieuDate, smsType);
+//                                                                            kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
 //                                                                }
 //                                                            }
                                                         } else {
@@ -2691,7 +2693,7 @@ public class Message extends AppCompatActivity {
                                                                         loBorKX += valueImprotDb[q] + ",";
                                                                         xulydanhleLoTo(getNum, hslo, compareLo, valueImprotDb[q]
                                                                                 , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                     }
                                                                 } else {
                                                                     if (limitNumberBaCang.contains(valueImprotDb[q])) {
@@ -2704,10 +2706,10 @@ public class Message extends AppCompatActivity {
                                                                             loBorKX += vtSo2 + ",";
                                                                             xulydanhleLoTo(getNum, hslo, compareLo, vtSo1
                                                                                     , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                    "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                    kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                             xulydanhleLoTo(getNum, hslo, compareLo, vtSo2
                                                                                     , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                    "lo", listDonGia[0], dataSoLieuDate, smsType);
+                                                                                    kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                         } else {
                                                                             error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                         }

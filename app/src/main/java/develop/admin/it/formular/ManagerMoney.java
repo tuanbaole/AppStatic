@@ -402,6 +402,18 @@ public class ManagerMoney extends AppCompatActivity {
                 double heSoLoSend = 0;
                 double thuongLoSend = 0;
                 double hsThuongLoSend = 0;
+
+                 /* lo dau inbox*/
+                double danhLoDauInbox = 0;
+                double heSoLoDauInbox = 0;
+                double thuongLoDauInbox = 0;
+                double hsThuongLoDauInbox = 0;
+                /* lo dau send */
+                double danhLoDauSend = 0;
+                double heSoLoDauSend = 0;
+                double thuongLoDauSend = 0;
+                double hsThuongLoDauSend = 0;
+
                 /* xien send*/
                 double danhXienSend = 0;
                 double heSoXienSend = 0;
@@ -449,6 +461,12 @@ public class ManagerMoney extends AppCompatActivity {
                                     heSoLoSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
                                     thuongLoSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
                                     hsThuongLoSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
+                                    break;
+                                case "ld":
+                                    danhLoDauSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
+                                    heSoLoDauSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
+                                    thuongLoDauSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
+                                    hsThuongLoDauSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
                                     break;
                                 case "xien2":
                                     danhXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
@@ -503,6 +521,12 @@ public class ManagerMoney extends AppCompatActivity {
                                     heSoLoInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
                                     thuongLoInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
                                     hsThuongLoInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
+                                    break;
+                                case "ld":
+                                    danhLoDauInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
+                                    heSoLoDauInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
+                                    thuongLoDauInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
+                                    hsThuongLoDauInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
                                     break;
                                 case "xien2":
                                     danhXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
@@ -559,6 +583,14 @@ public class ManagerMoney extends AppCompatActivity {
                 if (thuongLoInbox != 0 || hsThuongLoInbox != 0 || thuongLoSend != 0 || hsThuongLoSend != 0) {
                     sql.insertManagerMoney(sdt, ten, thuongLoInbox, hsThuongLoInbox, thuongLoSend, hsThuongLoSend, "thlo", dongiaID, getDays);
                 }
+
+                if (danhLoDauInbox != 0 || heSoLoDauInbox != 0 || danhLoDauSend != 0 || heSoLoDauSend != 0) {
+                    sql.insertManagerMoney(sdt, ten, danhLoDauInbox, heSoLoDauInbox, danhLoDauSend, heSoLoDauSend, "lodau", dongiaID, getDays);
+                }
+                if (thuongLoInbox != 0 || hsThuongLoInbox != 0 || thuongLoSend != 0 || hsThuongLoSend != 0) {
+                    sql.insertManagerMoney(sdt, ten, thuongLoDauInbox, hsThuongLoDauInbox, thuongLoDauSend, hsThuongLoDauSend, "thlodau", dongiaID, getDays);
+                }
+
                 if (danhXienInbox != 0 || heSoXienInbox != 0 || danhXienSend != 0 || heSoXienSend != 0) {
                     sql.insertManagerMoney(sdt, ten, danhXienInbox, heSoXienInbox, danhXienSend, heSoXienSend, "xien", dongiaID, getDays);
                 }
