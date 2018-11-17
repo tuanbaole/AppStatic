@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -543,7 +542,7 @@ public class Statistic extends AppCompatActivity {
             if (deArr[q] != null) {
                 sortDe[z] = String.valueOf(showDe) + "java" + String.valueOf(deArr[q]) + "java" + String.valueOf(deTrung[q]);
             } else {
-              //  sortDe[z] = String.valueOf(showDe) + "java0java0"; // xoa di neu k phai a vuong
+               // sortDe[z] = String.valueOf(showDe) + "java0java0"; // xoa di neu k phai a vuong
             }
             z++;
 
@@ -557,7 +556,7 @@ public class Statistic extends AppCompatActivity {
             if (dedauArr[q] != null) {
                 sortDeDau[h] = String.valueOf(showDeDau) + "java" + String.valueOf(dedauArr[q]) + "java" + String.valueOf(dedauTrung[q]);
             } else {
-                //  sortDe[z] = String.valueOf(showDe) + "java0java0"; // xoa di neu k phai a vuong
+              //  sortDeDau[h] = String.valueOf(showDeDau) + "java0java0"; // xoa di neu k phai a vuong
             }
             h++;
 
@@ -585,7 +584,7 @@ public class Statistic extends AppCompatActivity {
             if (loDauArr[q] != null) {
                 sortLoDau[w] = String.valueOf(showLoDau) + "java" + String.valueOf(loDauArr[q]) + "java" + String.valueOf(loDauTrung[q]);
             } else {
-                // sortLoDau[w] = String.valueOf(showLo) + "java0java0"; // xoa di neu k phai a vuong
+               // sortLoDau[w] = String.valueOf(showLoDau) + "java0java0"; // xoa di neu k phai a vuong
             }
             w++;
         }
@@ -662,7 +661,6 @@ public class Statistic extends AppCompatActivity {
         for (int lc = 0; lc < sortLoDau.length; lc++) {
             if (sortLoDau[lc] != null) {
                 String[] arrSortLo1 = sortLoDau[lc].split("java");
-                Log.d("LogFile",sortLoDau[lc]);
                 for (int lr = lc + 1; lr < sortLoDau.length; lr++) {
                     if (sortLoDau[lr] != null) {
                         String[] arrSortLo2 = sortLoDau[lr].split("java");
