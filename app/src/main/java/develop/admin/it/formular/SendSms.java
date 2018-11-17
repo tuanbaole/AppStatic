@@ -276,6 +276,18 @@ public class SendSms extends AppCompatActivity {
         double tongThuongLoSend = 0;
         double tongDanhLoSendSms = 0;
         double tongThuongLoSendSms = 0;
+
+        // lo inbox
+        double tongDanhLoDauInbox = 0;
+        double tongDanhLoDauInboxSms = 0;
+        double tongThuongLoDauInbox = 0;
+        double tongThuongLoDauInboxSms = 0;
+        // lo send
+        double tongDanhLoDauSend = 0;
+        double tongThuongLoDauSend = 0;
+        double tongDanhLoDauSendSms = 0;
+        double tongThuongLoDauSendSms = 0;
+
         // ba cang inbox
         double tongDanhBaCangInbox = 0;
         double tongDanhBaCangInboxSms = 0;
@@ -360,6 +372,19 @@ public class SendSms extends AppCompatActivity {
                             tongThuongLoSend += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
                             tongDanhLoSendSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
                             tongThuongLoSendSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        }
+                        break;
+                    case "ld":
+                        if (kieuguitin.equals("inbox")) {
+                            tongDanhLoDauInbox += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuongLoDauInbox += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhLoDauInboxSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuongLoDauInboxSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        } else if (kieuguitin.equals("send")) {
+                            tongDanhLoDauSend += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuongLoDauSend += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhLoDauSendSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuongLoDauSendSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
                         }
                         break;
                     case "bacang":
@@ -472,6 +497,29 @@ public class SendSms extends AppCompatActivity {
             tongText += "thlo" +
                     "=" + String.valueOf(Math.round(tongThuongLoInboxSms * -1 * 100.0) / 100.0) + "d" +
                     "=" + String.valueOf(Math.round(tongThuongLoInbox * -1 * 100.0) / 100.0) + "d" +
+                    "<br/>";
+        }
+
+        if (tongDanhLoDauInbox < 0) {
+            tongText += "lodau" +
+                    "=" + String.valueOf(Math.round(tongDanhLoDauInboxSms * -1 * 100.0) / 100.0) + "d" +
+                    "=" + String.valueOf(Math.round(tongDanhLoDauInbox * -1 * 100.0) / 100.0) + "d" +
+                    "<br/>";
+        } else if (tongDanhLoDauInbox > 0) {
+            tongText += "lodau" +
+                    "=" + String.valueOf(Math.round(tongDanhLoDauInboxSms * 100.0) / 100.0) + "d" +
+                    "=" + String.valueOf(Math.round(tongDanhLoDauInbox * 100.0) / 100.0) + "d" +
+                    "<br/>";
+        }
+        if (tongThuongLoDauInbox > 0) {
+            tongText += "thlodau" +
+                    "=" + String.valueOf(Math.round(tongThuongLoDauInboxSms * 100.0) / 100.0) + "d" +
+                    "=" + String.valueOf(Math.round(tongThuongLoDauInbox * 100.0) / 100.0) + "d" +
+                    "<br/>";
+        } else if (tongThuongLoDauInbox < 0) {
+            tongText += "thlodau" +
+                    "=" + String.valueOf(Math.round(tongThuongLoDauInboxSms * -1 * 100.0) / 100.0) + "d" +
+                    "=" + String.valueOf(Math.round(tongThuongLoDauInbox * -1 * 100.0) / 100.0) + "d" +
                     "<br/>";
         }
 
@@ -602,6 +650,29 @@ public class SendSms extends AppCompatActivity {
             tongText += "thlo" +
                     "=" + String.valueOf(Math.round(tongThuongLoSendSms * 100.0) / 100.0) + "d" +
                     "=" + String.valueOf(Math.round(tongThuongLoSend * 100.0) / 100.0) + "d" +
+                    "<br/>";
+        }
+
+        if (tongDanhLoDauSend > 0) {
+            tongText += "lodau" +
+                    "=" + String.valueOf(Math.round(tongDanhLoDauSendSms * 100.0) / 100.0) + "d" +
+                    "=" + String.valueOf(Math.round(tongDanhLoDauSend * 100.0) / 100.0) + "d" +
+                    "<br/>";
+        } else if (tongDanhLoDauSend < 0) {
+            tongText += "lodau" +
+                    "=" + String.valueOf(Math.round(tongDanhLoDauSendSms * -1 * 100.0) / 100.0) + "d" +
+                    "=" + String.valueOf(Math.round(tongDanhLoDauSend * -1 * 100.0) / 100.0) + "d" +
+                    "<br/>";
+        }
+        if (tongThuongLoDauSend < 0) {
+            tongText += "thlodau" +
+                    "=" + String.valueOf(Math.round(tongThuongLoDauSendSms * 100.0) / 100.0) + "d" +
+                    "=" + String.valueOf(Math.round(tongThuongLoDauSend * 100.0) / 100.0) + "d" +
+                    "<br/>";
+        } else if (tongThuongLoDauSend > 0) {
+            tongText += "thlodau" +
+                    "=" + String.valueOf(Math.round(tongThuongLoDauSendSms * 100.0) / 100.0) + "d" +
+                    "=" + String.valueOf(Math.round(tongThuongLoDauSend * 100.0) / 100.0) + "d" +
                     "<br/>";
         }
 
