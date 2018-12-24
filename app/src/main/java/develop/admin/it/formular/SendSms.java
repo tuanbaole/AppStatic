@@ -266,6 +266,29 @@ public class SendSms extends AppCompatActivity {
         double tongThuongDeDauSend = 0;
         double tongThuongDeDauSendSms = 0;
 
+        // giai nhat B Inbox
+        double tongDanhgiainhatInbox = 0;
+        double tongDanhgiainhatInboxSms = 0;
+        double tongThuonggiainhatInbox = 0;
+        double tongThuonggiainhatInboxSms = 0;
+        // giai nhat B Send
+        double tongDanhgiainhatSend = 0;
+        double tongDanhgiainhatSendSms = 0;
+        double tongThuonggiainhatSend = 0;
+        double tongThuonggiainhatSendSms = 0;
+
+        // giai nhat A Inbox
+        double tongDanhgiainhatDauInbox = 0;
+        double tongDanhgiainhatDauInboxSms = 0;
+        double tongThuonggiainhatDauInbox = 0;
+        double tongThuonggiainhatDauInboxSms = 0;
+        // giai nhat A Send
+        double tongDanhgiainhatDauSend = 0;
+        double tongDanhgiainhatDauSendSms = 0;
+        double tongThuonggiainhatDauSend = 0;
+        double tongThuonggiainhatDauSendSms = 0;
+
+
         // lo inbox
         double tongDanhLoInbox = 0;
         double tongDanhLoInboxSms = 0;
@@ -361,6 +384,32 @@ public class SendSms extends AppCompatActivity {
                             tongThuongDeDauSendSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
                         }
                         break;
+                    case "g1a":
+                        if (kieuguitin.equals("inbox")) {
+                            tongDanhgiainhatDauInbox += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuonggiainhatDauInbox += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhgiainhatDauInboxSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuonggiainhatDauInboxSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        } else if (kieuguitin.equals("send")) {
+                            tongDanhgiainhatDauSend += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuonggiainhatDauSend += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhgiainhatDauSendSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuonggiainhatDauSendSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        }
+                        break;
+                    case "g1b":
+                        if (kieuguitin.equals("inbox")) {
+                            tongDanhgiainhatInbox += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuonggiainhatInbox += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhgiainhatInboxSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuonggiainhatInboxSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        } else if (kieuguitin.equals("send")) {
+                            tongDanhgiainhatSend += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuonggiainhatSend += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhgiainhatSendSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuonggiainhatSendSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        }
+                        break;
                     case "lo":
                         if (kieuguitin.equals("inbox")) {
                             tongDanhLoInbox += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
@@ -423,13 +472,17 @@ public class SendSms extends AppCompatActivity {
         if (tongDanhDeInbox != 0 || tongDanhLoInbox != 0 ||
                 tongDanhXienInbox != 0 || tongDanhBaCangInbox != 0 ||
                 tongDanhDeSend != 0 || tongDanhLoSend != 0 ||
-                tongDanhBaCangSend != 0 || tongDanhBaCangSend != 0) {
+                tongDanhBaCangSend != 0 || tongDanhBaCangSend != 0 ||
+                tongDanhgiainhatDauInbox !=0 || tongDanhgiainhatDauSend != 0 ||
+                tongDanhgiainhatInbox !=0 || tongDanhgiainhatSend != 0 ||
+                tongDanhDeDauSend != 0 || tongDanhDeDauInbox != 0) {
             tongText += getDays + "<br/>" + chitiettungtin;
         }
         /***************** thong tin phan inbox sms **************************/
         /***************** chu y cac dong thuong tien inbox thi dau bao do bị nguoc lại **************/
         if (tongDanhDeInbox != 0 || tongDanhLoInbox != 0 ||
-                tongDanhXienInbox != 0 || tongDanhBaCangInbox != 0 || tongDanhDeDauInbox != 0 ) {
+                tongDanhXienInbox != 0 || tongDanhBaCangInbox != 0 || tongDanhDeDauInbox != 0 ||
+                tongDanhgiainhatInbox != 0 || tongDanhgiainhatDauInbox != 0) {
             tongText += ngoiHai + " chuyen cho " + ngoiMot + "<br/>";
         }
         if (tongDanhDeInbox < 0) {
@@ -474,6 +527,51 @@ public class SendSms extends AppCompatActivity {
             tongText += "thdedau" +
                     "=" + String.valueOf(Math.round(tongThuongDeDauInboxSms * -1 * 100.0) / 100.0) + "n" +
                     "=" + String.valueOf(Math.round(tongThuongDeDauInbox * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
+        if (tongDanhgiainhatDauInbox < 0) {
+            tongText += "giainhatA" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatDauInboxSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatDauInbox * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongDanhgiainhatDauInbox > 0) {
+            tongText += "giainhatA" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatDauInboxSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatDauInbox * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
+        if (tongThuonggiainhatDauInbox > 0) {
+            tongText += "thgiainhatA" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatDauInboxSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatDauInbox * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongThuonggiainhatDauInbox < 0) {
+            tongText += "thgiainhatA" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatDauInboxSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatDauInbox * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
+
+        if (tongDanhgiainhatInbox < 0) {
+            tongText += "giainhatB" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatInboxSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatInbox * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongDanhgiainhatInbox > 0) {
+            tongText += "giainhatB" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatInboxSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatInbox * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
+        if (tongThuonggiainhatInbox > 0) {
+            tongText += "thgiainhatB" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatInboxSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatInbox * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongThuonggiainhatInbox < 0) {
+            tongText += "thgiainhatB" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatInboxSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatInbox * -1 * 100.0) / 100.0) + " n" +
                     "<br/>";
         }
 
@@ -581,7 +679,8 @@ public class SendSms extends AppCompatActivity {
 
         /***************** thong tin phan send sms **************************/
         if (tongDanhDeSend != 0 || tongDanhLoSend != 0 ||
-                tongDanhXienSend != 0 || tongDanhBaCangSend != 0) {
+                tongDanhXienSend != 0 || tongDanhBaCangSend != 0 ||
+                tongDanhgiainhatSend != 0 || tongDanhgiainhatDauSend != 0) {
             tongText += ngoiMot + " chuyen cho " + ngoiHai + "<br/>";
         }
         if (tongDanhDeSend > 0) {
@@ -627,6 +726,52 @@ public class SendSms extends AppCompatActivity {
             tongText += "thdedau" +
                     "=" + String.valueOf(Math.round(tongThuongDeDauSendSms * 100.0) / 100.0) + "n" +
                     "=" + String.valueOf(Math.round(tongThuongDeDauSend * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
+
+        if (tongDanhgiainhatDauSend > 0) {
+            tongText += "giainhatA" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatDauSendSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatDauSend * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongDanhgiainhatDauSend < 0) {
+            tongText += "giainhatA" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatDauSendSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatDauSend * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
+        if (tongThuonggiainhatDauSend < 0) {
+            tongText += "thgiainhatA" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatDauSendSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatDauSend * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongThuonggiainhatDauSend > 0) {
+            tongText += "thgiainhatA" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatDauSendSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatDauSend * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
+
+        if (tongDanhgiainhatSend > 0) {
+            tongText += "giainhatB" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatSendSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatSend * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongDanhgiainhatSend < 0) {
+            tongText += "giainhatB" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatSendSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongDanhgiainhatSend * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        }
+        if (tongThuonggiainhatSend < 0) {
+            tongText += "thgiainhatB" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatSendSms * -1 * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatSend * -1 * 100.0) / 100.0) + " n" +
+                    "<br/>";
+        } else if (tongThuonggiainhatSend > 0) {
+            tongText += "thgiainhatB" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatSendSms * 100.0) / 100.0) + "n" +
+                    "=" + String.valueOf(Math.round(tongThuonggiainhatSend * 100.0) / 100.0) + " n" +
                     "<br/>";
         }
 
@@ -725,7 +870,7 @@ public class SendSms extends AppCompatActivity {
             tongText += ngoiMot + " bu cho " + ngoiHai +
                     "=" + String.valueOf(Math.round(tongBangSend * 100.0) / 100.0) + " n" +
                     "<br/>";
-        } else if (tongBangSend < 0) {
+        } else if (tongBangSend <= 0) {
             tongText += ngoiHai + " bu cho " + ngoiMot +
                     "=" + String.valueOf(Math.round(tongBangSend * -1 * 100.0) / 100.0) + " n" +
                     "<br/>";
@@ -741,7 +886,6 @@ public class SendSms extends AppCompatActivity {
                     "<br/>";
         }
         /***************** thong tin phan end send sms **************************/
-
         contentSend = (EditText) findViewById(R.id.editTextContentSms);
         sendSms = (Button) findViewById(R.id.buttonGuiCanBang);
         contentSend.setText(Html.fromHtml(tongText));

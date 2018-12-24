@@ -598,6 +598,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return de;
     }
 
+    public String compareGiai(String day,int giai,String kieuAB) {
+        String newDay = controller.convertFormatDate(day);
+        String query = "SELECT " + kieuAB + " FROM kq_table WHERE NGAY=\"" + newDay + "\" AND GIAI=" + giai;
+        Cursor kqsx = getAllDb(query);
+        String de = "100";
+        if (kqsx.getCount() > 0) {
+            kqsx.moveToFirst();
+            de = kqsx.getString(kqsx.getColumnIndex(kieuAB));
+
+        }
+        return de;
+    }
+
     public String compareDeDau(String day) {
         String newDay = controller.convertFormatDate(day);
         String query = "SELECT VALUEDAU FROM kq_table WHERE NGAY=\"" + newDay + "\" AND GIAI=0";
