@@ -113,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = new Intent(this, StartService.class);
-        startService(intent);
+//        Intent intent = new Intent(this, StartService.class);
+//        startService(intent);
 
         sideBarMenu();
         deleteData();

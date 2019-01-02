@@ -280,6 +280,7 @@ public class GlobalClass extends AppCompatActivity {
                 replace("ghep", "gep").
                 replace("gepbc", "gepbc ").
                 replace("de", "JAVASTR de").replace("lo", "JAVASTR lo").
+                replace("giai1a", "JAVASTR giai1a").replace("giai1b", "JAVASTR giai1b").
                 replace("ld", "JAVASTR lD").replace("dq", "JAVASTR DQ").
                 replace("3so", "3c").replace("3 so", "3c").replace("bs", "3c").
                 replace("baso", "3c").replace("ba so", "3c").replace("3s", "3c").
@@ -361,6 +362,7 @@ public class GlobalClass extends AppCompatActivity {
                 replace("ghep", "gep").
                 replace("gepbc", "gepbc ").
                 replace("de", "JAVASTR de").replace("lo", "JAVASTR lo").
+                replace("giai1a", "JAVASTR giai1a").replace("giai1b", "JAVASTR giai1b").
                 replace("ld", "JAVASTR lD").replace("dq", "JAVASTR DQ").
                 replace("3so", "3c").replace("3 so", "3c").replace("bs", "3c").
                 replace("baso", "3c").replace("ba so", "3c").replace("3s", "3c").
@@ -1315,7 +1317,23 @@ public class GlobalClass extends AppCompatActivity {
                                 error += "<font color=\"RED\">" + valueLoArrCoX[k] + " </font>";
                             }
                         } else if (kieubosodan.contains(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", ""))) {
-                                                        /* danh dan nhonho -toto ... */
+                            for (int sd = 0; sd < valueImprotDb.length; sd++) {
+                                if (kieubosodan.contains( valueImprotDb[sd].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) )) {
+                                    if (SessionLoCoX.equals("")) {
+                                        if (hashmap.get(valueImprotDb[sd].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
+                                            error += valueImprotDb[0] + " ";
+                                            String value = hashmap.get(valueImprotDb[sd]).get(0);
+                                            valueResFindLo += value + ",";
+                                        } else {
+                                            error += "<font color=\"RED\">" + valueImprotDb[sd] + " </font>";
+                                        }
+                                    } else {
+                                        error += "<font color=\"RED\">" + valueImprotDb[sd] + " </font>";
+                                    }
+                                } else {
+                                    error += "<font color=\"RED\">" + valueImprotDb[sd] + " </font>";
+                                }
+                            }                            /* danh dan nhonho -toto ... */
                             if (SessionLoCoX.equals("")) {
                                 if (hashmap.get(valueImprotDb[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")) != null) {
                                     error += valueImprotDb[0] + " ";

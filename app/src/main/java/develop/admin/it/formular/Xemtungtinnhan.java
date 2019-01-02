@@ -67,6 +67,7 @@ public class Xemtungtinnhan extends AppCompatActivity {
 
     private void showListSms(String sdt, String date) {
 //        sql = new DatabaseHelper(this);
+        sdt = sdt.replace( " ","" );
         String getIdQuery = "SELECT SMSID FROM solieu_table WHERE SDT=\"" + sdt + "\" AND NGAY=\"" + date + "\";";
         Cursor solieu_table = sql.getAllDb(getIdQuery);
         String GETSMSID = "";
@@ -88,6 +89,10 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         "tiendanh_de.TIENTHUONGDE AS TIENTHUONGDE," +
                         "tiendanh_dedau.TIENDANHDEDAU AS TIENDANHDEDAU," +
                         "tiendanh_dedau.TIENTHUONGDEDAU AS TIENTHUONGDEDAU," +
+                        "tiendanh_gna.TIENDANHGIAINHATA AS TIENDANHGIAINHATA," +
+                        "tiendanh_gna.TIENTHUONGGIAINHATA AS TIENTHUONGGIAINHATA," +
+                        "tiendanh_gnb.TIENDANHGIAINHATB AS TIENDANHGIAINHATB," +
+                        "tiendanh_gnb.TIENTHUONGGIAINHATB AS TIENTHUONGGIAINHATB," +
                         "tiendanh_lo.TIENDANHLO AS TIENDANHLO," +
                         "tiendanh_lo.TIENTHUONGLO AS TIENTHUONGLO," +
                         "tiendanh_xien.TIENDANHXIEN AS TIENDANHXIEN," +
@@ -104,6 +109,22 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU = 'de' " +
                         "GROUP BY solieu_table.SMSID" +
                         ") tiendanh_de ON (tiendanh_de.SMSID = sms_ready_table.SMSID) " +
+                        "LEFT JOIN (" +
+                        "SELECT SMSID,NGAY,KIHIEU," +
+                        "sum(solieu_table.TIENDANHSMS) AS TIENDANHGIAINHATA," +
+                        "sum(solieu_table.TRUNGSMS) AS TIENTHUONGGIAINHATA " +
+                        "FROM solieu_table " +
+                        "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU = 'g1a' " +
+                        "GROUP BY solieu_table.SMSID" +
+                        ") tiendanh_gna ON (tiendanh_gna.SMSID = sms_ready_table.SMSID) " +
+                        "LEFT JOIN (" +
+                        "SELECT SMSID,NGAY,KIHIEU," +
+                        "sum(solieu_table.TIENDANHSMS) AS TIENDANHGIAINHATB," +
+                        "sum(solieu_table.TRUNGSMS) AS TIENTHUONGGIAINHATB " +
+                        "FROM solieu_table " +
+                        "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU = 'g1b' " +
+                        "GROUP BY solieu_table.SMSID" +
+                        ") tiendanh_gnb ON (tiendanh_gnb.SMSID = sms_ready_table.SMSID) " +
                         "LEFT JOIN (" +
                         "SELECT SMSID,NGAY,KIHIEU," +
                         "sum(solieu_table.TIENDANHSMS) AS TIENDANHDEDAU," +
@@ -164,6 +185,10 @@ public class Xemtungtinnhan extends AppCompatActivity {
                 String thuongde = "0";
                 String tiendedau = "0";
                 String thuongdedau = "0";
+                String tiengiainhata = "0";
+                String thuonggiainhata = "0";
+                String tiengiainhatb = "0";
+                String thuonggiainhatb = "0";
                 String tienlo = "0";
                 String thuonglo = "0";
                 String tienxien = "0";
@@ -192,6 +217,30 @@ public class Xemtungtinnhan extends AppCompatActivity {
                 }
                 if (!tiendedau.equals("0") || !thuongdedau.equals("0")) {
                     ketqua += "Đề Đầu : " + tiendedau + "/" + thuongdedau + "<br />";
+                }
+
+                if (smsReady.getString(smsReady.getColumnIndex("TIENDANHGIAINHATA")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENDANHGIAINHATA")).isEmpty()) {
+                    tiengiainhata = smsReady.getString(smsReady.getColumnIndex("TIENDANHGIAINHATA"));
+                }
+                if (smsReady.getString(smsReady.getColumnIndex("TIENTHUONGGIAINHATA")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENTHUONGGIAINHATA")).isEmpty()) {
+                    thuonggiainhata = smsReady.getString(smsReady.getColumnIndex("TIENTHUONGGIAINHATA"));
+                }
+                if (!tiengiainhata.equals("0") || !thuonggiainhata.equals("0")) {
+                    ketqua += "Giải nhất A : " + tiengiainhata + "/" + thuonggiainhata + "<br />";
+                }
+
+                if (smsReady.getString(smsReady.getColumnIndex("TIENDANHGIAINHATB")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENDANHGIAINHATB")).isEmpty()) {
+                    tiengiainhatb = smsReady.getString(smsReady.getColumnIndex("TIENDANHGIAINHATB"));
+                }
+                if (smsReady.getString(smsReady.getColumnIndex("TIENTHUONGGIAINHATB")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENTHUONGGIAINHATB")).isEmpty()) {
+                    thuonggiainhatb = smsReady.getString(smsReady.getColumnIndex("TIENTHUONGGIAINHATB"));
+                }
+                if (!tiengiainhatb.equals("0") || !thuonggiainhatb.equals("0")) {
+                    ketqua += "Giải nhất B : " + tiengiainhatb + "/" + thuonggiainhatb + "<br />";
                 }
 
                 if (smsReady.getString(smsReady.getColumnIndex("TIENDANHLO")) != null &&
