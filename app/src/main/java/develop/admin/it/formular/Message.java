@@ -18,7 +18,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -448,7 +447,6 @@ public class Message extends AppCompatActivity {
                         }
                     } else {
                         clickShowEditText( ngayTrue );
-                        Log.d( "LogFile", "da cap nhat ket qua ngay " + ngayTrue );
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -524,7 +522,7 @@ public class Message extends AppCompatActivity {
                 }
                 err = checkMessage( body, dateMath, smsType ).replace( "lh", "nh" ).replace( "al", "an" );
             } else {
-                Log.d( "LogFile", "da xu ly het tin nhan" );
+
             }
         }
         return err;
@@ -1013,17 +1011,6 @@ public class Message extends AppCompatActivity {
                                         .replace( "trieu", "trieu JAVASTR" );
                             }
                             String[] mangDe2 = chuoiDe.split( "JAVASTR" );
-
-//                            String idfinal = "";
-//                            if (message[i].replaceAll("(^\\s+|\\s+$)", "").length() > 6) {
-//                                if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
-//                                    Cursor solieufinal = sql.getAllDb("SELECT ID FROM solieu_table WHERE 1 ORDER BY ID DESC LIMIT 0,1 ");
-//                                    if (solieufinal.getCount() != 0) {
-//                                        solieufinal.moveToFirst();
-//                                        idfinal = solieufinal.getString(solieufinal.getColumnIndex("ID"));
-//                                    }
-//                                }
-//                            }
                             ArrayList<String> tachChuoiDe = controller.tachchuoi( mangDe2 );
                             for (int j = 0; j < tachChuoiDe.size(); j++) {
                                 if (!tachChuoiDe.get( j ).equals( "" )) {
@@ -1126,16 +1113,12 @@ public class Message extends AppCompatActivity {
                                                                                             }
                                                                                         }
                                                                                         borDeCoX += SessionValueDeCoX + ",";
-//                                                                                    xulydanhboDe(SessionValueDeCoX, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-//                                                                                            , kieuchoi, listDonGia[0], dataSoLieuDate, sessionDeCoX + valueImprotDb[q], smsType);
                                                                                         xuLyDanhLeDeGhep( SessionValueDeCoX, compareDe, getNum, hsde, thuongde, idSmsInt,
                                                                                                 dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
                                                                                     }
                                                                                     borDeCoX += value + ",";
                                                                                     xuLyDanhLeDeGhep( value, compareDe, getNum, hsde, thuongde, idSmsInt,
                                                                                             dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-//                                                                                xulydanhboDe(value, getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
-//                                                                                        , kieuchoi, listDonGia[0], dataSoLieuDate, valueImprotDb[0] + valueImprotDb[q], smsType);
                                                                                 }
                                                                             } else {
                                                                                 if (!valueImprotDb[q].equals( "bcp" )) {
@@ -1257,33 +1240,7 @@ public class Message extends AppCompatActivity {
                                                                 // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
                                                                 error += valueImprotDb[0] + controller.resGhepBcBoso( valueImprotDb ).get( 0 ) + " ";
                                                                 xuLyDanhLeDeGhep( controller.resGhepBcBoso( valueImprotDb ).get( 1 ), compareDe, getNum, hsde, thuongde, idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-//                                                                String gepDeCoX = "";
-//                                                                error += valueImprotDb[0];
-//                                                                for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
-//                                                                    if (valueImprotDb[q1].replaceAll("[0-9]", "").length() > 0) {
-//                                                                        error += "<font color=\"RED\">" + valueImprotDb[q1] + " </font>";
-//                                                                    } else {
-//                                                                        error += valueImprotDb[q1] + " ";
-//                                                                    }
-//                                                                    gepDeCoX += valueImprotDb[q1];
-//                                                                }
-//                                                                String newGepDeCoX = gepDeCoX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                String ghepVal1 = "";
-//                                                                String ghepVal2 = "";
-//                                                                for (int ge = 0; ge < newGepDeCoX.length(); ge++) {
-//                                                                    for (int ge1 = ge + 1; ge1 < newGepDeCoX.length(); ge1++) {
-//                                                                        ghepVal1 = newGepDeCoX.substring(ge, ge + 1) + newGepDeCoX.substring(ge1, ge1 + 1);
-//                                                                        ghepVal1 = ghepVal1.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                        ghepVal2 = newGepDeCoX.substring(ge1, ge1 + 1) + newGepDeCoX.substring(ge, ge + 1);
-//                                                                        ghepVal2 = ghepVal2.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                        borDeCoX += ghepVal1 + "," + ghepVal2 + ",";
-//                                                                        Log.d("LogFile",ghepVal1 +","+ ghepVal2);
-//                                                                        xuLyDanhLeDe(compareDe, getNum, hsde, ghepVal1, thuongde, idSmsInt
-//                                                                                , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
-//                                                                        xuLyDanhLeDe(compareDe, getNum, hsde, ghepVal2, thuongde, idSmsInt
-//                                                                                , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
-//                                                                    }
-//                                                                }
+//
                                                             } else {
                                                                 for (int q = 0; q < valueImprotDb.length; q++) {
                                                                     if (limitNumber.contains( valueImprotDb[q] )) {
@@ -1312,11 +1269,7 @@ public class Message extends AppCompatActivity {
                                                                             }
                                                                         } else {
                                                                             if (!valueImprotDb[q].equals( "" )) {
-//                                                                                if (valueImprotDb[q].replace(" ", "").equals("bro")) {
-//                                                                                    error += valueImprotDb[q] + " ";
-//                                                                                } else {
                                                                                 error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
-//                                                                                }
                                                                             }
                                                                         }
                                                                     }
@@ -1523,28 +1476,7 @@ public class Message extends AppCompatActivity {
                                                             // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
                                                             error += valueImprotDb[0] + controller.resGhepBcBoso( valueImprotDb ).get( 0 ) + " ";
                                                             xuLyDanhLeDeGhep( controller.resGhepBcBoso( valueImprotDb ).get( 1 ), compareDe, getNum, hsde, thuongde, idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-//                                                            error += valueImprotDb[0];
-//                                                            String gepDeCoDauB = "";
-//                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
-//                                                                if (valueImprotDb[q1].replaceAll("[0-9]", "").length() > 0) {
-//                                                                    error += "<font color=\"RED\">" + valueImprotDb[q1] + " </font>";
-//                                                                } else {
-//                                                                    error += valueImprotDb[q1] + " ";
-//                                                                }
-//                                                                gepDeCoDauB += valueImprotDb[q1];
-//                                                            }
-//                                                            String newGepDeCoDauB = gepDeCoDauB.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                            String ghepVal1 = "";
-//                                                            String ghepVal2 = "";
-//                                                            for (int ge = 0; ge < newGepDeCoDauB.length(); ge++) {
-//                                                                for (int ge1 = ge + 1; ge1 < newGepDeCoDauB.length(); ge1++) {
-//                                                                    ghepVal1 = newGepDeCoDauB.substring(ge, ge + 1) + newGepDeCoDauB.substring(ge1, ge1 + 1);
-//                                                                    ghepVal1 = ghepVal1.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                    ghepVal2 = newGepDeCoDauB.substring(ge1, ge1 + 1) + newGepDeCoDauB.substring(ge, ge + 1);
-//                                                                    ghepVal2 = ghepVal2.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                    borDeCoDauB += ghepVal1 + "," + ghepVal2 + ",";
-//                                                                }
-//                                                            }
+//
                                                         } else {
                                                             if (valueImprotDb.length > 1) {
                                                                 for (int q = 0; q < valueImprotDb.length; q++) {
@@ -1587,38 +1519,7 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 }
                                                 if (message[i].replaceAll( "(^\\s+|\\s+$)", "" ).length() > 6) {
-//                                                    if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
-//                                                        String table5Bor = sql.TABLE_NAME_5;
-//                                                        sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinal), getDays, kieuchoi);
-//                                                        String[] newArrborDeCoDauB = borDeCoDauB.split(",");
-//                                                        double newGetNum = 0;
-//                                                        if (newArrborDeCoDauB.length > 0) {
-//                                                            if (newArrborDeCoDauB.length < 100) {
-//                                                                newGetNum = Math.round(getNum / (100 - newArrborDeCoDauB.length) * 100.0) / 100.0;
-//                                                                int a = 1;
-//                                                                for (int stt = 0; stt < 100; stt++) {
-//                                                                    if (borDeCoDauB.indexOf(String.valueOf(stt)) == -1) {
-//                                                                        a++;
-//                                                                    }
-//                                                                }
-//                                                                newGetNum = Math.round(getNum / (100 - a) * 100.0) / 100.0;
-//                                                                for (int stt = 0; stt < 100; stt++) {
-//                                                                    String broStt = "";
-//                                                                    if (stt < 10) {
-//                                                                        broStt = "0" + String.valueOf(stt);
-//                                                                    } else {
-//                                                                        broStt = String.valueOf(stt);
-//                                                                    }
-//                                                                    if (borDeCoDauB.indexOf(broStt) == -1) {
-//                                                                        a++;
-//                                                                        xuLyDanhLeDe(compareDe, newGetNum, hsde, broStt, thuongde, idSmsInt
-//                                                                                , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
-//                                                                    }
-//                                                                }
-//                                                            }
-//                                                        }
 //
-//                                                    } else {
                                                     String[] arrDeCoDauB = borDeCoDauB.split( "," );
                                                     if (arrDeCoDauB.length > 0) {
                                                         if (arrDeCoDauB.length > 0) {
@@ -1629,7 +1530,7 @@ public class Message extends AppCompatActivity {
                                                             }
                                                         }
                                                     }
-//                                                    }
+//
                                                 }
                                                 if (valueDeArrCoDauB.length > 1) {
                                                     error += "= " + "<font color=\"RED\">" + mangDecoDauB[1] + " </font>";
@@ -1804,32 +1705,7 @@ public class Message extends AppCompatActivity {
                                                             // doan nay xu ly de ghep 1234 thanh 12 cap so 12-21-13-31...
                                                             error += valueImprotDb[0] + controller.resGhepBcBoso( valueImprotDb ).get( 0 ) + " ";
                                                             xuLyDanhLeDeGhep( controller.resGhepBcBoso( valueImprotDb ).get( 1 ), compareDe, getNum, hsde, thuongde, idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-//                                                            error += valueImprotDb[0];
-//                                                            String gepDeKX = "";
-//                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
-//                                                                if (valueImprotDb[q1].replaceAll("[0-9]", "").length() > 0) {
-//                                                                    error += "<font color=\"RED\">" + valueImprotDb[q1] + " </font>";
-//                                                                } else {
-//                                                                    error += valueImprotDb[q1] + " ";
-//                                                                }
-//                                                                gepDeKX += valueImprotDb[q1];
-//                                                            }
-//                                                            String newGepDeKX = gepDeKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                            String ghepVal1 = "";
-//                                                            String ghepVal2 = "";
-//                                                            for (int ge = 0; ge < newGepDeKX.length(); ge++) {
-//                                                                for (int ge1 = ge + 1; ge1 < newGepDeKX.length(); ge1++) {
-//                                                                    ghepVal1 = newGepDeKX.substring(ge, ge + 1) + newGepDeKX.substring(ge1, ge1 + 1);
-//                                                                    ghepVal1 = ghepVal1.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                    ghepVal2 = newGepDeKX.substring(ge1, ge1 + 1) + newGepDeKX.substring(ge, ge + 1);
-//                                                                    ghepVal2 = ghepVal2.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                    boDeKX += ghepVal1 + "," + ghepVal2 + ",";
-//                                                                    xuLyDanhLeDe(compareDe, getNum, hsde, ghepVal1, thuongde, idSmsInt
-//                                                                            , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
-//                                                                    xuLyDanhLeDe(compareDe, getNum, hsde, ghepVal2, thuongde, idSmsInt
-//                                                                            , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
-//                                                                }
-//                                                            }
+//
                                                         } else {
                                                             for (int q = 0; q < valueImprotDb.length; q++) {
                                                                 if (limitNumber.contains( valueImprotDb[q] )) {
@@ -1929,15 +1805,7 @@ public class Message extends AppCompatActivity {
                             String[] mangLo2 = chuoiLo.split( "JAVASTR" );
                             ArrayList<String> tachChuoiLo = controller.tachchuoi( mangLo2 );
                             String idfinalLo = "";
-//                            if (message[i].replaceAll("(^\\s+|\\s+$)", "").length() > 5) {
-//                                if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
-//                                    Cursor solieufinal = sql.getAllDb("SELECT ID FROM solieu_table WHERE 1 ORDER BY ID DESC LIMIT 0,1 ");
-//                                    if (solieufinal.getCount() != 0) {
-//                                        solieufinal.moveToFirst();
-//                                        idfinalLo = solieufinal.getString(solieufinal.getColumnIndex("ID"));
-//                                    }
-//                                }
-//                            }
+//
 
                             for (int j = 0; j < tachChuoiLo.size(); j++) {
                                 if (!tachChuoiLo.get( j ).equals( "" )) {
@@ -2169,34 +2037,7 @@ public class Message extends AppCompatActivity {
                                                                 error += valueImprotDb[0] + controller.resGhepBcBoso( valueImprotDb ).get( 0 ) + " ";
                                                                 xulydanhleLoToGhep( controller.resGhepBcBoso( valueImprotDb ).get( 1 ), getNum, hslo, compareLo, thuonglo,
                                                                         idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-//                                                                error += valueImprotDb[0];
-//                                                                String gepLoCoX = "";
-//                                                                for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
-//                                                                    if (valueImprotDb[q1].replaceAll("[0-9]", "").length() > 0) {
-//                                                                        error += "<font color=\"RED\">" + valueImprotDb[q1] + " </font>";
-//                                                                    } else {
-//                                                                        error += valueImprotDb[q1] + " ";
-//                                                                    }
-//                                                                    gepLoCoX += valueImprotDb[q1];
-//                                                                }
-//                                                                String newGepLoCoX = gepLoCoX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                String ghepVal1 = "";
-//                                                                String ghepVal2 = "";
-//                                                                for (int ge = 0; ge < newGepLoCoX.length(); ge++) {
-//                                                                    for (int ge1 = ge + 1; ge1 < newGepLoCoX.length(); ge1++) {
-//                                                                        ghepVal1 = newGepLoCoX.substring(ge, ge + 1) + newGepLoCoX.substring(ge1, ge1 + 1);
-//                                                                        ghepVal1 = ghepVal1.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                        ghepVal2 = newGepLoCoX.substring(ge1, ge1 + 1) + newGepLoCoX.substring(ge, ge + 1);
-//                                                                        ghepVal2 = ghepVal2.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                        boLoCoX += ghepVal1 + "," + ghepVal2 + ",";
-//                                                                        xulydanhleLoTo(getNum, hslo, compareLo, ghepVal1
-//                                                                                , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                                kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
-//                                                                        xulydanhleLoTo(getNum, hslo, compareLo, ghepVal2
-//                                                                                , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                                kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
-//                                                                    }
-//                                                                }
+//
                                                             } else {
                                                                 for (int q = 0; q < valueImprotDb.length; q++) {
                                                                     if (limitNumber.contains( valueImprotDb[q] )) {
@@ -2440,28 +2281,7 @@ public class Message extends AppCompatActivity {
                                                             error += valueImprotDb[0] + controller.resGhepBcBoso( valueImprotDb ).get( 0 ) + " ";
                                                             xulydanhleLoToGhep( controller.resGhepBcBoso( valueImprotDb ).get( 1 ), getNum, hslo, compareLo, thuonglo,
                                                                     idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-//                                                            error += valueImprotDb[0];
-//                                                            String gepLoCoDauB = "";
-//                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
-//                                                                if (valueImprotDb[q1].replaceAll("[0-9]", "").length() > 0) {
-//                                                                    error += "<font color=\"RED\">" + valueImprotDb[q1] + " </font>";
-//                                                                } else {
-//                                                                    error += valueImprotDb[q1] + " ";
-//                                                                }
-//                                                                gepLoCoDauB += valueImprotDb[q1];
-//                                                            }
-//                                                            String newGepLoCoDauB = gepLoCoDauB.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                            String ghepVal1 = "";
-//                                                            String ghepVal2 = "";
-//                                                            for (int ge = 0; ge < newGepLoCoDauB.length(); ge++) {
-//                                                                for (int ge1 = ge + 1; ge1 < newGepLoCoDauB.length(); ge1++) {
-//                                                                    ghepVal1 = newGepLoCoDauB.substring(ge, ge + 1) + newGepLoCoDauB.substring(ge1, ge1 + 1);
-//                                                                    ghepVal1 = ghepVal1.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                    ghepVal2 = newGepLoCoDauB.substring(ge1, ge1 + 1) + newGepLoCoDauB.substring(ge, ge + 1);
-//                                                                    ghepVal2 = ghepVal2.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                    boLoCoDauB += ghepVal1 + "," + ghepVal2 + ",";
-//                                                                }
-//                                                            }
+//
                                                         } else {
                                                             if (valueImprotDb.length > 1) {
                                                                 for (int q = 0; q < valueImprotDb.length; q++) {
@@ -2503,34 +2323,7 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 }
                                                 if (message[i].replaceAll( "(^\\s+|\\s+$)", "" ).length() > 6) {
-//                                                    if (message[i].replaceAll("(^\\s+|\\s+$)", "").substring(0, 6).indexOf("bro") > -1) {
-//                                                        String table5Bor = sql.TABLE_NAME_5;
-//                                                        sql.deleteSolieuIDToDay(table5Bor, String.valueOf(idfinalLo), getDays, kieuchoi);
-//                                                        String[] arrBoLoCoDauB = boLoCoDauB.split(",");
-//                                                        if (arrBoLoCoDauB.length < 100) {
-//                                                            int a = 1;
-//                                                            for (int stt = 0; stt < 100; stt++) {
-//                                                                if (boLoCoDauB.indexOf(String.valueOf(stt)) == -1) {
-//                                                                    a++;
-//                                                                }
-//                                                            }
-//                                                            Double newGetNum = Math.round(getNum / (100 - a) * 100.0) / 100.0;
-//                                                            for (int stt = 0; stt < 100; stt++) {
-//                                                                String broStt = "";
-//                                                                if (stt < 10) {
-//                                                                    broStt = "0" + String.valueOf(stt);
-//                                                                } else {
-//                                                                    broStt = String.valueOf(stt);
-//                                                                }
-//                                                                if (boLoCoDauB.indexOf(broStt) == -1) {
-//                                                                    a++;
-//                                                                    xulydanhleLoTo(newGetNum, hslo, compareLo, broStt
-//                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                            kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
-//                                                                }
-//                                                            }
-//                                                        }
-//                                                    } else {
+//
                                                     String[] arrBoLoCoDauB = boLoCoDauB.split( "," );
                                                     if (arrBoLoCoDauB.length > 0) {
                                                         Double newGetNum = Math.round( getNum / arrBoLoCoDauB.length * 100.0 ) / 100.0;
@@ -2722,34 +2515,7 @@ public class Message extends AppCompatActivity {
                                                             error += valueImprotDb[0] + controller.resGhepBcBoso( valueImprotDb ).get( 0 ) + " ";
                                                             xulydanhleLoToGhep( controller.resGhepBcBoso( valueImprotDb ).get( 1 ), getNum, hslo, compareLo, thuonglo,
                                                                     idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-//                                                            error += valueImprotDb[0];
-//                                                            String gepLoKX = "";
-//                                                            for (int q1 = 1; q1 < valueImprotDb.length; q1++) {
-//                                                                if (valueImprotDb[q1].replaceAll("[0-9]", "").length() > 0) {
-//                                                                    error += "<font color=\"RED\">" + valueImprotDb[q1] + " </font>";
-//                                                                } else {
-//                                                                    error += valueImprotDb[q1] + " ";
-//                                                                }
-//                                                                gepLoKX += valueImprotDb[q1];
-//                                                            }
-//                                                            String newGepLoKX = gepLoKX.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                            String ghepVal1 = "";
-//                                                            String ghepVal2 = "";
-//                                                            for (int ge = 0; ge < newGepLoKX.length(); ge++) {
-//                                                                for (int ge1 = ge + 1; ge1 < newGepLoKX.length(); ge1++) {
-//                                                                    ghepVal1 = newGepLoKX.substring(ge, ge + 1) + newGepLoKX.substring(ge1, ge1 + 1);
-//                                                                    ghepVal1 = ghepVal1.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                    ghepVal2 = newGepLoKX.substring(ge1, ge1 + 1) + newGepLoKX.substring(ge, ge + 1);
-//                                                                    ghepVal2 = ghepVal2.replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
-//                                                                    loBorKX += ghepVal1 + "," + ghepVal2 + ",";
-//                                                                    xulydanhleLoTo(getNum, hslo, compareLo, ghepVal1
-//                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                            kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
-//                                                                    xulydanhleLoTo(getNum, hslo, compareLo, ghepVal2
-//                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-//                                                                            kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
-//                                                                }
-//                                                            }
+//
                                                         } else {
                                                             for (int q = 0; q < valueImprotDb.length; q++) {
                                                                 if (limitNumber.contains( valueImprotDb[q] )) {
@@ -3176,9 +2942,19 @@ public class Message extends AppCompatActivity {
                                                                 for (int valx = 0; valx < mangValXien.length; valx = valx + 2) {
                                                                     int valx1 = valx;
                                                                     int valx2 = valx + 1;
-                                                                    int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                    int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                    if (trung1 > 0 && trung2 > 0) {
+//                                                                    int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                    int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                                                                    String trungxi2 = "";
+                                                                    for(int ixi = 0 ; ixi < compareLo.size() ; ixi++) {
+                                                                        if (mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi2.indexOf( "1" ) == -1 ) {
+                                                                            trungxi2 += "1";
+                                                                            continue;
+                                                                        } else if (mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) )  && trungxi2.indexOf( "2" ) == -1) {
+                                                                            trungxi2 += "2";
+                                                                            continue;
+                                                                        }
+                                                                    }
+                                                                    if (trungxi2.length() == 2 ) {
                                                                         if (miliGetTimeLo > miliGettimeSms) {
                                                                             xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangValXien[valx1] + " " + mangValXien[valx2],
                                                                                     1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate );
@@ -3222,10 +2998,23 @@ public class Message extends AppCompatActivity {
                                                                     int valx1 = valx;
                                                                     int valx2 = valx + 1;
                                                                     int valx3 = valx + 2;
-                                                                    int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                    int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                    int trung3 = Collections.frequency( compareLo, mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0) {
+//                                                                    int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                    int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                    int trung3 = Collections.frequency( compareLo, mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                                                                    String trungxi3 = "";
+                                                                    for(int ixi = 0 ; ixi < compareLo.size() ; ixi++) {
+                                                                        if (mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi3.indexOf( "1" ) == -1) {
+                                                                            trungxi3 += "1";
+                                                                            continue;
+                                                                        } else if (mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi3.indexOf( "2" ) == -1) {
+                                                                            trungxi3 += "2";
+                                                                            continue;
+                                                                        }  else if (mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi3.indexOf( "3" ) == -1) {
+                                                                            trungxi3 += "3";
+                                                                            continue;
+                                                                        }
+                                                                    }
+                                                                    if (trungxi3.length() == 3) {
                                                                         if (miliGetTimeLo > miliGettimeSms) {
                                                                             xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                                     mangValXien[valx1] + " " + mangValXien[valx2] + " " + mangValXien[valx3],
@@ -3283,12 +3072,27 @@ public class Message extends AppCompatActivity {
                                                                     int valx2 = valx + 1;
                                                                     int valx3 = valx + 2;
                                                                     int valx4 = valx + 3;
-                                                                    int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                    int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                    int trung3 = Collections.frequency( compareLo, mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                    int trung4 = Collections.frequency( compareLo, mangValXien[valx4].replaceAll( "(^\\s+|\\s+$)", "" ) );
-
-                                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0) {
+//                                                                    int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                    int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                    int trung3 = Collections.frequency( compareLo, mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                    int trung4 = Collections.frequency( compareLo, mangValXien[valx4].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                                                                    String trungxi4 = "";
+                                                                    for(int ixi = 0 ; ixi < compareLo.size() ; ixi++) {
+                                                                        if (mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) )  && trungxi4.indexOf( "1" ) == -1) {
+                                                                            trungxi4 += "1";
+                                                                            continue;
+                                                                        } else if (mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi4.indexOf( "2" ) == -1) {
+                                                                            trungxi4 += "2";
+                                                                            continue;
+                                                                        }  else if (mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi4.indexOf( "3" ) == -1) {
+                                                                            trungxi4 += "3";
+                                                                            continue;
+                                                                        } else if (mangValXien[valx4].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi4.indexOf( "4" ) == -1) {
+                                                                            trungxi4 += "4";
+                                                                            continue;
+                                                                        }
+                                                                    }
+                                                                    if (trungxi4.length() == 4) {
                                                                         if (miliGetTimeLo > miliGettimeSms) {
                                                                             xulydanhXienKieu( getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
                                                                                     mangValXien[valx1] + " " + mangValXien[valx2] + " " + mangValXien[valx3] + " " + mangValXien[valx4],
@@ -3352,15 +3156,23 @@ public class Message extends AppCompatActivity {
                                                             if (mangValXien.length <= 4 && mangValXien.length >= 2) {
                                                                 String boSoXien = "";
                                                                 ArrayList<String> checkXien = new ArrayList<>();
+                                                                int trungxiAll = 0;
+                                                                ArrayList<String> arrCheckDuplicateXien = new ArrayList<>();
                                                                 for (int allX = 0; allX < mangValXien.length; allX++) {
                                                                     if (limitNumber.contains( mangValXien[allX] )) {
                                                                         try {
-                                                                    /* danh le*/
                                                                             error += " " + mangValXien[allX];
                                                                             boSoXien += " " + mangValXien[allX];
                                                                             int trung = Collections.frequency( compareLo, mangValXien[allX].replaceAll( "(^\\s+|\\s+$)", "" ) );
                                                                             if (trung > 0) {
-                                                                                checkXien.add( "true" );
+                                                                                arrCheckDuplicateXien.add( mangValXien[allX].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                                                                                if (Collections.frequency( arrCheckDuplicateXien, mangValXien[allX].replaceAll( "(^\\s+|\\s+$)", "" ) ) <=
+                                                                                        Collections.frequency( compareLo, mangValXien[allX].replaceAll( "(^\\s+|\\s+$)", "" ) ) )
+                                                                                {
+                                                                                    checkXien.add( "true" );
+                                                                                } else {
+                                                                                    checkXien.add( "false" );
+                                                                                }
                                                                             } else {
                                                                                 checkXien.add( "false" );
                                                                             }
@@ -3453,9 +3265,19 @@ public class Message extends AppCompatActivity {
                                                             for (int valx = 0; valx < mangValXien.length; valx = valx + 2) {
                                                                 int valx1 = valx;
                                                                 int valx2 = valx + 1;
-                                                                int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                if (trung1 > 0 && trung2 > 0) {
+//                                                                int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                                                                String trungxi2 = "";
+                                                                for(int ixi = 0 ; ixi < compareLo.size() ; ixi++) {
+                                                                    if (mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi2.indexOf( "1" ) == -1) {
+                                                                        trungxi2 += "1";
+                                                                        continue;
+                                                                    } else if (mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi2.indexOf( "2" ) == -1) {
+                                                                        trungxi2 += "2";
+                                                                        continue;
+                                                                    }
+                                                                }
+                                                                if (trungxi2.length() == 2) {
                                                                     if (miliGetTimeLo > miliGettimeSms) {
                                                                         xulydanhXienKieu( newGetNumSi2, hsx2, thuongxien2, idSmsInt, dongiaId, mangValXien[valx1] + " " + mangValXien[valx2],
                                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate );
@@ -3500,10 +3322,23 @@ public class Message extends AppCompatActivity {
                                                                 int valx1 = valx;
                                                                 int valx2 = valx + 1;
                                                                 int valx3 = valx + 2;
-                                                                int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                int trung3 = Collections.frequency( compareLo, mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                if (trung1 > 0 && trung2 > 0 && trung3 > 0) {
+//                                                                int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                int trung3 = Collections.frequency( compareLo, mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                                                                String trungxi3 = "";
+                                                                for(int ixi = 0 ; ixi < compareLo.size() ; ixi++) {
+                                                                    if (mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi3.indexOf( "1" ) == -1) {
+                                                                        trungxi3 += "1";
+                                                                        continue;
+                                                                    } else if (mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) )  && trungxi3.indexOf( "2" ) == -1) {
+                                                                        trungxi3 += "2";
+                                                                        continue;
+                                                                    }  else if (mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) )  && trungxi3.indexOf( "3" ) == -1) {
+                                                                        trungxi3 += "3";
+                                                                        continue;
+                                                                    }
+                                                                }
+                                                                if (trungxi3.length() == 3) {
                                                                     if (miliGetTimeLo > miliGettimeSms) {
                                                                         xulydanhXienKieu( newGetNumSi3, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                                 mangValXien[valx1] + " " + mangValXien[valx2] + " " + mangValXien[valx3],
@@ -3562,11 +3397,27 @@ public class Message extends AppCompatActivity {
                                                                 int valx2 = valx + 1;
                                                                 int valx3 = valx + 2;
                                                                 int valx4 = valx + 3;
-                                                                int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                int trung3 = Collections.frequency( compareLo, mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                int trung4 = Collections.frequency( compareLo, mangValXien[valx4].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                                if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0) {
+//                                                                int trung1 = Collections.frequency( compareLo, mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                int trung2 = Collections.frequency( compareLo, mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                int trung3 = Collections.frequency( compareLo, mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                                int trung4 = Collections.frequency( compareLo, mangValXien[valx4].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                                                                String trungxi4 = "";
+                                                                for(int ixi = 0 ; ixi < compareLo.size() ; ixi++) {
+                                                                    if (mangValXien[valx1].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) )  && trungxi4.indexOf( "1" ) == -1) {
+                                                                        trungxi4 += "1";
+                                                                        continue;
+                                                                    } else if (mangValXien[valx2].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi4.indexOf( "2" ) == -1) {
+                                                                        trungxi4 += "2";
+                                                                        continue;
+                                                                    }  else if (mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi4.indexOf( "3" ) == -1) {
+                                                                        trungxi4 += "3";
+                                                                        continue;
+                                                                    } else if (mangValXien[valx3].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi4.indexOf( "4" ) == -1) {
+                                                                        trungxi4 += "4";
+                                                                        continue;
+                                                                    }
+                                                                }
+                                                                if (trungxi4.length() == 4) {
                                                                     if (miliGetTimeLo > miliGettimeSms) {
                                                                         xulydanhXienKieu( newGetNumSi4, hsx4, thuongxien4, idSmsInt, dongiaId,
                                                                                 mangValXien[valx1] + " " + mangValXien[valx2] + " " + mangValXien[valx3] + " " + mangValXien[valx4],
@@ -3631,6 +3482,7 @@ public class Message extends AppCompatActivity {
                                                         if (mangValXien.length <= 4 && mangValXien.length >= 2) {
                                                             String boSoXien = "";
                                                             ArrayList<String> checkXien = new ArrayList<>();
+                                                            ArrayList<String> arrCheckDuplicateXienDaub = new ArrayList<>();
                                                             for (int allX = 0; allX < mangValXien.length; allX++) {
                                                                 if (limitNumber.contains( mangValXien[allX] )) {
                                                                     try {
@@ -3639,7 +3491,14 @@ public class Message extends AppCompatActivity {
                                                                         boSoXien += " " + mangValXien[allX];
                                                                         int trung = Collections.frequency( compareLo, mangValXien[allX].replaceAll( "(^\\s+|\\s+$)", "" ) );
                                                                         if (trung > 0) {
-                                                                            checkXien.add( "true" );
+                                                                            arrCheckDuplicateXienDaub.add( mangValXien[allX].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                                                                            if (Collections.frequency( arrCheckDuplicateXienDaub, mangValXien[allX].replaceAll( "(^\\s+|\\s+$)", "" ) ) <=
+                                                                                    Collections.frequency( compareLo, mangValXien[allX].replaceAll( "(^\\s+|\\s+$)", "" ) ) )
+                                                                            {
+                                                                                checkXien.add( "true" );
+                                                                            } else {
+                                                                                checkXien.add( "false" );
+                                                                            }
                                                                         } else {
                                                                             checkXien.add( "false" );
                                                                         }
@@ -3750,9 +3609,19 @@ public class Message extends AppCompatActivity {
                                                         for (int valx = 0; valx < mangXienKhongX.length - 1; valx = valx + 2) {
                                                             int valx1 = valx;
                                                             int valx2 = valx + 1;
-                                                            int trung1 = Collections.frequency( compareLo, mangXienKhongX[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                            int trung2 = Collections.frequency( compareLo, mangXienKhongX[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                            if (trung1 > 0 && trung2 > 0) {
+//                                                            int trung1 = Collections.frequency( compareLo, mangXienKhongX[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                                                            String trungxi2 = "";
+                                                            for(int ixi = 0 ; ixi < compareLo.size() ; ixi++) {
+                                                                if (mangXienKhongX[valx1].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi2.indexOf( "1" ) == -1) {
+                                                                    trungxi2 += "1";
+
+                                                                    continue;
+                                                                } else if (mangXienKhongX[valx2].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi2.indexOf( "2" ) == -1) {
+                                                                    trungxi2 += "2";
+                                                                    continue;
+                                                                }
+                                                            }
+                                                            if (trungxi2.length() == 2) {
                                                                 if (miliGetTimeLo > miliGettimeSms) {
                                                                     xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienKhongX[valx1] + " " + mangXienKhongX[valx2],
                                                                             1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate );
@@ -3798,13 +3667,24 @@ public class Message extends AppCompatActivity {
                                                             int valx1 = valx;
                                                             int valx2 = valx + 1;
                                                             int valx3 = valx + 2;
-                                                            int trung1 = Collections.frequency( compareLo, mangXienKhongX[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                            int trung2 = Collections.frequency( compareLo, mangXienKhongX[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                            int trung3 = Collections.frequency( compareLo, mangXienKhongX[valx3].replaceAll( "(^\\s+|\\s+$)", "" ) );
                                                             if (checkGetNum) {
                                                                 getNum = getNum / ((mangXienKhongX.length - 1) / 3);
                                                             }
-                                                            if (trung1 > 0 && trung2 > 0 && trung3 > 0) {
+                                                            String trungxi3 = "";
+                                                            for(int ixi = 0 ; ixi < compareLo.size() ; ixi++) {
+                                                                if (mangXienKhongX[valx1].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi3.indexOf( "1" ) == -1) {
+                                                                    trungxi3 += "1";
+                                                                    continue;
+                                                                } else if (mangXienKhongX[valx2].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi3.indexOf( "2" ) == -1) {
+                                                                    trungxi3 += "2";
+                                                                    continue;
+                                                                } else if (mangXienKhongX[valx3].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi3.indexOf( "3" ) == -1) {
+                                                                    trungxi3 += "3";
+                                                                    continue;
+                                                                }
+                                                            }
+
+                                                            if (trungxi3.length() == 3) {
                                                                 if (miliGetTimeLo > miliGettimeSms) {
                                                                     xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                             mangXienKhongX[valx1] + " " + mangXienKhongX[valx2] + " " + mangXienKhongX[valx3],
@@ -3862,14 +3742,31 @@ public class Message extends AppCompatActivity {
                                                             int valx2 = valx + 1;
                                                             int valx3 = valx + 2;
                                                             int valx4 = valx + 3;
-                                                            int trung1 = Collections.frequency( compareLo, mangXienKhongX[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                            int trung2 = Collections.frequency( compareLo, mangXienKhongX[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                            int trung3 = Collections.frequency( compareLo, mangXienKhongX[valx3].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                                                            int trung4 = Collections.frequency( compareLo, mangXienKhongX[valx4].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                            int trung1 = Collections.frequency( compareLo, mangXienKhongX[valx1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                            int trung2 = Collections.frequency( compareLo, mangXienKhongX[valx2].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                            int trung3 = Collections.frequency( compareLo, mangXienKhongX[valx3].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                                                            int trung4 = Collections.frequency( compareLo, mangXienKhongX[valx4].replaceAll( "(^\\s+|\\s+$)", "" ) );
                                                             if (checkGetNum) {
                                                                 getNum = getNum / ((mangXienKhongX.length - 1) / 4);
                                                             }
-                                                            if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0) {
+                                                            String trungxi4 = "";
+                                                            for(int ixi = 0 ; ixi < compareLo.size() ; ixi++) {
+                                                                if (mangXienKhongX[valx1].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi4.indexOf( "1" ) == -1) {
+                                                                    trungxi4 += "1";
+                                                                    continue;
+                                                                } else if (mangXienKhongX[valx2].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi4.indexOf( "2" ) == -1) {
+                                                                    trungxi4 += "2";
+                                                                    continue;
+                                                                } else if (mangXienKhongX[valx3].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi4.indexOf( "3" ) == -1) {
+                                                                    trungxi4 += "3";
+                                                                    continue;
+                                                                } else if (mangXienKhongX[valx4].replaceAll( "(^\\s+|\\s+$)", "" ).equals( compareLo.get(ixi) ) && trungxi4.indexOf( "4" ) == -1) {
+                                                                    trungxi4 += "4";
+                                                                    continue;
+                                                                }
+                                                            }
+
+                                                            if (trungxi4.length() == 4) {
                                                                 if (miliGetTimeLo > miliGettimeSms) {
                                                                     xulydanhXienKieu( getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
                                                                             mangXienKhongX[valx1] + " " + mangXienKhongX[valx2] + " " + mangXienKhongX[valx3] + " " + mangXienKhongX[valx4],
@@ -3933,6 +3830,7 @@ public class Message extends AppCompatActivity {
                                                     if (mangXienKhongX.length <= 5 && mangXienKhongX.length >= 3) {
                                                         String boSoXien = "";
                                                         ArrayList<String> checkXien = new ArrayList<>();
+                                                        ArrayList<String> arrCheckDuplicateXienKX = new ArrayList<>();
                                                         for (int allX = 0; allX < mangXienKhongX.length - 1; allX++) {
                                                             if (limitNumber.contains( mangXienKhongX[allX] )) {
                                                                 try {
@@ -3941,7 +3839,14 @@ public class Message extends AppCompatActivity {
                                                                     boSoXien += " " + mangXienKhongX[allX];
                                                                     int trung = Collections.frequency( compareLo, mangXienKhongX[allX] );
                                                                     if (trung > 0) {
-                                                                        checkXien.add( "true" );
+                                                                        arrCheckDuplicateXienKX.add( mangXienKhongX[allX].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                                                                        if (Collections.frequency( arrCheckDuplicateXienKX, mangXienKhongX[allX].replaceAll( "(^\\s+|\\s+$)", "" ) ) <=
+                                                                                Collections.frequency( compareLo, mangXienKhongX[allX].replaceAll( "(^\\s+|\\s+$)", "" ) ) )
+                                                                        {
+                                                                            checkXien.add( "true" );
+                                                                        } else {
+                                                                            checkXien.add( "false" );
+                                                                        }
                                                                     } else {
                                                                         checkXien.add( "false" );
                                                                     }
@@ -5130,9 +5035,20 @@ public class Message extends AppCompatActivity {
             String[] boSoArr = boSoLoTox2.split( "," );
             for (int a = 0; a < boSoArr.length; a++) {
                 String[] value = boSoArr[a].split( " " );
-                int trung1 = Collections.frequency( compareXienLo, value[0].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                int trung2 = Collections.frequency( compareXienLo, value[1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                if (trung1 > 0 && trung2 > 0) {
+                //iterate on the general list
+                String trungxi2 = "";
+                for(int i = 0 ; i < compareXienLo.size() ; i++) {
+                    if (compareXienLo.get(i) ==  value[0].replaceAll( "(^\\s+|\\s+$)", "" )) {
+                        trungxi2 += "1";
+                        continue;
+                    } else if(compareXienLo.get(i) ==  value[1].replaceAll( "(^\\s+|\\s+$)", "" ) ){
+                        trungxi2 += "1";
+                        continue;
+                    }
+                }
+               // int trung1 = Collections.frequency( compareXienLo, value[0].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                // int trung2 = Collections.frequency( compareXienLo, value[1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                if (trungxi2.length() == 2) {
                     xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, boSoArr[a],
                             1, smsType, sdt, "xien2", ten, dataSoLieuDate );
                 } else {
@@ -5146,10 +5062,24 @@ public class Message extends AppCompatActivity {
             String[] boSoArr3 = boSoLoTox3.split( "," );
             for (int a = 0; a < boSoArr3.length; a++) {
                 String[] value = boSoArr3[a].split( " " );
-                int trung1 = Collections.frequency( compareXienLo, value[0].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                int trung2 = Collections.frequency( compareXienLo, value[1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                int trung3 = Collections.frequency( compareXienLo, value[1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                if (trung1 > 0 && trung2 > 0 && trung3 > 0) {
+               // int trung1 = Collections.frequency( compareXienLo, value[0].replaceAll( "(^\\s+|\\s+$)", "" ) );
+               // int trung2 = Collections.frequency( compareXienLo, value[1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+              //  int trung3 = Collections.frequency( compareXienLo, value[1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                //iterate on the general list
+                String trungxi3 = "";
+                for(int i = 0 ; i < compareXienLo.size() ; i++) {
+                    if (compareXienLo.get(i) ==  value[0].replaceAll( "(^\\s+|\\s+$)", "" )) {
+                        trungxi3 += "1";
+                        continue;
+                    } else if(compareXienLo.get(i) ==  value[1].replaceAll( "(^\\s+|\\s+$)", "" )){
+                        trungxi3 += "1";
+                        continue;
+                    } else if(compareXienLo.get(i) ==  value[2].replaceAll( "(^\\s+|\\s+$)", "" )) {
+                        trungxi3 += "1";
+                        continue;
+                    }
+                }
+                if (trungxi3.length() == 3) {
                     xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId, boSoArr3[a],
                             1, smsType, sdt, "xien3", ten, dataSoLieuDate );
                 } else {
@@ -5161,14 +5091,30 @@ public class Message extends AppCompatActivity {
 
         if (boSoLoTox4.length() > 0) {
             String[] boSoArr4 = boSoLoTox4.split( "," );
-            ArrayList<String> compareXienLo2 = sql.getArrayKeyRes( dataSoLieuDate );
+//            ArrayList<String> compareXienLo2 = sql.getArrayKeyRes( dataSoLieuDate );
             for (int a = 0; a < boSoArr4.length; a++) {
                 String[] value = boSoArr4[a].split( " " );
-                int trung1 = Collections.frequency( compareXienLo2, value[0].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                int trung2 = Collections.frequency( compareXienLo2, value[1].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                int trung3 = Collections.frequency( compareXienLo2, value[2].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                int trung4 = Collections.frequency( compareXienLo2, value[3].replaceAll( "(^\\s+|\\s+$)", "" ) );
-                if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0) {
+//                int trung1 = Collections.frequency( compareXienLo2, value[0].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                int trung2 = Collections.frequency( compareXienLo2, value[1].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                int trung3 = Collections.frequency( compareXienLo2, value[2].replaceAll( "(^\\s+|\\s+$)", "" ) );
+//                int trung4 = Collections.frequency( compareXienLo2, value[3].replaceAll( "(^\\s+|\\s+$)", "" ) );
+                String trungxi4 = "";
+                for(int i = 0 ; i < compareXienLo.size() ; i++) {
+                    if (compareXienLo.get( i ) == value[0].replaceAll( "(^\\s+|\\s+$)", "" ) ) {
+                        trungxi4 += "1";
+                        continue;
+                    } else if (compareXienLo.get( i ) == value[1].replaceAll( "(^\\s+|\\s+$)", "" )) {
+                        trungxi4 += "2";
+                        continue;
+                    } else if (compareXienLo.get( i ) == value[2].replaceAll( "(^\\s+|\\s+$)", "" ) ) {
+                        trungxi4 += "3";
+                        continue;
+                    } else if (compareXienLo.get( i ) == value[3].replaceAll( "(^\\s+|\\s+$)", "" ) ) {
+                        trungxi4 += "4";
+                        continue;
+                    }
+                }
+                if (trungxi4.length() == 4) {
                     xulydanhXienKieu( getNum, hsx4, thuongxien4, idSmsInt, dongiaId, boSoArr4[a],
                             1, smsType, sdt, "xien4", ten, dataSoLieuDate );
                 } else {
