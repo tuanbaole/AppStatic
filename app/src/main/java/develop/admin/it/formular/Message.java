@@ -1187,7 +1187,7 @@ public class Message extends AppCompatActivity {
                                                                     }
                                                                 }
                                                                 if (valueImprotDb.length > 1) {
-                                                                    for (int q = 1; q < valueImprotDb.length - 1; q++) {
+                                                                    for (int q = 1; q < valueImprotDb.length; q++) {
                                                                         if (!valueImprotDb[q].equals( "" )) {
                                                                             if (hashmap.get( arrNewVal[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) +
                                                                                     valueImprotDb[q] ) != null) {
@@ -1987,7 +1987,7 @@ public class Message extends AppCompatActivity {
                                                                         error += "<font color=\"RED\">" + arrNewValLoCoX[1] + " </font>";
                                                                     }
                                                                 }
-                                                                for (int q = 1; q < valueImprotDb.length - 1; q++) {
+                                                                for (int q = 1; q < valueImprotDb.length; q++) {
                                                                     if (!valueImprotDb[q].equals( "" )) {
                                                                         if (hashmap.get( arrNewValLoCoX[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) +
                                                                                 valueImprotDb[q] ) != null) {

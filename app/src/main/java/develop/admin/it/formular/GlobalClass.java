@@ -683,7 +683,7 @@ public class GlobalClass extends AppCompatActivity {
                                     danhsachSo += ghepAllAB + ",";
                                 }
                                 if (danhsachSo.indexOf(ghepAllBA) == -1) {
-                                    danhsachSo += ghepAllBA + ",";
+//                                    danhsachSo += ghepAllBA + ",";
                                 }
                             }
                         }
