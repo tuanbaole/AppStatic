@@ -699,13 +699,12 @@ public class SendSms extends AppCompatActivity {
                     "=" + String.valueOf(Math.round(tongThuongDeSendSms * -1 * 100.0) / 100.0) + "n" +
                     "=" + String.valueOf(Math.round(tongThuongDeSend * -1 * 100.0) / 100.0) + " n" +
                     "<br/>";
-        } else if (tongThuongDeDauSend > 0) {
+        } else if (tongThuongDeSend > 0) {
             tongText += "thde" +
                     "=" + String.valueOf(Math.round(tongThuongDeSendSms * 100.0) / 100.0) + "n" +
                     "=" + String.valueOf(Math.round(tongThuongDeSend * 100.0) / 100.0) + " n" +
                     "<br/>";
         }
-
         if (tongDanhDeDauSend > 0) {
             tongText += "dedau" +
                     "=" + String.valueOf(Math.round(tongDanhDeDauSendSms * 100.0) / 100.0) + "n" +

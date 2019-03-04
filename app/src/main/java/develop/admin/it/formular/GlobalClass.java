@@ -640,7 +640,11 @@ public class GlobalClass extends AppCompatActivity {
         if (chuoighep.indexOf("voi") > -1) {
             String[] mangchuoighep = chuoighep.split("voi");
             if (mangchuoighep.length == 2) {
-                mangchuoighep[0] = mangchuoighep[0].trim().replace("gepab", "");
+                String abquay = "0";
+                if (mangchuoighep[0].indexOf( "gepabq" ) > -1) {
+                    abquay = "1";
+                }
+                mangchuoighep[0] = mangchuoighep[0].trim().replace("gepabq", "").replace("gepab", "");
                 mangchuoighep[1] = mangchuoighep[1].trim();
                 String fitterString = mangchuoighep[0].replaceAll("[0-9]", "").replace(" ", "");
                 String fitterNumber = mangchuoighep[0].replaceAll("(^\\s+|\\s+$)", "").replace(" ", "");
@@ -683,7 +687,9 @@ public class GlobalClass extends AppCompatActivity {
                                     danhsachSo += ghepAllAB + ",";
                                 }
                                 if (danhsachSo.indexOf(ghepAllBA) == -1) {
-//                                    danhsachSo += ghepAllBA + ",";
+                                    if (abquay.equals( "1" )) {
+                                        danhsachSo += ghepAllBA + ",";
+                                    }
                                 }
                             }
                         }

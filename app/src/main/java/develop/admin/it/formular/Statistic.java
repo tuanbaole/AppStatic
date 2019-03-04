@@ -618,7 +618,7 @@ public class Statistic extends AppCompatActivity {
             if (loArr[q] != null) {
                 sortLo[k] = String.valueOf(showLo) + "java" + String.valueOf(loArr[q]) + "java" + String.valueOf(loTrung[q]);
             } else {
-                sortLo[k] = String.valueOf(showLo) + "java0java0"; // xoa di neu k phai a vuong
+               // sortLo[k] = String.valueOf(showLo) + "java0java0"; // xoa di neu k phai a vuong
             }
             k++;
 
@@ -727,23 +727,23 @@ public class Statistic extends AppCompatActivity {
             if (sortDe[a] != null) {
                 String[] showResDe = sortDe[a].split("java");
                 if (Integer.parseInt(showResDe[2]) == 0) {
-                    if (a < 50) {
+//                    if (a < 50) {
                         textDeLeft += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + " </font>" +
                                 showResDe[1] + "n</b></big></big><br />";
-                    } else {
-                        textDeRight += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + " </font>" +
-                                showResDe[1] + "n</b></big></big><br />";
-                    }
+//                    } else {
+//                        textDeRight += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + " </font>" +
+//                                showResDe[1] + "n</b></big></big><br />";
+//                    }
                 } else {
-                    if (a < 50) {
+                   // if (a < 50) {
                         textDeLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
                                 "<font color=\"blue\"> " + showResDe[2] + "</font> " +
                                 showResDe[1] + "n</b></big></big><br />";
-                    } else {
-                        textDeRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
-                                "<font color=\"blue\"> " + showResDe[2] + "</font> " +
-                                showResDe[1] + "n</b></big></big><br />";
-                    }
+//                    } else {
+//                        textDeRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
+//                                "<font color=\"blue\"> " + showResDe[2] + "</font> " +
+//                                showResDe[1] + "n</b></big></big><br />";
+//                    }
                 }
             }
         }
@@ -752,23 +752,23 @@ public class Statistic extends AppCompatActivity {
             if (sortDeDau[f] != null) {
                 String[] showResDeDau = sortDeDau[f].split("java");
                 if (Integer.parseInt(showResDeDau[2]) == 0) {
-                    if (f < 50) {
+                  //  if (f < 50) {
                         textDeDauLeft += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + " </font>" +
                             showResDeDau[1] + "n</b></big></big><br />";
-                    } else {
-                        textDeDauRight += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + " </font>" +
-                                showResDeDau[1] + "n</b></big></big><br />";
-                    }
+//                    } else {
+//                        textDeDauRight += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + " </font>" +
+//                                showResDeDau[1] + "n</b></big></big><br />";
+//                    }
                 } else {
-                    if (f < 50) {
+                  //  if (f < 50) {
                         textDeDauLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + "</font>" +
                             "<font color=\"blue\"> " + showResDeDau[2] + "</font> " +
                             showResDeDau[1] + "n</b></big></big><br />";
-                    } else {
-                        textDeDauRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + "</font>" +
-                                "<font color=\"blue\"> " + showResDeDau[2] + "</font> " +
-                                showResDeDau[1] + "n</b></big></big><br />";
-                    }
+//                    } else {
+//                        textDeDauRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + "</font>" +
+//                                "<font color=\"blue\"> " + showResDeDau[2] + "</font> " +
+//                                showResDeDau[1] + "n</b></big></big><br />";
+//                    }
                 }
             }
         }
@@ -777,27 +777,27 @@ public class Statistic extends AppCompatActivity {
             if (sortLo[b] != null) {
                 String[] showResLo = sortLo[b].split("java");
                 if (Integer.parseInt(showResLo[2]) == 0) {
-                    if (b < 50) {
+                   // if (b < 50) {
                         textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
                                 showResLo[0] + "  </font>"
                                 + showResLo[1] + "d</b></big></big><br />";
-                    } else {
-                        textLoRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
-                                showResLo[0] + "  </font>"
-                                + showResLo[1] + "d</b></big></big><br />";
-                    }
+//                    } else {
+//                        textLoRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
+//                                showResLo[0] + "  </font>"
+//                                + showResLo[1] + "d</b></big></big><br />";
+//                    }
                 } else {
-                    if (b < 50) {
+                   // if (b < 50) {
                         textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
                                 + showResLo[0] + "</font>" +
                                 "<font color=\"blue\">" + showResLo[2] + "</font> "
                                 + showResLo[1] + "d</b></big></big><br />";
-                    } else {
-                        textLoRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
-                                + showResLo[0] + "</font>" +
-                                "<font color=\"blue\">" + showResLo[2] + "</font> "
-                                + showResLo[1] + "d</b></big></big><br />";
-                    }
+//                    } else {
+//                        textLoRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
+//                                + showResLo[0] + "</font>" +
+//                                "<font color=\"blue\">" + showResLo[2] + "</font> "
+//                                + showResLo[1] + "d</b></big></big><br />";
+//                    }
                 }
             }
         }
@@ -1259,7 +1259,7 @@ public class Statistic extends AppCompatActivity {
         tr1.addView(tong, rowSpanLayout2);
 
         de.setText(Html.fromHtml(textDeLeft));
-        lo.setText(Html.fromHtml(textDeRight));
+        lo.setText(Html.fromHtml(textLoLeft));
         tr2.addView(de);
         tr2.addView(lo);
         tableLayout.addView(tr2);
@@ -1267,7 +1267,7 @@ public class Statistic extends AppCompatActivity {
         TableRow trlo = new TableRow(Statistic.this);
         TextView loleft = new TextView(Statistic.this); //1
         TextView loright = new TextView(Statistic.this); //1
-        loleft.setText(Html.fromHtml(textLoLeft)); // 1
+        loleft.setText(Html.fromHtml(textDeRight)); // 1
         loright.setText(Html.fromHtml(textLoRight));//1
         trlo.addView(loleft);
         trlo.addView(loright);
@@ -1277,7 +1277,7 @@ public class Statistic extends AppCompatActivity {
         TextView dedauleft = new TextView(Statistic.this);
         TextView dedauright = new TextView(Statistic.this);
         dedauleft.setText(Html.fromHtml(textDeDauLeft));
-        dedauright.setText(Html.fromHtml(textDeDauRight));
+        dedauright.setText(Html.fromHtml(textLoDauLeft));
         tr4.addView(dedauleft);
         tr4.addView(dedauright);
         tableLayout.addView(tr4);
@@ -1285,7 +1285,7 @@ public class Statistic extends AppCompatActivity {
         TableRow trlodau = new TableRow(Statistic.this);
         TextView lodauleft = new TextView(Statistic.this);
         TextView lodauright = new TextView(Statistic.this);
-        lodauleft.setText(Html.fromHtml(textLoDauLeft));
+        lodauleft.setText(Html.fromHtml(textDeDauRight));
         lodauright.setText(Html.fromHtml(textLoDauRight));
         trlodau.addView(lodauleft);
         trlodau.addView(lodauright);

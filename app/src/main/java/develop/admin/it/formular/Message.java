@@ -1504,22 +1504,16 @@ public class Message extends AppCompatActivity {
                                                                             }
                                                                         } else {
                                                                             if (!valueImprotDb[q].equals( "" )) {
-//                                                                                if (valueImprotDb[q].replace(" ", "").equals("bro")) {
-//                                                                                    error += valueImprotDb[q] + " ";
-//                                                                                } else {
                                                                                 error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
-//                                                                                }
                                                                             }
                                                                         }
                                                                     }
                                                                 }
                                                             }
-
                                                         }
                                                     }
                                                 }
                                                 if (message[i].replaceAll( "(^\\s+|\\s+$)", "" ).length() > 6) {
-//
                                                     String[] arrDeCoDauB = borDeCoDauB.split( "," );
                                                     if (arrDeCoDauB.length > 0) {
                                                         if (arrDeCoDauB.length > 0) {
@@ -1530,7 +1524,6 @@ public class Message extends AppCompatActivity {
                                                             }
                                                         }
                                                     }
-//
                                                 }
                                                 if (valueDeArrCoDauB.length > 1) {
                                                     error += "= " + "<font color=\"RED\">" + mangDecoDauB[1] + " </font>";
@@ -1733,11 +1726,7 @@ public class Message extends AppCompatActivity {
                                                                         }
                                                                     } else {
                                                                         if (!valueImprotDb[q].equals( "" )) {
-//                                                                            if (valueImprotDb[q].replace(" ", "").equals("bro")) {
-//                                                                                error += valueImprotDb[q] + " ";
-//                                                                            } else {
                                                                             error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
-//                                                                            }
                                                                         }
                                                                     }
                                                                 }
@@ -1804,9 +1793,6 @@ public class Message extends AppCompatActivity {
                                     .replace( " d", "d" ).replace( "D1c", "D1c JAVASTR" ).replace( "d", "d JAVASTR" );
                             String[] mangLo2 = chuoiLo.split( "JAVASTR" );
                             ArrayList<String> tachChuoiLo = controller.tachchuoi( mangLo2 );
-                            String idfinalLo = "";
-//
-
                             for (int j = 0; j < tachChuoiLo.size(); j++) {
                                 if (!tachChuoiLo.get( j ).equals( "" )) {
                                     if (tachChuoiLo.get( j ).indexOf( "x" ) > -1) { // kiem tra co dau x trong chuoi khong
@@ -1905,17 +1891,12 @@ public class Message extends AppCompatActivity {
                                                                                             }
                                                                                         }
                                                                                         boLoCoX += valueSessinoLoCoX + ",";
-//                                                                                    xulydanhboLoTo(valueSessinoLoCoX, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
-//                                                                                            SessionLoCoX + valueImprotDb[q],
-//                                                                                            listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                                         xulydanhleLoToGhep( valueSessinoLoCoX, getNum, hslo, compareLo, thuonglo,
                                                                                                 idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
                                                                                     }
                                                                                     boLoCoX += value + ",";
                                                                                     xulydanhleLoToGhep( value, getNum, hslo, compareLo, thuonglo,
                                                                                             idSmsInt, dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-//                                                                                xulydanhboLoTo(value, compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId, valueImprotDb[0] + valueImprotDb[q],
-//                                                                                        listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
                                                                                 }
                                                                             } else {
                                                                                 if (!valueImprotDb[q].equals( "bcp" )) {
@@ -2309,11 +2290,7 @@ public class Message extends AppCompatActivity {
                                                                             }
                                                                         } else {
                                                                             if (!valueImprotDb[q].equals( "" )) {
-//                                                                                if (valueImprotDb[q].replace(" ", "").equals("bro")) {
-//                                                                                    error += valueImprotDb[q];
-//                                                                                } else {
                                                                                 error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
-//                                                                                }
                                                                             }
                                                                         }
                                                                     }
@@ -2323,7 +2300,6 @@ public class Message extends AppCompatActivity {
                                                     }
                                                 }
                                                 if (message[i].replaceAll( "(^\\s+|\\s+$)", "" ).length() > 6) {
-//
                                                     String[] arrBoLoCoDauB = boLoCoDauB.split( "," );
                                                     if (arrBoLoCoDauB.length > 0) {
                                                         Double newGetNum = Math.round( getNum / arrBoLoCoDauB.length * 100.0 ) / 100.0;
@@ -2333,7 +2309,6 @@ public class Message extends AppCompatActivity {
                                                                     kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
                                                         }
                                                     }
-//                                                    }
                                                 }
 
                                                 String[] checkGiatriMangLo = mangLocoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).split( " " );
