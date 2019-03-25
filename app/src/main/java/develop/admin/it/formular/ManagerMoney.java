@@ -145,7 +145,6 @@ public class ManagerMoney extends AppCompatActivity {
         tr5.addView(titledanhSend);
         tr5.addView(titleheSoSend);
         tableLayout.addView(tr5);
-
         if (solieu_table.getCount() > 0) {
             double tongCong = 0;
             double tongCongInbox = 0;
@@ -183,6 +182,7 @@ public class ManagerMoney extends AppCompatActivity {
                         TextView danhSend = new TextView(ManagerMoney.this);
                         TextView heSoSend = new TextView(ManagerMoney.this);
                         String kieuSoLieu = manager.getString(manager.getColumnIndex("KIEU"));
+                        Log.d("LogFile",kieuSoLieu);
                         kieu.setText(manager.getString(manager.getColumnIndex("KIEU")));
                         double showDanhInbox = Math.round(Double.parseDouble(
                                 manager.getString(manager.getColumnIndex("DANHINBOX"))) * 100.0) / 100.0;
@@ -647,7 +647,7 @@ public class ManagerMoney extends AppCompatActivity {
                 if (danhLoDauInbox != 0 || heSoLoDauInbox != 0 || danhLoDauSend != 0 || heSoLoDauSend != 0) {
                     sql.insertManagerMoney(sdt, ten, danhLoDauInbox, heSoLoDauInbox, danhLoDauSend, heSoLoDauSend, "lodau", dongiaID, getDays);
                 }
-                if (thuongLoInbox != 0 || hsThuongLoInbox != 0 || thuongLoSend != 0 || hsThuongLoSend != 0) {
+                if (thuongLoDauInbox != 0 || hsThuongLoDauInbox != 0 || thuongLoDauSend != 0 || hsThuongLoDauSend != 0) {
                     sql.insertManagerMoney(sdt, ten, thuongLoDauInbox, hsThuongLoDauInbox, thuongLoDauSend, hsThuongLoDauSend, "thlodau", dongiaID, getDays);
                 }
 
