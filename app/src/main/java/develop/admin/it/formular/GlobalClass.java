@@ -823,7 +823,8 @@ public class GlobalClass extends AppCompatActivity {
         ArrayList<String> dataRes = new ArrayList<>();
         for (int u = 1; u < mangde.length; u++) {
             if (!mangde[u].equals("")) {
-                if (hashmap.get("dau" + mangde[u]) != null && hashmap.get("dit" + mangde[u]) != null) {
+                if (hashmap.get("dau" + mangde[u]) != null && hashmap.get("dit" + mangde[u]) != null
+                        && !mangde[u].equals("le") && !mangde[u].equals("chal") ) {
                     if (daysores.indexOf(mangde[u]) == -1) {
                         errorRes += mangde[u] + " ";
                         daysores += mangde[u] + ",";
@@ -831,6 +832,18 @@ public class GlobalClass extends AppCompatActivity {
                             daysoSosanh += "," + hashmap.get("dau" + mangde[u]).get(0) + "," + hashmap.get("dit" + mangde[u]).get(0);
                         } else {
                             daysoSosanh += hashmap.get("dau" + mangde[u]).get(0) + "," + hashmap.get("dit" + mangde[u]).get(0);
+                        }
+                    } else {
+                        errorRes += "<font color=\"RED\">" + mangde[u] + " </font>";
+                    }
+                } else if(mangde[u].equals( "le" ) || mangde[u].equals( "chal" )) {
+                    if (daysores.indexOf(mangde[u]) == -1) {
+                        errorRes += mangde[u] + " ";
+                        daysores += mangde[u] + ",";
+                        if (!daysoSosanh.equals("")) {
+                            daysoSosanh += "," + hashmap.get("co" + mangde[u]).get(0);
+                        } else {
+                            daysoSosanh += hashmap.get("co" + mangde[u]).get(0);
                         }
                     } else {
                         errorRes += "<font color=\"RED\">" + mangde[u] + " </font>";
@@ -866,10 +879,13 @@ public class GlobalClass extends AppCompatActivity {
         String soboqua = "";
         for (int q = 0; q < giatriTrung.length; q++) {
             for (int v = 0; v < giatriTrung.length; v++) {
-                if (!soboqua.equals("")) {
-                    soboqua += "," + giatriTrung[q] + giatriTrung[v];
-                } else {
-                    soboqua += giatriTrung[q] + giatriTrung[v];
+                if (!giatriTrung[q].equals( "le" ) && !giatriTrung[q].equals( "chal" )
+                        || !giatriTrung[v].equals( "le" ) && !giatriTrung[v].equals( "chal" )) {
+                    if (!soboqua.equals("")) {
+                        soboqua += "," + giatriTrung[q] + giatriTrung[v];
+                    } else {
+                        soboqua += giatriTrung[q] + giatriTrung[v];
+                    }
                 }
             }
         }
@@ -883,7 +899,7 @@ public class GlobalClass extends AppCompatActivity {
         daysocantim += soboqua;
         dataRes.add(daysocantim);
         dataRes.add(errorRes);
-        dataRes.add(daysores);
+        dataRes.add(daysocantim);
         return dataRes;
     }
 
