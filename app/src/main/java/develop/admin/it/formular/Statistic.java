@@ -167,7 +167,7 @@ public class Statistic extends AppCompatActivity {
         double tongThuongBaCangSend = 0;
         double tongDanhBaCangSendSms = 0;
         double tongThuongBaCangSendSms = 0;
-        // send inbox
+        // xien inbox
         double tongDanhXienInbox = 0;
         double tongDanhXienInboxSms = 0;
         double tongThuongXienInbox = 0;
@@ -177,6 +177,17 @@ public class Statistic extends AppCompatActivity {
         double tongThuongXienSend = 0;
         double tongDanhXienSendSms = 0;
         double tongThuongXienSendSms = 0;
+
+        // xien dau inbox
+        double tongDanhXienDauInbox = 0;
+        double tongDanhXienDauInboxSms = 0;
+        double tongThuongXienDauInbox = 0;
+        double tongThuongXienDauInboxSms = 0;
+        // xien dau send
+        double tongDanhXienDauSend = 0;
+        double tongThuongXienDauSend = 0;
+        double tongDanhXienDauSendSms = 0;
+        double tongThuongXienDauSendSms = 0;
 
         double tongBangInbox = 0;
         double tongBangSend = 0;
@@ -311,6 +322,22 @@ public class Statistic extends AppCompatActivity {
                             tongThuongXienSend += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
                             tongDanhXienSendSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
                             tongThuongXienSendSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        }
+                        break;
+                    case "sa":
+                    case "sa2":
+                    case "sa3":
+                    case "sa4":
+                        if (kieuguitin.equals("inbox")) {
+                            tongDanhXienDauInbox += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuongXienDauInbox += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhXienDauInboxSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuongXienDauInboxSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
+                        } else if (kieuguitin.equals("send")) {
+                            tongDanhXienDauSend += Math.round(Double.parseDouble(tienDanh) * 100.0) / 100.0;
+                            tongThuongXienDauSend += Math.round(Double.parseDouble(tienThuong) * 100.0) / 100.0;
+                            tongDanhXienDauSendSms += Math.round(Double.parseDouble(tienDanhSms) * 100.0) / 100.0;
+                            tongThuongXienDauSendSms += Math.round(Double.parseDouble(tienThuongSms) * 100.0) / 100.0;
                         }
                         break;
                 }
@@ -1007,6 +1034,29 @@ public class Statistic extends AppCompatActivity {
                     "</big></font><br/>";
         }
 
+        if (tongDanhXienDauInbox < 0) {
+            tongText += "<font color=\"red\"><big>xidau" +
+                    "=" + String.valueOf(Math.round(tongDanhXienDauInboxSms * -1 * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongDanhXienDauInbox * -1 * 100.0) / 100.0) + "n " +
+                    "</big></font><br/>";
+        } else if (tongDanhXienDauInbox > 0) {
+            tongText += "<font color=\"blue\"><big>xidau" +
+                    "=" + String.valueOf(Math.round(tongDanhXienDauInboxSms * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongDanhXienDauInbox * 100.0) / 100.0) + "n" +
+                    "</big></font><br/>";
+        }
+        if (tongThuongXienDauInbox > 0) {
+            tongText += "<font color=\"red\"><big>thxidau" +
+                    "=" + String.valueOf(Math.round(tongThuongXienDauInboxSms * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongThuongXienDauInbox * 100.0) / 100.0) + "n " +
+                    "</big></font><br/>";
+        } else if (tongThuongXienDauInbox < 0) {
+            tongText += "<font color=\"blue\"><big>thxidau" +
+                    "=" + String.valueOf(Math.round(tongThuongXienDauInboxSms * -1 * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongThuongXienDauInbox * -1 * 100.0) / 100.0) + "n" +
+                    "</big></font><br/>";
+        }
+
         if (tongDanhBaCangInbox < 0) {
             tongText += "<font color=\"red\"><big>bacang" +
                     "=" + String.valueOf(Math.round(tongDanhBaCangInboxSms * -1 * 100.0) / 100.0) + "n " +
@@ -1203,6 +1253,29 @@ public class Statistic extends AppCompatActivity {
             tongText += "<font color=\"blue\"><big>thxien" +
                     "=" + String.valueOf(Math.round(tongThuongXienSendSms * 100.0) / 100.0) + "n " +
                     "=" + String.valueOf(Math.round(tongThuongXienSend * 100.0) / 100.0) + "n" +
+                    "</big></font><br/>";
+        }
+
+        if (tongDanhXienDauSend > 0) {
+            tongText += "<font color=\"red\"><big>xidau" +
+                    "=" + String.valueOf(Math.round(tongDanhXienDauSendSms * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongDanhXienDauSend * 100.0) / 100.0) + "n " +
+                    "</big></font><br/>";
+        } else if (tongDanhXienDauSend < 0) {
+            tongText += "<font color=\"blue\"><big>xidau" +
+                    "=" + String.valueOf(Math.round(tongDanhXienDauSendSms * -1 * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongDanhXienDauSend * -1 * 100.0) / 100.0) + "n" +
+                    "</big></font><br/>";
+        }
+        if (tongThuongXienDauSend < 0) {
+            tongText += "<font color=\"red\"><big>thxidau" +
+                    "=" + String.valueOf(Math.round(tongThuongXienDauSendSms * -1 * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongThuongXienDauSend * -1 * 100.0) / 100.0) + "n " +
+                    "</big></font><br/>";
+        } else if (tongThuongXienDauSend > 0) {
+            tongText += "<font color=\"blue\"><big>thxidau" +
+                    "=" + String.valueOf(Math.round(tongThuongXienDauSendSms * 100.0) / 100.0) + "n " +
+                    "=" + String.valueOf(Math.round(tongThuongXienDauSend * 100.0) / 100.0) + "n" +
                     "</big></font><br/>";
         }
 

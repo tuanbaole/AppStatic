@@ -446,6 +446,18 @@ public class ManagerMoney extends AppCompatActivity {
                 double heSoXienInbox = 0;
                 double thuongXienInbox = 0;
                 double hsThuongXienInbox = 0;
+
+                 /* xien send*/
+                double danhXienDauSend = 0;
+                double heSoXienDauSend = 0;
+                double thuongXienDauSend = 0;
+                double hsThuongXienDauSend = 0;
+                /* xien inbox */
+                double danhXienDauInbox = 0;
+                double heSoXienDauInbox = 0;
+                double thuongXienDauInbox = 0;
+                double hsThuongXienDauInbox = 0;
+
                 /* bacang inbox */
                 double danhBacangInbox = 0;
                 double heSoBacangInbox = 0;
@@ -503,29 +515,22 @@ public class ManagerMoney extends AppCompatActivity {
                                     hsThuongLoDauSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
                                     break;
                                 case "xien2":
-                                    danhXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
-                                    heSoXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
-                                    thuongXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
-                                    hsThuongXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
-                                    break;
                                 case "xien3":
-                                    danhXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
-                                    heSoXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
-                                    thuongXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
-                                    hsThuongXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
-                                    Log.d("LogFile", String.valueOf(heSoXienSend));
-                                    break;
                                 case "xien4":
-                                    danhXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
-                                    heSoXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
-                                    thuongXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
-                                    hsThuongXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
-                                    break;
                                 case "xien":
                                     danhXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
                                     heSoXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
                                     thuongXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
                                     hsThuongXienSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
+                                    break;
+                                case "sa2":
+                                case "sa3":
+                                case "sa4":
+                                case "sa":
+                                    danhXienDauSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
+                                    heSoXienDauSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
+                                    thuongXienDauSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
+                                    hsThuongXienDauSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
                                     break;
                                 case "bacang":
                                     danhBacangSend += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
@@ -575,28 +580,22 @@ public class ManagerMoney extends AppCompatActivity {
                                     hsThuongLoDauInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
                                     break;
                                 case "xien2":
-                                    danhXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
-                                    heSoXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
-                                    thuongXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
-                                    hsThuongXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
-                                    break;
                                 case "xien3":
-                                    danhXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
-                                    heSoXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
-                                    thuongXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
-                                    hsThuongXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
-                                    break;
                                 case "xien4":
-                                    danhXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
-                                    heSoXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
-                                    thuongXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
-                                    hsThuongXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
-                                    break;
                                 case "xien":
                                     danhXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
                                     heSoXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
                                     thuongXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
                                     hsThuongXienInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
+                                    break;
+                                case "sa2":
+                                case "sa3":
+                                case "sa4":
+                                case "sa":
+                                    danhXienDauInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
+                                    heSoXienDauInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANH")));
+                                    thuongXienDauInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TRUNGSMS")));
+                                    hsThuongXienDauInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENTHUONG")));
                                     break;
                                 case "bacang":
                                     danhBacangInbox += Double.parseDouble(soLieu.getString(soLieu.getColumnIndex("TIENDANHSMS")));
@@ -657,6 +656,14 @@ public class ManagerMoney extends AppCompatActivity {
                 if (thuongXienInbox != 0 || hsThuongXienInbox != 0 || thuongXienSend != 0 || hsThuongXienSend != 0) {
                     sql.insertManagerMoney(sdt, ten, thuongXienInbox, hsThuongXienInbox, thuongXienSend, hsThuongXienSend, "thxien", dongiaID, getDays);
                 }
+
+                if (danhXienDauInbox != 0 || heSoXienDauInbox != 0 || danhXienDauSend != 0 || heSoXienDauSend != 0) {
+                    sql.insertManagerMoney(sdt, ten, danhXienDauInbox, heSoXienDauInbox, danhXienDauSend, heSoXienDauSend, "xidau", dongiaID, getDays);
+                }
+                if (thuongXienDauInbox != 0 || hsThuongXienDauInbox != 0 || thuongXienDauSend != 0 || hsThuongXienDauSend != 0) {
+                    sql.insertManagerMoney(sdt, ten, thuongXienDauInbox, hsThuongXienDauInbox, thuongXienDauSend, hsThuongXienDauSend, "thxidau", dongiaID, getDays);
+                }
+
                 if (danhBacangInbox != 0 || heSoBacangInbox != 0 || danhBacangSend != 0 || heSoBacangSend != 0) {
                     sql.insertManagerMoney(sdt, ten, danhBacangInbox, heSoBacangInbox, danhBacangSend, heSoBacangSend, "bacang", dongiaID, getDays);
                 }

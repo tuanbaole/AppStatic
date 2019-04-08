@@ -97,6 +97,8 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         "tiendanh_lo.TIENTHUONGLO AS TIENTHUONGLO," +
                         "tiendanh_xien.TIENDANHXIEN AS TIENDANHXIEN," +
                         "tiendanh_xien.TIENTHUONGXIEN AS TIENTHUONGXIEN," +
+                        "tiendanh_xiendau.TIENDANHXIEN AS TIENDANHXIENDAU," +
+                        "tiendanh_xiendau.TIENTHUONGXIEN AS TIENTHUONGXIENDAU," +
                         "tiendanh_bacang.TIENDANHBC AS TIENDANHBACANG," +
                         "tiendanh_bacang.TIENTHUONGBC AS TIENTHUONGBACANG," +
                         "kieu_choi.KIEU AS KIEU " +
@@ -151,6 +153,14 @@ public class Xemtungtinnhan extends AppCompatActivity {
                         ") tiendanh_xien ON (tiendanh_xien.SMSID = sms_ready_table.SMSID)" +
                         "LEFT JOIN (" +
                         "SELECT SMSID,NGAY,KIHIEU," +
+                        "sum(solieu_table.TIENDANHSMS) AS TIENDANHXIEN," +
+                        "sum(solieu_table.TRUNGSMS) AS TIENTHUONGXIEN " +
+                        "FROM solieu_table " +
+                        "WHERE solieu_table.NGAY = '" + date + "' AND solieu_table.KIHIEU IN ('sa','sa2','sa3','sa4') " +
+                        "GROUP BY solieu_table.SMSID" +
+                        ") tiendanh_xiendau ON (tiendanh_xiendau.SMSID = sms_ready_table.SMSID)" +
+                        "LEFT JOIN (" +
+                        "SELECT SMSID,NGAY,KIHIEU," +
                         "sum(solieu_table.TIENDANHSMS) AS TIENDANHBC," +
                         "sum(solieu_table.TRUNGSMS) AS TIENTHUONGBC " +
                         "FROM solieu_table " +
@@ -193,6 +203,8 @@ public class Xemtungtinnhan extends AppCompatActivity {
                 String thuonglo = "0";
                 String tienxien = "0";
                 String thuongxien = "0";
+                String tienxiendau = "0";
+                String thuongxiendau = "0";
                 String tienbacang = "0";
                 String thuongbacang = "0";
                 if (smsReady.getString(smsReady.getColumnIndex("TIENDANHDE")) != null &&
@@ -265,6 +277,19 @@ public class Xemtungtinnhan extends AppCompatActivity {
                 if (!tienxien.equals("0") || !thuongxien.equals("0")) {
                     ketqua += "Xiên : " + tienxien + "/" + thuongxien + "<br />";
                 }
+
+                if (smsReady.getString(smsReady.getColumnIndex("TIENDANHXIENDAU")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENDANHXIENDAU")).isEmpty()) {
+                    tienxiendau = smsReady.getString(smsReady.getColumnIndex("TIENDANHXIENDAU"));
+                }
+                if (smsReady.getString(smsReady.getColumnIndex("TIENTHUONGXIENDAU")) != null &&
+                        !smsReady.getString(smsReady.getColumnIndex("TIENTHUONGXIENDAU")).isEmpty()) {
+                    thuongxiendau = smsReady.getString(smsReady.getColumnIndex("TIENTHUONGXIENDAU"));
+                }
+                if (!tienxiendau.equals("0") || !thuongxiendau.equals("0")) {
+                    ketqua += "Xiên Đầu: " + tienxiendau + "/" + thuongxiendau + "<br />";
+                }
+
                 if (smsReady.getString(smsReady.getColumnIndex("TIENDANHBACANG")) != null &&
                         !smsReady.getString(smsReady.getColumnIndex("TIENDANHBACANG")).isEmpty()) {
                     tienbacang = smsReady.getString(smsReady.getColumnIndex("TIENDANHBACANG"));
