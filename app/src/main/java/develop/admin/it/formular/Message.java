@@ -4837,7 +4837,7 @@ public class Message extends AppCompatActivity {
                                  String kieuchoi, String ten, String ngay,String kieuXien) {
         String [] xiA = controller.inArrayXiA();
         if (Arrays.asList(xiA).contains(kieuXien.trim())) {
-            kieuchoi = kieuXien;
+            kieuchoi = kieuXien.trim();
         }
         double tongTienDanh, tongTienThuong, tongTien;
         double hsxien = hsx;
@@ -4871,17 +4871,8 @@ public class Message extends AppCompatActivity {
             for (int a = 0; a < boSoArr.length; a++) {
                 String[] value = boSoArr[a].split( " " );
                 //iterate on the general list
-                String trungxi2 = "";
-                for (int i = 0; i < compareXienLo.size(); i++) {
-                    if (compareXienLo.get( i ) == value[0].replaceAll( "(^\\s+|\\s+$)", "" )) {
-                        trungxi2 += "1";
-                        continue;
-                    } else if (compareXienLo.get( i ) == value[1].replaceAll( "(^\\s+|\\s+$)", "" )) {
-                        trungxi2 += "1";
-                        continue;
-                    }
-                }
-                if (trungxi2.length() == 2) {
+                if (Collections.frequency( compareXienLo, value[0] ) > 0 &&
+                        Collections.frequency( compareXienLo, value[1] ) > 0) {
                     if (xiDau.equals( "0" )) {
                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, boSoArr[a],
                                 1, smsType, sdt, "xien2", ten, dataSoLieuDate, kieuXien );
@@ -4904,22 +4895,11 @@ public class Message extends AppCompatActivity {
         if (boSoLoTox3.length() > 0) {
             String[] boSoArr3 = boSoLoTox3.split( "," );
             for (int a = 0; a < boSoArr3.length; a++) {
-                String[] value = boSoArr3[a].split( " " );
+                String[] value3 = boSoArr3[a].split( " " );
                 //iterate on the general list
-                String trungxi3 = "";
-                for (int i = 0; i < compareXienLo.size(); i++) {
-                    if (compareXienLo.get( i ) == value[0].replaceAll( "(^\\s+|\\s+$)", "" )) {
-                        trungxi3 += "1";
-                        continue;
-                    } else if (compareXienLo.get( i ) == value[1].replaceAll( "(^\\s+|\\s+$)", "" )) {
-                        trungxi3 += "1";
-                        continue;
-                    } else if (compareXienLo.get( i ) == value[2].replaceAll( "(^\\s+|\\s+$)", "" )) {
-                        trungxi3 += "1";
-                        continue;
-                    }
-                }
-                if (trungxi3.length() == 3) {
+                if (Collections.frequency( compareXienLo, value3[0] ) > 0 &&
+                        Collections.frequency( compareXienLo, value3[1] ) > 0 &&
+                        Collections.frequency( compareXienLo, value3[2] ) > 0) {
                     if (xiDau.equals( "0" )) {
                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId, boSoArr3[a],
                                 1, smsType, sdt, "xien3", ten, dataSoLieuDate,kieuXien );
@@ -4927,7 +4907,6 @@ public class Message extends AppCompatActivity {
                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId, boSoArr3[a],
                                 1, smsType, sdt, "sa3", ten, dataSoLieuDate,kieuXien );
                     }
-
                 } else {
                     if (xiDau.equals( "0" )) {
                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId, boSoArr3[a],
@@ -4943,24 +4922,11 @@ public class Message extends AppCompatActivity {
         if (boSoLoTox4.length() > 0) {
             String[] boSoArr4 = boSoLoTox4.split( "," );
             for (int a = 0; a < boSoArr4.length; a++) {
-                String[] value = boSoArr4[a].split( " " );
-                String trungxi4 = "";
-                for (int i = 0; i < compareXienLo.size(); i++) {
-                    if (compareXienLo.get( i ) == value[0].replaceAll( "(^\\s+|\\s+$)", "" )) {
-                        trungxi4 += "1";
-                        continue;
-                    } else if (compareXienLo.get( i ) == value[1].replaceAll( "(^\\s+|\\s+$)", "" )) {
-                        trungxi4 += "2";
-                        continue;
-                    } else if (compareXienLo.get( i ) == value[2].replaceAll( "(^\\s+|\\s+$)", "" )) {
-                        trungxi4 += "3";
-                        continue;
-                    } else if (compareXienLo.get( i ) == value[3].replaceAll( "(^\\s+|\\s+$)", "" )) {
-                        trungxi4 += "4";
-                        continue;
-                    }
-                }
-                if (trungxi4.length() == 4) {
+                String[] value4 = boSoArr4[a].split( " " );
+                if (Collections.frequency( compareXienLo, value4[0] ) > 0 &&
+                        Collections.frequency( compareXienLo, value4[1] ) > 0 &&
+                        Collections.frequency( compareXienLo, value4[2] ) > 0 &&
+                        Collections.frequency( compareXienLo, value4[3] ) > 0) {
                     if (xiDau.equals( "0" )) {
                         xulydanhXienKieu( getNum, hsx4, thuongxien4, idSmsInt, dongiaId, boSoArr4[a],
                                 1, smsType, sdt, "xien4", ten, dataSoLieuDate, kieuXien );
