@@ -655,9 +655,17 @@ public class GlobalClass extends AppCompatActivity {
                 String[] checkmangchuoighep = mangchuoighep[0].trim().split( " " );
                 chuoighep = "";
                 if (fitterString.length() > 0 || checkmangchuoighep.length > 1 || fitterNumber.length() == 0) {
-                    chuoighep += " <font color=\"RED\">gepab" + mangchuoighep[0] + "</font>";
+                    if(abquay.equals( "1" )) {
+                        chuoighep += " <font color=\"RED\">gepabq" + mangchuoighep[0] + "</font>";
+                    } else {
+                        chuoighep += " <font color=\"RED\">gepab" + mangchuoighep[0] + "</font>";
+                    }
                 } else {
-                    chuoighep += "gepab" + mangchuoighep[0];
+                    if(abquay.equals( "1" )) {
+                        chuoighep += "gepabq" + mangchuoighep[0];
+                    } else {
+                        chuoighep += "gepab" + mangchuoighep[0];
+                    }
                 }
                 String fitterString2 = mangchuoighep[1].replaceAll( "[0-9]", "" ).replace( " ", "" );
                 String fitterNumber2 = mangchuoighep[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" );
