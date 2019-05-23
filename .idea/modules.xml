@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AppStatic.iml" filepath="$PROJECT_DIR$/AppStatic.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/web.iml" filepath="$PROJECT_DIR$/web.iml" />
+      <module fileurl="file://D:\windown\musashi\AppStatic\web.iml" filepath="D:\windown\musashi\AppStatic\web.iml" />
     </modules>
   </component>
 </project>
