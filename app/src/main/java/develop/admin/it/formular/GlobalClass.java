@@ -329,6 +329,7 @@ public class GlobalClass extends AppCompatActivity {
                         replace( "tong chan", "tongchal" ).replace( "tong chal", "tongchal" ).
                         replace( "tong be", "tongbe" ).replace( "tong to", "dauto" ).
                         replace( "on", "ON" ).replace( "t0n", "TON" ).
+                        replace( "sat lech", "satlech" ).
                         replace( "sat kep", "satcep" ).replace( "satkep", "satcep" ).
                         replace( "dinh", "dilh" ).
                         replace( "vtdd", "vtff" ).
@@ -504,6 +505,7 @@ public class GlobalClass extends AppCompatActivity {
         kieubobso.add( "chalchal" );
         kieubobso.add( "kepbalg" );
         kieubobso.add( "keplech" );
+        kieubobso.add( "satlech" );
         kieubobso.add( "satkep" );
         kieubobso.add( "cepbalg" );
         kieubobso.add( "ceplech" );
