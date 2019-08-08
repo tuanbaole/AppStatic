@@ -327,7 +327,7 @@ public class GlobalClass extends AppCompatActivity {
                         replace( "dit be", "ditbe" ).replace( "dit to", "ditto" ).
                         replace( "tong le", "tongle" ).
                         replace( "tong chan", "tongchal" ).replace( "tong chal", "tongchal" ).
-                        replace( "tong be", "tongbe" ).replace( "tong to", "dauto" ).
+                        replace( "tong be", "tongbe" ).replace( "tong to", "tongto" ).
                         replace( "on", "ON" ).replace( "t0n", "TON" ).
                         replace( "sat lech", "satlech" ).
                         replace( "sat kep", "satcep" ).replace( "satkep", "satcep" ).
@@ -411,7 +411,7 @@ public class GlobalClass extends AppCompatActivity {
                 replace( "dit be", "ditbe" ).replace( "dit to", "ditto" ).
                 replace( "tong le", "tongle" ).
                 replace( "tong chan", "tongchal" ).replace( "tong chal", "tongchal" ).
-                replace( "tong be", "tongbe" ).replace( "tong to", "dauto" ).
+                replace( "tong be", "tongbe" ).replace( "tong to", "tongto" ).
                 replace( "on", "ON" ).replace( "t0n", "TON" ).
                 replace( "kepbang", "kepbalg" ).replace( "kep bang", "kepbalg" ).
                 replace( "kep lech", "keplech" ).replace( "keplech", "ceplech" ).
@@ -467,10 +467,10 @@ public class GlobalClass extends AppCompatActivity {
                         replace( "dau be", "JAVASTR daube" ).replace( "dau to", "JAVASTR dauto" ).
                         replace( "dit le", "JAVASTR ditle" ).
                         replace( "dit chan", "JAVASTR ditchal" ).replace( "dit chal", "JAVASTR ditchal" ).
-                        replace( "dit be", "JAVASTR ditbe" ).replace( "dit to", "JAVASTR dauto" ).
+                        replace( "dit be", "JAVASTR ditbe" ).replace( "dit to", "JAVASTR ditto" ).
                         replace( "tong le", "JAVASTR tongle" ).
                         replace( "tong chan", "JAVASTR tongchal" ).replace( "tong chal", "JAVASTR tongchal" ).
-                        replace( "tong be", "JAVASTR tongbe" ).replace( "tong to", "JAVASTR dauto" )
+                        replace( "tong be", "JAVASTR tongbe" ).replace( "tong to", "JAVASTR tongto" )
                 .replace( "cham", "JAVASTR cham" )
                 .replace( "co", "JAVASTR co" )
                 .replace( "vtdd", "JAVASTR vtff" )

@@ -1036,7 +1036,7 @@ public class Message extends AppCompatActivity {
                                                     for (int k = 0; k < valueDeArr.length; k++) {
                                                         String[] valueImprotDb = valueDeArr[k].replaceAll( "(^\\s+|\\s+$)", "" ).split( " " );
                                                         String bosovtat = valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" );
-                                                        if (bosovtat.equals( "cham" ) || bosovtat.equals( "co" ) || bosovtat.equals( "dilh" )) {
+                                                        if (sessionDeCoX == "" && (bosovtat.equals( "cham" ) || bosovtat.equals( "co" ) || bosovtat.equals( "dilh" ))) {
                                                             if (valueImprotDb.length > 1) {
                                                                 error += valueImprotDb[0] + " " + controller.resVtBoso( valueImprotDb, hashmap ).get( 1 );
                                                                 xulydanhbosoVtDe( controller.resVtBoso( valueImprotDb, hashmap ).get( 0 ), getNum, hsde, compareDe, thuongde, idSmsInt, dongiaId, listDonGia[1]
@@ -1044,7 +1044,7 @@ public class Message extends AppCompatActivity {
                                                             } else {
                                                                 error += "<font color=\"RED\">" + valueDeArr[k] + " </font>";
                                                             }
-                                                        } else if (kieubosodan.contains( valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) )) {
+                                                        } else if (sessionDeCoX == "" && kieubosodan.contains( valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) )) {
                                                         /* danh dan nhonho -toto ... */
                                                             for (int sd = 0; sd < valueImprotDb.length; sd++) {
                                                                 if (kieubosodan.contains( valueImprotDb[sd].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) )) {
@@ -1075,12 +1075,17 @@ public class Message extends AppCompatActivity {
                                                             } else {
                                                                 if (valueImprotDb.length > 1) {
                                                                     error += valueImprotDb[0] + " ";
+
+
                                                                     for (int q = 1; q < valueImprotDb.length; q++) {
                                                                         if (!valueImprotDb[q].equals( "" )) {
-                                                                            if (hashmap.get( valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) +
-                                                                                    valueImprotDb[q] ) != null) {
+                                                                            if (hashmap.get( valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) + valueImprotDb[q] ) != null
+                                                                                    && !valueImprotDb[q].equals("")
+                                                                                    && valueImprotDb[q] != null
+                                                                                    && !valueImprotDb[0].equals("")
+                                                                                    && !sessionDeCoX.equals(valueImprotDb[0]) ) {
                                                                                 String value = hashmap.get( valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) + valueImprotDb[q] ).get( 0 );
-                                                                                if (sessionDeCoX != "") {
+                                                                                if (sessionDeCoX != "" ) {
                                                                                     String SessionValueDeCoX = "";
                                                                                     if (hashmap.get( sessionDeCoX.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) +
                                                                                             valueImprotDb[q] ) != null) {
@@ -1110,7 +1115,11 @@ public class Message extends AppCompatActivity {
                                                                                 if (!valueImprotDb[q].equals( "bcp" )) {
                                                                                     error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                                 } else {
-                                                                                    error += valueImprotDb[q] + " ";
+                                                                                    if(valueImprotDb[0].equals(sessionDeCoX)) {
+                                                                                        error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                    } else {
+                                                                                        error += valueImprotDb[q] + " ";
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         }
@@ -1143,7 +1152,7 @@ public class Message extends AppCompatActivity {
                                                                             String SessionValueDeCoX1 = "";
                                                                             // xu ly cac tin nhan kieu de dau dit09 viet sat
                                                                             if (hashmap.get( sessionDeCoX.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) +
-                                                                                    arrNewVal[1] ) != null) {
+                                                                                    arrNewVal[1] ) != null ) {
                                                                                 SessionValueDeCoX1 = hashmap.get( sessionDeCoX + arrNewVal[1] ).get( 0 );
                                                                             }
                                                                             if (valueImprotDb[valueImprotDb.length - 1].equals( "bcp" )) {
@@ -1812,7 +1821,7 @@ public class Message extends AppCompatActivity {
                                                     for (int k = 0; k < valueLoArrCoX.length; k++) {
                                                         String[] valueImprotDb = valueLoArrCoX[k].replaceAll( "(^\\s+|\\s+$)", "" ).split( " " );
                                                         String bosovtat = valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" );
-                                                        if (bosovtat.equals( "cham" ) || bosovtat.equals( "co" ) || bosovtat.equals( "dilh" )) {
+                                                        if (SessionLoCoX == "" && (bosovtat.equals( "cham" ) || bosovtat.equals( "co" ) || bosovtat.equals( "dilh" ))) {
                                                             if (valueImprotDb.length > 1) {
                                                                 error += valueImprotDb[0] + " " + controller.resVtBoso( valueImprotDb, hashmap ).get( 1 );
                                                                 xulydanhbosoVtLo( controller.resVtBoso( valueImprotDb, hashmap ).get( 0 ), compareLo, getNum, hslo, thuonglo, idSmsInt, dongiaId,
@@ -1821,7 +1830,7 @@ public class Message extends AppCompatActivity {
                                                             } else {
                                                                 error += "<font color=\"RED\">" + valueLoArrCoX[k] + " </font>";
                                                             }
-                                                        } else if (kieubosodan.contains( valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) )) {
+                                                        } else if (SessionLoCoX == "" && (kieubosodan.contains( valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) ) ) ) {
                                                         /* danh dan nhonho -toto ... */
                                                             for (int sd = 0; sd < valueImprotDb.length; sd++) {
                                                                 if (kieubosodan.contains( valueImprotDb[sd].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) )) {
@@ -1851,7 +1860,9 @@ public class Message extends AppCompatActivity {
                                                                     for (int q = 1; q < valueImprotDb.length; q++) {
                                                                         if (!valueImprotDb[q].equals( "" )) {
                                                                             if (hashmap.get( valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) +
-                                                                                    valueImprotDb[q] ) != null) {
+                                                                                    valueImprotDb[q] ) != null
+                                                                                    && valueImprotDb[q] != ""
+                                                                                    && ( !SessionLoCoX.equals(valueImprotDb[0]) || SessionLoCoX.equals("") ) ) {
                                                                                 /* danh dan bo - he -tong...*/
                                                                                 String value = hashmap.get( valueImprotDb[0] + valueImprotDb[q] ).get( 0 );
 
