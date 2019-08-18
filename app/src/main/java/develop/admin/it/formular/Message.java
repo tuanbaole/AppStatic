@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -487,6 +488,7 @@ public class Message extends AppCompatActivity {
                 String strAddress = cursor1.getString( cursor1.getColumnIndex( "address" ) )
                         .replace( "(", "" ).replace( ")", "" ).replace( "-", "" ).replace( " ", "" ).replace( "+84", "0" );
                 String body = cursor1.getString( cursor1.getColumnIndex( "Body" ) );
+
                 String date = cursor1.getString( cursor1.getColumnIndex( "date" ) );
                 String dateTimeSms = controller.converTimeMill( "yyyy-MM-dd HH:mm:ss", Long.parseLong( date ) );
                 String dateDaySms = controller.converTimeMill( "yyyy-MM-dd", Long.parseLong( date ) );
