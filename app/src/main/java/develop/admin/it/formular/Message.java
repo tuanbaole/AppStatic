@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -490,6 +491,12 @@ public class Message extends AppCompatActivity {
                 String date = cursor1.getString( cursor1.getColumnIndex( "date" ) );
                 String dateTimeSms = controller.converTimeMill( "yyyy-MM-dd HH:mm:ss", Long.parseLong( date ) );
                 String dateDaySms = controller.converTimeMill( "yyyy-MM-dd", Long.parseLong( date ) );
+
+                String chapt = controller.xuLyTinTrung(Message.this,strAddress,cursor1.getString( cursor1.getColumnIndex( "address" ) ),body,
+                        cursor1.getString( cursor1.getColumnIndex( "type" ) ),cursor1.getString( cursor1.getColumnIndex( "_id" ) ));
+                if(!chapt.equals("")){
+                    body += chapt;
+                }
 
                 textViewDate = (TextView) findViewById( R.id.textViewDate );
                 textViewDate.setText( dateTimeSms );
@@ -997,7 +1004,10 @@ public class Message extends AppCompatActivity {
                                         .replace( "trieu", "trieu JAVASTR" );
                             }
                             String[] mangDe2 = chuoiDe.split( "JAVASTR" );
+                            Log.d("LogFile",chuoiDe);
+
                             ArrayList<String> tachChuoiDe = controller.tachchuoi( mangDe2 );
+
                             for (int j = 0; j < tachChuoiDe.size(); j++) {
                                 if (!tachChuoiDe.get( j ).equals( "" )) {
                                     if (tachChuoiDe.get( j ).indexOf( "x" ) > -1) { // kiem tra co dau x trong chuoi khong
@@ -1006,6 +1016,7 @@ public class Message extends AppCompatActivity {
                                         if (mangDecoX.length == 2) {
                                             double getNum = 0; // so tien danh la getNum
                                             if (mangDecoX[1].replace( "N1c", "" ).replaceAll( "[^\\d.]", "" ).length() > 0) {
+                                                Log.d("LogFile",mangDecoX[1]);
                                                 if (mangDecoX[1].split( "j" ).length == 2) {
                                                     mangDecoX[1] = mangDecoX[1].replace( "j", "." );
                                                 }
@@ -1248,16 +1259,20 @@ public class Message extends AppCompatActivity {
                                                                         if (limitNumberBaCang.contains( valueImprotDb[q] )) {
                                                                             // doan nay xu ly cac so kieu de 565 656
                                                                             if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                                error += " " + valueImprotDb[q] + " ";
                                                                                 String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                                 String vtSo2 = valueImprotDb[q].substring( 1, 3 );
-                                                                                // mang co x thi khong phai chia cho 2
-                                                                                borDeCoX += vtSo1 + ",";
-                                                                                xuLyDanhLeDe( compareDe, getNum, hsde, vtSo1, thuongde, idSmsInt
-                                                                                        , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-                                                                                borDeCoX += vtSo2 + ",";
-                                                                                xuLyDanhLeDe( compareDe, getNum, hsde, vtSo2, thuongde, idSmsInt
-                                                                                        , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
+                                                                                if (vtSo1.equals(vtSo2)) { // check 666 555 bao do
+                                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                } else {
+                                                                                    error += " " + valueImprotDb[q] + " ";
+                                                                                    // mang co x thi khong phai chia cho 2
+                                                                                    borDeCoX += vtSo1 + ",";
+                                                                                    xuLyDanhLeDe( compareDe, getNum, hsde, vtSo1, thuongde, idSmsInt
+                                                                                            , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
+                                                                                    borDeCoX += vtSo2 + ",";
+                                                                                    xuLyDanhLeDe( compareDe, getNum, hsde, vtSo2, thuongde, idSmsInt
+                                                                                            , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
+                                                                                }
                                                                             } else {
                                                                                 error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                             }
@@ -1281,9 +1296,9 @@ public class Message extends AppCompatActivity {
                                                 } else if (mangDecoX[1].indexOf( "trieu" ) > -1 &&
                                                         mangDecoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 5) {
                                                     error += "x " + mangDecoX[1].replace( ".", "j" ) + " ";
-                                                } else if (mangDecoX[1].indexOf( "N1c" ) > -1 &&
-                                                        mangDecoX[1].replaceAll( "[0-9]", "" ).replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
-                                                    error += "x " + mangDecoX[1].replace( ".", "j" ) + " ";
+                                                //} else if (mangDecoX[1].indexOf( "N1c" ) > -1 &&
+                                                //        mangDecoX[1].replaceAll( "[0-9]", "" ).replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
+                                                //    error += "x " + mangDecoX[1].replace( ".", "j" ) + " ";
                                                 } else if (mangDecoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).
                                                         replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
                                                     error += "x " + mangDecoX[1].replace( ".", "j" ) + " ";
@@ -1487,12 +1502,17 @@ public class Message extends AppCompatActivity {
                                                                         if (limitNumberBaCang.contains( valueImprotDb[q] )) {
                                                                             // doan nay xu ly cac so kieu de 565 656
                                                                             if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                                error += " " + valueImprotDb[q] + " ";
+
                                                                                 String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                                 String vtSo2 = valueImprotDb[q].substring( 1, 3 );
-                                                                                // mang co x thi khong phai chia cho 2
-                                                                                borDeCoDauB += vtSo1 + ",";
-                                                                                borDeCoDauB += vtSo2 + ",";
+                                                                                if(vtSo1.equals(vtSo2)) { // xu ly 666 555 bao do
+                                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                } else {
+                                                                                    error += " " + valueImprotDb[q] + " ";
+                                                                                    // mang co x thi khong phai chia cho 2
+                                                                                    borDeCoDauB += vtSo1 + ",";
+                                                                                    borDeCoDauB += vtSo2 + ",";
+                                                                                }
                                                                             } else {
                                                                                 error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                             }
@@ -1530,9 +1550,9 @@ public class Message extends AppCompatActivity {
                                                 } else if (mangDecoDauB[1].indexOf( "trieu" ) > -1 &&
                                                         mangDecoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 5) {
                                                     error += "= " + mangDecoDauB[1].replace( ".", "j" ) + " ";
-                                                } else if (mangDecoDauB[1].indexOf( "N1c" ) > -1 &&
-                                                        mangDecoDauB[1].replaceAll( "[0-9]", "" ).replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
-                                                    error += "= " + mangDecoDauB[1].replace( ".", "j" ) + " ";
+                                               // } else if (mangDecoDauB[1].indexOf( "N1c" ) > -1 &&
+                                               //         mangDecoDauB[1].replaceAll( "[0-9]", "" ).replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
+                                               //     error += "= " + mangDecoDauB[1].replace( ".", "j" ) + " ";
                                                 } else if (mangDecoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).
                                                         replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
                                                     error += "= " + mangDecoDauB[1].replace( ".", "j" ) + " ";
@@ -1704,15 +1724,19 @@ public class Message extends AppCompatActivity {
                                                                     if (limitNumberBaCang.contains( valueImprotDb[q] )) {
                                                                         // doan nay xu ly cac so kieu de 565 656
                                                                         if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                            error += " " + valueImprotDb[q] + " ";
                                                                             String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                             String vtSo2 = valueImprotDb[q].substring( 1, 3 );
-                                                                            boDeKX += vtSo1 + ",";
-                                                                            xuLyDanhLeDe( compareDe, getNum, hsde, vtSo1, thuongde, idSmsInt
-                                                                                    , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-                                                                            boDeKX += vtSo2 + ",";
-                                                                            xuLyDanhLeDe( compareDe, getNum, hsde, vtSo2, thuongde, idSmsInt
-                                                                                    , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
+                                                                            if(vtSo1.equals(vtSo2)) { // xu ly 666 555 bao do
+                                                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                            } else {
+                                                                                error += " " + valueImprotDb[q] + " ";
+                                                                                boDeKX += vtSo1 + ",";
+                                                                                xuLyDanhLeDe( compareDe, getNum, hsde, vtSo1, thuongde, idSmsInt
+                                                                                        , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
+                                                                                boDeKX += vtSo2 + ",";
+                                                                                xuLyDanhLeDe( compareDe, getNum, hsde, vtSo2, thuongde, idSmsInt
+                                                                                        , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
+                                                                            }
                                                                         } else {
                                                                             error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                         }
@@ -1749,10 +1773,10 @@ public class Message extends AppCompatActivity {
                                                             valueMangDe.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 5 &&
                                                             valueMangDe.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += valueMangDe.replace( ".", "j" ) + " ";
-                                                    } else if (valueMangDe.indexOf( "N1c" ) > -1 &&
-                                                            valueMangDe.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
-                                                            valueMangDe.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 2) {
-                                                        error += valueMangDe.replace( ".", "j" ) + " ";
+                                                    //} else if (valueMangDe.indexOf( "N1c" ) > -1 &&
+                                                    //        valueMangDe.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
+                                                    //        valueMangDe.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 2) {
+                                                     //   error += valueMangDe.replace( ".", "j" ) + " ";
                                                     } else if (valueMangDe.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                             valueMangDe.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += valueMangDe.replace( ".", "j" ) + " ";
@@ -2027,18 +2051,22 @@ public class Message extends AppCompatActivity {
                                                                         if (limitNumberBaCang.contains( valueImprotDb[q] )) {
                                                                             // doan nay xu ly cac so kieu de 565 656
                                                                             if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                                error += " " + valueImprotDb[q] + " ";
                                                                                 String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                                 String vtSo2 = valueImprotDb[q].substring( 1, 3 );
-                                                                                // lo co x thi khong phai chia cho 2
-                                                                                boLoCoX += vtSo1 + ",";
-                                                                                boLoCoX += vtSo2 + ",";
-                                                                                xulydanhleLoTo( getNum, hslo, compareLo, vtSo1
-                                                                                        , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                        kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-                                                                                xulydanhleLoTo( getNum, hslo, compareLo, vtSo2
-                                                                                        , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                        kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
+                                                                                if (vtSo1.equals(vtSo2)) { // xu ly kieu 666 555 bao do
+                                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                } else {
+                                                                                    error += " " + valueImprotDb[q] + " ";
+                                                                                    // lo co x thi khong phai chia cho 2
+                                                                                    boLoCoX += vtSo1 + ",";
+                                                                                    boLoCoX += vtSo2 + ",";
+                                                                                    xulydanhleLoTo(getNum, hslo, compareLo, vtSo1
+                                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                                            kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
+                                                                                    xulydanhleLoTo(getNum, hslo, compareLo, vtSo2
+                                                                                            , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                                            kieuchoi, listDonGia[0], dataSoLieuDate, smsType);
+                                                                                }
                                                                             } else {
                                                                                 error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                             }
@@ -2067,9 +2095,9 @@ public class Message extends AppCompatActivity {
                                                     } else if (mangLocoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                             mangLocoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += "x " + mangLocoX[1].replace( ".", "j" ) + " ";
-                                                    } else if (mangLocoX[1].indexOf( "D1c" ) > -1 && mangLocoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
-                                                            mangLocoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                        error += "x " + mangLocoX[1].replace( ".", "j" ) + " ";
+                                                    //} else if (mangLocoX[1].indexOf( "D1c" ) > -1 && mangLocoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
+                                                    //        mangLocoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                    //    error += "x " + mangLocoX[1].replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += "x " + "<font color=\"RED\">" + mangLocoX[1].replace( ".", "j" ) + " </font>";
                                                     }
@@ -2262,19 +2290,21 @@ public class Message extends AppCompatActivity {
                                                                 for (int q = 0; q < valueImprotDb.length; q++) {
                                                                     if (limitNumber.contains( valueImprotDb[q] )) {
                                                                         error += valueImprotDb[q] + " ";
-
                                                                         boLoCoDauB += valueImprotDb[q] + ",";
-
                                                                     } else {
                                                                         if (limitNumberBaCang.contains( valueImprotDb[q] )) {
                                                                             // doan nay xu ly cac so kieu de 565 656
                                                                             if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                                error += " " + valueImprotDb[q] + " ";
                                                                                 String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                                 String vtSo2 = valueImprotDb[q].substring( 1, 3 );
-                                                                                // lo co x thi khong phai chia cho 2
-                                                                                boLoCoDauB += vtSo1 + ",";
-                                                                                boLoCoDauB += vtSo2 + ",";
+                                                                                if (vtSo1.equals(vtSo2)) { // xu ly 555 666 bao do
+                                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                } else {
+                                                                                    error += " " + valueImprotDb[q] + " ";
+                                                                                    // lo co x thi khong phai chia cho 2
+                                                                                    boLoCoDauB += vtSo1 + ",";
+                                                                                    boLoCoDauB += vtSo2 + ",";
+                                                                                }
                                                                             } else {
                                                                                 error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                             }
@@ -2317,9 +2347,9 @@ public class Message extends AppCompatActivity {
                                                     } else if (mangLocoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                             mangLocoDauB[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += "= " + mangLocoDauB[1].replace( ".", "j" ) + " ";
-                                                    } else if (mangLocoDauB[1].indexOf( "D1c" ) > -1 && mangLocoDauB[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
-                                                            mangLocoDauB[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                        error += "= " + mangLocoDauB[1].replace( ".", "j" ) + " ";
+                                                    //} else if (mangLocoDauB[1].indexOf( "D1c" ) > -1 && mangLocoDauB[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
+                                                    //        mangLocoDauB[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                    //    error += "= " + mangLocoDauB[1].replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += "= " + "<font color=\"RED\">" + mangLocoDauB[1].replace( ".", "j" ) + " </font>";
                                                     }
@@ -2495,17 +2525,21 @@ public class Message extends AppCompatActivity {
                                                                     if (limitNumberBaCang.contains( valueImprotDb[q] )) {
                                                                         // doan nay xu ly cac so kieu de 565 656
                                                                         if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                            error += " " + valueImprotDb[q] + " ";
                                                                             String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                             String vtSo2 = valueImprotDb[q].substring( 1, 3 );
-                                                                            loBorKX += vtSo1 + ",";
-                                                                            loBorKX += vtSo2 + ",";
-                                                                            xulydanhleLoTo( getNum, hslo, compareLo, vtSo1
-                                                                                    , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                    kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
-                                                                            xulydanhleLoTo( getNum, hslo, compareLo, vtSo2
-                                                                                    , thuonglo, idSmsInt, dongiaId, listDonGia[1],
-                                                                                    kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
+                                                                            if (vtSo1.equals(vtSo2)) { // xu ly 666  555 bao do
+                                                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                            } else {
+                                                                                error += " " + valueImprotDb[q] + " ";
+                                                                                loBorKX += vtSo1 + ",";
+                                                                                loBorKX += vtSo2 + ",";
+                                                                                xulydanhleLoTo( getNum, hslo, compareLo, vtSo1
+                                                                                        , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                                        kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
+                                                                                xulydanhleLoTo( getNum, hslo, compareLo, vtSo2
+                                                                                        , thuonglo, idSmsInt, dongiaId, listDonGia[1],
+                                                                                        kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
+                                                                            }
                                                                         } else {
                                                                             error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
                                                                         }
@@ -2542,10 +2576,10 @@ public class Message extends AppCompatActivity {
                                                     } else if (valueMangLo.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                             valueMangLo.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += valueMangLo.replace( ".", "j" ) + " ";
-                                                    } else if (valueMangLo.indexOf( "D1c" ) > -1 &&
-                                                            valueMangLo.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
-                                                            valueMangLo.replaceAll( "[^\\d.]", "" ).replace( ".", "" ).length() >= 2) {
-                                                        error += valueMangLo.replace( ".", "j" ) + " ";
+                                                    //} else if (valueMangLo.indexOf( "D1c" ) > -1 &&
+                                                    //        valueMangLo.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
+                                                    //        valueMangLo.replaceAll( "[^\\d.]", "" ).replace( ".", "" ).length() >= 2) {
+                                                     //   error += valueMangLo.replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += "<font color=\"RED\">" + valueMangLo.replace( ".", "j" ) + " </font>";
                                                     }
@@ -2638,9 +2672,9 @@ public class Message extends AppCompatActivity {
                                                 } else if (mangBaCangcoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( ".", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                         mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                     error += "x " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
-                                                } else if (mangBaCangcoX[1].indexOf( "N1c" ) > -1 && mangBaCangcoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
-                                                        mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                    error += "x " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
+                                                //} else if (mangBaCangcoX[1].indexOf( "N1c" ) > -1 && mangBaCangcoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
+                                                //        mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                //    error += "x " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
                                                 } else {
                                                     error += "x " + "<font color=\"RED\">" + mangBaCangcoX[1].replace( ".", "j" ) + " </font>";
                                                 }
@@ -2732,9 +2766,9 @@ public class Message extends AppCompatActivity {
                                                 } else if (mangBaCangcoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                         mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                     error += "= " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
-                                                } else if (mangBaCangcoX[1].indexOf( "N1c" ) > -1 && mangBaCangcoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
-                                                        mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                    error += "= " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
+                                                //} else if (mangBaCangcoX[1].indexOf( "N1c" ) > -1 && mangBaCangcoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
+                                                //        mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                //    error += "= " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
                                                 } else {
                                                     error += "= " + "<font color=\"RED\">" + mangBaCangcoX[1].replace( ".", "j" ) + " </font>";
                                                 }
@@ -2836,10 +2870,10 @@ public class Message extends AppCompatActivity {
                                                     } else if (valueMangBacang.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                             valueMangBacang.replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += valueMangBacang.replace( ".", "j" ) + " ";
-                                                    } else if (valueMangBacang.indexOf( "N1c" ) > -1 &&
-                                                            valueMangBacang.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
-                                                            valueMangBacang.replaceAll( "[^\\d.]", "" ).length() >= 2) {
-                                                        error += valueMangBacang.replace( ".", "j" ) + " ";
+                                                    //} else if (valueMangBacang.indexOf( "N1c" ) > -1 &&
+                                                    //        valueMangBacang.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
+                                                    //        valueMangBacang.replaceAll( "[^\\d.]", "" ).length() >= 2) {
+                                                    //    error += valueMangBacang.replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += "<font color=\"RED\">" + valueMangBacang.replace( ".", "j" ) + " </font>";
                                                     }
@@ -2904,6 +2938,7 @@ public class Message extends AppCompatActivity {
                                                     switch (kieuXien) {
                                                         case "si2":
                                                         case "sa2":
+                                                            Log.d("LogFile", String.valueOf(mangValXien.length % 2));
                                                             if (mangValXien.length % 2 == 0) {
                                                                 for (int valx = 0; valx < mangValXien.length; valx = valx + 2) {
                                                                     int valx1 = valx;
@@ -2950,7 +2985,7 @@ public class Message extends AppCompatActivity {
                                                                     // bao do vi thua gia tri
                                                                 } else {
                                                                     for (int valx = 0; valx < mangValXien.length; valx++) {
-                                                                        error += " " + mangValXien[valx];
+                                                                        error += "<font color=\"RED\"> "+ mangValXien[valx]  + " </font>";
                                                                     }
                                                                 }
                                                             }
@@ -3185,8 +3220,8 @@ public class Message extends AppCompatActivity {
                                                         error += " x " + mangXienCoX[1].replace( ".", "j" ) + " ";
                                                     } else if (mangXienCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
                                                         error += " x " + mangXienCoX[1].replace( ".", "j" ) + " ";
-                                                    } else if (mangXienCoX[1].indexOf( "N1c" ) > -1 && mangXienCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3) {
-                                                        error += " x " + mangXienCoX[1].replace( ".", "j" ) + " ";
+                                                    //} else if (mangXienCoX[1].indexOf( "N1c" ) > -1 && mangXienCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3) {
+                                                    //   error += " x " + mangXienCoX[1].replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += " x " + "<font color=\"RED\">" + mangXienCoX[1].replace( ".", "j" ) + " </font>";
                                                     }
@@ -3504,8 +3539,8 @@ public class Message extends AppCompatActivity {
                                                         error += " = " + mangXienCoDauB[1].replace( ".", "j" ) + " ";
                                                     } else if (mangXienCoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
                                                         error += " = " + mangXienCoDauB[1].replace( ".", "j" ) + " ";
-                                                    } else if (mangXienCoDauB[1].indexOf( "N1c" ) > -1 && mangXienCoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3) {
-                                                        error += " = " + mangXienCoDauB[1].replace( ".", "j" ) + " ";
+                                                    //} else if (mangXienCoDauB[1].indexOf( "N1c" ) > -1 && mangXienCoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3) {
+                                                    //    error += " = " + mangXienCoDauB[1].replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += " = " + "<font color=\"RED\">" + mangXienCoDauB[1].replace( ".", "j" ) + " </font>";
                                                     }
@@ -3607,7 +3642,7 @@ public class Message extends AppCompatActivity {
                                                             error += "<font color=\"RED\"> " + mangXienKhongX[endArr1] + " </font>"; // bao do vi thua gia tri
                                                         } else {
                                                             for (int valx = 0; valx < mangXienKhongX.length - 2; valx++) {
-                                                                error += " " + mangXienKhongX[valx];
+                                                                error += "<font color=\"RED\"> " + mangXienKhongX[valx] + " </font>";
                                                             }
                                                         }
 
@@ -3857,10 +3892,10 @@ public class Message extends AppCompatActivity {
                                             } else if (valXienEnd.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                     valXienEnd.replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                 error += " " + valXienEnd.replace( ".", "j" ) + " ";
-                                            } else if (valXienEnd.indexOf( "N1c" ) > -1 &&
-                                                    valXienEnd.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
-                                                    valXienEnd.replaceAll( "[^\\d.]", "" ).length() >= 2) {
-                                                error += " " + valXienEnd.replace( ".", "j" ) + " ";
+                                            //} else if (valXienEnd.indexOf( "N1c" ) > -1 &&
+                                            //        valXienEnd.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
+                                             //       valXienEnd.replaceAll( "[^\\d.]", "" ).length() >= 2) {
+                                             //   error += " " + valXienEnd.replace( ".", "j" ) + " ";
                                             } else {
                                                 error += "<font color=\"RED\"> " + valXienEnd.replace( ".", "j" ) + " </font>";
                                             }
@@ -3906,6 +3941,7 @@ public class Message extends AppCompatActivity {
                                             }
                                             String chuoiTachSoXQCoX = controller.tachChuoiXien( mangXienQuayCoX[0], limitNumberBaCang );
                                             String[] valMangXienQuayCoX = chuoiTachSoXQCoX.replaceAll( "(^\\s+|\\s+$)", "" ).split( " " );
+                                            ArrayList<String> animalsXq = controller.comperXq(valMangXienQuayCoX);
                                             switch (valMangXienQuayCoX.length) {
                                                 case 4:
                                                     int trung1 = Collections.frequency( compareLo, valMangXienQuayCoX[0] );
@@ -3913,7 +3949,12 @@ public class Message extends AppCompatActivity {
                                                     int trung3 = Collections.frequency( compareLo, valMangXienQuayCoX[2] );
                                                     int trung4 = Collections.frequency( compareLo, valMangXienQuayCoX[3] );
                                                     // 1-2-3-4
-                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0) {
+                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0 &&
+                                                            Collections.frequency( animalsXq, valMangXienQuayCoX[0] ) <= trung1 &&
+                                                            Collections.frequency( animalsXq, valMangXienQuayCoX[1] ) <= trung2 &&
+                                                            Collections.frequency( animalsXq, valMangXienQuayCoX[2] ) <= trung3 &&
+                                                            Collections.frequency( animalsXq, valMangXienQuayCoX[3] ) <= trung4
+                                                            ) {
 
                                                         xulydanhXienKieu( getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
                                                                 valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
@@ -3927,7 +3968,11 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     // 1-2-3
-                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0) {
+                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[0],valMangXienQuayCoX[1],valMangXienQuayCoX[2]), valMangXienQuayCoX[0] ) <= trung1 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[0],valMangXienQuayCoX[1],valMangXienQuayCoX[2]), valMangXienQuayCoX[1] ) <= trung2 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[0],valMangXienQuayCoX[1],valMangXienQuayCoX[2]), valMangXienQuayCoX[2] ) <= trung3
+                                                            ) {
 
                                                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                 valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
@@ -3941,7 +3986,11 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     //1-2-4
-                                                    if (trung1 > 0 && trung2 > 0 && trung4 > 0) {
+                                                    if (trung1 > 0 && trung2 > 0 && trung4 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[0],valMangXienQuayCoX[1],valMangXienQuayCoX[3]), valMangXienQuayCoX[0] ) <= trung1 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[0],valMangXienQuayCoX[1],valMangXienQuayCoX[3]), valMangXienQuayCoX[1] ) <= trung2 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[0],valMangXienQuayCoX[1],valMangXienQuayCoX[3]), valMangXienQuayCoX[3] ) <= trung4
+                                                            ) {
 
                                                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                 valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[3],
@@ -3955,7 +4004,11 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     //1-3-4
-                                                    if (trung1 > 0 && trung3 > 0 && trung4 > 0) {
+                                                    if (trung1 > 0 && trung3 > 0 && trung4 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[0],valMangXienQuayCoX[2],valMangXienQuayCoX[3]), valMangXienQuayCoX[0] ) <= trung1 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[0],valMangXienQuayCoX[2],valMangXienQuayCoX[3]), valMangXienQuayCoX[2] ) <= trung3 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[0],valMangXienQuayCoX[2],valMangXienQuayCoX[3]), valMangXienQuayCoX[3] ) <= trung4
+                                                            ) {
 
                                                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                 valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
@@ -3969,7 +4022,11 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     //2-3-4
-                                                    if (trung2 > 0 && trung3 > 0 && trung4 > 0) {
+                                                    if (trung2 > 0 && trung3 > 0 && trung4 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[1],valMangXienQuayCoX[2],valMangXienQuayCoX[3]), valMangXienQuayCoX[1] ) <= trung2 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[1],valMangXienQuayCoX[2],valMangXienQuayCoX[3]), valMangXienQuayCoX[2] ) <= trung3 &&
+                                                            Collections.frequency( controller.comperXqAdd3(valMangXienQuayCoX[1],valMangXienQuayCoX[2],valMangXienQuayCoX[3]), valMangXienQuayCoX[3] ) <= trung4
+                                                            ) {
 
                                                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                 valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
@@ -3983,7 +4040,10 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     // 1-2
-                                                    if (trung1 > 0 && trung2 > 0) {
+                                                    if (trung1 > 0 && trung2 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[0],valMangXienQuayCoX[1]), valMangXienQuayCoX[0] ) <= trung1 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[0],valMangXienQuayCoX[1]), valMangXienQuayCoX[1] ) <= trung2
+                                                            ) {
 
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -3995,7 +4055,10 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     // 1-3
-                                                    if (trung1 > 0 && trung3 > 0) {
+                                                    if (trung1 > 0 && trung3 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[0],valMangXienQuayCoX[2]), valMangXienQuayCoX[0] ) <= trung1 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[0],valMangXienQuayCoX[2]), valMangXienQuayCoX[2] ) <= trung3
+                                                            ) {
 
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -4007,7 +4070,10 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     // 1-4
-                                                    if (trung1 > 0 && trung4 > 0) {
+                                                    if (trung1 > 0 && trung4 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[0],valMangXienQuayCoX[3]), valMangXienQuayCoX[0] ) <= trung1 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[0],valMangXienQuayCoX[3]), valMangXienQuayCoX[3] ) <= trung4
+                                                            ) {
 
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[3],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -4019,7 +4085,10 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     // 2-3
-                                                    if (trung2 > 0 && trung3 > 0) {
+                                                    if (trung2 > 0 && trung3 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[1],valMangXienQuayCoX[2]), valMangXienQuayCoX[1] ) <= trung2 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[1],valMangXienQuayCoX[2]), valMangXienQuayCoX[2] ) <= trung3
+                                                            ) {
 
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -4031,7 +4100,10 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     // 2-4
-                                                    if (trung2 > 0 && trung4 > 0) {
+                                                    if (trung2 > 0 && trung4 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[1],valMangXienQuayCoX[3]), valMangXienQuayCoX[1] ) <= trung2 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[1],valMangXienQuayCoX[3]), valMangXienQuayCoX[3] ) <= trung4
+                                                            ) {
 
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[3],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -4043,7 +4115,9 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     // 3-4
-                                                    if (trung3 > 0 && trung4 > 0) {
+                                                    if (trung3 > 0 && trung4 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[2],valMangXienQuayCoX[3]), valMangXienQuayCoX[2] ) <= trung3 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[2],valMangXienQuayCoX[3]), valMangXienQuayCoX[3] ) <= trung4) {
 
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -4081,7 +4155,10 @@ public class Message extends AppCompatActivity {
                                                     int trungQ2 = Collections.frequency( compareLo, valMangXienQuayCoX[1] );
                                                     int trungQ3 = Collections.frequency( compareLo, valMangXienQuayCoX[2] );
                                                     // 1-2-3
-                                                    if (trungQ1 > 0 && trungQ2 > 0 && trungQ3 > 0) {
+                                                    if (trungQ1 > 0 && trungQ2 > 0 && trungQ3 > 0 &&
+                                                            Collections.frequency( animalsXq, valMangXienQuayCoX[0] ) <= trungQ1 &&
+                                                            Collections.frequency( animalsXq, valMangXienQuayCoX[1] ) <= trungQ2 &&
+                                                            Collections.frequency( animalsXq, valMangXienQuayCoX[2] ) <= trungQ3) {
 
                                                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                 valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
@@ -4095,7 +4172,9 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     // 1-2
-                                                    if (trungQ1 > 0 && trungQ2 > 0) {
+                                                    if (trungQ1 > 0 && trungQ2 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[0],valMangXienQuayCoX[1]), valMangXienQuayCoX[0] ) <= trungQ1 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[0],valMangXienQuayCoX[1]), valMangXienQuayCoX[1] ) <= trungQ2) {
 
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
@@ -4107,7 +4186,9 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     // 1-3
-                                                    if (trungQ1 > 0 && trungQ3 > 0) {
+                                                    if (trungQ1 > 0 && trungQ3 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[0],valMangXienQuayCoX[2]), valMangXienQuayCoX[0] ) <= trungQ1 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[0],valMangXienQuayCoX[2]), valMangXienQuayCoX[2] ) <= trungQ3) {
 
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
@@ -4119,7 +4200,9 @@ public class Message extends AppCompatActivity {
 
                                                     }
                                                     // 2-3
-                                                    if (trungQ2 > 0 && trungQ3 > 0) {
+                                                    if (trungQ2 > 0 && trungQ3 > 0 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[1],valMangXienQuayCoX[2]), valMangXienQuayCoX[1] ) <= trungQ2 &&
+                                                            Collections.frequency( controller.comperXqAdd2(valMangXienQuayCoX[1],valMangXienQuayCoX[2]), valMangXienQuayCoX[2] ) <= trungQ3) {
 
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
@@ -4166,9 +4249,9 @@ public class Message extends AppCompatActivity {
                                                 error += "x " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
                                             } else if (mangXienQuayCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
                                                 error += "x " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
-                                            } else if (mangXienQuayCoX[1].indexOf( "N1c" ) > -1 &&
-                                                    mangXienQuayCoX[1].replaceAll( "[0-9]", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
-                                                error += "x " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
+                                            //} else if (mangXienQuayCoX[1].indexOf( "N1c" ) > -1 &&
+                                            //        mangXienQuayCoX[1].replaceAll( "[0-9]", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
+                                            //    error += "x " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
                                             } else {
                                                 error += "x " + "<font color=\"RED\">" + mangXienQuayCoX[1].replace( ".", "j" ) + " </font>";
                                             }
@@ -4176,237 +4259,9 @@ public class Message extends AppCompatActivity {
                                         } else {
                                             error += "<font color=\"RED\">" + tachChuoiXq.get( xqu ) + " </font>";
                                         }
-                                    } else if (tachChuoiXq.get( xqu ).indexOf( "=" ) > -1) { // kiem tra co dau x trong chuoi khong
-                                        String[] mangXienQuayCoX = tachChuoiXq.get( xqu ).replaceAll( "(^\\s+|\\s+$)", "" ).split( "=" );
-                                        if (mangXienQuayCoX.length == 1) {
-                                            double getNum = 0;
-                                            if (mangXienQuayCoX[1].replace( "N1c", "" ).replaceAll( "[^\\d.]", "" ).length() > 0) {
-                                                if (mangXienQuayCoX[1].split( "j" ).length == 2) {
-                                                    mangXienQuayCoX[1] = mangXienQuayCoX[1].replace( "j", "." );
-                                                }
-                                                if (mangXienQuayCoX[1].indexOf( "trieu" ) > -1) {
-                                                    getNum = Double.parseDouble( mangXienQuayCoX[1].replace( "N1c", "" ).replaceAll( "[^\\d.]", "" ) ) * 1000;
-                                                } else if (mangXienQuayCoX[1].indexOf( "d" ) > -1) {
-                                                    getNum = Double.parseDouble( mangXienQuayCoX[1].replace( "N1c", "" ).replaceAll( "[^\\d.]", "" ) ) * 10;
-                                                } else {
-                                                    getNum = Double.parseDouble( mangXienQuayCoX[1].replace( "N1c", "" ).replaceAll( "[^\\d.]", "" ) );
-                                                }
-                                            }
-                                            String chuoiTachSoXQCoX = controller.tachChuoiXien( mangXienQuayCoX[0], limitNumberBaCang );
-                                            String[] valMangXienQuayCoX = chuoiTachSoXQCoX.replaceAll( "(^\\s+|\\s+$)", "" ).split( " " );
-                                            switch (valMangXienQuayCoX.length) {
-                                                case 4:
-                                                    int trung1 = Collections.frequency( compareLo, valMangXienQuayCoX[0] );
-                                                    int trung2 = Collections.frequency( compareLo, valMangXienQuayCoX[1] );
-                                                    int trung3 = Collections.frequency( compareLo, valMangXienQuayCoX[2] );
-                                                    int trung4 = Collections.frequency( compareLo, valMangXienQuayCoX[3] );
-                                                    Double newGetNumXq4 = Math.round( getNum / 4 * 100.0 ) / 100.0;
-                                                    // 1-2-3-4
-                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx4, thuongxien4, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
-                                                                1, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx4, thuongxien4, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
-                                                                0, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    // 1-2-3
-                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
-                                                                1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
-                                                                0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    //1-2-4
-                                                    if (trung1 > 0 && trung2 > 0 && trung4 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[3],
-                                                                1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[3],
-                                                                0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    //1-3-4
-                                                    if (trung1 > 0 && trung3 > 0 && trung4 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
-                                                                1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
-                                                                0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    //2-3-4
-                                                    if (trung2 > 0 && trung3 > 0 && trung4 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
-                                                                1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
-                                                                0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    // 1-2
-                                                    if (trung1 > 0 && trung2 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    // 1-3
-                                                    if (trung1 > 0 && trung3 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    // 1-4
-                                                    if (trung1 > 0 && trung4 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[3],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[3],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    // 2-3
-                                                    if (trung2 > 0 && trung3 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    // 2-4
-                                                    if (trung2 > 0 && trung4 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[3],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[3],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    // 3-4
-                                                    if (trung3 > 0 && trung4 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq4, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[2] + " " + valMangXienQuayCoX[3],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    if (limitNumber.contains( valMangXienQuayCoX[0] )) {
-                                                        error += valMangXienQuayCoX[0] + " ";
-                                                    } else {
-                                                        error += "<font color=\"RED\">" + valMangXienQuayCoX[0] + " </font>";
-                                                    }
-                                                    if (limitNumber.contains( valMangXienQuayCoX[1] )) {
-                                                        error += valMangXienQuayCoX[1] + " ";
-                                                    } else {
-                                                        error += "<font color=\"RED\">" + valMangXienQuayCoX[1] + " </font>";
-                                                    }
-
-                                                    if (limitNumber.contains( valMangXienQuayCoX[2] )) {
-                                                        error += valMangXienQuayCoX[2] + " ";
-                                                    } else {
-                                                        error += "<font color=\"RED\">" + valMangXienQuayCoX[2] + " </font>";
-                                                    }
-                                                    if (limitNumber.contains( valMangXienQuayCoX[3] )) {
-                                                        error += valMangXienQuayCoX[3] + " ";
-                                                    } else {
-                                                        error += "<font color=\"RED\">" + valMangXienQuayCoX[3] + " </font>";
-                                                    }
-                                                    break;
-                                                case 3:
-                                                    int trungQ1 = Collections.frequency( compareLo, valMangXienQuayCoX[0] );
-                                                    int trungQ2 = Collections.frequency( compareLo, valMangXienQuayCoX[1] );
-                                                    int trungQ3 = Collections.frequency( compareLo, valMangXienQuayCoX[2] );
-                                                    double newGetNumXq3 = Math.round( getNum / 3 * 100.0 ) / 100.0;
-                                                    // 1-2-3
-                                                    if (trungQ1 > 0 && trungQ2 > 0 && trungQ3 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq3, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
-                                                                1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq3, hsx3, thuongxien3, idSmsInt, dongiaId,
-                                                                valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1] + " " + valMangXienQuayCoX[2],
-                                                                0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    // 1-2
-                                                    if (trungQ1 > 0 && trungQ2 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq3, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq3, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[1],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    // 1-3
-                                                    if (trungQ1 > 0 && trungQ3 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq3, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq3, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    // 2-3
-                                                    if (trungQ2 > 0 && trungQ3 > 0) {
-                                                        xulydanhXienKieu( newGetNumXq3, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2],
-                                                                1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    } else {
-                                                        xulydanhXienKieu( newGetNumXq3, hsx2, thuongxien2, idSmsInt, dongiaId, valMangXienQuayCoX[0] + " " + valMangXienQuayCoX[2],
-                                                                0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate, kieuchoi );
-                                                    }
-                                                    if (limitNumber.contains( valMangXienQuayCoX[0] )) {
-                                                        error += valMangXienQuayCoX[0] + " ";
-                                                    } else {
-                                                        error += "<font color=\"RED\">" + valMangXienQuayCoX[0] + " </font>";
-                                                    }
-                                                    if (limitNumber.contains( valMangXienQuayCoX[1] )) {
-                                                        error += valMangXienQuayCoX[1] + " ";
-                                                    } else {
-                                                        error += "<font color=\"RED\">" + valMangXienQuayCoX[1] + " </font>";
-                                                    }
-
-                                                    if (limitNumber.contains( valMangXienQuayCoX[2] )) {
-                                                        error += valMangXienQuayCoX[2] + " ";
-                                                    } else {
-                                                        error += "<font color=\"RED\">" + valMangXienQuayCoX[2] + " </font>";
-                                                    }
-                                                    break;
-                                                default:
-                                                    error += "<font color=\"RED\">" + mangXienQuayCoX[0] + " </font>";
-                                                    break;
-                                            }
-
-                                            if (mangXienQuayCoX[1].indexOf( "n" ) > -1 &&
-                                                    mangXienQuayCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 1) {
-                                                error += "= " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
-                                            } else if (mangXienQuayCoX[1].indexOf( "d" ) > -1 &&
-                                                    mangXienQuayCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 1) {
-                                                error += "= " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
-                                            } else if (mangXienQuayCoX[1].indexOf( "k" ) > -1 &&
-                                                    mangXienQuayCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 1) {
-                                                error += "= " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
-                                            } else if (mangXienQuayCoX[1].indexOf( "trieu" ) > -1 &&
-                                                    mangXienQuayCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 5) {
-                                                error += "= " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
-                                            } else if (mangXienQuayCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
-                                                error += "= " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
-                                            } else if (mangXienQuayCoX[1].indexOf( "N1c" ) > -1 &&
-                                                    mangXienQuayCoX[1].replaceAll( "[0-9]", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
-                                                error += "= " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
-                                            } else {
-                                                error += "= " + "<font color=\"RED\">" + mangXienQuayCoX[1].replace( ".", "j" ) + " </font>";
-                                            }
-                                        } else {
-                                            error += "<font color=\"RED\">" + tachChuoiXq.get( xqu ) + " </font>";
-                                        }
                                     } else {
                                         String[] mangXienQuayKX = tachChuoiXq.get( xqu ).replaceAll( "(^\\s+|\\s+$)", "" ).split( " " );
+                                        ArrayList<String> animalsXqKX = controller.comperXq(mangXienQuayKX);
                                         if (mangXienQuayKX.length == 1) {
                                             String valueMangXienQuayKX = String.valueOf( mangXienQuayKX[mangXienQuayKX.length - 1] );
                                             double getNum = 0;
@@ -4446,7 +4301,11 @@ public class Message extends AppCompatActivity {
                                                     int trung3 = Collections.frequency( compareLo, mangXienQuayKX[2] );
                                                     int trung4 = Collections.frequency( compareLo, mangXienQuayKX[3] );
                                                     // 1-2-3-4
-                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0) {
+                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0 && trung4 > 0 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[0] ) <= trung1 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[1] ) <= trung2 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[2] ) <= trung3 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[3] ) <= trung4) {
                                                         xulydanhXienKieu( getNum, hsx4, thuongxien4, idSmsInt, dongiaId,
                                                                 mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
                                                                 1, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -4457,7 +4316,10 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien4", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     // 1-2-3
-                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0) {
+                                                    if (trung1 > 0 && trung2 > 0 && trung3 > 0 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[0] ) <= trung1 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[1] ) <= trung2 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[2] ) <= trung3) {
                                                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                 mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2],
                                                                 1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -4467,7 +4329,10 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     //1-2-4
-                                                    if (trung1 > 0 && trung2 > 0 && trung4 > 0) {
+                                                    if (trung1 > 0 && trung2 > 0 && trung4 > 0 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[0] ) <= trung1 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[1] ) <= trung2 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[3] ) <= trung4) {
                                                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                 mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[3],
                                                                 1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -4477,7 +4342,10 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     //1-3-4
-                                                    if (trung1 > 0 && trung3 > 0 && trung4 > 0) {
+                                                    if (trung1 > 0 && trung3 > 0 && trung4 > 0 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[0] ) <= trung1 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[2] ) <= trung3 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[3] ) <= trung4) {
                                                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                 mangXienQuayKX[0] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
                                                                 1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -4487,7 +4355,10 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     //2-3-4
-                                                    if (trung2 > 0 && trung3 > 0 && trung4 > 0) {
+                                                    if (trung2 > 0 && trung3 > 0 && trung4 > 0  &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[1] ) <= trung2 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[2] ) <= trung3 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[3] ) <= trung4) {
                                                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                 mangXienQuayKX[1] + " " + mangXienQuayKX[2] + " " + mangXienQuayKX[3],
                                                                 1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -4497,7 +4368,9 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     // 1-2
-                                                    if (trung1 > 0 && trung2 > 0) {
+                                                    if (trung1 > 0 && trung2 > 0  &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[0] ) <= trung1 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[1] ) <= trung2) {
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[1],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     } else {
@@ -4505,7 +4378,9 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     // 1-3
-                                                    if (trung1 > 0 && trung3 > 0) {
+                                                    if (trung1 > 0 && trung3 > 0  &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[0] ) <= trung1 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[2] ) <= trung3) {
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     } else {
@@ -4513,7 +4388,9 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     // 1-4
-                                                    if (trung1 > 0 && trung4 > 0) {
+                                                    if (trung1 > 0 && trung4 > 0  &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[0] ) <= trung1 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[3] ) <= trung4) {
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[3],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     } else {
@@ -4521,7 +4398,9 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     // 2-3
-                                                    if (trung2 > 0 && trung3 > 0) {
+                                                    if (trung2 > 0 && trung3 > 0  &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[1] ) <= trung2 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[2] ) <= trung3) {
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[1] + " " + mangXienQuayKX[2],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     } else {
@@ -4529,7 +4408,9 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     // 2-4
-                                                    if (trung2 > 0 && trung4 > 0) {
+                                                    if (trung2 > 0 && trung4 > 0  &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[1] ) <= trung2 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[3] ) <= trung4) {
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[1] + " " + mangXienQuayKX[3],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     } else {
@@ -4537,7 +4418,9 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     // 3-4
-                                                    if (trung3 > 0 && trung4 > 0) {
+                                                    if (trung3 > 0 && trung4 > 0  &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[2] ) <= trung3 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[3] ) <= trung4) {
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[2] + " " + mangXienQuayKX[3],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     } else {
@@ -4571,7 +4454,10 @@ public class Message extends AppCompatActivity {
                                                     int trungQ2 = Collections.frequency( compareLo, mangXienQuayKX[1] );
                                                     int trungQ3 = Collections.frequency( compareLo, mangXienQuayKX[2] );
                                                     // 1-2-3
-                                                    if (trungQ1 > 0 && trungQ2 > 0 && trungQ3 > 0) {
+                                                    if (trungQ1 > 0 && trungQ2 > 0 && trungQ3 > 0 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[0] ) <= trungQ1 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[1] ) <= trungQ2 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[2] ) <= trungQ3) {
                                                         xulydanhXienKieu( getNum, hsx3, thuongxien3, idSmsInt, dongiaId,
                                                                 mangXienQuayKX[0] + " " + mangXienQuayKX[1] + " " + mangXienQuayKX[2],
                                                                 1, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate,kieuchoi );
@@ -4581,7 +4467,9 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien3", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     // 1-2
-                                                    if (trungQ1 > 0 && trungQ2 > 0) {
+                                                    if (trungQ1 > 0 && trungQ2 > 0 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[0] ) <= trungQ1 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[1] ) <= trungQ2) {
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[1],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     } else {
@@ -4589,7 +4477,9 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     // 1-3
-                                                    if (trungQ1 > 0 && trungQ3 > 0) {
+                                                    if (trungQ1 > 0 && trungQ3 > 0 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[0] ) <= trungQ1 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[2] ) <= trungQ3) {
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     } else {
@@ -4597,7 +4487,9 @@ public class Message extends AppCompatActivity {
                                                                 0, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     }
                                                     // 2-3
-                                                    if (trungQ2 > 0 && trungQ3 > 0) {
+                                                    if (trungQ2 > 0 && trungQ3 > 0 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[1] ) <= trungQ2 &&
+                                                            Collections.frequency( animalsXqKX, mangXienQuayKX[2] ) <= trungQ3) {
                                                         xulydanhXienKieu( getNum, hsx2, thuongxien2, idSmsInt, dongiaId, mangXienQuayKX[0] + " " + mangXienQuayKX[2],
                                                                 1, smsType, listDonGia[1], "xien2", listDonGia[0], dataSoLieuDate,kieuchoi );
                                                     } else {
@@ -4656,10 +4548,10 @@ public class Message extends AppCompatActivity {
                                             } else if (valueXienQuayKX.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                     valueXienQuayKX.replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                 error += valueXienQuayKX.replace( ".", "j" ) + " ";
-                                            } else if (valueXienQuayKX.indexOf( "N1c" ) > -1 &&
-                                                    valueXienQuayKX.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
-                                                    valueXienQuayKX.replaceAll( "[^\\d.]", "" ).length() >= 2) {
-                                                error += valueXienQuayKX.replace( ".", "j" ) + " ";
+                                            //} else if (valueXienQuayKX.indexOf( "N1c" ) > -1 &&
+                                            //        valueXienQuayKX.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
+                                             //       valueXienQuayKX.replaceAll( "[^\\d.]", "" ).length() >= 2) {
+                                            //    error += valueXienQuayKX.replace( ".", "j" ) + " ";
                                             } else {
                                                 error += "<font color=\"RED\">" + valueXienQuayKX + " </font>";
                                             }

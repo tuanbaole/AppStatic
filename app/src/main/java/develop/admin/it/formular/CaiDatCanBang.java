@@ -19,8 +19,8 @@ public class CaiDatCanBang extends AppCompatActivity {
     private NavigationView mNavigationView;
     EditText
             MAXDE, MAXLO, MAXBACANG,MAXXIEN,
-            TenA, TenB, TenC, TenD, TenE,
-            SDTA, SDTB, SDTC, SDTD, SDTE;
+            TenA, TenB, TenC, TenD, TenE,TenF,TenG,TenH,TenI,TenK,
+            SDTA, SDTB, SDTC, SDTD, SDTE,SDTF,SDTG,SDTH,SDTI,SDTK;
     DatabaseHelper sql;
     GlobalClass controller = new GlobalClass();
     Button luuCaiDat;
@@ -41,11 +41,23 @@ public class CaiDatCanBang extends AppCompatActivity {
         TenC = (EditText) findViewById(R.id.editTextTenC);
         TenD = (EditText) findViewById(R.id.editTextTenD);
         TenE = (EditText) findViewById(R.id.editTextTenE);
+        TenF = (EditText) findViewById(R.id.editTextTenF);
+        TenG = (EditText) findViewById(R.id.editTextTenG);
+        TenH = (EditText) findViewById(R.id.editTextTenH);
+        TenI = (EditText) findViewById(R.id.editTextTenI);
+        TenK = (EditText) findViewById(R.id.editTextTenK);
+
         SDTA = (EditText) findViewById(R.id.editTextSDTA);
         SDTB = (EditText) findViewById(R.id.editTextSDTB);
         SDTC = (EditText) findViewById(R.id.editTextSDTC);
         SDTD = (EditText) findViewById(R.id.editTextSDTD);
         SDTE = (EditText) findViewById(R.id.editTextSDTE);
+        SDTF = (EditText) findViewById(R.id.editTextSDTF);
+        SDTG = (EditText) findViewById(R.id.editTextSDTG);
+        SDTH = (EditText) findViewById(R.id.editTextSDTH);
+        SDTI = (EditText) findViewById(R.id.editTextSDTI);
+        SDTK = (EditText) findViewById(R.id.editTextSDTK);
+
         String tablename = sql.TABLE_NAME_9;
         Cursor getval = sql.getAllDb("SELECT * FROM " + tablename + " WHERE 1 LIMIT 1");
         if (getval.getCount() > 0) {
@@ -84,6 +96,26 @@ public class CaiDatCanBang extends AppCompatActivity {
                             TenE.setText(detailSdt[0]);
                             SDTE.setText(detailSdt[1]);
                             break;
+                        case 5:
+                            TenF.setText(detailSdt[0]);
+                            SDTF.setText(detailSdt[1]);
+                            break;
+                        case 6:
+                            TenG.setText(detailSdt[0]);
+                            SDTG.setText(detailSdt[1]);
+                            break;
+                        case 7:
+                            TenH.setText(detailSdt[0]);
+                            SDTH.setText(detailSdt[1]);
+                            break;
+                        case 8:
+                            TenI.setText(detailSdt[0]);
+                            SDTI.setText(detailSdt[1]);
+                            break;
+                        case 9:
+                            TenK.setText(detailSdt[0]);
+                            SDTK.setText(detailSdt[1]);
+                            break;
                     }
                 }
             }
@@ -112,6 +144,21 @@ public class CaiDatCanBang extends AppCompatActivity {
                 }
                 if (!TenE.getText().toString().equals("") && !SDTE.getText().toString().equals("")) {
                     SDTAll += TenE.getText().toString() + "---" + SDTE.getText().toString() + "JAVA";
+                }
+                if (!TenF.getText().toString().equals("") && !SDTF.getText().toString().equals("")) {
+                    SDTAll += TenF.getText().toString() + "---" + SDTF.getText().toString() + "JAVA";
+                }
+                if (!TenG.getText().toString().equals("") && !SDTG.getText().toString().equals("")) {
+                    SDTAll += TenG.getText().toString() + "---" + SDTG.getText().toString() + "JAVA";
+                }
+                if (!TenH.getText().toString().equals("") && !SDTH.getText().toString().equals("")) {
+                    SDTAll += TenH.getText().toString() + "---" + SDTH.getText().toString() + "JAVA";
+                }
+                if (!TenI.getText().toString().equals("") && !SDTI.getText().toString().equals("")) {
+                    SDTAll += TenI.getText().toString() + "---" + SDTI.getText().toString() + "JAVA";
+                }
+                if (!TenK.getText().toString().equals("") && !SDTK.getText().toString().equals("")) {
+                    SDTAll += TenK.getText().toString() + "---" + SDTK.getText().toString() + "JAVA";
                 }
                 String STDDB = SDTAll.replaceAll("(^\\s+|\\s+$)", "").trim();
                 if (!limitDe.equals("") && !limitLo.equals("") && !limitBaCang.equals("") && !STDDB.equals("") && !limitXien.equals("")) {

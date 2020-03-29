@@ -7,256 +7,365 @@
     android:layout_height="match_parent"
     tools:context="develop.admin.it.formular.CaiDatCanBang">
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="20dp"
-            android:text="Giới Hạn 3càng"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/editTextGioiHanBaCang"
-            android:layout_width="150dp"
-            android:layout_height="43dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:inputType="number"
-            android:text="5000"
-            app:layout_constraintHorizontal_bias="0.44"
-            app:layout_constraintLeft_toRightOf="@+id/textView14"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextGioiHanLo" />
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"
+                android:text="Giới Hạn 3càng"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
-        <EditText
-            android:id="@+id/editTextGioiHanLo"
-            android:layout_width="150dp"
-            android:layout_height="43dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:inputType="number"
-            android:text="5000"
-            app:layout_constraintHorizontal_bias="0.492"
-            app:layout_constraintLeft_toRightOf="@+id/textView13"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextGioiHanDe" />
+            <EditText
+                android:id="@+id/editTextGioiHanBaCang"
+                android:layout_width="150dp"
+                android:layout_height="43dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text="5000"
+                app:layout_constraintHorizontal_bias="0.47"
+                app:layout_constraintLeft_toRightOf="@+id/textView14"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextGioiHanLo"
+                android:layout_marginTop="0dp" />
 
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Giới Hạn Lô"
-            android:layout_marginLeft="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="31dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            <EditText
+                android:id="@+id/editTextGioiHanLo"
+                android:layout_width="150dp"
+                android:layout_height="43dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text="5000"
+                app:layout_constraintHorizontal_bias="0.515"
+                app:layout_constraintLeft_toRightOf="@+id/textView13"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextGioiHanDe"
+                android:layout_marginTop="6dp" />
 
-        <EditText
-            android:id="@+id/editTextGioiHanDe"
-            android:layout_width="150dp"
-            android:layout_height="43dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="number"
-            android:text="5000"
-            app:layout_constraintHorizontal_bias="0.488"
-            app:layout_constraintLeft_toRightOf="@+id/textView12"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="31dp"
+                android:text="Giới Hạn Lô"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Giới Hạn Đề"
-            android:layout_marginLeft="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="16dp" />
+            <EditText
+                android:id="@+id/editTextGioiHanDe"
+                android:layout_width="150dp"
+                android:layout_height="43dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text="5000"
+                app:layout_constraintHorizontal_bias="0.513"
+                app:layout_constraintLeft_toRightOf="@+id/textView12"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="221dp"
-            android:layout_height="22dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="28dp"
-            android:text="Nhập Tên Và Số Điện Thoại"
-            android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.357"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Giới Hạn Đề"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/editTextTenA"
-            android:layout_width="140dp"
-            android:layout_height="41dp"
-            android:layout_marginLeft="16dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="221dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="45dp"
+                android:text="Nhập Tên Và Số Điện Thoại"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView11"
+                app:layout_constraintHorizontal_bias="0.365" />
 
-        <EditText
-            android:id="@+id/editTextSDTA"
-            android:layout_width="150dp"
-            android:layout_height="39dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:inputType="number"
-            app:layout_constraintHorizontal_bias="0.58"
-            app:layout_constraintLeft_toRightOf="@+id/editTextTenA"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+            <EditText
+                android:id="@+id/editTextTenA"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="39dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-        <Button
-            android:id="@+id/buttonLuuCaiDat"
-            android:layout_width="109dp"
-            android:layout_height="48dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:text="Lưu Cài Đặt"
-            app:layout_constraintHorizontal_bias="0.78"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTenE" />
+            <EditText
+                android:id="@+id/editTextSDTA"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="39dp"
+                android:ems="10"
+                android:inputType="number"
+                app:layout_constraintLeft_toRightOf="@+id/editTextTenA"
+                app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-        <EditText
-            android:id="@+id/editTextTenB"
-            android:layout_width="140dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTenA" />
+            <Button
+                android:id="@+id/buttonLuuCaiDat"
+                android:layout_width="109dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="Lưu Cài Đặt"
+                app:layout_constraintHorizontal_bias="0.776"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="99dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTenK" />
 
-        <EditText
-            android:id="@+id/editTextTenC"
-            android:layout_width="140dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTenB" />
+            <EditText
+                android:id="@+id/editTextTenB"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTenA" />
 
-        <EditText
-            android:id="@+id/editTextTenD"
-            android:layout_width="140dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTenC" />
+            <EditText
+                android:id="@+id/editTextTenC"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTenB" />
 
-        <EditText
-            android:id="@+id/editTextTenE"
-            android:layout_width="140dp"
-            android:layout_height="45dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTenD"
-            android:layout_marginLeft="16dp"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            <EditText
+                android:id="@+id/editTextTenD"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTenC" />
 
-        <EditText
-            android:id="@+id/editTextSDTB"
-            android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintHorizontal_bias="0.58"
-            app:layout_constraintLeft_toRightOf="@+id/editTextTenB"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextSDTA" />
+            <EditText
+                android:id="@+id/editTextTenE"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTenD" />
 
-        <EditText
-            android:id="@+id/editTextSDTC"
-            android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintHorizontal_bias="0.58"
-            app:layout_constraintLeft_toRightOf="@+id/editTextTenC"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextSDTB" />
+            <EditText
+                android:id="@+id/editTextSDTB"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toRightOf="@+id/editTextTenB"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSDTA" />
 
-        <EditText
-            android:id="@+id/editTextSDTD"
-            android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintHorizontal_bias="0.56"
-            app:layout_constraintLeft_toRightOf="@+id/editTextTenD"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextSDTC" />
+            <EditText
+                android:id="@+id/editTextSDTC"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toRightOf="@+id/editTextTenC"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSDTB" />
 
-        <EditText
-            android:id="@+id/editTextSDTE"
-            android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintHorizontal_bias="0.58"
-            app:layout_constraintLeft_toRightOf="@+id/editTextTenE"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextSDTD" />
+            <EditText
+                android:id="@+id/editTextSDTD"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toRightOf="@+id/editTextTenD"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSDTC" />
 
-        <EditText
-            android:id="@+id/editTextGioihanxien"
-            android:layout_width="150dp"
-            android:layout_height="43dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="5000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.471"
-            app:layout_constraintStart_toEndOf="@+id/textView11"
-            app:layout_constraintTop_toBottomOf="@+id/editTextGioiHanBaCang" />
+            <EditText
+                android:id="@+id/editTextSDTE"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="-4dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSDTD"
+                app:layout_constraintLeft_toRightOf="@+id/editTextTenE"
+                android:layout_marginLeft="8dp" />
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:text="Giới hạn xiên"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView14" />
-    </android.support.constraint.ConstraintLayout>
+            <EditText
+                android:id="@+id/editTextGioihanxien"
+                android:layout_width="150dp"
+                android:layout_height="43dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="5000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView11"
+                app:layout_constraintTop_toBottomOf="@+id/editTextGioiHanBaCang"
+                android:layout_marginTop="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/textView11"
+                android:layout_marginLeft="8dp" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="35dp"
+                android:text="Giới hạn xiên"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView14"
+                tools:layout_editor_absoluteX="88dp" />
+
+            <EditText
+                android:id="@+id/editTextTenF"
+                android:layout_width="140dp"
+                android:layout_height="47dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTenE" />
+
+            <EditText
+                android:id="@+id/editTextTenG"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTenF" />
+
+            <EditText
+                android:id="@+id/editTextSDTF"
+                android:layout_width="151dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toRightOf="@+id/editTextTenF"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSDTE" />
+
+            <EditText
+                android:id="@+id/editTextTenH"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTenG" />
+
+            <EditText
+                android:id="@+id/editTextTenI"
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTenH" />
+
+            <EditText
+                android:id="@+id/editTextTenK"
+                android:layout_width="140dp"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:layout_marginTop="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTenI"
+                android:layout_marginLeft="36dp"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <EditText
+                android:id="@+id/editTextSDTG"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toRightOf="@+id/editTextTenG"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSDTF" />
+
+            <EditText
+                android:id="@+id/editTextSDTH"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toRightOf="@+id/editTextTenH"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSDTG" />
+
+            <EditText
+                android:id="@+id/editTextSDTK"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:layout_marginTop="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSDTI"
+                app:layout_constraintLeft_toRightOf="@+id/editTextTenK"
+                android:layout_marginLeft="8dp" />
+
+            <EditText
+                android:id="@+id/editTextSDTI"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintLeft_toRightOf="@+id/editTextTenI"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSDTH" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation"

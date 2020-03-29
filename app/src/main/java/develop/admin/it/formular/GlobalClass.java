@@ -1761,4 +1761,46 @@ public class GlobalClass extends AppCompatActivity {
         return xiAb;
     }
 
+    public String xuLyTinTrung (Context context,String strAddress,String strAddress1,String body,String type, String id) {
+        String res = "";
+        Uri mSmsinboxQueryUri2 = Uri.parse( "content://sms/" );
+        String[] projection2 = new String[]{"_id", "address", "person", "body", "date", "type"};
+        String filter2 = "address IN ( \"" + strAddress + "\", \"" + strAddress1 +
+                "\") AND Body =\"" + body + "\" AND type=" + type + " AND "
+                + "_id < " + id;
+        Cursor cursor2 = context.getContentResolver().query( mSmsinboxQueryUri2, projection2, filter2, null, "_id asc" );
+
+        if (cursor2.getCount() > 0) {
+            if(type.equals("1")) {
+                res = " @@@chapthuthoai@@@";
+            } else {
+                res = " @@chapthuthoai@@";
+            }
+        }
+
+        return res;
+    }
+
+    public ArrayList<String> comperXq(String[] valMangXienQuayCoX) {
+        ArrayList<String> animals = new ArrayList<String>();
+        for (int xq = 0; xq < valMangXienQuayCoX.length; xq++) {
+            animals.add(valMangXienQuayCoX[xq]);
+        }
+        return animals;
+    }
+
+    public ArrayList<String> comperXqAdd3(String value1,String value2,String value3) {
+        ArrayList<String> animals = new ArrayList<String>();
+        animals.add(value1);
+        animals.add(value2);
+        animals.add(value3);
+        return animals;
+    }
+
+    public ArrayList<String> comperXqAdd2(String value1,String value2) {
+        ArrayList<String> animals = new ArrayList<String>();
+        animals.add(value1);
+        animals.add(value2);
+        return animals;
+    }
 }
