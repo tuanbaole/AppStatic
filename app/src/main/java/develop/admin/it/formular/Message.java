@@ -1281,9 +1281,9 @@ public class Message extends AppCompatActivity {
                                                 } else if (mangDecoX[1].indexOf( "trieu" ) > -1 &&
                                                         mangDecoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 5) {
                                                     error += "x " + mangDecoX[1].replace( ".", "j" ) + " ";
-                                                } else if (mangDecoX[1].indexOf( "N1c" ) > -1 &&
-                                                        mangDecoX[1].replaceAll( "[0-9]", "" ).replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
-                                                    error += "x " + mangDecoX[1].replace( ".", "j" ) + " ";
+                                                //} else if (mangDecoX[1].indexOf( "N1c" ) > -1 &&
+                                                //        mangDecoX[1].replaceAll( "[0-9]", "" ).replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
+                                                //    error += "x " + mangDecoX[1].replace( ".", "j" ) + " ";
                                                 } else if (mangDecoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).
                                                         replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
                                                     error += "x " + mangDecoX[1].replace( ".", "j" ) + " ";
@@ -1530,9 +1530,9 @@ public class Message extends AppCompatActivity {
                                                 } else if (mangDecoDauB[1].indexOf( "trieu" ) > -1 &&
                                                         mangDecoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 5) {
                                                     error += "= " + mangDecoDauB[1].replace( ".", "j" ) + " ";
-                                                } else if (mangDecoDauB[1].indexOf( "N1c" ) > -1 &&
-                                                        mangDecoDauB[1].replaceAll( "[0-9]", "" ).replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
-                                                    error += "= " + mangDecoDauB[1].replace( ".", "j" ) + " ";
+                                                //} else if (mangDecoDauB[1].indexOf( "N1c" ) > -1 &&
+                                                //        mangDecoDauB[1].replaceAll( "[0-9]", "" ).replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
+                                                //    error += "= " + mangDecoDauB[1].replace( ".", "j" ) + " ";
                                                 } else if (mangDecoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).
                                                         replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
                                                     error += "= " + mangDecoDauB[1].replace( ".", "j" ) + " ";
@@ -1749,10 +1749,10 @@ public class Message extends AppCompatActivity {
                                                             valueMangDe.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 5 &&
                                                             valueMangDe.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += valueMangDe.replace( ".", "j" ) + " ";
-                                                    } else if (valueMangDe.indexOf( "N1c" ) > -1 &&
-                                                            valueMangDe.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
-                                                            valueMangDe.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 2) {
-                                                        error += valueMangDe.replace( ".", "j" ) + " ";
+                                                    //} else if (valueMangDe.indexOf( "N1c" ) > -1 &&
+                                                    //        valueMangDe.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
+                                                    //        valueMangDe.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 2) {
+                                                    //    error += valueMangDe.replace( ".", "j" ) + " ";
                                                     } else if (valueMangDe.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                             valueMangDe.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += valueMangDe.replace( ".", "j" ) + " ";
@@ -2067,9 +2067,9 @@ public class Message extends AppCompatActivity {
                                                     } else if (mangLocoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                             mangLocoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += "x " + mangLocoX[1].replace( ".", "j" ) + " ";
-                                                    } else if (mangLocoX[1].indexOf( "D1c" ) > -1 && mangLocoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
-                                                            mangLocoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                        error += "x " + mangLocoX[1].replace( ".", "j" ) + " ";
+                                                    //} else if (mangLocoX[1].indexOf( "D1c" ) > -1 && mangLocoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
+                                                    //        mangLocoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                    //    error += "x " + mangLocoX[1].replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += "x " + "<font color=\"RED\">" + mangLocoX[1].replace( ".", "j" ) + " </font>";
                                                     }
@@ -2317,9 +2317,9 @@ public class Message extends AppCompatActivity {
                                                     } else if (mangLocoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                             mangLocoDauB[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += "= " + mangLocoDauB[1].replace( ".", "j" ) + " ";
-                                                    } else if (mangLocoDauB[1].indexOf( "D1c" ) > -1 && mangLocoDauB[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
-                                                            mangLocoDauB[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                        error += "= " + mangLocoDauB[1].replace( ".", "j" ) + " ";
+                                                    //} else if (mangLocoDauB[1].indexOf( "D1c" ) > -1 && mangLocoDauB[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
+                                                    //        mangLocoDauB[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                    //    error += "= " + mangLocoDauB[1].replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += "= " + "<font color=\"RED\">" + mangLocoDauB[1].replace( ".", "j" ) + " </font>";
                                                     }
@@ -2542,10 +2542,10 @@ public class Message extends AppCompatActivity {
                                                     } else if (valueMangLo.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                             valueMangLo.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += valueMangLo.replace( ".", "j" ) + " ";
-                                                    } else if (valueMangLo.indexOf( "D1c" ) > -1 &&
-                                                            valueMangLo.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
-                                                            valueMangLo.replaceAll( "[^\\d.]", "" ).replace( ".", "" ).length() >= 2) {
-                                                        error += valueMangLo.replace( ".", "j" ) + " ";
+                                                    //} else if (valueMangLo.indexOf( "D1c" ) > -1 &&
+                                                    //        valueMangLo.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
+                                                    //        valueMangLo.replaceAll( "[^\\d.]", "" ).replace( ".", "" ).length() >= 2) {
+                                                    //    error += valueMangLo.replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += "<font color=\"RED\">" + valueMangLo.replace( ".", "j" ) + " </font>";
                                                     }
@@ -2638,9 +2638,9 @@ public class Message extends AppCompatActivity {
                                                 } else if (mangBaCangcoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( ".", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                         mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                     error += "x " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
-                                                } else if (mangBaCangcoX[1].indexOf( "N1c" ) > -1 && mangBaCangcoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
-                                                        mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                    error += "x " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
+                                                //} else if (mangBaCangcoX[1].indexOf( "N1c" ) > -1 && mangBaCangcoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
+                                                //        mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                //    error += "x " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
                                                 } else {
                                                     error += "x " + "<font color=\"RED\">" + mangBaCangcoX[1].replace( ".", "j" ) + " </font>";
                                                 }
@@ -2732,9 +2732,9 @@ public class Message extends AppCompatActivity {
                                                 } else if (mangBaCangcoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                         mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                     error += "= " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
-                                                } else if (mangBaCangcoX[1].indexOf( "N1c" ) > -1 && mangBaCangcoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
-                                                        mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                    error += "= " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
+                                                //} else if (mangBaCangcoX[1].indexOf( "N1c" ) > -1 && mangBaCangcoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
+                                                //        mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                //    error += "= " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
                                                 } else {
                                                     error += "= " + "<font color=\"RED\">" + mangBaCangcoX[1].replace( ".", "j" ) + " </font>";
                                                 }
@@ -2836,10 +2836,10 @@ public class Message extends AppCompatActivity {
                                                     } else if (valueMangBacang.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                             valueMangBacang.replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += valueMangBacang.replace( ".", "j" ) + " ";
-                                                    } else if (valueMangBacang.indexOf( "N1c" ) > -1 &&
-                                                            valueMangBacang.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
-                                                            valueMangBacang.replaceAll( "[^\\d.]", "" ).length() >= 2) {
-                                                        error += valueMangBacang.replace( ".", "j" ) + " ";
+                                                    //} else if (valueMangBacang.indexOf( "N1c" ) > -1 &&
+                                                    //        valueMangBacang.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
+                                                    //       valueMangBacang.replaceAll( "[^\\d.]", "" ).length() >= 2) {
+                                                    //    error += valueMangBacang.replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += "<font color=\"RED\">" + valueMangBacang.replace( ".", "j" ) + " </font>";
                                                     }
@@ -3185,8 +3185,8 @@ public class Message extends AppCompatActivity {
                                                         error += " x " + mangXienCoX[1].replace( ".", "j" ) + " ";
                                                     } else if (mangXienCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
                                                         error += " x " + mangXienCoX[1].replace( ".", "j" ) + " ";
-                                                    } else if (mangXienCoX[1].indexOf( "N1c" ) > -1 && mangXienCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3) {
-                                                        error += " x " + mangXienCoX[1].replace( ".", "j" ) + " ";
+                                                    //} else if (mangXienCoX[1].indexOf( "N1c" ) > -1 && mangXienCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3) {
+                                                    //    error += " x " + mangXienCoX[1].replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += " x " + "<font color=\"RED\">" + mangXienCoX[1].replace( ".", "j" ) + " </font>";
                                                     }
@@ -3504,8 +3504,8 @@ public class Message extends AppCompatActivity {
                                                         error += " = " + mangXienCoDauB[1].replace( ".", "j" ) + " ";
                                                     } else if (mangXienCoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
                                                         error += " = " + mangXienCoDauB[1].replace( ".", "j" ) + " ";
-                                                    } else if (mangXienCoDauB[1].indexOf( "N1c" ) > -1 && mangXienCoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3) {
-                                                        error += " = " + mangXienCoDauB[1].replace( ".", "j" ) + " ";
+                                                    //} else if (mangXienCoDauB[1].indexOf( "N1c" ) > -1 && mangXienCoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3) {
+                                                    //    error += " = " + mangXienCoDauB[1].replace( ".", "j" ) + " ";
                                                     } else {
                                                         error += " = " + "<font color=\"RED\">" + mangXienCoDauB[1].replace( ".", "j" ) + " </font>";
                                                     }
@@ -3857,10 +3857,10 @@ public class Message extends AppCompatActivity {
                                             } else if (valXienEnd.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                     valXienEnd.replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                 error += " " + valXienEnd.replace( ".", "j" ) + " ";
-                                            } else if (valXienEnd.indexOf( "N1c" ) > -1 &&
-                                                    valXienEnd.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
-                                                    valXienEnd.replaceAll( "[^\\d.]", "" ).length() >= 2) {
-                                                error += " " + valXienEnd.replace( ".", "j" ) + " ";
+                                            //} else if (valXienEnd.indexOf( "N1c" ) > -1 &&
+                                            //        valXienEnd.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
+                                            //        valXienEnd.replaceAll( "[^\\d.]", "" ).length() >= 2) {
+                                            //    error += " " + valXienEnd.replace( ".", "j" ) + " ";
                                             } else {
                                                 error += "<font color=\"RED\"> " + valXienEnd.replace( ".", "j" ) + " </font>";
                                             }
@@ -4166,9 +4166,9 @@ public class Message extends AppCompatActivity {
                                                 error += "x " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
                                             } else if (mangXienQuayCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
                                                 error += "x " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
-                                            } else if (mangXienQuayCoX[1].indexOf( "N1c" ) > -1 &&
-                                                    mangXienQuayCoX[1].replaceAll( "[0-9]", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
-                                                error += "x " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
+                                            //} else if (mangXienQuayCoX[1].indexOf( "N1c" ) > -1 &&
+                                            //        mangXienQuayCoX[1].replaceAll( "[0-9]", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
+                                            //    error += "x " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
                                             } else {
                                                 error += "x " + "<font color=\"RED\">" + mangXienQuayCoX[1].replace( ".", "j" ) + " </font>";
                                             }
@@ -4396,9 +4396,9 @@ public class Message extends AppCompatActivity {
                                                 error += "= " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
                                             } else if (mangXienQuayCoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
                                                 error += "= " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
-                                            } else if (mangXienQuayCoX[1].indexOf( "N1c" ) > -1 &&
-                                                    mangXienQuayCoX[1].replaceAll( "[0-9]", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
-                                                error += "= " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
+                                            //} else if (mangXienQuayCoX[1].indexOf( "N1c" ) > -1 &&
+                                            //        mangXienQuayCoX[1].replaceAll( "[0-9]", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
+                                            //    error += "= " + mangXienQuayCoX[1].replace( ".", "j" ) + " ";
                                             } else {
                                                 error += "= " + "<font color=\"RED\">" + mangXienQuayCoX[1].replace( ".", "j" ) + " </font>";
                                             }
@@ -4656,10 +4656,10 @@ public class Message extends AppCompatActivity {
                                             } else if (valueXienQuayKX.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
                                                     valueXienQuayKX.replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                 error += valueXienQuayKX.replace( ".", "j" ) + " ";
-                                            } else if (valueXienQuayKX.indexOf( "N1c" ) > -1 &&
-                                                    valueXienQuayKX.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
-                                                    valueXienQuayKX.replaceAll( "[^\\d.]", "" ).length() >= 2) {
-                                                error += valueXienQuayKX.replace( ".", "j" ) + " ";
+                                            //} else if (valueXienQuayKX.indexOf( "N1c" ) > -1 &&
+                                            //        valueXienQuayKX.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
+                                            //        valueXienQuayKX.replaceAll( "[^\\d.]", "" ).length() >= 2) {
+                                            //    error += valueXienQuayKX.replace( ".", "j" ) + " ";
                                             } else {
                                                 error += "<font color=\"RED\">" + valueXienQuayKX + " </font>";
                                             }
