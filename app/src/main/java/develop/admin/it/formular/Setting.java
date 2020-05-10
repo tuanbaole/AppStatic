@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 public class Setting extends AppCompatActivity {
     TextView textViewTimeDe, textViewTimeLo, textViewKhoaApp, textViewShowImei;
-    Button buttonCreated;
+    Button buttonCreated,buttonGiahan;
     GlobalClass controller;
     DatabaseHelper sql;
 
@@ -164,6 +164,33 @@ public class Setting extends AppCompatActivity {
                     });
                 } else {
                     controller.showAlertDialog(Setting.this, "Thông Báo", "Không kết nối được internet");
+                }
+            }
+        });
+
+        buttonGiahan = (Button) findViewById( R.id.buttonGiahan );
+        buttonGiahan.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri mSmsinboxQueryUri = Uri.parse( "content://sms/" );
+                String[] projection = new String[]{"_id", "address", "person", "body", "date", "type"};
+//                String filter = "address  IN (\"0363153993\",\"+84363153993\",\"(036) 315-3993\")";
+                Cursor cursor1 = getContentResolver().query( mSmsinboxQueryUri, projection, null, null, "_id desc" );
+                if (cursor1.getCount() > 0) {
+                    cursor1.moveToFirst();
+                    String strAddress =  cursor1.getString( cursor1.getColumnIndex( "address" ) )
+                            .replace( "(", "" ).replace( ")", "" ).replace( "-", "" ).replace( " ", "" ).replace( "+84", "0" );
+                    if (strAddress.equals("0363153993")) {
+                        String body = cursor1.getString( cursor1.getColumnIndex( "Body" ) );
+                        if (body.indexOf("date") > -1) {
+                            String s =  body.replace( "date", "" ).replace( " ", "" );
+                            Toast.makeText(Setting.this, s, Toast.LENGTH_LONG).show();
+                            sql = new DatabaseHelper(Setting.this);
+                            sql.updateTimeTableIMEI("1", s);
+                            textViewKhoaApp = (TextView) findViewById(R.id.textViewKhoaApp);
+                            textViewKhoaApp.setText(s);
+                        }
+                    }
                 }
             }
         });

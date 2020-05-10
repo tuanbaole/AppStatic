@@ -1074,9 +1074,11 @@ public class Message extends AppCompatActivity {
                                                                 error += "<font color=\"RED\">" + valueDeArr[k] + " </font>";
                                                             } else {
                                                                 if (valueImprotDb.length > 1) {
-                                                                    error += valueImprotDb[0] + " ";
-
-
+                                                                    if ((sessionDeCoX.equals("dau") && valueImprotDb[0].equals("dit")) || (sessionDeCoX.equals("dit") || valueImprotDb[0].equals("dau")) || sessionDeCoX.equals("")) {
+                                                                        error += valueImprotDb[0] + " ";
+                                                                    } else {
+                                                                        error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                                    }
                                                                     for (int q = 1; q < valueImprotDb.length; q++) {
                                                                         if (!valueImprotDb[q].equals( "" )) {
                                                                             if (hashmap.get( valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) + valueImprotDb[q] ) != null
@@ -1246,11 +1248,15 @@ public class Message extends AppCompatActivity {
 
                                                                     } else {
                                                                         if (limitNumberBaCang.contains( valueImprotDb[q] )) {
-                                                                            // doan nay xu ly cac so kieu de 565 656
+                                                                            // doan nay xu ly cac so kieu de 565 656 555
                                                                             if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                                error += " " + valueImprotDb[q] + " ";
                                                                                 String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                                 String vtSo2 = valueImprotDb[q].substring( 1, 3 );
+                                                                                if  (vtSo1.equals(vtSo2)) {
+                                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                } else {
+                                                                                    error += " " + valueImprotDb[q] + " ";
+                                                                                }
                                                                                 // mang co x thi khong phai chia cho 2
                                                                                 borDeCoX += vtSo1 + ",";
                                                                                 xuLyDanhLeDe( compareDe, getNum, hsde, vtSo1, thuongde, idSmsInt
@@ -1485,11 +1491,15 @@ public class Message extends AppCompatActivity {
 
                                                                     } else {
                                                                         if (limitNumberBaCang.contains( valueImprotDb[q] )) {
-                                                                            // doan nay xu ly cac so kieu de 565 656
+                                                                            // doan nay xu ly cac so kieu de 565 656 555
                                                                             if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                                error += " " + valueImprotDb[q] + " ";
                                                                                 String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                                 String vtSo2 = valueImprotDb[q].substring( 1, 3 );
+                                                                                if  (vtSo1.equals(vtSo2)) {
+                                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                } else {
+                                                                                    error += " " + valueImprotDb[q] + " ";
+                                                                                }
                                                                                 // mang co x thi khong phai chia cho 2
                                                                                 borDeCoDauB += vtSo1 + ",";
                                                                                 borDeCoDauB += vtSo2 + ",";
@@ -1702,11 +1712,15 @@ public class Message extends AppCompatActivity {
 
                                                                 } else {
                                                                     if (limitNumberBaCang.contains( valueImprotDb[q] )) {
-                                                                        // doan nay xu ly cac so kieu de 565 656
+                                                                        // doan nay xu ly cac so kieu de 565 656 555
                                                                         if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                            error += " " + valueImprotDb[q] + " ";
                                                                             String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                             String vtSo2 = valueImprotDb[q].substring( 1, 3 );
+                                                                            if  (vtSo1.equals(vtSo2)) {
+                                                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                            } else {
+                                                                                error += " " + valueImprotDb[q] + " ";
+                                                                            }
                                                                             boDeKX += vtSo1 + ",";
                                                                             xuLyDanhLeDe( compareDe, getNum, hsde, vtSo1, thuongde, idSmsInt
                                                                                     , dongiaId, listDonGia[1], kieuchoi, listDonGia[0], dataSoLieuDate, smsType );
@@ -1857,6 +1871,11 @@ public class Message extends AppCompatActivity {
                                                             } else {
                                                                 if (valueImprotDb.length > 1) {
                                                                     error += valueImprotDb[0] + " ";
+                                                                    if ((SessionLoCoX.equals("dau") && valueImprotDb[0].equals("dit")) || (SessionLoCoX.equals("dit") || valueImprotDb[0].equals("dau")) || SessionLoCoX.equals("")) {
+                                                                        error += valueImprotDb[0] + " ";
+                                                                    } else {
+                                                                        error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                                    }
                                                                     for (int q = 1; q < valueImprotDb.length; q++) {
                                                                         if (!valueImprotDb[q].equals( "" )) {
                                                                             if (hashmap.get( valueImprotDb[0].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ) +
@@ -2025,11 +2044,15 @@ public class Message extends AppCompatActivity {
 
                                                                     } else {
                                                                         if (limitNumberBaCang.contains( valueImprotDb[q] )) {
-                                                                            // doan nay xu ly cac so kieu de 565 656
+                                                                            // doan nay xu ly cac so kieu de 565 656 555
                                                                             if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                                error += " " + valueImprotDb[q] + " ";
                                                                                 String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                                 String vtSo2 = valueImprotDb[q].substring( 1, 3 );
+                                                                                if  (vtSo1.equals(vtSo2)) {
+                                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                } else {
+                                                                                    error += " " + valueImprotDb[q] + " ";
+                                                                                }
                                                                                 // lo co x thi khong phai chia cho 2
                                                                                 boLoCoX += vtSo1 + ",";
                                                                                 boLoCoX += vtSo2 + ",";
@@ -2267,11 +2290,15 @@ public class Message extends AppCompatActivity {
 
                                                                     } else {
                                                                         if (limitNumberBaCang.contains( valueImprotDb[q] )) {
-                                                                            // doan nay xu ly cac so kieu de 565 656
+                                                                            // doan nay xu ly cac so kieu de 565 656 555
                                                                             if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                                error += " " + valueImprotDb[q] + " ";
                                                                                 String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                                 String vtSo2 = valueImprotDb[q].substring( 1, 3 );
+                                                                                if  (vtSo1.equals(vtSo2)) {
+                                                                                    error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                                } else {
+                                                                                    error += " " + valueImprotDb[q] + " ";
+                                                                                }
                                                                                 // lo co x thi khong phai chia cho 2
                                                                                 boLoCoDauB += vtSo1 + ",";
                                                                                 boLoCoDauB += vtSo2 + ",";
@@ -2493,11 +2520,15 @@ public class Message extends AppCompatActivity {
 
                                                                 } else {
                                                                     if (limitNumberBaCang.contains( valueImprotDb[q] )) {
-                                                                        // doan nay xu ly cac so kieu de 565 656
+                                                                        // doan nay xu ly cac so kieu de 565 656 555
                                                                         if (valueImprotDb[q].substring( 0, 1 ).equals( valueImprotDb[q].substring( 2, 3 ) )) {
-                                                                            error += " " + valueImprotDb[q] + " ";
                                                                             String vtSo1 = valueImprotDb[q].substring( 0, 2 );
                                                                             String vtSo2 = valueImprotDb[q].substring( 1, 3 );
+                                                                            if  (vtSo1.equals(vtSo2)) {
+                                                                                error += "<font color=\"RED\">" + valueImprotDb[q] + " </font>";
+                                                                            } else {
+                                                                                error += " " + valueImprotDb[q] + " ";
+                                                                            }
                                                                             loBorKX += vtSo1 + ",";
                                                                             loBorKX += vtSo2 + ",";
                                                                             xulydanhleLoTo( getNum, hslo, compareLo, vtSo1
