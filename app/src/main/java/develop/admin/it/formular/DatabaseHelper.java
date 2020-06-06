@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.os.Build.ID;
+
 /**
  * Created by IT on 4/23/2017.
  */
@@ -131,13 +133,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_101 = "ID";
     public static final String COL_102 = "PASSWORD";
 
+    public static final String TABLE_NAME_11= "lotocanbang";
+    public static final String COL_111 = "ID";
+    public static final String COL_112 = "KIHIEU";
+    public static final String COL_113 = "LOTO";
+
     // hien thi thoi gian cai cac packed
     GlobalClass controller = new GlobalClass();
     String day = controller.dateDay("yyyy-MM-dd HH:mm:ss");
 
     public DatabaseHelper(Context context) {
 //        super(context,DATABASE_NAME,factory,version);
-        super(context, DATABASE_NAME, null, 12);
+        super(context, DATABASE_NAME, null, 13); // update vesion db neu them db sua lai so
         SQLiteDatabase db = this.getWritableDatabase(); // su dung khi tao bang
     }
 
@@ -199,6 +206,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "ID INTEGER PRIMARY KEY AUTOINCREMENT,PASSWORD VARCHAR) "
         );
 
+        db.execSQL(
+                "create table " + TABLE_NAME_11 + " (" +
+                        "ID INTEGER PRIMARY KEY AUTOINCREMENT,KIHIEU VARCHAR,LOTO VARCHAR) "
+        );
+
     }
 
     @Override
@@ -212,6 +224,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_7);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_9);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_10);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_11);
         onCreate(db);
     }
 
@@ -418,6 +431,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean insertlotocanbang(String kihieu,String loto) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_112, kihieu);
+        contentValues.put(COL_113, loto);
+        long result = db.insert(TABLE_NAME_11, null, contentValues);
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public Cursor getAllDb(String query) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery(query, null);
@@ -432,6 +458,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValue.put(COL_13, surname);
         contentValue.put(COL_14, marks);
         db.update(TABLE_NAME_1, contentValue, "ID = ? ", new String[]{id});
+        return true;
+    }
+
+    public boolean updatelotocanbang(String id, String kihieu,String loto) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(COL_111, id);
+        contentValue.put(COL_112, kihieu);
+        contentValue.put(COL_113, loto);
+        db.update(TABLE_NAME_11, contentValue, "ID = ? ", new String[]{id});
         return true;
     }
 
@@ -492,6 +528,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Integer deleteData(String table_name, String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(table_name, "ID = ? ", new String[]{id});
+    }
+
+    public Integer deletealllotocanbang(String table_name, String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(table_name, "ID > ?", new String[]{ID});
     }
 
     public Integer deleteSolieuSmsID(String table_name, String smsID) {

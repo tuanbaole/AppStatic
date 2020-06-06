@@ -37,6 +37,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
+import static develop.admin.it.formular.DatabaseHelper.TABLE_NAME_11;
+import static develop.admin.it.formular.DatabaseHelper.TABLE_NAME_5;
 import static develop.admin.it.formular.R.id.textViewSmsId;
 
 public class Message extends AppCompatActivity {
@@ -131,7 +133,7 @@ public class Message extends AppCompatActivity {
                     String body = cursor1.getString( cursor1.getColumnIndex( "body" ) );
                     String address = cursor1.getString( cursor1.getColumnIndex( "address" ) );
                     boolean insert = sql.insertSmsReady( Integer.parseInt( idMessage ), 0, body, 1, newDateMath );
-                    String table5 = sql.TABLE_NAME_5;
+                    String table5 = TABLE_NAME_5;
                     Integer deleteSolieu = sql.deleteAll( table5, newDateMath );
                     textV = (EditText) findViewById( R.id.editTextMessage );
                     textV.setText( "" );
@@ -238,7 +240,7 @@ public class Message extends AppCompatActivity {
                 if (smsBackString.getCount() > 0) {
                     smsBackString.moveToFirst();
                     String smsIdBack = smsBackString.getString( smsBackString.getColumnIndex( "SMSID" ) );
-                    String table5 = sql.TABLE_NAME_5;
+                    String table5 = TABLE_NAME_5;
                     String table6 = sql.TABLE_NAME_6;
                     sql.deleteSolieuSmsID( table5, smsIdBack );
                     sql.deleteSolieuSmsID( table6, smsIdBack );
@@ -341,7 +343,7 @@ public class Message extends AppCompatActivity {
                 textViewDate = (TextView) findViewById( R.id.textViewDate );
                 textViewDate.setText( "" );
                 sql = new DatabaseHelper( Message.this );
-                String table5 = sql.TABLE_NAME_5;
+                String table5 = TABLE_NAME_5;
                 String table6 = sql.TABLE_NAME_6;
                 buttonDate = (Button) findViewById( R.id.buttonDate );
                 String getDays = buttonDate.getText().toString();
@@ -539,104 +541,196 @@ public class Message extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_calculate:
-                buttonDate = (Button) findViewById( R.id.buttonDate );
+                buttonDate = (Button) findViewById(R.id.buttonDate);
                 String getDays = buttonDate.getText().toString();
-                textViewHSD = (TextView) findViewById( R.id.textViewHSD );
+                textViewHSD = (TextView) findViewById(R.id.textViewHSD);
                 String getHsd = textViewHSD.getText().toString();
-                long miliGetDay = controller.converDayToMill( "yyyy-MM-dd", getDays );
-                long miligetHsd = controller.converDayToMill( "yyyy-MM-dd", getHsd );
+                long miliGetDay = controller.converDayToMill("yyyy-MM-dd", getDays);
+                long miligetHsd = controller.converDayToMill("yyyy-MM-dd", getHsd);
                 if (miligetHsd >= miliGetDay) {
-                    textViewTypeCheckSms = (TextView) findViewById( R.id.textViewTypeCheckSms );
-                    String newGetDays = controller.convertFormatDate( getDays );
-                    if (textViewTypeCheckSms.getText().toString().equals( "0" )) {
-                        sql = new DatabaseHelper( this );
-                        Cursor kqsx = sql.getAllDb( "SELECT * FROM kq_table WHERE NGAY=\"" + newGetDays + "\"" );
+                    textViewTypeCheckSms = (TextView) findViewById(R.id.textViewTypeCheckSms);
+                    String newGetDays = controller.convertFormatDate(getDays);
+                    if (textViewTypeCheckSms.getText().toString().equals("0")) {
+                        sql = new DatabaseHelper(this);
+                        Cursor kqsx = sql.getAllDb("SELECT * FROM kq_table WHERE NGAY=\"" + newGetDays + "\"");
                         if (kqsx.getCount() != 27) {
-                            String dateDayLink = controller.dateDay( "dd-MM-yyyy" );
-                            getKqsxmb( dateDayLink, newGetDays );
+                            String dateDayLink = controller.dateDay("dd-MM-yyyy");
+                            getKqsxmb(dateDayLink, newGetDays);
                         } else {
-                            clickShowEditText( newGetDays );
+                            clickShowEditText(newGetDays);
                         }
                     } else {
-                        clickShowEditText( newGetDays );
+                        clickShowEditText(newGetDays);
                     }
                 } else {
-                    controller.showAlertDialog( Message.this, "Thông báo", "Đã hết hạn sử dụng ứng dụng! làm ơn đăng kí sử dụng tiếp" );
+                    controller.showAlertDialog(Message.this, "Thông báo", "Đã hết hạn sử dụng ứng dụng! làm ơn đăng kí sử dụng tiếp");
                 }
                 return true;
             case R.id.luutinkho:
-                TextView smsIdLuuTin = (TextView) findViewById( textViewSmsId );
+                TextView smsIdLuuTin = (TextView) findViewById(textViewSmsId);
                 String smsIdLuu = smsIdLuuTin.getText().toString();
-                Uri mSmsinboxQueryUri = Uri.parse( "content://sms/" );
+                Uri mSmsinboxQueryUri = Uri.parse("content://sms/");
                 String[] projection = new String[]{"_id", "address", "person", "body", "date", "type"};
                 String filter = "_id=" + smsIdLuu;
-                Cursor cursor2 = getContentResolver().query( mSmsinboxQueryUri, projection, filter, null, "_id asc" );
+                Cursor cursor2 = getContentResolver().query(mSmsinboxQueryUri, projection, filter, null, "_id asc");
                 if (cursor2.getCount() > 0) {
                     cursor2.moveToFirst();
-                    String idMessage = cursor2.getString( cursor2.getColumnIndex( "_id" ) );
-                    String noiDungTin = cursor2.getString( cursor2.getColumnIndex( "Body" ) );
-                    buttonDate = (Button) findViewById( R.id.buttonDate );
+                    String idMessage = cursor2.getString(cursor2.getColumnIndex("_id"));
+                    String noiDungTin = cursor2.getString(cursor2.getColumnIndex("Body"));
+                    buttonDate = (Button) findViewById(R.id.buttonDate);
                     String dateMath = buttonDate.getText().toString();
-                    String newDateMath = controller.convertFormatDate( dateMath );
-                    boolean insert = sql.insertSmsReady( Integer.parseInt( idMessage ), 0, noiDungTin, 2, newDateMath );
-                    String table5 = sql.TABLE_NAME_5;
-                    Integer deleteSolieu = sql.deleteAll( table5, newDateMath );
-                    textV = (EditText) findViewById( R.id.editTextMessage );
-                    textV.setText( "" );
-                    clickShowEditText( newDateMath );
-                    Toast.makeText( Message.this, "Lưu tin chưa tính tiền thành công", Toast.LENGTH_SHORT ).show();
+                    String newDateMath = controller.convertFormatDate(dateMath);
+                    boolean insert = sql.insertSmsReady(Integer.parseInt(idMessage), 0, noiDungTin, 2, newDateMath);
+                    String table5 = TABLE_NAME_5;
+                    Integer deleteSolieu = sql.deleteAll(table5, newDateMath);
+                    textV = (EditText) findViewById(R.id.editTextMessage);
+                    textV.setText("");
+                    clickShowEditText(newDateMath);
+                    Toast.makeText(Message.this, "Lưu tin chưa tính tiền thành công", Toast.LENGTH_SHORT).show();
                 } else {
-                    controller.showAlertDialog( Message.this, "Thông báo", "Chưa có tin nào để lưu" );
+                    controller.showAlertDialog(Message.this, "Thông báo", "Chưa có tin nào để lưu");
                 }
                 return true;
             case R.id.guitincanbang:
-                Intent intent = new Intent( Message.this, GuiTinCanBang.class );
-                startActivity( intent );
+                Intent intent = new Intent(Message.this, GuiTinCanBang.class);
+                startActivity(intent);
                 return true;
             case R.id.caidaicanbang:
-                Intent intent2 = new Intent( Message.this, CaiDatCanBang.class );
-                startActivity( intent2 );
+                Intent intent2 = new Intent(Message.this, CaiDatCanBang.class);
+                startActivity(intent2);
                 return true;
             case R.id.chitiettinnhan:
-                Intent intent3 = new Intent( Message.this, ChiTietTinNhan.class );
-                startActivity( intent3 );
+                Intent intent3 = new Intent(Message.this, ChiTietTinNhan.class);
+                startActivity(intent3);
                 return true;
             case R.id.capnhatketqua:
-                buttonDate = (Button) findViewById( R.id.buttonDate );
+                buttonDate = (Button) findViewById(R.id.buttonDate);
                 final String ngaySelect = buttonDate.getText().toString();
-                textViewHSD = (TextView) findViewById( R.id.textViewHSD );
+                textViewHSD = (TextView) findViewById(R.id.textViewHSD);
                 String getHsd1 = textViewHSD.getText().toString();
-                long miliGetDay1 = controller.converDayToMill( "yyyy-MM-dd", ngaySelect );
-                long miligetHsd1 = controller.converDayToMill( "yyyy-MM-dd", getHsd1 );
+                long miliGetDay1 = controller.converDayToMill("yyyy-MM-dd", ngaySelect);
+                long miligetHsd1 = controller.converDayToMill("yyyy-MM-dd", getHsd1);
                 if (miligetHsd1 >= miliGetDay1) {
-                    Cursor kqsx = sql.getAllDb( "SELECT * FROM kq_table WHERE NGAY=\"" + ngaySelect + "\"" );
+                    Cursor kqsx = sql.getAllDb("SELECT * FROM kq_table WHERE NGAY=\"" + ngaySelect + "\"");
                     if (kqsx.getCount() != 27) {
-                        new CountDownTimer( 4000, 2000 ) {
+                        new CountDownTimer(4000, 2000) {
                             public void onTick(long millisUntilFinished) {
-                                getKqsxmb( ngaySelect, ngaySelect );
+                                getKqsxmb(ngaySelect, ngaySelect);
                             }
 
                             public void onFinish() {
-                                Cursor kqsx1 = sql.getAllDb( "SELECT * FROM kq_table WHERE NGAY=\"" + ngaySelect + "\"" );
+                                Cursor kqsx1 = sql.getAllDb("SELECT * FROM kq_table WHERE NGAY=\"" + ngaySelect + "\"");
                                 if (kqsx1.getCount() == 27) {
-                                    xulySms( ngaySelect );
+                                    xulySms(ngaySelect);
                                 } else {
-                                    controller.showAlertDialog( Message.this, "Thông báo", "Chưa tìm thấy kết quả" );
+                                    controller.showAlertDialog(Message.this, "Thông báo", "Chưa tìm thấy kết quả");
                                 }
                             }
                         }.start();
                     } else {
-                        xulySms( ngaySelect );
+                        xulySms(ngaySelect);
                     }
                 } else {
-                    controller.showAlertDialog( Message.this, "Thông báo", "Đã hết hạn sử dụng ứng dụng! làm ơn đăng kí sử dụng tiếp" );
+                    controller.showAlertDialog(Message.this, "Thông báo", "Đã hết hạn sử dụng ứng dụng! làm ơn đăng kí sử dụng tiếp");
                 }
                 return true;
-        }
-        if (mDrawerToggle.onOptionsItemSelected( item )) {
+            case R.id.luutincanbang:
+                ArrayList<String> smsReady = new ArrayList<>();
+                textV = (EditText) findViewById(R.id.editTextMessage);
+                String body = textV.getText().toString();
+
+                textContact = (TextView) findViewById(R.id.textViewContact);
+                buttonDate = (Button) findViewById(R.id.buttonDate);
+                String err = "";
+                String smsType = "inbox";
+
+                if (!body.equals("")) {
+                    String dateMath = buttonDate.getText().toString();
+                    String newDateMath = controller.convertFormatDate(dateMath);
+                    String smsNotIn = "0";
+                    String strAddress = "0912345678";
+                    String date = controller.dateDay("yyyy-MM-dd HH:mm:ss");
+                    String dateTimeSms = date;
+                    String dateDaySms = date;
+                    textViewDate = (TextView) findViewById(R.id.textViewDate);
+                    textViewDate.setText(dateTimeSms);
+                    String timeSms = controller.dateDay("HH:mm");
+                    timeSmsVn = (TextView) findViewById(R.id.textViewTimeSms);
+                    timeSmsVn.setText(timeSms);
+                    smsType = "inbox";
+                    textViewSmsType = (TextView) findViewById(R.id.textViewSmsType);
+                    textViewSmsType.setText(smsType);
+                    String idMessage = "999999";
+                    smsId = (TextView) findViewById(textViewSmsId);
+                    smsId.setText(idMessage);
+                    textContact.setText(strAddress + "-" + strAddress);
+                    err = checkMessage(body, dateMath, smsType).replace("lh", "nh").replace("al", "an");
+                    String table5 = TABLE_NAME_5;
+                    String decb = "";
+                    String locb = "";
+                    String bacangcb = "";
+                    if (err.indexOf( "</font>" ) > -1) {
+                        sql.deleteSolieuSmsID( table5, String.valueOf( idMessage ) );
+                        textV.setText( Html.fromHtml( err ) );
+                    } else {
+                        String query = "SELECT * FROM solieu_table WHERE SMSID=" + idMessage;
+                        Cursor table_solieu = sql.getAllDb(query);
+                        if (table_solieu.getCount() > 0) {
+                            while (table_solieu.moveToNext()) {
+                                if(table_solieu.getString(table_solieu.getColumnIndex("KIHIEU")).equals("de")) {
+                                    decb += table_solieu.getString(table_solieu.getColumnIndex("LOTO")) + " ";
+                                } else if(table_solieu.getString(table_solieu.getColumnIndex("KIHIEU")).equals("lo")){
+                                    locb += table_solieu.getString(table_solieu.getColumnIndex("LOTO")) + " ";
+                                } else if(table_solieu.getString(table_solieu.getColumnIndex("KIHIEU")).equals("bacang")){
+                                    bacangcb += table_solieu.getString(table_solieu.getColumnIndex("LOTO")) + " ";
+                                }
+                            }
+                            sql.deletealllotocanbang(TABLE_NAME_11,"-1");
+                            sql.insertlotocanbang("de",decb);
+                            sql.insertlotocanbang("lo",locb);
+                            sql.insertlotocanbang("bacang",bacangcb);
+                            sql.deleteSolieuSmsID( table5, String.valueOf( idMessage ) );
+                        }
+                        textV.setText( "" );
+
+                        controller.showAlertDialog(Message.this, "Thông báo", "Đã cập nhật lưu tin thành công " +
+                                "--- đề : " + decb +
+                                "--- lô : " + locb +
+                                "--- 3c : " + bacangcb
+                        );
+                    }
+                } else {
+                    String decb = "";
+                    String locb = "";
+                    String bacangcb = "";
+                    String lotocanbang = "SELECT * FROM lotocanbang WHERE 1" ;
+                    Cursor table_lotocanbang = sql.getAllDb(lotocanbang);
+                    if (table_lotocanbang.getCount() > 0) {
+                        while (table_lotocanbang.moveToNext()) {
+                            if(table_lotocanbang.getString(table_lotocanbang.getColumnIndex("KIHIEU")).equals("de")) {
+                                decb = table_lotocanbang.getString(table_lotocanbang.getColumnIndex("LOTO"));
+                            } else if(table_lotocanbang.getString(table_lotocanbang.getColumnIndex("KIHIEU")).equals("lo")){
+                                locb = table_lotocanbang.getString(table_lotocanbang.getColumnIndex("LOTO"));
+                            } else if(table_lotocanbang.getString(table_lotocanbang.getColumnIndex("KIHIEU")).equals("bacang")){
+                                bacangcb = table_lotocanbang.getString(table_lotocanbang.getColumnIndex("LOTO")) + ",";
+                            }
+                        }
+                    }
+                    controller.showAlertDialog(Message.this, "Thông báo", "Điền dữ liệu vào ô trống " +
+                            "--- đề : " + decb +
+                            "--- lô : " + locb +
+                            "--- 3c : " + bacangcb
+                    );
+                }
+                return true;
+
+        } // end cac nut
+
+
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        return super.onOptionsItemSelected( item );
+        return super.onOptionsItemSelected(item);
     }
 
     public void xulySms(final String ngaySelect) {
@@ -697,7 +791,7 @@ public class Message extends AppCompatActivity {
                         String sms_id = sms_ready_table1.getString( sms_ready_table1.getColumnIndex( "SMSID" ) );
                         String ten = sms_ready_table1.getString( sms_ready_table1.getColumnIndex( "TEN" ) );
                         String sdt = sms_ready_table1.getString( sms_ready_table1.getColumnIndex( "SDT" ) );
-                        String table5 = sql.TABLE_NAME_5;
+                        String table5 = TABLE_NAME_5;
                         TextView textContact1 = (TextView) findViewById( R.id.textViewContact );
                         textContact1.setText( ten + "-" + sdt );
                         textViewSmsType = (TextView) findViewById( R.id.textViewSmsType );
@@ -819,7 +913,7 @@ public class Message extends AppCompatActivity {
                     } else {
                         String idSms = smsId.getText().toString();
                         int idSmsInt = Integer.parseInt( idSms );
-                        String table5 = sql.TABLE_NAME_5;
+                        String table5 = TABLE_NAME_5;
                         sql.deleteSolieuSmsID( table5, String.valueOf( idSmsInt ) );
                         textV.setText( Html.fromHtml( err ) );
                     }
@@ -865,7 +959,7 @@ public class Message extends AppCompatActivity {
                     } else {
                         String idSms = smsId.getText().toString();
                         int idSmsInt = Integer.parseInt( idSms );
-                        String table5 = sql.TABLE_NAME_5;
+                        String table5 = TABLE_NAME_5;
                         sql.deleteSolieuSmsID( table5, String.valueOf( idSmsInt ) ); /* khong luu du luu khi van chua dung dinh dang */
                         textV.setText( Html.fromHtml( errFix ) );
                     }
@@ -1077,7 +1171,9 @@ public class Message extends AppCompatActivity {
                                                                     if ((sessionDeCoX.equals("dau") && valueImprotDb[0].equals("dit")) || (sessionDeCoX.equals("dit") || valueImprotDb[0].equals("dau")) || sessionDeCoX.equals("")) {
                                                                         error += valueImprotDb[0] + " ";
                                                                     } else {
-                                                                        error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                                        if (!sessionDeCoX.equals("")) {
+                                                                            error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                                        }
                                                                     }
                                                                     for (int q = 1; q < valueImprotDb.length; q++) {
                                                                         if (!valueImprotDb[q].equals( "" )) {
@@ -1874,7 +1970,9 @@ public class Message extends AppCompatActivity {
                                                                     if ((SessionLoCoX.equals("dau") && valueImprotDb[0].equals("dit")) || (SessionLoCoX.equals("dit") || valueImprotDb[0].equals("dau")) || SessionLoCoX.equals("")) {
                                                                         error += valueImprotDb[0] + " ";
                                                                     } else {
-                                                                        error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                                        if (!SessionLoCoX.equals("")) {
+                                                                            error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                                        }
                                                                     }
                                                                     for (int q = 1; q < valueImprotDb.length; q++) {
                                                                         if (!valueImprotDb[q].equals( "" )) {

@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -91,6 +92,22 @@ public class CanBangSendSms extends AppCompatActivity {
             ArrayList<String> allXienRes = new ArrayList<String>();
             ArrayList<String> allXienVal = new ArrayList<String>();
             ArrayList<String> allXienTh = new ArrayList<String>();
+            String lotocanbang = "SELECT * FROM lotocanbang WHERE 1" ;
+            Cursor table_lotocanbang = sql.getAllDb(lotocanbang);
+            String decb = "";
+            String locb = "";
+            String bacangcb = "";
+            if (table_lotocanbang.getCount() > 0) {
+                while (table_lotocanbang.moveToNext()) {
+                    if(table_lotocanbang.getString(table_lotocanbang.getColumnIndex("KIHIEU")).equals("de")) {
+                        decb = table_lotocanbang.getString(table_lotocanbang.getColumnIndex("LOTO"));
+                    } else if(table_lotocanbang.getString(table_lotocanbang.getColumnIndex("KIHIEU")).equals("lo")){
+                        locb = table_lotocanbang.getString(table_lotocanbang.getColumnIndex("LOTO"));
+                    } else if(table_lotocanbang.getString(table_lotocanbang.getColumnIndex("KIHIEU")).equals("bacang")){
+                        bacangcb = table_lotocanbang.getString(table_lotocanbang.getColumnIndex("LOTO")) + ",";
+                    }
+                }
+            }
             while (table_solieu.moveToNext()) {
                 String loto = table_solieu.getString(table_solieu.getColumnIndex("LOTO"));
                 String kieuChoi = table_solieu.getString(table_solieu.getColumnIndex("KIHIEU"));
@@ -102,12 +119,18 @@ public class CanBangSendSms extends AppCompatActivity {
                 String tongbang = table_solieu.getString(table_solieu.getColumnIndex("TONG"));
                 double moicon2 = Math.round(Double.parseDouble(table_solieu.getString(table_solieu.getColumnIndex("MOICON"))) * 100.0) / 100.0;
                 Integer moicon = Integer.parseInt(String.valueOf(Math.round(moicon2)));
+
                 if (hashmap.get(loto) != null) {
                     String value = hashmap.get(loto).get(0);
                     String[] arrVal = value.split(",");
                     if (kieuChoi.equals("de")) {
                         for (int i = 0; i < arrVal.length; i++) {
                             int solo = Integer.parseInt(String.valueOf(arrVal[i].replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")));
+                            String valsolo = String.valueOf(solo);
+                            if (solo < 10) {
+                                valsolo = "0"+ String.valueOf(solo);
+                            }
+
                             if (kieuguitin.equals("inbox")) {
                                 if (deArr[solo] != null) {
                                     deArr[solo] += moicon;
@@ -121,10 +144,20 @@ public class CanBangSendSms extends AppCompatActivity {
                                     deArr[solo] = 0 - moicon;
                                 }
                             }
+
+                            if (decb.indexOf(valsolo) >= 0 ) {
+                                deArr[solo] = 0;
+                            }
+
                         }
                     } else if (kieuChoi.equals("lo")) {
                         for (int i = 0; i < arrVal.length; i++) {
                             int solo = Integer.parseInt(String.valueOf(arrVal[i].replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")));
+                            String valsolo = String.valueOf(solo);
+                            if (solo < 10) {
+                                valsolo = "0"+ String.valueOf(solo);
+                            }
+
                             if (kieuguitin.equals("inbox")) {
                                 if (loArr[solo] != null) {
                                     loArr[solo] += moicon;
@@ -138,12 +171,22 @@ public class CanBangSendSms extends AppCompatActivity {
                                     loArr[solo] = 0 - moicon;
                                 }
                             }
+
+                            if (locb.indexOf(valsolo) >= 0 ) {
+                                loArr[solo] = 0;
+                            }
+                            Log.d("LogFile","2");
                         }
                     }
                 } else {
                     if (limitNumber.contains(loto.replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", ""))) {
                         if (kieuChoi.equals("de")) {
                             int intLoTo = Integer.parseInt(String.valueOf(loto.replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")));
+                            String valintsolo = String.valueOf(intLoTo);
+                            if (intLoTo < 10) {
+                                valintsolo = "0"+ String.valueOf(valintsolo);
+                            }
+
                             if (kieuguitin.equals("inbox")) {
                                 if (deArr[intLoTo] != null) {
                                     deArr[intLoTo] += moicon;
@@ -157,8 +200,20 @@ public class CanBangSendSms extends AppCompatActivity {
                                     deArr[intLoTo] = 0 - moicon;
                                 }
                             }
+
+                            if (decb.indexOf(valintsolo) >= 0 ) {
+                                deArr[intLoTo] = 0;
+                            }
+
+                            Log.d("LogFile","3");
+
                         } else if (kieuChoi.equals("lo")) {
                             int intLoTo = Integer.parseInt(String.valueOf(loto.replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")));
+                            String valintsolo = String.valueOf(intLoTo);
+                            if (intLoTo < 10) {
+                                valintsolo = "0"+ String.valueOf(valintsolo);
+                            }
+
                             if (kieuguitin.equals("inbox")) {
                                 if (loArr[intLoTo] != null) {
                                     loArr[intLoTo] += moicon;
@@ -172,9 +227,21 @@ public class CanBangSendSms extends AppCompatActivity {
                                     loArr[intLoTo] = 0 - moicon;
                                 }
                             }
+
+                            if (locb.indexOf(valintsolo) >= 0 ) {
+                                loArr[intLoTo] = 0;
+                            }
+                            Log.d("LogFile","4");
                         }
                     } else if (limitNumberBaCang.contains(loto.replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "")) && kieuChoi.equals("bacang")) {
                         int intBaCang = Integer.parseInt(String.valueOf(loto.replaceAll("[^\\d.]", "").replaceAll("(^\\s+|\\s+$)", "").replace(" ", "")));
+                        String valintbancang = String.valueOf(intBaCang);
+                        if (intBaCang < 10) {
+                            valintbancang = "0"+ String.valueOf(valintbancang);
+                        } else if (intBaCang < 100) {
+                            valintbancang = "00"+ String.valueOf(valintbancang);
+                        }
+
                         if (kieuguitin.equals("inbox")) {
                             if (bacangArr[intBaCang] != null) {
                                 bacangArr[intBaCang] += moicon;
@@ -188,6 +255,12 @@ public class CanBangSendSms extends AppCompatActivity {
                                 bacangArr[intBaCang] = 0 - moicon;
                             }
                         }
+
+                        if (bacangcb.indexOf(valintbancang) >= 0 ) {
+                            bacangArr[intBaCang] = 0;
+                        }
+                        Log.d("LogFile","5");
+
                     } else if (kieuChoi.equals("xien") || kieuChoi.equals("xien2") || kieuChoi.equals("xien3") || kieuChoi.equals("xien4")) {
                         int position = -1;
                         position = allXienRes.indexOf(loto);

@@ -23,4 +23,7 @@
     <item
         android:id="@+id/capnhatketqua"
         android:title="Cập Nhật Kết Quả" />
+    <item
+        android:id="@+id/luutincanbang"
+        android:title="Lưu Tin Cân Bảng" />
 </menu>

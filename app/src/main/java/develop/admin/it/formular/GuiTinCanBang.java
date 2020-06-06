@@ -38,29 +38,49 @@ public class GuiTinCanBang extends AppCompatActivity {
 
     private void showItemListViewContact(String getDays) {
         sql = new DatabaseHelper(this);
-        String query = "SELECT SDT FROM setingsend_table WHERE 1 LIMIT 1";
+
+        String query = "SELECT * FROM dongia_table";
         Cursor setingsend_table = sql.getAllDb(query);
 
         names = new ArrayList<>();
         sdts = new ArrayList<>();
         idContact = new ArrayList<>();
+        mylistView = (ListView) findViewById(R.id.mylistView);
         if (setingsend_table.getCount() > 0) {
-            setingsend_table.moveToFirst();
-            String SDTDB2 = setingsend_table.getString(setingsend_table.getColumnIndex("SDT"));
-            String [] sdtArr = SDTDB2.split("JAVA");
-            for (int i = 0; i < sdtArr.length; i++) {
-                String [] detailSdt = sdtArr[i].split("---");
-                if (detailSdt.length == 2) {
-                    names.add(detailSdt[0]);
-                    sdts.add(detailSdt[1]);
-                    idContact.add(String.valueOf(i));
-                }
+            while (setingsend_table.moveToNext()) {
+                names.add(setingsend_table.getString(setingsend_table.getColumnIndex("TEN")));
+                sdts.add(setingsend_table.getString(setingsend_table.getColumnIndex("SDT")));
+                idContact.add(setingsend_table.getString(setingsend_table.getColumnIndex("ID")));
+
+                // hien thi them ra ngoai
+                CanBangAdapter contactadapter = new CanBangAdapter(this, names, sdts, idContact);
+                mylistView.setAdapter(contactadapter);
             }
-            mylistView = (ListView) findViewById(R.id.mylistView);
-            // hien thi them ra ngoai
-            CanBangAdapter contactadapter = new CanBangAdapter(this, names, sdts, idContact);
-            mylistView.setAdapter(contactadapter);
         }
+        // --------------------------------------------- danh ba
+//        String query = "SELECT SDT FROM setingsend_table WHERE 1 LIMIT 1";
+//        Cursor setingsend_table = sql.getAllDb(query);
+//
+//        names = new ArrayList<>();
+//        sdts = new ArrayList<>();
+//        idContact = new ArrayList<>();
+//        if (setingsend_table.getCount() > 0) {
+//            setingsend_table.moveToFirst();
+//            String SDTDB2 = setingsend_table.getString(setingsend_table.getColumnIndex("SDT"));
+//            String [] sdtArr = SDTDB2.split("JAVA");
+//            for (int i = 0; i < sdtArr.length; i++) {
+//                String [] detailSdt = sdtArr[i].split("---");
+//                if (detailSdt.length == 2) {
+//                    names.add(detailSdt[0]);
+//                    sdts.add(detailSdt[1]);
+//                    idContact.add(String.valueOf(i));
+//                }
+//            }
+//            mylistView = (ListView) findViewById(R.id.mylistView);
+//            // hien thi them ra ngoai
+//            CanBangAdapter contactadapter = new CanBangAdapter(this, names, sdts, idContact);
+//            mylistView.setAdapter(contactadapter);
+//        }
     }
 
     public void sideBarMenu() {
