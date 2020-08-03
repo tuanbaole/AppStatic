@@ -517,7 +517,6 @@ public class Message extends AppCompatActivity {
                 String filtera = "_id IN (" + smsNotIn + ") AND Body=\""+ body
                         + "\" AND type = \""  + cursor1.getString( cursor1.getColumnIndex( "type" ) ) + "\""
                         + " AND address = \""  + cursor1.getString( cursor1.getColumnIndex( "address" ) ) + "\"";
-                Log.d("LogFile",filtera);
                 Cursor cursor2 = getContentResolver().query( mSmsinboxQueryUri, projection, filtera, null, "_id asc" );
                 if (cursor2.getCount() > 0) {
                     body += "@tinlap@";
