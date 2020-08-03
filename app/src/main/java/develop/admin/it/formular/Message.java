@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -484,6 +485,7 @@ public class Message extends AppCompatActivity {
             String[] projection = new String[]{"_id", "address", "person", "body", "date", "type"};
             String filter = "_id  NOT IN (" + smsNotIn + ") AND Body!=\"\" ";
             Cursor cursor1 = getContentResolver().query( mSmsinboxQueryUri, projection, filter, null, "_id asc" );
+
             if (cursor1.getCount() > 0) {
                 cursor1.moveToFirst();
                 String strAddress = cursor1.getString( cursor1.getColumnIndex( "address" ) )
@@ -511,6 +513,15 @@ public class Message extends AppCompatActivity {
                 String idMessage = cursor1.getString( cursor1.getColumnIndex( "_id" ) );
                 smsId = (TextView) findViewById( textViewSmsId );
                 smsId.setText( idMessage );
+
+                String filtera = "_id IN (" + smsNotIn + ") AND Body=\""+ body
+                        + "\" AND type = \""  + cursor1.getString( cursor1.getColumnIndex( "type" ) ) + "\""
+                        + " AND address = \""  + cursor1.getString( cursor1.getColumnIndex( "address" ) ) + "\"";
+                Log.d("LogFile",filtera);
+                Cursor cursor2 = getContentResolver().query( mSmsinboxQueryUri, projection, filtera, null, "_id asc" );
+                if (cursor2.getCount() > 0) {
+                    body += "@tinlap@";
+                }
 
                 long dateSms = Long.parseLong( cursor1.getString( cursor1.getColumnIndex( "date" ) ) );
                 String vnTime = controller.converTimeMill( "yyyy-MM-dd HH:mm:ss", dateSms );
@@ -1173,6 +1184,8 @@ public class Message extends AppCompatActivity {
                                                                     } else {
                                                                         if (!sessionDeCoX.equals("")) {
                                                                             error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                                        } else {
+                                                                            error += valueImprotDb[0] + " ";
                                                                         }
                                                                     }
                                                                     for (int q = 1; q < valueImprotDb.length; q++) {
@@ -1966,12 +1979,13 @@ public class Message extends AppCompatActivity {
                                                                 error += "<font color=\"RED\">" + valueLoArrCoX[k] + " </font>";
                                                             } else {
                                                                 if (valueImprotDb.length > 1) {
-                                                                    error += valueImprotDb[0] + " ";
                                                                     if ((SessionLoCoX.equals("dau") && valueImprotDb[0].equals("dit")) || (SessionLoCoX.equals("dit") || valueImprotDb[0].equals("dau")) || SessionLoCoX.equals("")) {
                                                                         error += valueImprotDb[0] + " ";
                                                                     } else {
                                                                         if (!SessionLoCoX.equals("")) {
                                                                             error += "<font color=\"RED\">" + valueImprotDb[0] + " </font>";
+                                                                        } else {
+                                                                            error += valueImprotDb[0] + " ";
                                                                         }
                                                                     }
                                                                     for (int q = 1; q < valueImprotDb.length; q++) {
