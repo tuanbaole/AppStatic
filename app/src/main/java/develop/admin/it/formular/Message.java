@@ -513,11 +513,14 @@ public class Message extends AppCompatActivity {
                 String idMessage = cursor1.getString( cursor1.getColumnIndex( "_id" ) );
                 smsId = (TextView) findViewById( textViewSmsId );
                 smsId.setText( idMessage );
-
+                String addre = cursor1.getString( cursor1.getColumnIndex( "address" ) );
+                String sdtfk = "(" + addre.substring(0,3) + ")" + " " + addre.substring(3,6) + "-" + addre.substring(6);
                 String filtera = "_id IN (" + smsNotIn + ") AND Body=\""+ body
                         + "\" AND type = \""  + cursor1.getString( cursor1.getColumnIndex( "type" ) ) + "\""
-                        + " AND address = \""  + cursor1.getString( cursor1.getColumnIndex( "address" ) ) + "\"";
+                        + " AND ( address = \""  + addre + "\"" + " OR address = \"" + sdtfk + "\" )";
                 Cursor cursor2 = getContentResolver().query( mSmsinboxQueryUri, projection, filtera, null, "_id asc" );
+                Log.d("LogFile",filtera);
+                Log.d("LogFile", String.valueOf(cursor2.getCount()));
                 if (cursor2.getCount() > 0) {
                     body += "@tinlap@";
                 }

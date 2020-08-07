@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -343,7 +342,6 @@ public class Statistic extends AppCompatActivity {
                         break;
                 }
 
-                Log.d("LogFile","de");
                 if (hashmap.get(loto) != null) {
                     String value = hashmap.get(loto).get(0);
                     String[] arrVal = value.split(",");
@@ -577,15 +575,19 @@ public class Statistic extends AppCompatActivity {
                     }
                 }
             }
+
+            int sstxi = 0;
             for (int xs = 0; xs < allXienRes.size();xs++) {
                 if (allXienVal.get(xs) != null && allXienTh.get(xs) != null ) {
-                    stringResXien += "<big><big><b><font color=\"red\">&nbsp; &nbsp; &nbsp;" +
+                    sstxi++;
+                    stringResXien += sstxi+".<big><big><b><font color=\"red\"> &nbsp;" +
                             allXienRes.get(xs) + " </font>" + "=" + allXienVal.get(xs) + "n</b></big>" +
-                    "<font color=\"blue\">" +  allXienTh.get(xs) + "</font></big><br/>";
+                            "<font color=\"blue\">" +  allXienTh.get(xs) + "</font></big><br/>";
                 }
             }
+
         }
-        Log.d("LogFile","de1");
+
         String textDeLeft = "<font color =\"blue\"><big>Đề</big></font><br/>";
         String textDeRight = "<font color =\"blue\"><big> </big></font><br/>";
         String textDeDauLeft = "<font color =\"blue\"><big>Đề Đầu</big></font><br/>";
@@ -607,7 +609,7 @@ public class Statistic extends AppCompatActivity {
         int s = 0;
         int h = 0;
         int w = 0;
-        Log.d("LogFile","de2");
+
         for (int q = 0; q < deArr.length; q++) {
             String showDe = "";
             if (q < 10) {
@@ -665,7 +667,8 @@ public class Statistic extends AppCompatActivity {
             }
             w++;
         }
-        Log.d("LogFile","de3");
+
+        ArrayList<String> bacangsortarray = new ArrayList<>();
         for (int f = 0; f < bacangArr.length; f++) {
             if (bacangArr[f] != null) {
                 String showBaCang = "";
@@ -677,9 +680,11 @@ public class Statistic extends AppCompatActivity {
                     showBaCang = String.valueOf(f);
                 }
                 sortBacang[s] = String.valueOf(showBaCang) + "java" + String.valueOf(bacangArr[f]);
+                bacangsortarray.add(sortBacang[s]);
                 s++;
             }
         }
+
         String tempDe;
         for (int x = 0; x < sortDe.length; x++) {
             if (sortDe[x] != null) {
@@ -697,7 +702,7 @@ public class Statistic extends AppCompatActivity {
                 }
             }
         }
-        Log.d("LogFile","de4");
+
         String tempDeDau;
         for (int m = 0; m < sortDeDau.length; m++) {
             if (sortDeDau[m] != null) {
@@ -733,12 +738,9 @@ public class Statistic extends AppCompatActivity {
                 }
             }
         }
-        Log.d("LogFile","de5");
+
         String tempLoDau = "";
-        Log.d("LogFile", String.valueOf(sortLoDau.length));
         for (int lc = 0; lc < sortLoDau.length; lc++) {
-            Log.d("LogFile", String.valueOf(lc));
-            Log.d("LogFile", String.valueOf(sortLoDau[lc]));
             if (sortLoDau[lc] != null) {
                 String[] arrSortLoDau1 = sortLoDau[lc].split("java");
                 for (int lr = lc + 1; lr < sortLoDau.length; lr++) {
@@ -754,79 +756,83 @@ public class Statistic extends AppCompatActivity {
                 }
             }
         }
-
+        int aq = 0;
         for (int a = 0; a < sortDe.length; a++) {
             if (sortDe[a] != null) {
+                aq++;
                 String[] showResDe = sortDe[a].split("java");
                 if (Integer.parseInt(showResDe[2]) == 0) {
 //                    if (a < 50) {
-                        textDeLeft += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + " </font>" +
+                        textDeLeft += aq+".<big><big><b><font color=\"red\">" + showResDe[0] + " </font>" +
                                 showResDe[1] + "n</b></big></big><br />";
 //                    } else {
-//                        textDeRight += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDe[0] + " </font>" +
+//                        textDeRight += aq+".<big><big><b><font color=\"red\">." + showResDe[0] + " </font>" +
 //                                showResDe[1] + "n</b></big></big><br />";
 //                    }
                 } else {
                    // if (a < 50) {
-                        textDeLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
+                        textDeLeft += aq+".<big><big><b><font color=\"red\" >" + showResDe[0] + "</font>" +
                                 "<font color=\"blue\"> " + showResDe[2] + "</font> " +
                                 showResDe[1] + "n</b></big></big><br />";
 //                    } else {
-//                        textDeRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDe[0] + "</font>" +
+//                        textDeRight += aq+".<big><big><b><font color=\"red\" >" + showResDe[0] + "</font>" +
 //                                "<font color=\"blue\"> " + showResDe[2] + "</font> " +
 //                                showResDe[1] + "n</b></big></big><br />";
 //                    }
                 }
             }
         }
-        Log.d("LogFile","de6");
+
+        int aw = 0;
         for (int f = 0; f < sortDeDau.length; f++) {
             if (sortDeDau[f] != null) {
+                aw++;
                 String[] showResDeDau = sortDeDau[f].split("java");
                 if (Integer.parseInt(showResDeDau[2]) == 0) {
                   //  if (f < 50) {
-                        textDeDauLeft += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + " </font>" +
+                        textDeDauLeft += aw+".<big><big><b><font color=\"red\">" + showResDeDau[0] + " </font>" +
                             showResDeDau[1] + "n</b></big></big><br />";
 //                    } else {
-//                        textDeDauRight += "<big><big><b><font color=\"red\"> &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + " </font>" +
+//                        textDeDauRight += aw+".<big><big><b><font color=\"red\">" + showResDeDau[0] + " </font>" +
 //                                showResDeDau[1] + "n</b></big></big><br />";
 //                    }
                 } else {
                   //  if (f < 50) {
-                        textDeDauLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + "</font>" +
+                        textDeDauLeft += aw+".<big><big><b><font color=\"red\" >" + showResDeDau[0] + "</font>" +
                             "<font color=\"blue\"> " + showResDeDau[2] + "</font> " +
                             showResDeDau[1] + "n</b></big></big><br />";
 //                    } else {
-//                        textDeDauRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" + showResDeDau[0] + "</font>" +
+//                        textDeDauRight += aw+".<big><big><b><font color=\"red\" >" + showResDeDau[0] + "</font>" +
 //                                "<font color=\"blue\"> " + showResDeDau[2] + "</font> " +
 //                                showResDeDau[1] + "n</b></big></big><br />";
 //                    }
                 }
             }
         }
-        Log.d("LogFile","de7");
+
+        int ap = 0;
         for (int b = 0; b < sortLo.length; b++) {
-            Log.d("LogFile", String.valueOf(b));
             if (sortLo[b] != null) {
+                ap++;
                 String[] showResLo = sortLo[b].split("java");
                 if (Integer.parseInt(showResLo[2]) == 0) {
                    // if (b < 50) {
-                        textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
+                        textLoLeft +=  ap+".<big><big><b><font color=\"red\" >" +
                                 showResLo[0] + "  </font>"
                                 + showResLo[1] + "d</b></big></big><br />";
 //                    } else {
-//                        textLoRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
+//                        textLoRight += ap+".<big><big><b><font color=\"red\" > &nbsp;" +
 //                                showResLo[0] + "  </font>"
 //                                + showResLo[1] + "d</b></big></big><br />";
 //                    }
                 } else {
                    // if (b < 50) {
-                        textLoLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
+                        textLoLeft +=  ap+".<big><big><b><font color=\"red\" >"
                                 + showResLo[0] + "</font>" +
                                 "<font color=\"blue\">" + showResLo[2] + "</font> "
                                 + showResLo[1] + "d</b></big></big><br />";
 //                    } else {
-//                        textLoRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
+//                        textLoRight += ap+".<big><big><b><font color=\"red\" > &nbsp;"
 //                                + showResLo[0] + "</font>" +
 //                                "<font color=\"blue\">" + showResLo[2] + "</font> "
 //                                + showResLo[1] + "d</b></big></big><br />";
@@ -834,39 +840,30 @@ public class Statistic extends AppCompatActivity {
                 }
             }
         }
-        Log.d("LogFile","de71");
-        Log.d("LogFile", String.valueOf(sortLoDau.length));
-        for (int lb = 0; lb < sortLoDau.length; lb++) {
-            Log.d("LogFile", String.valueOf(lb));
-            if (sortLoDau[lb] != null) {
-                Log.d("LogFile", "aaa");
-                Log.d("LogFile", sortLoDau[lb]);
-                String[] showResLoDau = sortLoDau[lb].split("java");
 
+        int at = 0;
+        for (int lb = 0; lb < sortLoDau.length; lb++) {
+            if (sortLoDau[lb] != null) {
+                at++;
+                String[] showResLoDau = sortLoDau[lb].split("java");
                 if (Integer.parseInt(showResLoDau[2]) == 0) {
-                    Log.d("LogFile", "a");
                     if (lb < 50) {
-                        Log.d("LogFile", "a1");
-                    textLoDauLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
+                    textLoDauLeft += at+".<big><big><b><font color=\"red\" > &nbsp;" +
                             showResLoDau[0] + "  </font>"
                             + showResLoDau[1] + "d</b></big></big><br />";
                     } else {
-                        Log.d("LogFile", "a2");
-                        textLoDauRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;" +
+                        textLoDauRight += at+".<big><big><b><font color=\"red\" > &nbsp;" +
                                 showResLoDau[0] + "  </font>"
                                 + showResLoDau[1] + "d</b></big></big><br />";
                     }
                 } else {
-                    Log.d("LogFile", "b");
                     if (lb < 50) {
-                        Log.d("LogFile", "b1");
-                    textLoDauLeft += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
+                    textLoDauLeft += at+".<big><big><b><font color=\"red\" > &nbsp;"
                             + showResLoDau[0] + "</font>" +
                             "<font color=\"blue\">" + showResLoDau[2] + "</font> "
                             + showResLoDau[1] + "d</b></big></big><br />";
                     } else {
-                        Log.d("LogFile", "b2");
-                        textLoDauRight += "<big><big><b><font color=\"red\" > &nbsp; &nbsp; &nbsp;"
+                        textLoDauRight += at+".<big><big><b><font color=\"red\" > &nbsp;"
                                 + showResLoDau[0] + "</font>" +
                                 "<font color=\"blue\">" + showResLoDau[2] + "</font> "
                                 + showResLoDau[1] + "d</b></big></big><br />";
@@ -874,11 +871,32 @@ public class Statistic extends AppCompatActivity {
                 }
             }
         }
-        Log.d("LogFile","de8");
+
+        int ay = 0;
+
+        String tempBaCang = "";
+        for (int vb = 0; vb < sortBacang.length; vb++) {
+            if (sortBacang[vb] != null) {
+                String[] arrSortBacang1 = sortBacang[vb].split("java");
+                for (int vn = vb + 1; vn < sortLoDau.length; vn++) {
+                    if (sortBacang[vn] != null) {
+                        String[] arrSortLoDau2 = sortBacang[vn].split("java");
+                        if (Integer.parseInt(arrSortBacang1[1]) < Integer.parseInt(arrSortLoDau2[1])) {
+                            tempBaCang = sortBacang[vn];
+                            sortBacang[vn] = sortBacang[vb];
+                            sortBacang[vb] = tempBaCang;
+                            arrSortBacang1[1] = arrSortLoDau2[1];
+                        }
+                    }
+                }
+            }
+        }
+
         for (int n = 0; n < sortBacang.length; n++) {
             if (sortBacang[n] != null) {
+                ay++;
                 String[] showResBaCang = sortBacang[n].split("java");
-                textBaCang += "<big><big><b><font color=\"red\">&nbsp; &nbsp; &nbsp;" + showResBaCang[0] + " </font>"
+                textBaCang += ay+".<big><big><b><font color=\"red\">" + showResBaCang[0] + " </font>"
                         + showResBaCang[1] + "n</b></big></big><br/>";
             }
         }
