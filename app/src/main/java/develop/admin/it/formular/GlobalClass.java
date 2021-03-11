@@ -276,6 +276,8 @@ public class GlobalClass extends AppCompatActivity {
 
     public String repkDau(String kitu) {
         String converKitu = kitu.replace( "xien", "xi" ).replace( "xie", "xi" ).
+                replace( "2kep", "kepb kepl").
+                replace( "bokep", "kepb kepl satkep satlech").
                 replace( "xj", "xi" ).
                 replace( "ghep", "gep" ).
                 replace( "gepbc", "gepbc " ).
@@ -363,6 +365,8 @@ public class GlobalClass extends AppCompatActivity {
 
     public String repDauBang(String kitu) {
         String converKitu = kitu.replace( "xien", "xi" ).replace( "xie", "xi" ).
+                replace( "2kep", "kepb kepl").
+                replace( "bokep", "kepb kepl satkep satlech").
                 replace( "xj", "xi" ).
                 replace( "ghep", "gep" ).
                 replace( "gepbc", "gepbc " ).

@@ -122,8 +122,10 @@
             android:name=".HistorySms"
             android:label="Lịch Sử SMS" />
         <activity android:name=".historysmsAdapter" />
-        <activity android:name=".ViewHistorySms"
-            android:label="Lịch Sử Theo SMS"></activity>
+        <activity
+            android:name=".ViewHistorySms"
+            android:label="Lịch Sử Theo SMS" />
+        <activity android:name=".KqxstnActivity"></activity>
     </application>
 
 </manifest>

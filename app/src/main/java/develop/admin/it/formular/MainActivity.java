@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper sql;
     GlobalClass controller;
     ImageButton ketquasoxo, contact, sms, boso, managerMoney,
-            statistic, setting, viewSms, checkNewSms, dataSms;
+            statistic, setting, viewSms, checkNewSms, dataSms,kqxstn;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -44,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, KetQuaSoXo.class);
+                startActivity(intent);
+            }
+        });
+
+        kqxstn = (ImageButton) findViewById(R.id.kqxstn);
+        kqxstn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, KqxstnActivity.class);
                 startActivity(intent);
             }
         });

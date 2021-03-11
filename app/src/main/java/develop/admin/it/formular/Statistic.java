@@ -621,7 +621,7 @@ public class Statistic extends AppCompatActivity {
             if (deArr[q] != null) {
                 sortDe[z] = String.valueOf(showDe) + "java" + String.valueOf(deArr[q]) + "java" + String.valueOf(deTrung[q]);
             } else {
-               // sortDe[z] = String.valueOf(showDe) + "java0java0"; // xoa di neu k phai a vuong
+                sortDe[z] = String.valueOf(showDe) + "java0java0"; // xoa di neu k phai a vuong
             }
             z++;
 
@@ -635,7 +635,7 @@ public class Statistic extends AppCompatActivity {
             if (dedauArr[q] != null) {
                 sortDeDau[h] = String.valueOf(showDeDau) + "java" + String.valueOf(dedauArr[q]) + "java" + String.valueOf(dedauTrung[q]);
             } else {
-              //  sortDeDau[h] = String.valueOf(showDeDau) + "java0java0"; // xoa di neu k phai a vuong
+                sortDeDau[h] = String.valueOf(showDeDau) + "java0java0"; // xoa di neu k phai a vuong
             }
             h++;
 
@@ -649,7 +649,7 @@ public class Statistic extends AppCompatActivity {
             if (loArr[q] != null) {
                 sortLo[k] = String.valueOf(showLo) + "java" + String.valueOf(loArr[q]) + "java" + String.valueOf(loTrung[q]);
             } else {
-               // sortLo[k] = String.valueOf(showLo) + "java0java0"; // xoa di neu k phai a vuong
+                sortLo[k] = String.valueOf(showLo) + "java0java0"; // xoa di neu k phai a vuong
             }
             k++;
 
@@ -663,7 +663,7 @@ public class Statistic extends AppCompatActivity {
             if (loDauArr[q] != null) {
                 sortLoDau[w] = String.valueOf(showLoDau) + "java" + String.valueOf(loDauArr[q]) + "java" + String.valueOf(loDauTrung[q]);
             } else {
-               // sortLoDau[w] = String.valueOf(showLoDau) + "java0java0"; // xoa di neu k phai a vuong
+                sortLoDau[w] = String.valueOf(showLoDau) + "java0java0"; // xoa di neu k phai a vuong
             }
             w++;
         }
@@ -685,100 +685,100 @@ public class Statistic extends AppCompatActivity {
             }
         }
 
-        String tempDe;
-        for (int x = 0; x < sortDe.length; x++) {
-            if (sortDe[x] != null) {
-                String[] arrSortDe1 = sortDe[x].split("java");
-                for (int t = x + 1; t < sortDe.length; t++) {
-                    if (sortDe[t] != null) {
-                        String[] arrSortDe2 = sortDe[t].split("java");
-                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
-                            tempDe = sortDe[t];
-                            sortDe[t] = sortDe[x];
-                            sortDe[x] = tempDe;
-                            arrSortDe1[1] = arrSortDe2[1];
-                        }
-                    }
-                }
-            }
-        }
-
-        String tempDeDau;
-        for (int m = 0; m < sortDeDau.length; m++) {
-            if (sortDeDau[m] != null) {
-                String[] arrSortDe1 = sortDeDau[m].split("java");
-                for (int t = m + 1; t < sortDeDau.length; t++) {
-                    if (sortDeDau[t] != null) {
-                        String[] arrSortDe2 = sortDeDau[t].split("java");
-                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
-                            tempDe = sortDeDau[t];
-                            sortDeDau[t] = sortDeDau[m];
-                            sortDeDau[m] = tempDe;
-                            arrSortDe1[1] = arrSortDe2[1];
-                        }
-                    }
-                }
-            }
-        }
-
-        String tempLo;
-        for (int c = 0; c < sortLo.length; c++) {
-            if (sortLo[c] != null) {
-                String[] arrSortLo1 = sortLo[c].split("java");
-                for (int r = c + 1; r < sortLo.length; r++) {
-                    if (sortLo[r] != null) {
-                        String[] arrSortLo2 = sortLo[r].split("java");
-                        if (Integer.parseInt(arrSortLo1[1]) < Integer.parseInt(arrSortLo2[1])) {
-                            tempLo = sortLo[r];
-                            sortLo[r] = sortLo[c];
-                            sortLo[c] = tempLo;
-                            arrSortLo1[1] = arrSortLo2[1];
-                        }
-                    }
-                }
-            }
-        }
-
-        String tempLoDau = "";
-        for (int lc = 0; lc < sortLoDau.length; lc++) {
-            if (sortLoDau[lc] != null) {
-                String[] arrSortLoDau1 = sortLoDau[lc].split("java");
-                for (int lr = lc + 1; lr < sortLoDau.length; lr++) {
-                    if (sortLoDau[lr] != null) {
-                        String[] arrSortLoDau2 = sortLoDau[lr].split("java");
-                        if (Integer.parseInt(arrSortLoDau1[1]) < Integer.parseInt(arrSortLoDau2[1])) {
-                            tempLoDau = sortLoDau[lr];
-                            sortLoDau[lr] = sortLoDau[lc];
-                            sortLoDau[lc] = tempLoDau;
-                            arrSortLoDau1[1] = arrSortLoDau2[1];
-                        }
-                    }
-                }
-            }
-        }
+//        String tempDe;
+//        for (int x = 0; x < sortDe.length; x++) {
+//            if (sortDe[x] != null) {
+//                String[] arrSortDe1 = sortDe[x].split("java");
+//                for (int t = x + 1; t < sortDe.length; t++) {
+//                    if (sortDe[t] != null) {
+//                        String[] arrSortDe2 = sortDe[t].split("java");
+//                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
+//                            tempDe = sortDe[t];
+//                            sortDe[t] = sortDe[x];
+//                            sortDe[x] = tempDe;
+//                            arrSortDe1[1] = arrSortDe2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        String tempDeDau;
+//        for (int m = 0; m < sortDeDau.length; m++) {
+//            if (sortDeDau[m] != null) {
+//                String[] arrSortDe1 = sortDeDau[m].split("java");
+//                for (int t = m + 1; t < sortDeDau.length; t++) {
+//                    if (sortDeDau[t] != null) {
+//                        String[] arrSortDe2 = sortDeDau[t].split("java");
+//                        if (Integer.parseInt(arrSortDe1[1]) < Integer.parseInt(arrSortDe2[1])) {
+//                            tempDe = sortDeDau[t];
+//                            sortDeDau[t] = sortDeDau[m];
+//                            sortDeDau[m] = tempDe;
+//                            arrSortDe1[1] = arrSortDe2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        String tempLo;
+//        for (int c = 0; c < sortLo.length; c++) {
+//            if (sortLo[c] != null) {
+//                String[] arrSortLo1 = sortLo[c].split("java");
+//                for (int r = c + 1; r < sortLo.length; r++) {
+//                    if (sortLo[r] != null) {
+//                        String[] arrSortLo2 = sortLo[r].split("java");
+//                        if (Integer.parseInt(arrSortLo1[1]) < Integer.parseInt(arrSortLo2[1])) {
+//                            tempLo = sortLo[r];
+//                            sortLo[r] = sortLo[c];
+//                            sortLo[c] = tempLo;
+//                            arrSortLo1[1] = arrSortLo2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        String tempLoDau = "";
+//        for (int lc = 0; lc < sortLoDau.length; lc++) {
+//            if (sortLoDau[lc] != null) {
+//                String[] arrSortLoDau1 = sortLoDau[lc].split("java");
+//                for (int lr = lc + 1; lr < sortLoDau.length; lr++) {
+//                    if (sortLoDau[lr] != null) {
+//                        String[] arrSortLoDau2 = sortLoDau[lr].split("java");
+//                        if (Integer.parseInt(arrSortLoDau1[1]) < Integer.parseInt(arrSortLoDau2[1])) {
+//                            tempLoDau = sortLoDau[lr];
+//                            sortLoDau[lr] = sortLoDau[lc];
+//                            sortLoDau[lc] = tempLoDau;
+//                            arrSortLoDau1[1] = arrSortLoDau2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
         int aq = 0;
         for (int a = 0; a < sortDe.length; a++) {
             if (sortDe[a] != null) {
                 aq++;
                 String[] showResDe = sortDe[a].split("java");
                 if (Integer.parseInt(showResDe[2]) == 0) {
-//                    if (a < 50) {
+                    if (a < 50) {
                         textDeLeft += aq+".<big><big><b><font color=\"red\">" + showResDe[0] + " </font>" +
                                 showResDe[1] + "n</b></big></big><br />";
-//                    } else {
-//                        textDeRight += aq+".<big><big><b><font color=\"red\">." + showResDe[0] + " </font>" +
-//                                showResDe[1] + "n</b></big></big><br />";
-//                    }
+                    } else {
+                        textDeRight += aq+".<big><big><b><font color=\"red\">" + showResDe[0] + " </font>" +
+                                showResDe[1] + "n</b></big></big><br />";
+                    }
                 } else {
-                   // if (a < 50) {
+                    if (a < 50) {
                         textDeLeft += aq+".<big><big><b><font color=\"red\" >" + showResDe[0] + "</font>" +
                                 "<font color=\"blue\"> " + showResDe[2] + "</font> " +
                                 showResDe[1] + "n</b></big></big><br />";
-//                    } else {
-//                        textDeRight += aq+".<big><big><b><font color=\"red\" >" + showResDe[0] + "</font>" +
-//                                "<font color=\"blue\"> " + showResDe[2] + "</font> " +
-//                                showResDe[1] + "n</b></big></big><br />";
-//                    }
+                    } else {
+                        textDeRight += aq+".<big><big><b><font color=\"red\" >" + showResDe[0] + "</font>" +
+                                "<font color=\"blue\"> " + showResDe[2] + "</font> " +
+                                showResDe[1] + "n</b></big></big><br />";
+                    }
                 }
             }
         }
@@ -789,23 +789,23 @@ public class Statistic extends AppCompatActivity {
                 aw++;
                 String[] showResDeDau = sortDeDau[f].split("java");
                 if (Integer.parseInt(showResDeDau[2]) == 0) {
-                  //  if (f < 50) {
+                    if (f < 50) {
                         textDeDauLeft += aw+".<big><big><b><font color=\"red\">" + showResDeDau[0] + " </font>" +
                             showResDeDau[1] + "n</b></big></big><br />";
-//                    } else {
-//                        textDeDauRight += aw+".<big><big><b><font color=\"red\">" + showResDeDau[0] + " </font>" +
-//                                showResDeDau[1] + "n</b></big></big><br />";
-//                    }
+                    } else {
+                        textDeDauRight += aw+".<big><big><b><font color=\"red\">" + showResDeDau[0] + " </font>" +
+                                showResDeDau[1] + "n</b></big></big><br />";
+                    }
                 } else {
-                  //  if (f < 50) {
+                    if (f < 50) {
                         textDeDauLeft += aw+".<big><big><b><font color=\"red\" >" + showResDeDau[0] + "</font>" +
                             "<font color=\"blue\"> " + showResDeDau[2] + "</font> " +
                             showResDeDau[1] + "n</b></big></big><br />";
-//                    } else {
-//                        textDeDauRight += aw+".<big><big><b><font color=\"red\" >" + showResDeDau[0] + "</font>" +
-//                                "<font color=\"blue\"> " + showResDeDau[2] + "</font> " +
-//                                showResDeDau[1] + "n</b></big></big><br />";
-//                    }
+                    } else {
+                        textDeDauRight += aw+".<big><big><b><font color=\"red\" >" + showResDeDau[0] + "</font>" +
+                                "<font color=\"blue\"> " + showResDeDau[2] + "</font> " +
+                                showResDeDau[1] + "n</b></big></big><br />";
+                    }
                 }
             }
         }
@@ -816,27 +816,27 @@ public class Statistic extends AppCompatActivity {
                 ap++;
                 String[] showResLo = sortLo[b].split("java");
                 if (Integer.parseInt(showResLo[2]) == 0) {
-                   // if (b < 50) {
+                    if (b < 50) {
                         textLoLeft +=  ap+".<big><big><b><font color=\"red\" >" +
                                 showResLo[0] + "  </font>"
                                 + showResLo[1] + "d</b></big></big><br />";
-//                    } else {
-//                        textLoRight += ap+".<big><big><b><font color=\"red\" > &nbsp;" +
-//                                showResLo[0] + "  </font>"
-//                                + showResLo[1] + "d</b></big></big><br />";
-//                    }
+                    } else {
+                        textLoRight += ap+".<big><big><b><font color=\"red\" > &nbsp;" +
+                                showResLo[0] + "  </font>"
+                                + showResLo[1] + "d</b></big></big><br />";
+                    }
                 } else {
-                   // if (b < 50) {
+                    if (b < 50) {
                         textLoLeft +=  ap+".<big><big><b><font color=\"red\" >"
                                 + showResLo[0] + "</font>" +
                                 "<font color=\"blue\">" + showResLo[2] + "</font> "
                                 + showResLo[1] + "d</b></big></big><br />";
-//                    } else {
-//                        textLoRight += ap+".<big><big><b><font color=\"red\" > &nbsp;"
-//                                + showResLo[0] + "</font>" +
-//                                "<font color=\"blue\">" + showResLo[2] + "</font> "
-//                                + showResLo[1] + "d</b></big></big><br />";
-//                    }
+                    } else {
+                        textLoRight += ap+".<big><big><b><font color=\"red\" > &nbsp;"
+                                + showResLo[0] + "</font>" +
+                                "<font color=\"blue\">" + showResLo[2] + "</font> "
+                                + showResLo[1] + "d</b></big></big><br />";
+                    }
                 }
             }
         }
@@ -873,24 +873,24 @@ public class Statistic extends AppCompatActivity {
         }
 
         int ay = 0;
-
-        String tempBaCang = "";
-        for (int vb = 0; vb < sortBacang.length; vb++) {
-            if (sortBacang[vb] != null) {
-                String[] arrSortBacang1 = sortBacang[vb].split("java");
-                for (int vn = vb + 1; vn < sortLoDau.length; vn++) {
-                    if (sortBacang[vn] != null) {
-                        String[] arrSortLoDau2 = sortBacang[vn].split("java");
-                        if (Integer.parseInt(arrSortBacang1[1]) < Integer.parseInt(arrSortLoDau2[1])) {
-                            tempBaCang = sortBacang[vn];
-                            sortBacang[vn] = sortBacang[vb];
-                            sortBacang[vb] = tempBaCang;
-                            arrSortBacang1[1] = arrSortLoDau2[1];
-                        }
-                    }
-                }
-            }
-        }
+//
+//        String tempBaCang = "";
+//        for (int vb = 0; vb < sortBacang.length; vb++) {
+//            if (sortBacang[vb] != null) {
+//                String[] arrSortBacang1 = sortBacang[vb].split("java");
+//                for (int vn = vb + 1; vn < sortLoDau.length; vn++) {
+//                    if (sortBacang[vn] != null) {
+//                        String[] arrSortLoDau2 = sortBacang[vn].split("java");
+//                        if (Integer.parseInt(arrSortBacang1[1]) < Integer.parseInt(arrSortLoDau2[1])) {
+//                            tempBaCang = sortBacang[vn];
+//                            sortBacang[vn] = sortBacang[vb];
+//                            sortBacang[vb] = tempBaCang;
+//                            arrSortBacang1[1] = arrSortLoDau2[1];
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         for (int n = 0; n < sortBacang.length; n++) {
             if (sortBacang[n] != null) {
@@ -1367,7 +1367,7 @@ public class Statistic extends AppCompatActivity {
         tr1.addView(tong, rowSpanLayout2);
 
         de.setText(Html.fromHtml(textDeLeft));
-        lo.setText(Html.fromHtml(textLoLeft));
+        lo.setText(Html.fromHtml(textDeRight));
         tr2.addView(de);
         tr2.addView(lo);
         tableLayout.addView(tr2);
@@ -1375,7 +1375,7 @@ public class Statistic extends AppCompatActivity {
         TableRow trlo = new TableRow(Statistic.this);
         TextView loleft = new TextView(Statistic.this); //1
         TextView loright = new TextView(Statistic.this); //1
-        loleft.setText(Html.fromHtml(textDeRight)); // 1
+        loleft.setText(Html.fromHtml(textLoLeft)); // 1
         loright.setText(Html.fromHtml(textLoRight));//1
         trlo.addView(loleft);
         trlo.addView(loright);
@@ -1385,7 +1385,7 @@ public class Statistic extends AppCompatActivity {
         TextView dedauleft = new TextView(Statistic.this);
         TextView dedauright = new TextView(Statistic.this);
         dedauleft.setText(Html.fromHtml(textDeDauLeft));
-        dedauright.setText(Html.fromHtml(textLoDauLeft));
+        dedauright.setText(Html.fromHtml(textDeDauRight));
         tr4.addView(dedauleft);
         tr4.addView(dedauright);
         tableLayout.addView(tr4);
@@ -1393,7 +1393,7 @@ public class Statistic extends AppCompatActivity {
         TableRow trlodau = new TableRow(Statistic.this);
         TextView lodauleft = new TextView(Statistic.this);
         TextView lodauright = new TextView(Statistic.this);
-        lodauleft.setText(Html.fromHtml(textDeDauRight));
+        lodauleft.setText(Html.fromHtml(textLoDauLeft));
         lodauright.setText(Html.fromHtml(textLoDauRight));
         trlodau.addView(lodauleft);
         trlodau.addView(lodauright);

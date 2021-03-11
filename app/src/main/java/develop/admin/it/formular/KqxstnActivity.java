@@ -1,6 +1,5 @@
 package develop.admin.it.formular;
 
-
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +28,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class KetQuaSoXo extends AppCompatActivity {
+public class KqxstnActivity extends AppCompatActivity {
+
     TableLayout table;
     TextView textViewKetQua;
     DatabaseHelper sql;
@@ -50,7 +50,7 @@ public class KetQuaSoXo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ket_qua_so_xo);
         sideBarMenu();
-        sql = new DatabaseHelper(KetQuaSoXo.this);
+        sql = new DatabaseHelper(KqxstnActivity.this);
         String date = controller.dateDay("yyyy-MM-dd");
         String dateLink = controller.dateDay("dd-MM-yyyy");
         updateKqsx(dateLink, date);
@@ -69,7 +69,7 @@ public class KetQuaSoXo extends AppCompatActivity {
             if (s.indexOf("false") == -1) {
                 JSONObject root = null;
                 try {
-                    sql = new DatabaseHelper(KetQuaSoXo.this);
+                    sql = new DatabaseHelper(KqxstnActivity.this);
                     JSONObject o = new JSONObject(s);
                     JSONArray a = o.getJSONArray("ketqua"); // lay gia tri ngoai cung roi moi foreach
                     String ngay = o.getJSONArray("link").getString(0);
@@ -79,37 +79,37 @@ public class KetQuaSoXo extends AppCompatActivity {
                     String table1 = sql.TABLE_NAME_1;
                     sql.deleteAll(table1,"0");
 //                    if (res.getCount() != 27) { // kiem tra da insert ket qua ngay hom nay
-                        for (int i = 0; i < a.length(); i++) {
-                            String[] separated = a.getString(i).split("-");
-                            for (int j = 0; j < separated.length; j++) {
-                                loto = separated[j].trim();
-                                if (loto.length() > 2) {
-                                    value = loto.substring(loto.length() - 2);
-                                    valueDau = loto.substring(0,2);
-                                } else {
-                                    value = loto;
-                                    valueDau = loto;
-                                }
-                                boolean ket = sql.insertDataKq(loto, i, j, ngayTrue, value,valueDau);
-                                if (ket) {
-                                    Log.d(LogFile, "true");
-                                } else {
-                                    Log.d(LogFile, "false");
-                                }
+                    for (int i = 0; i < a.length(); i++) {
+                        String[] separated = a.getString(i).split("-");
+                        for (int j = 0; j < separated.length; j++) {
+                            loto = separated[j].trim();
+                            if (loto.length() > 2) {
+                                value = loto.substring(loto.length() - 2);
+                                valueDau = loto.substring(0,2);
+                            } else {
+                                value = loto;
+                                valueDau = loto;
+                            }
+                            boolean ket = sql.insertDataKq(loto, i, j, ngayTrue, value,valueDau);
+                            if (ket) {
+                                Log.d(LogFile, "true");
+                            } else {
+                                Log.d(LogFile, "false");
                             }
                         }
-                        Cursor res2 = sql.getAllDb("SELECT * FROM kq_table Where NGAY =\"" + ngayTrue + "\"");
-                        if (res2.getCount() == 27) {
-                            showTableKQ(res2, ngayTrue);
-                        } else {
-                            controller.showAlertDialog(KetQuaSoXo.this,"Thông báo","Chưa có kết quả ngày "+ngay);
-                        }
+                    }
+                    Cursor res2 = sql.getAllDb("SELECT * FROM kq_table Where NGAY =\"" + ngayTrue + "\"");
+                    if (res2.getCount() == 27) {
+                        showTableKQ(res2, ngayTrue);
+                    } else {
+                        controller.showAlertDialog(KqxstnActivity.this,"Thông báo","Chưa có kết quả ngày "+ngay);
+                    }
                 } catch (JSONException e) {
-                    controller.showAlertDialog(KetQuaSoXo.this, "Thông Báo", "Chưa tìm thấy kết quả nào! error.printStackTrace");
+                    controller.showAlertDialog(KqxstnActivity.this, "Thông Báo", "Chưa tìm thấy kết quả nào! error.printStackTrace");
                     e.printStackTrace();
                 }
             } else {
-                controller.showAlertDialog(KetQuaSoXo.this, "Thông Báo", "Chưa tìm thấy kết quả nào!");
+                controller.showAlertDialog(KqxstnActivity.this, "Thông Báo", "Chưa tìm thấy kết quả nào!");
             }
         }
     }
@@ -132,35 +132,35 @@ public class KetQuaSoXo extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
-                        Intent intent = new Intent(KetQuaSoXo.this, MainActivity.class);
+                        Intent intent = new Intent(KqxstnActivity.this, MainActivity.class);
                         startActivity(intent);
                         return true;
                     case R.id.unit_price :
-                        Intent intent2 = new Intent(KetQuaSoXo.this, Contact.class);
+                        Intent intent2 = new Intent(KqxstnActivity.this, Contact.class);
                         startActivity(intent2);
                         return true;
                     case R.id.send_sms :
-                        Intent intent3 = new Intent(KetQuaSoXo.this, Customer.class);
+                        Intent intent3 = new Intent(KqxstnActivity.this, Customer.class);
                         startActivity(intent3);
                         return true;
                     case R.id.manage_money :
-                        Intent intent4 = new Intent(KetQuaSoXo.this, ManagerMoney.class);
+                        Intent intent4 = new Intent(KqxstnActivity.this, ManagerMoney.class);
                         startActivity(intent4);
                         return true;
                     case R.id.statistic:
-                        Intent intent5 = new Intent(KetQuaSoXo.this, Statistic.class);
+                        Intent intent5 = new Intent(KqxstnActivity.this, Statistic.class);
                         startActivity(intent5);
                         return true;
                     case R.id.SmsAgain:
-                        Intent intent6 = new Intent(KetQuaSoXo.this, MainXoaCongNo.class);
+                        Intent intent6 = new Intent(KqxstnActivity.this, MainXoaCongNo.class);
                         startActivity(intent6);
                         return true;
                     case R.id.smsnook:
-                        Intent intent7 = new Intent(KetQuaSoXo.this, viewSmsNotMoney.class);
+                        Intent intent7 = new Intent(KqxstnActivity.this, viewSmsNotMoney.class);
                         startActivity(intent7);
                         return true;
                     case R.id.historySms:
-                        Intent intent8 = new Intent(KetQuaSoXo.this, HistorySms.class);
+                        Intent intent8 = new Intent(KqxstnActivity.this, HistorySms.class);
                         startActivity(intent8);
                         return true;
                     default:
@@ -191,7 +191,7 @@ public class KetQuaSoXo extends AppCompatActivity {
                 month_x = controller.dateInt("MM") - 1;
                 day_x = controller.dateInt("dd");
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(KetQuaSoXo.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(KqxstnActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, final int year, int month, int dayOfMonth) {
                         if (view.isShown()) {
@@ -206,7 +206,7 @@ public class KetQuaSoXo extends AppCompatActivity {
                             final String date = String.valueOf(year) + "-" + month_s + "-"
                                     + dayOfMonth_s;
                             final String dateLink = dayOfMonth_s + "-" + month_s + "-" + String.valueOf(year);
-                            sql = new DatabaseHelper(KetQuaSoXo.this);
+                            sql = new DatabaseHelper(KqxstnActivity.this);
                             updateKqsx(date, date);
                         }
                     }
@@ -233,20 +233,20 @@ public class KetQuaSoXo extends AppCompatActivity {
                 public void run() {
                     String newDateLink = controller.convertFormatDateDd(dateLink);
                     sql.getAllDb("DELETE FROM kq_table WHERE NGAY=\"" + delete + "\"");
-                    String link = "http://hostingkqxs.esy.es/kqsx.php?date=" + newDateLink;
+                    String link = "http://18.221.7.60/kqsx.php?date=" + newDateLink;
                     new ReadXml().execute(link);
                 }
             });
         } else {
-            controller.showAlertDialog(KetQuaSoXo.this, "Thông Báo", "Không kết nối được internet");
+            controller.showAlertDialog(KqxstnActivity.this, "Thông Báo", "Không kết nối được internet");
         }
     }
 
     private void showTableKQ(Cursor res, String date) {
         TableLayout tableLayout = (TableLayout) findViewById(R.id.tableLayoutKetQua);
 //        tableLayout.removeAllViews();
-        TableRow trTitle = new TableRow(KetQuaSoXo.this);
-        TextView tvTile = new TextView(KetQuaSoXo.this);
+        TableRow trTitle = new TableRow(KqxstnActivity.this);
+        TextView tvTile = new TextView(KqxstnActivity.this);
         tvTile.setText(date);
         tvTile.setBackgroundColor(Color.YELLOW);
         tvTile.setTypeface(Typeface.DEFAULT_BOLD);
@@ -259,9 +259,9 @@ public class KetQuaSoXo extends AppCompatActivity {
         String colum = "";
         while (res.moveToNext()) {
             end++;
-            TableRow tr = new TableRow(KetQuaSoXo.this);
-            TextView tv = new TextView(KetQuaSoXo.this);
-            TextView tv2 = new TextView(KetQuaSoXo.this);
+            TableRow tr = new TableRow(KqxstnActivity.this);
+            TextView tv = new TextView(KqxstnActivity.this);
+            TextView tv2 = new TextView(KqxstnActivity.this);
             int giai = Integer.parseInt(res.getString(res.getColumnIndex("GIAI")));
             Log.d("LogFile", String.valueOf(res.getCount()));
             if (i == giai) {
@@ -293,5 +293,4 @@ public class KetQuaSoXo extends AppCompatActivity {
             tableLayout.addView(tr);
         }
     }
-
 }

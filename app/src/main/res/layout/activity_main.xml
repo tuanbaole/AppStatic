@@ -188,6 +188,16 @@
             android:layout_alignLeft="@+id/textView6"
             android:layout_alignStart="@+id/textView6" />
 
+        <ImageButton
+            android:id="@+id/kqxstn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageButtonCheckSms"
+            android:layout_alignEnd="@+id/textView3"
+            android:layout_alignRight="@+id/textView3"
+            android:layout_marginBottom="14dp"
+            app:srcCompat="@drawable/kqsx" />
+
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

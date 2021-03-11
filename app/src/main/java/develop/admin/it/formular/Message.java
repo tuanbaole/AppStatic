@@ -394,7 +394,7 @@ public class Message extends AppCompatActivity {
                 @Override
                 public void run() {
                     String newDateLink = controller.convertFormatDateDd( dateLink );
-                    String link = "http://hostingkqxs.esy.es/kqsx.php?date=" + newDateLink;
+                    String link = "http://18.221.7.60/kqsx.php?date=" + newDateLink;
                     new ReadXml().execute( link );
                 }
             } );
@@ -519,8 +519,6 @@ public class Message extends AppCompatActivity {
                         + "\" AND type = \""  + cursor1.getString( cursor1.getColumnIndex( "type" ) ) + "\""
                         + " AND ( address = \""  + addre + "\"" + " OR address = \"" + sdtfk + "\" )";
                 Cursor cursor2 = getContentResolver().query( mSmsinboxQueryUri, projection, filtera, null, "_id asc" );
-                Log.d("LogFile",filtera);
-                Log.d("LogFile", String.valueOf(cursor2.getCount()));
                 if (cursor2.getCount() > 0) {
                     body += "@tinlap@";
                 }
@@ -1401,9 +1399,13 @@ public class Message extends AppCompatActivity {
                                                 //} else if (mangDecoX[1].indexOf( "N1c" ) > -1 &&
                                                 //        mangDecoX[1].replaceAll( "[0-9]", "" ).replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
                                                 //    error += "x " + mangDecoX[1].replace( ".", "j" ) + " ";
-                                                } else if (mangDecoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).
-                                                        replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
-                                                    error += "x " + mangDecoX[1].replace( ".", "j" ) + " ";
+
+                                                //------------------------------------------------------------
+                                                // xoa neu khong phai vuong bat buoc danh chu n
+                                                // } else if (mangDecoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).
+                                                //        replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
+                                                //    error += "x " + mangDecoX[1].replace( ".", "j" ) + " ";
+                                                // -------------------------------------------------------------
                                                 } else {
                                                     error += "x " + "<font color=\"RED\">" + mangDecoX[1].replace( ".", "j" ) + " </font>";
                                                 }
@@ -1415,6 +1417,7 @@ public class Message extends AppCompatActivity {
                                             error += "<font color=\"RED\">" + tachChuoiDe.get( j ) + " </font>";
                                         }
                                     } else if (tachChuoiDe.get( j ).indexOf( "=" ) > -1) {
+                                        Log.d("LogFile","=========");
                                         String borDeCoDauB = "";
                                         String[] mangDecoDauB = tachChuoiDe.get( j ).replaceAll( "(^\\s+|\\s+$)", "" ).split( "=" );
                                         if (mangDecoDauB.length == 2) {
@@ -1654,9 +1657,12 @@ public class Message extends AppCompatActivity {
                                                 //} else if (mangDecoDauB[1].indexOf( "N1c" ) > -1 &&
                                                 //        mangDecoDauB[1].replaceAll( "[0-9]", "" ).replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 2) {
                                                 //    error += "= " + mangDecoDauB[1].replace( ".", "j" ) + " ";
-                                                } else if (mangDecoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).
-                                                        replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
-                                                    error += "= " + mangDecoDauB[1].replace( ".", "j" ) + " ";
+                                                //----------------------------------------------------------------
+                                                // neu khong phai la anh vuong
+                                                // } else if (mangDecoDauB[1].replaceAll( "(^\\s+|\\s+$)", "" ).
+                                                //        replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0) {
+                                                //   error += "= " + mangDecoDauB[1].replace( ".", "j" ) + " ";
+                                                //-----------------------------------------------------------------
                                                 } else {
                                                     error += "= " + "<font color=\"RED\">" + mangDecoDauB[1] + " </font>";
                                                 }
@@ -1667,7 +1673,7 @@ public class Message extends AppCompatActivity {
                                             error += "<font color=\"RED\">" + tachChuoiDe.get( j ) + " </font>";
                                         }
 
-                                    } else {
+                                    } else if (tachChuoiDe.get( j ).indexOf( "khongcodau" ) > -1) { //xoa doan if else khong de gia tri
                                         String[] mangDekhongX = tachChuoiDe.get( j ).replaceAll( "(^\\s+|\\s+$)", "" ).split( " " );
                                         if (mangDekhongX.length == 2 && mangDekhongX[0].replaceAll( "[0-9]", "" ).length() == 0) {
                                             String valueMangDe = String.valueOf( mangDekhongX[mangDekhongX.length - 1] );
@@ -1878,9 +1884,14 @@ public class Message extends AppCompatActivity {
                                                     //        valueMangDe.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
                                                     //        valueMangDe.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 2) {
                                                     //    error += valueMangDe.replace( ".", "j" ) + " ";
-                                                    } else if (valueMangDe.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
-                                                            valueMangDe.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                        error += valueMangDe.replace( ".", "j" ) + " ";
+
+                                                    //-----------------------------------------------------
+                                                    // neu khong phai la anh vuong
+                                                    // } else if (valueMangDe.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
+                                                    //        valueMangDe.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                    //    error += valueMangDe.replace( ".", "j" ) + " ";
+                                                    //--------------------------------------------------------
+
                                                     } else {
                                                         error += "<font color=\"RED\">" + valueMangDe.replace( ".", "j" ) + " </font>";
                                                     }
@@ -1891,6 +1902,8 @@ public class Message extends AppCompatActivity {
                                         } else {
                                             error += "<font color=\"RED\">" + tachChuoiDe.get( j ) + " </font>";
                                         }
+                                    } else {
+                                        error += "<font color=\"RED\">" + tachChuoiDe.get( j ) + " </font>";
                                     }
                                 }
                             }
@@ -2201,9 +2214,12 @@ public class Message extends AppCompatActivity {
                                                             mangLocoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 1 &&
                                                             mangLocoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                         error += "x " + mangLocoX[1].replace( ".", "j" ) + " ";
-                                                    } else if (mangLocoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
-                                                            mangLocoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                        error += "x " + mangLocoX[1].replace( ".", "j" ) + " ";
+                                                    //----------------------------------------------
+                                                    // khong phai vuong xoa di
+                                                    //} else if (mangLocoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
+                                                    //        mangLocoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                    //    error += "x " + mangLocoX[1].replace( ".", "j" ) + " ";
+                                                    // -----------------------------------------------
                                                     //} else if (mangLocoX[1].indexOf( "D1c" ) > -1 && mangLocoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
                                                     //        mangLocoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                     //    error += "x " + mangLocoX[1].replace( ".", "j" ) + " ";
@@ -2471,7 +2487,7 @@ public class Message extends AppCompatActivity {
                                         } else {
                                             error += "<font color=\"RED\">" + tachChuoiLo.get( j ) + " </font>";
                                         }
-                                    } else {
+                                    }  else if (tachChuoiLo.get( j ).indexOf( "khongcodau" ) > -1) {
                                         String[] mangLokhongX = tachChuoiLo.get( j ).replaceAll( "(^\\s+|\\s+$)", "" ).split( " " );
                                         if (mangLokhongX.length == 2 && mangLokhongX[0].replaceAll( "[0-9]", "" ).length() == 0) {
                                             String valueMangLo = String.valueOf( mangLokhongX[mangLokhongX.length - 1] );
@@ -2684,9 +2700,12 @@ public class Message extends AppCompatActivity {
                                                             valueMangLo.replaceAll( "[^\\d.]", "" ).replace( ".", "" ).length() >= 1
                                                             ) {
                                                         error += valueMangLo.replace( ".", "j" ) + " ";
-                                                    } else if (valueMangLo.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
-                                                            valueMangLo.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                        error += valueMangLo.replace( ".", "j" ) + " ";
+                                                    //------------------------------------------------
+                                                    //khong phai anh vuong vac
+                                                    //} else if (valueMangLo.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
+                                                    //        valueMangLo.replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                    //    error += valueMangLo.replace( ".", "j" ) + " ";
+                                                    //-------------------------------------------------
                                                     //} else if (valueMangLo.indexOf( "D1c" ) > -1 &&
                                                     //        valueMangLo.replaceAll( "(^\\s+|\\s+$)", "" ).replace( " ", "" ).replace( ".", "" ).replaceAll( "[0-9]", "" ).length() == 2 &&
                                                     //        valueMangLo.replaceAll( "[^\\d.]", "" ).replace( ".", "" ).length() >= 2) {
@@ -2701,6 +2720,8 @@ public class Message extends AppCompatActivity {
                                         } else {
                                             error += "<font color=\"RED\">" + tachChuoiLo.get( j ) + " </font>";
                                         }
+                                    } else {
+                                        error += "<font color=\"RED\">" + tachChuoiLo.get( j ) + " </font>";
                                     }
                                 }
                             }
@@ -2780,9 +2801,12 @@ public class Message extends AppCompatActivity {
                                                         mangBaCangcoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( ".", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 1 &&
                                                         mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                     error += "x " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
-                                                } else if (mangBaCangcoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( ".", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
-                                                        mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
-                                                    error += "x " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
+                                                //-----------------------------------------------------------
+                                                // khong phai a vuong vac
+                                                // } else if (mangBaCangcoX[1].replaceAll( "(^\\s+|\\s+$)", "" ).replace( ".", "" ).replace( " ", "" ).replaceAll( "[0-9]", "" ).length() == 0 &&
+                                                //        mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
+                                                //    error += "x " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
+                                                //-------------------------------------------------------------
                                                 //} else if (mangBaCangcoX[1].indexOf( "N1c" ) > -1 && mangBaCangcoX[1].replace( ".", "" ).replaceAll( "(^\\s+|\\s+$)", "" ).length() == 3 &&
                                                 //        mangBaCangcoX[1].replace( ".", "" ).replaceAll( "[^\\d.]", "" ).length() >= 1) {
                                                 //    error += "x " + mangBaCangcoX[1].replace( ".", "j" ) + " ";
@@ -2889,7 +2913,7 @@ public class Message extends AppCompatActivity {
                                         } else {
                                             error += "<font color=\"RED\">" + tachChuoiBaCang.get( j ) + " </font>";
                                         }
-                                    } else {
+                                    } else if (tachChuoiBaCang.get( j ).indexOf( "khongcodau" ) > -1) { //bo khong co dau
                                         String[] mangBacangkhongX = tachChuoiBaCang.get( j ).replaceAll( "(^\\s+|\\s+$)", "" ).split( " " );
                                         if (mangBacangkhongX.length == 2 && mangBacangkhongX[0].replaceAll( "[0-9]", "" ).length() == 0) {
                                             String valueMangBacang = String.valueOf( mangBacangkhongX[mangBacangkhongX.length - 1] );
@@ -2995,6 +3019,8 @@ public class Message extends AppCompatActivity {
                                         } else {
                                             error += "<font color=\"RED\">" + tachChuoiBaCang.get( j ) + " </font>";
                                         }
+                                    } else {
+                                        error += "<font color=\"RED\">" + tachChuoiBaCang.get( j ) + " </font>";
                                     }
                                 }
                             }
@@ -3040,7 +3066,13 @@ public class Message extends AppCompatActivity {
                                                 String chuoiTachSoXienCoX = controller.tachChuoiXien( mangXienCoX[0], limitNumberBaCang );
                                                 String[] mangValXien = chuoiTachSoXienCoX.replaceAll( "(^\\s+|\\s+$)", "" ).split( " " );
                                                 if (mangXienCoX[0].indexOf( "ghep" ) > -1 || mangXienCoX[0].indexOf( "gep" ) > -1) {
+                                                    Log.d("LogFile",mangXienCoX[0].split(" ")[0]);
+                                                    mangXienCoX[0] = mangXienCoX[0]
+                                                            .replace(")(","x"+mangXienCoX[1]+" "+ mangXienCoX[0].split(" ")[0]+" ")
+                                                            .replace(") (","x"+mangXienCoX[1]+" "+mangXienCoX[0].split(" ")[0]+" ");
+                                                    mangXienCoX[0] = mangXienCoX[0].replace("(","").replace(")","");
                                                     ArrayList<String> resXien = controller.ghepxien( mangXienCoX[0] );
+                                                    Log.d("LogFile",mangXienCoX[0]);
                                                     xulydanhMangXienKieu( getNum, hsx2, thuongxien2, hsx3, thuongxien3, hsx4, thuongxien4, idSmsInt, dongiaId,
                                                             resXien.get( 1 ), resXien.get( 2 ), resXien.get( 3 ),
                                                             1, smsType, listDonGia[1], listDonGia[0], dataSoLieuDate,kieuXien );

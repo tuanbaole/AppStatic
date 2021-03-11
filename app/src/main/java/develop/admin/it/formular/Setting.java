@@ -154,10 +154,10 @@ public class Setting extends AppCompatActivity {
                                 return;
                             }
                             String getSimSerialNumber = telemamanger.getSimSerialNumber();
-                            String link = "http://hostingkqxs.esy.es/registerApp.php?imei=" + getSimSerialNumber;
+                            String link = "http://18.221.7.60/registerApp.php?imei=" + getSimSerialNumber;
                             Log.d("LogFile", link);
                             new ReadXml().execute(link);
-                            String link2 = "http://hostingkqxs.esy.es/lockApp.php?iccid=" + getSimSerialNumber;
+                            String link2 = "http://18.221.7.60/lockApp.php?iccid=" + getSimSerialNumber;
                             new ReadXmlLock().execute(link2);
 
                         }

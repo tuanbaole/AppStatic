@@ -48,7 +48,7 @@ public class Format extends AppCompatActivity {
             runOnUiThread( new Runnable() {
                 @Override
                 public void run() {
-                    new ReadXml().execute( "http://hostingkqxs.esy.es/boso.php" );
+                    new ReadXml().execute( "http://18.221.7.60/boso.php" );
 //                    new ReadXml().execute( "https://hostingkqsx.000webhostapp.com/" );
                 }
             } );
@@ -81,7 +81,6 @@ public class Format extends AppCompatActivity {
             table.addView( tableRow2 );
             i++;
         }
-
     }
 
     class ReadXml extends AsyncTask<String, Integer, String> {
