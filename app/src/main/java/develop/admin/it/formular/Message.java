@@ -3072,7 +3072,6 @@ public class Message extends AppCompatActivity {
                                                             .replace(") (","x"+mangXienCoX[1]+" "+mangXienCoX[0].split(" ")[0]+" ");
                                                     mangXienCoX[0] = mangXienCoX[0].replace("(","").replace(")","");
                                                     ArrayList<String> resXien = controller.ghepxien( mangXienCoX[0] );
-                                                    Log.d("LogFile",mangXienCoX[0]);
                                                     xulydanhMangXienKieu( getNum, hsx2, thuongxien2, hsx3, thuongxien3, hsx4, thuongxien4, idSmsInt, dongiaId,
                                                             resXien.get( 1 ), resXien.get( 2 ), resXien.get( 3 ),
                                                             1, smsType, listDonGia[1], listDonGia[0], dataSoLieuDate,kieuXien );
